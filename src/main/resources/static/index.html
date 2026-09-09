@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>传统文化智慧平台</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+<div class="container">
+  <!-- 头部 -->
+  <header>
+    <div class="logo">
+      <i class="fas fa-yin-yang"></i>
+      <span>传统文化智慧</span>
+    </div>
+    <nav>
+      <a href="#" class="active" data-tab="fortune">每日运势</a>
+      <a href="#" data-tab="daoism">道家智慧</a>
+      <a href="#" data-tab="elements">五行学说</a>
+    </nav>
+  </header>
+
+  <!-- 主内容 -->
+  <main>
+    <!-- 每日运势 Tab -->
+    <section id="fortune-tab" class="tab-content active">
+      <h2><i class="fas fa-star"></i> 今日运势</h2>
+      <div class="fortune-selector">
+        <label for="zodiac-select">选择您的生肖：</label>
+        <select id="zodiac-select">
+          <option value="">请选择</option>
+        </select>
+        <button id="get-fortune-btn"><i class="fas fa-spa"></i> 查看今日运势</button>
+      </div>
+      <div id="fortune-result" class="fortune-result" style="display:none;">
+        <div class="fortune-card">
+          <div class="fortune-header">
+            <span class="fortune-date" id="fortune-date"></span>
+            <span class="fortune-zodiac" id="fortune-zodiac"></span>
+            <span class="fortune-level" id="fortune-level"></span>
+          </div>
+          <div class="fortune-score">
+            <span class="score-label">运势指数</span>
+            <span class="score-value" id="fortune-score">0</span>
+          </div>
+          <div class="fortune-details">
+            <div class="detail-item">
+              <i class="fas fa-bullseye"></i>
+              <span>总运势：</span>
+              <span id="fortune-summary"></span>
+            </div>
+            <div class="detail-item">
+              <i class="fas fa-briefcase"></i>
+              <span>事业：</span>
+              <span id="fortune-career"></span>
+            </div>
+            <div class="detail-item">
+              <i class="fas fa-heart"></i>
+              <span>感情：</span>
+              <span id="fortune-love"></span>
+            </div>
+            <div class="detail-item">
+              <i class="fas fa-coins"></i>
+              <span>财运：</span>
+              <span id="fortune-wealth"></span>
+            </div>
+          </div>
+          <div class="fortune-extra">
+            <div class="lucky-colors">
+              <span>🎨 幸运色：</span>
+              <span id="fortune-colors"></span>
+            </div>
+            <div class="lucky-numbers">
+              <span>🔢 幸运数字：</span>
+              <span id="fortune-numbers"></span>
+            </div>
+            <div class="advice">
+              <span>💡 建议：</span>
+              <span id="fortune-advice"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 道家智慧 Tab -->
+    <section id="daoism-tab" class="tab-content">
+      <h2><i class="fas fa-feather-alt"></i> 道家智慧</h2>
+      <div class="daoism-controls">
+        <button id="random-quote-btn"><i class="fas fa-dice"></i> 随机一句</button>
+        <div class="category-filter">
+          <label>分类：</label>
+          <select id="category-select">
+            <option value="all">全部</option>
+          </select>
+        </div>
+      </div>
+      <div id="daoism-quotes" class="daoism-quotes">
+        <!-- 动态渲染 -->
+      </div>
+    </section>
+
+    <!-- 五行学说 Tab -->
+    <section id="elements-tab" class="tab-content">
+      <h2><i class="fas fa-circle"></i> 五行学说</h2>
+      <div class="elements-grid" id="elements-grid">
+        <!-- 动态渲染 -->
+      </div>
+      <div class="elements-relationship">
+        <h3>相生相克关系</h3>
+        <div class="relationship-diagram">
+          <div class="relationship-item generates">
+            <h4>相生</h4>
+            <p>木 → 火 → 土 → 金 → 水 → 木</p>
+            <small>相互滋生，促进生长</small>
+          </div>
+          <div class="relationship-item restricts">
+            <h4>相克</h4>
+            <p>木 → 土 → 水 → 火 → 金 → 木</p>
+            <small>相互制约，平衡发展</small>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p><i class="fas fa-yin-yang"></i> 道法自然 · 天人合一</p>
+    <p class="footer-credit">传统文化智慧平台</p>
+  </footer>
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>

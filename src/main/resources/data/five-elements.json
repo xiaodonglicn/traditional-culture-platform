@@ -1,0 +1,57 @@
+[
+  {
+    "element": "金",
+    "description": "金属质地，坚硬刚强，具有变革与决断之性",
+    "direction": "西",
+    "season": "秋",
+    "color": "白色",
+    "generates": "金生水",
+    "restricts": "金克木",
+    "characteristics": ["刚毅果断", "重义守信", "爱憎分明", "有领导力", "自尊心强"],
+    "professions": ["军警", "法官", "医生", "金融从业者", "管理者", "工程师"]
+  },
+  {
+    "element": "木",
+    "description": "树木生长，生机勃勃，具有生长与仁爱之性",
+    "direction": "东",
+    "season": "春",
+    "color": "青色",
+    "generates": "木生火",
+    "restricts": "木克土",
+    "characteristics": ["仁慈温和", "有同情心", "善于沟通", "有创造力", "积极向上", "适应力强"],
+    "professions": ["教师", "艺术家", "设计师", "心理咨询师", "作家", "园艺师"]
+  },
+  {
+    "element": "水",
+    "description": "流动不息，善于变化，具有智慧与灵活之性",
+    "direction": "北",
+    "season": "冬",
+    "color": "黑色",
+    "generates": "水生木",
+    "restricts": "水克火",
+    "characteristics": ["聪明智慧", "善于变通", "深谋远虑", "有洞察力", "谦逊低调", "适应力强"],
+    "professions": ["科学家", "策略师", "外交官", "网络工程师", "分析师", "咨询顾问"]
+  },
+  {
+    "element": "火",
+    "description": "炽热向上，光明温暖，具有热烈与礼仪之性",
+    "direction": "南",
+    "season": "夏",
+    "color": "赤色",
+    "generates": "火生土",
+    "restricts": "火克金",
+    "characteristics": ["热情开朗", "重礼守规", "有感染力", "有远见", "积极主动", "自信果敢"],
+    "professions": ["领导人", "表演艺术家", "公关", "教育工作者", "销售", "演讲者"]
+  },
+  {
+    "element": "土",
+    "description": "厚德载物，包容万有，具有承载与诚信之性",
+    "direction": "中",
+    "season": "长夏",
+    "color": "黄色",
+    "generates": "土生金",
+    "restricts": "土克水",
+    "characteristics": ["稳重诚实", "脚踏实地", "有包容心", "善于协调", "耐心持久", "值得信赖"],
+    "professions": ["管理者", "农民", "建筑师", "人力资源", "会计师", "法官"]
+  }
+]

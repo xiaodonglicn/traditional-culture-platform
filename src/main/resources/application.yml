@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: traditional-culture-platform
+  jackson:
+    time-zone: Asia/Shanghai
+    date-format: yyyy-MM-dd HH:mm:ss
+
+server:
+  port: 8080
+
+# ?????
+culture:
+  # ??????
+  data-path: classpath:/data/
+  port: 8080

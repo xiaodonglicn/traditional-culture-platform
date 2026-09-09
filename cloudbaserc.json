@@ -1,0 +1,16 @@
+{
+  "envId": "{{env.ENV_ID}}",
+  "functionRoot": "./",
+  "functions": [
+    {
+      "name": "traditional-culture-api",
+      "timeout": 30,
+      "envVariables": {},
+      "runtime": "Java11",
+      "handler": "com.culture.TraditionalCultureApplication",
+      "installDependency": true,
+      "source": "./",
+      "params": {}
+    }
+  ]
+}

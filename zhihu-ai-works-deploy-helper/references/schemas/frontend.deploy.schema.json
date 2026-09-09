@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/zhihu-ai-works-deploy-helper/frontend.deploy.schema.json",
+  "title": "TCB frontend deploy descriptor",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["SchemaVersion", "Env", "Framework", "NodeVersion", "BuildCmd", "InstallCmd", "DeployCmd", "BuildPath"],
+  "properties": {
+    "SchemaVersion": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+    "Env": {"const": []},
+    "Framework": {"type": "string", "pattern": "^[a-z][a-z0-9-]*$"},
+    "NodeVersion": {"type": "string", "pattern": "^[0-9]+$"},
+    "BuildCmd": {"type": "string"},
+    "InstallCmd": {"type": "string"},
+    "DeployCmd": {"type": "string", "pattern": "^tcb hosting deploy [^\\r\\n]+$"},
+    "BuildPath": {"$ref": "#/$defs/dotRelativePath"}
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {"Framework": {"const": "other"}},
+        "required": ["Framework"]
+      },
+      "then": {
+        "properties": {
+          "BuildCmd": {"const": ""},
+          "InstallCmd": {"const": ""}
+        }
+      },
+      "else": {
+        "properties": {
+          "BuildCmd": {"type": "string", "minLength": 1},
+          "InstallCmd": {"type": "string", "minLength": 1, "pattern": "^[^&\\r\\n]+$"}
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "dotRelativePath": {
+      "type": "string",
+      "pattern": "^\\./[^/\\r\\n]+(?:/[^/\\r\\n]+)*$",
+      "not": {"pattern": "/\\.\\.?(?:/|$)"}
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/zhihu-ai-works-deploy-helper/cloudbaserc.schema.json",
+  "title": "CloudBase function deployment configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["envId", "functionRoot", "functions"],
+  "properties": {
+    "envId": {"const": "{{env.CLOUDBASE_ENV_ID}}"},
+    "functionRoot": {"const": "."},
+    "functions": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "type", "installDependency", "runtime"],
+        "properties": {
+          "name": {"const": "{{env.CLOUDBASE_SERVICE_NAME}}"},
+          "type": {"const": "HTTP"},
+          "installDependency": {"type": "boolean"},
+          "runtime": {"enum": ["Nodejs16.13", "Nodejs18.15", "Nodejs20.19", "Nodejs22.21", "Nodejs24.11"]}
+        }
+      }
+    }
+  }
+}

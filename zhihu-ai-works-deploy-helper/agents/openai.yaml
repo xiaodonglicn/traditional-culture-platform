@@ -1,0 +1,4 @@
+interface:
+  display_name: "zhihu-ai-works-deploy-helper"
+  short_description: "支持静态、可证明入口的 Node 与 SSR 项目 CloudBase 交付准备"
+  default_prompt: "使用 $zhihu-ai-works-deploy-helper 静态探测项目并准备 CloudBase 1.1 源码远端构建输入。纯静态分支只生成前端计划和描述符；Node/SSR 分支生成 root 或 overlay 运行时协议、根 scf_bootstrap 和远端 CustomSteps，不以 Agent 本地产物作为后端交付输入。宿主 Agent 仍可按自身授权和安全规则独立执行项目自愈验证。校验后生成排除 VCS、node_modules、缓存和敏感文件的项目 ZIP。"
