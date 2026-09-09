@@ -1,137 +1,2336 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>传统文化智慧平台</title>
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>传统文化智慧 · 道法自然</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E☯%3C/text%3E%3C/svg%3E">
+    <style>
+        /* ===== 全局重置 & 字体 ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(145deg, #f5f0eb 0%, #e8e0d8 100%);
+            min-height: 100vh;
+            color: #2c2c2c;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* ===== 头部 ===== */
+        header {
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(12px);
+            border-radius: 18px;
+            padding: 18px 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 6px 28px rgba(0, 0, 0, 0.07);
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+            gap: 14px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 24px;
+            font-weight: 700;
+            color: #4a3728;
+        }
+
+        .logo i {
+            font-size: 32px;
+            color: #8b6b4d;
+        }
+
+        nav {
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            text-decoration: none;
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #6b5a4a;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            white-space: nowrap;
+        }
+
+        nav a:hover {
+            background: rgba(139, 107, 77, 0.12);
+        }
+
+        nav a.active {
+            background: #5a3e2b;
+            color: #fff;
+        }
+
+        /* ===== 主内容 ===== */
+        main {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(12px);
+            border-radius: 18px;
+            padding: 32px 34px;
+            box-shadow: 0 6px 28px rgba(0, 0, 0, 0.05);
+            min-height: 480px;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.45s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            font-size: 26px;
+            font-weight: 600;
+            color: #4a3728;
+            margin-bottom: 22px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        h2 i {
+            color: #8b6b4d;
+        }
+
+        h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #4a3728;
+            margin: 18px 0 12px;
+        }
+
+        /* ========================================================= */
+        /* 每日运势 (原有) */
+        /* ========================================================= */
+        /* 占位引导卡片 */
+        .fortune-placeholder {
+            text-align: center;
+            padding: 50px 20px 40px;
+            background: linear-gradient(145deg, #fdfaf7, #f5ede6);
+            border-radius: 16px;
+            border: 2px dashed #d5c8b8;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .fortune-placeholder .placeholder-icon {
+            font-size: 64px;
+            display: block;
+            margin-bottom: 16px;
+            opacity: 0.7;
+        }
+
+        .fortune-placeholder h3 {
+            font-size: 22px;
+            color: #4a3728;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .fortune-placeholder p {
+            font-size: 16px;
+            color: #7a6b5a;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .fortune-placeholder .placeholder-hints {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .fortune-placeholder .placeholder-hints span {
+            background: #f0ece6;
+            padding: 6px 18px;
+            border-radius: 30px;
+            font-size: 14px;
+            color: #5a3e2b;
+        }
+        .fortune-selector {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+            padding: 20px 24px;
+            background: #f8f4f0;
+            border-radius: 14px;
+        }
+
+        .fortune-selector label {
+            font-weight: 500;
+            color: #5a3e2b;
+        }
+
+        .fortune-selector select {
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: 2px solid #ddd;
+            font-size: 15px;
+            background: #fff;
+            min-width: 130px;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+
+        .fortune-selector select:focus {
+            outline: none;
+            border-color: #8b6b4d;
+        }
+
+        .fortune-selector button {
+            padding: 10px 32px;
+            border: none;
+            border-radius: 30px;
+            background: linear-gradient(145deg, #8b6b4d, #6b4f3a);
+            color: #fff;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .fortune-selector button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(139, 107, 77, 0.32);
+        }
+
+        .fortune-selector button:disabled {
+            opacity: 0.6;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .fortune-result {
+            animation: fadeIn 0.5s ease;
+        }
+
+        .fortune-card {
+            background: linear-gradient(145deg, #fdfaf7, #f5ede6);
+            border-radius: 16px;
+            padding: 28px 32px;
+            border: 1px solid #e8ddd0;
+        }
+
+        .fortune-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 18px;
+            padding-bottom: 14px;
+            border-bottom: 2px dashed #e0d3c4;
+        }
+
+        .fortune-date {
+            font-size: 15px;
+            color: #7a6b5a;
+        }
+
+        .fortune-zodiac {
+            font-size: 20px;
+            font-weight: 600;
+            color: #5a3e2b;
+        }
+
+        .fortune-level {
+            padding: 6px 22px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .fortune-level[data-level="上上签"] {
+            background: #fce4b8;
+            color: #8b6914;
+        }
+        .fortune-level[data-level="上签"] {
+            background: #d4edda;
+            color: #155724;
+        }
+        .fortune-level[data-level="中签"] {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .fortune-level[data-level="下签"] {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .fortune-score {
+            text-align: center;
+            padding: 16px 0 20px;
+        }
+
+        .score-label {
+            display: block;
+            font-size: 14px;
+            color: #8b7a6a;
+            margin-bottom: 4px;
+        }
+
+        .score-value {
+            font-size: 48px;
+            font-weight: 700;
+            background: linear-gradient(145deg, #8b6b4d, #c9a87c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .fortune-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .detail-item {
+            background: #fff;
+            padding: 12px 16px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .detail-item i {
+            color: #8b6b4d;
+            width: 20px;
+            text-align: center;
+        }
+
+        .fortune-extra {
+            background: #fff;
+            padding: 16px 22px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .fortune-extra>div {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .color-tag {
+            display: inline-block;
+            padding: 2px 14px;
+            border-radius: 14px;
+            font-size: 13px;
+            color: #fff;
+            margin-right: 4px;
+        }
+
+        .advice {
+            color: #5a3e2b;
+            font-weight: 500;
+        }
+
+        /* ========================================================= */
+        /* 道家智慧 (原有) */
+        /* ========================================================= */
+        .daoism-controls {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+            padding: 16px 22px;
+            background: #f8f4f0;
+            border-radius: 14px;
+            align-items: center;
+        }
+
+        .daoism-controls button {
+            padding: 8px 26px;
+            border: none;
+            border-radius: 30px;
+            background: #5a3e2b;
+            color: #fff;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .daoism-controls button:hover {
+            background: #4a3222;
+            transform: scale(1.02);
+        }
+
+        .category-filter {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .category-filter select {
+            padding: 8px 16px;
+            border-radius: 10px;
+            border: 2px solid #ddd;
+            background: #fff;
+            cursor: pointer;
+        }
+
+        .daoism-quotes {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .quote-card {
+            background: #fdfaf7;
+            border-radius: 14px;
+            padding: 20px 24px;
+            border-left: 4px solid #8b6b4d;
+            transition: all 0.3s;
+        }
+
+        .quote-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 22px rgba(0, 0, 0, 0.06);
+        }
+
+        .quote-source {
+            font-size: 14px;
+            color: #8b6b4d;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .quote-original {
+            font-size: 20px;
+            font-weight: 400;
+            color: #2c2c2c;
+            line-height: 1.8;
+            margin-bottom: 10px;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+        }
+
+        .quote-translation {
+            font-size: 15px;
+            color: #5a5a5a;
+            line-height: 1.6;
+            margin-bottom: 8px;
+            padding: 10px 16px;
+            background: #f5f0ea;
+            border-radius: 8px;
+        }
+
+        .quote-interpretation {
+            font-size: 14px;
+            color: #7a6b5a;
+            line-height: 1.6;
+            padding: 10px 16px;
+            background: #edf0f5;
+            border-radius: 8px;
+        }
+
+        .quote-category {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 2px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            background: #e8ddd0;
+            color: #5a3e2b;
+        }
+
+        /* ========================================================= */
+        /* 五行学说 (原有) */
+        /* ========================================================= */
+        .elements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .element-card {
+            background: #fdfaf7;
+            border-radius: 14px;
+            padding: 20px 16px;
+            text-align: center;
+            border: 2px solid #e8ddd0;
+            transition: all 0.3s;
+            cursor: default;
+        }
+
+        .element-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.07);
+        }
+
+        .element-icon {
+            font-size: 34px;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .element-name {
+            font-size: 22px;
+            font-weight: 700;
+            color: #4a3728;
+        }
+
+        .element-desc {
+            font-size: 13px;
+            color: #7a6b5a;
+            margin-top: 4px;
+        }
+
+        .element-detail {
+            font-size: 12px;
+            color: #9a8b7a;
+            margin-top: 4px;
+        }
+
+        .element-color {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            margin-top: 8px;
+            border: 2px solid #ddd;
+        }
+
+        .elements-relationship {
+            background: #f8f4f0;
+            border-radius: 14px;
+            padding: 20px 24px;
+            margin-top: 8px;
+        }
+
+        .elements-relationship h3 {
+            text-align: center;
+            color: #4a3728;
+            margin-bottom: 14px;
+        }
+
+        .relationship-diagram {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .relationship-item {
+            background: #fff;
+            padding: 16px 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .relationship-item h4 {
+            color: #4a3728;
+            margin-bottom: 6px;
+        }
+
+        .relationship-item p {
+            font-size: 18px;
+            font-weight: 500;
+            color: #5a3e2b;
+            letter-spacing: 2px;
+        }
+
+        .relationship-item small {
+            color: #8b7a6a;
+            font-size: 13px;
+        }
+
+        .relationship-item.generates {
+            border-left: 4px solid #4caf50;
+        }
+        .relationship-item.restricts {
+            border-left: 4px solid #e74c3c;
+        }
+
+        /* ========================================================= */
+        /* 新增：每日一签 */
+        /* ========================================================= */
+        .daily-sign-container {
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        .daily-sign-date {
+            font-size: 16px;
+            color: #7a6b5a;
+            margin-bottom: 20px;
+        }
+
+        .daily-sign-card {
+            background: linear-gradient(145deg, #fdfaf7, #f5ede6);
+            border-radius: 20px;
+            padding: 40px 36px 36px;
+            border: 2px solid #e8ddd0;
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+        }
+
+        .daily-sign-card .sign-icon {
+            font-size: 48px;
+            display: block;
+            margin-bottom: 12px;
+            opacity: 0.7;
+        }
+
+        .daily-sign-card .sign-original {
+            font-size: 28px;
+            font-weight: 400;
+            color: #2c2c2c;
+            line-height: 1.8;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            margin-bottom: 16px;
+        }
+
+        .daily-sign-card .sign-translation {
+            font-size: 16px;
+            color: #5a5a5a;
+            line-height: 1.7;
+            padding: 14px 20px;
+            background: #f5f0ea;
+            border-radius: 12px;
+            margin-bottom: 12px;
+        }
+
+        .daily-sign-card .sign-interpretation {
+            font-size: 15px;
+            color: #7a6b5a;
+            line-height: 1.7;
+            padding: 14px 20px;
+            background: #edf0f5;
+            border-radius: 12px;
+            margin-bottom: 16px;
+        }
+
+        .daily-sign-card .sign-source {
+            font-size: 14px;
+            color: #8b6b4d;
+            font-weight: 600;
+        }
+
+        .daily-sign-card .sign-tag {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 4px 20px;
+            border-radius: 30px;
+            font-size: 13px;
+            background: #e8ddd0;
+            color: #5a3e2b;
+        }
+
+        .daily-sign-refresh {
+            margin-top: 24px;
+            padding: 10px 36px;
+            border: none;
+            border-radius: 30px;
+            background: linear-gradient(145deg, #8b6b4d, #6b4f3a);
+            color: #fff;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .daily-sign-refresh:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(139, 107, 77, 0.32);
+        }
+
+        /* ========================================================= */
+        /* 新增：静心引导（冥想计时器） */
+        /* ========================================================= */
+        .meditation-container {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .meditation-timer {
+            font-size: 72px;
+            font-weight: 300;
+            color: #4a3728;
+            font-family: 'Georgia', serif;
+            letter-spacing: 4px;
+            padding: 30px 0 10px;
+            background: #fdfaf7;
+            border-radius: 20px;
+            border: 2px solid #e8ddd0;
+            margin-bottom: 20px;
+        }
+
+        .meditation-timer .timer-label {
+            font-size: 16px;
+            font-weight: 400;
+            color: #8b7a6a;
+            letter-spacing: 2px;
+            display: block;
+            margin-bottom: 6px;
+            font-family: 'Segoe UI', 'PingFang SC', sans-serif;
+        }
+
+        .meditation-controls {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 16px 0 20px;
+        }
+
+        .meditation-controls button {
+            padding: 10px 28px;
+            border: none;
+            border-radius: 30px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.25s;
+            min-width: 80px;
+        }
+
+        .meditation-controls .btn-start {
+            background: linear-gradient(145deg, #5a7a4a, #3d5a32);
+            color: #fff;
+        }
+
+        .meditation-controls .btn-start:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(61, 90, 50, 0.3);
+        }
+
+        .meditation-controls .btn-start.running {
+            background: linear-gradient(145deg, #c0392b, #962d22);
+        }
+
+        .meditation-controls .btn-reset {
+            background: #e8ddd0;
+            color: #5a3e2b;
+        }
+
+        .meditation-controls .btn-reset:hover {
+            background: #d5c8b8;
+        }
+
+        .meditation-controls .btn-preset {
+            background: #f0ece6;
+            color: #5a3e2b;
+            font-size: 13px;
+            padding: 10px 18px;
+            min-width: 60px;
+        }
+
+        .meditation-controls .btn-preset:hover {
+            background: #e0d8ce;
+        }
+
+        .meditation-controls .btn-preset.active-preset {
+            background: #8b6b4d;
+            color: #fff;
+        }
+
+        .meditation-guide {
+            background: #f8f4f0;
+            border-radius: 14px;
+            padding: 20px 24px;
+            margin-top: 16px;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: #4a3728;
+            line-height: 1.8;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            transition: all 0.3s;
+        }
+
+        .meditation-guide .guide-icon {
+            font-size: 32px;
+            margin-right: 16px;
+            opacity: 0.6;
+        }
+
+        /* ========================================================= */
+        /* 新增：四时养生 */
+        /* ========================================================= */
+        .season-container {
+            padding: 4px 0;
+        }
+
+        .season-current {
+            background: linear-gradient(145deg, #fdfaf7, #f5ede6);
+            border-radius: 16px;
+            padding: 24px 28px;
+            border: 1px solid #e8ddd0;
+            margin-bottom: 24px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .season-current .season-icon {
+            font-size: 56px;
+            text-align: center;
+            min-width: 80px;
+        }
+
+        .season-current .season-info {
+            flex: 1;
+        }
+
+        .season-current .season-info .name {
+            font-size: 28px;
+            font-weight: 600;
+            color: #4a3728;
+        }
+
+        .season-current .season-info .sub {
+            font-size: 16px;
+            color: #7a6b5a;
+            margin-top: 4px;
+        }
+
+        .season-current .season-info .element-tag {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 4px 20px;
+            border-radius: 30px;
+            font-size: 14px;
+            background: #e8ddd0;
+            color: #5a3e2b;
+            font-weight: 500;
+        }
+
+        .season-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+        }
+
+        .season-card {
+            background: #fdfaf7;
+            border-radius: 14px;
+            padding: 20px 22px;
+            border: 1px solid #e8ddd0;
+            transition: all 0.3s;
+        }
+
+        .season-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 22px rgba(0, 0, 0, 0.05);
+        }
+
+        .season-card .card-icon {
+            font-size: 28px;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .season-card .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #4a3728;
+            margin-bottom: 6px;
+        }
+
+        .season-card .card-content {
+            font-size: 14px;
+            color: #5a5a5a;
+            line-height: 1.7;
+        }
+
+        .season-card .card-content li {
+            list-style: none;
+            padding: 2px 0;
+        }
+
+        .season-card .card-content li::before {
+            content: "· ";
+            color: #8b6b4d;
+        }
+
+        /* ========================================================= */
+        /* 页脚 */
+        /* ========================================================= */
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            color: #7a6b5a;
+            padding: 18px 0 6px;
+            font-size: 14px;
+            border-top: 1px solid #e6e9ef;
+        }
+
+        footer i {
+            color: #8b6b4d;
+        }
+
+        .footer-credit {
+            font-size: 12px;
+            color: #9a8b7a;
+            margin-top: 4px;
+        }
+
+        /* ========================================================= */
+        /* 响应式 */
+        /* ========================================================= */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+            }
+            nav {
+                justify-content: center;
+            }
+            nav a {
+                font-size: 13px;
+                padding: 5px 12px;
+            }
+            .fortune-details {
+                grid-template-columns: 1fr;
+            }
+            .daoism-quotes {
+                grid-template-columns: 1fr;
+            }
+            .relationship-diagram {
+                grid-template-columns: 1fr;
+            }
+            .season-grid {
+                grid-template-columns: 1fr;
+            }
+            main {
+                padding: 20px 16px;
+            }
+            .fortune-card {
+                padding: 20px 16px;
+            }
+            .meditation-timer {
+                font-size: 48px;
+            }
+            .daily-sign-card .sign-original {
+                font-size: 22px;
+            }
+            .daily-sign-card {
+                padding: 28px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 12px;
+            }
+            .container {
+                padding: 0;
+            }
+            header {
+                padding: 14px 16px;
+            }
+            .fortune-selector {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .fortune-header {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            h2 {
+                font-size: 20px;
+            }
+            .elements-grid {
+                grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            }
+            .season-current {
+                flex-direction: column;
+                text-align: center;
+            }
+            .meditation-controls button {
+                padding: 8px 16px;
+                font-size: 13px;
+                min-width: 60px;
+            }
+            .meditation-timer {
+                font-size: 40px;
+            }
+        }
+    </style>
 </head>
 <body>
+
 <div class="container">
-  <!-- 头部 -->
-  <header>
-    <div class="logo">
-      <i class="fas fa-yin-yang"></i>
-      <span>传统文化智慧</span>
-    </div>
-    <nav>
-      <a href="#" class="active" data-tab="fortune">每日运势</a>
-      <a href="#" data-tab="daoism">道家智慧</a>
-      <a href="#" data-tab="elements">五行学说</a>
-    </nav>
-  </header>
 
-  <!-- 主内容 -->
-  <main>
-    <!-- 每日运势 Tab -->
-    <section id="fortune-tab" class="tab-content active">
-      <h2><i class="fas fa-star"></i> 今日运势</h2>
-      <div class="fortune-selector">
-        <label for="zodiac-select">选择您的生肖：</label>
-        <select id="zodiac-select">
-          <option value="">请选择</option>
-        </select>
-        <button id="get-fortune-btn"><i class="fas fa-spa"></i> 查看今日运势</button>
-      </div>
-      <div id="fortune-result" class="fortune-result" style="display:none;">
-        <div class="fortune-card">
-          <div class="fortune-header">
-            <span class="fortune-date" id="fortune-date"></span>
-            <span class="fortune-zodiac" id="fortune-zodiac"></span>
-            <span class="fortune-level" id="fortune-level"></span>
-          </div>
-          <div class="fortune-score">
-            <span class="score-label">运势指数</span>
-            <span class="score-value" id="fortune-score">0</span>
-          </div>
-          <div class="fortune-details">
-            <div class="detail-item">
-              <i class="fas fa-bullseye"></i>
-              <span>总运势：</span>
-              <span id="fortune-summary"></span>
-            </div>
-            <div class="detail-item">
-              <i class="fas fa-briefcase"></i>
-              <span>事业：</span>
-              <span id="fortune-career"></span>
-            </div>
-            <div class="detail-item">
-              <i class="fas fa-heart"></i>
-              <span>感情：</span>
-              <span id="fortune-love"></span>
-            </div>
-            <div class="detail-item">
-              <i class="fas fa-coins"></i>
-              <span>财运：</span>
-              <span id="fortune-wealth"></span>
-            </div>
-          </div>
-          <div class="fortune-extra">
-            <div class="lucky-colors">
-              <span>🎨 幸运色：</span>
-              <span id="fortune-colors"></span>
-            </div>
-            <div class="lucky-numbers">
-              <span>🔢 幸运数字：</span>
-              <span id="fortune-numbers"></span>
-            </div>
-            <div class="advice">
-              <span>💡 建议：</span>
-              <span id="fortune-advice"></span>
-            </div>
-          </div>
+    <!-- ===== 头部 ===== -->
+    <header>
+        <div class="logo">
+            <i class="fas fa-yin-yang"></i>
+            <span>传统文化智慧</span>
         </div>
-      </div>
-    </section>
+        <nav>
+            <a class="active" data-tab="fortune">每日运势</a>
+            <a data-tab="daoism">道家智慧</a>
+            <a data-tab="elements">五行学说</a>
+            <a data-tab="sign">每日一签</a>
+            <a data-tab="meditation">静心引导</a>
+            <a data-tab="season">四时养生</a>
+        </nav>
+    </header>
 
-    <!-- 道家智慧 Tab -->
-    <section id="daoism-tab" class="tab-content">
-      <h2><i class="fas fa-feather-alt"></i> 道家智慧</h2>
-      <div class="daoism-controls">
-        <button id="random-quote-btn"><i class="fas fa-dice"></i> 随机一句</button>
-        <div class="category-filter">
-          <label>分类：</label>
-          <select id="category-select">
-            <option value="all">全部</option>
-          </select>
-        </div>
-      </div>
-      <div id="daoism-quotes" class="daoism-quotes">
-        <!-- 动态渲染 -->
-      </div>
-    </section>
+    <!-- ===== 主内容 ===== -->
+    <main>
 
-    <!-- 五行学说 Tab -->
-    <section id="elements-tab" class="tab-content">
-      <h2><i class="fas fa-circle"></i> 五行学说</h2>
-      <div class="elements-grid" id="elements-grid">
-        <!-- 动态渲染 -->
-      </div>
-      <div class="elements-relationship">
-        <h3>相生相克关系</h3>
-        <div class="relationship-diagram">
-          <div class="relationship-item generates">
-            <h4>相生</h4>
-            <p>木 → 火 → 土 → 金 → 水 → 木</p>
-            <small>相互滋生，促进生长</small>
-          </div>
-          <div class="relationship-item restricts">
-            <h4>相克</h4>
-            <p>木 → 土 → 水 → 火 → 金 → 木</p>
-            <small>相互制约，平衡发展</small>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
+        <!-- ========================================================= -->
+        <!-- Tab 1: 每日运势 (原有) -->
+        <!-- ========================================================= -->
+        <section id="fortune-tab" class="tab-content active">
+            <h2><i class="fas fa-star"></i> 今日运势</h2>
+            <div class="fortune-selector">
+                <label for="zodiacSelect">选择您的生肖：</label>
+                <select id="zodiacSelect">
+                    <option value="">请选择</option>
+                </select>
+                <button id="getFortuneBtn"><i class="fas fa-spa"></i> 查看今日运势</button>
+            </div>
+            <!-- 结果容器：id 必须保留，用于 JS 操作 -->
+            <div id="fortuneResult" class="fortune-result">
+                <!-- 占位卡片 -->
+                <div id="fortunePlaceholder" class="fortune-placeholder">
+                    <div class="placeholder-icon">🐉</div>
+                    <h3>选择你的生肖，开启今日运势</h3>
+                    <p>请从上方下拉列表中选择你的生肖，<br>系统将为你生成专属的每日运势报告。</p>
+                    <div class="placeholder-hints">
+                        <span>🌟 包含事业、感情、财运</span>
+                        <span>🎨 幸运色 &amp; 幸运数字</span>
+                        <span>💡 每日智慧建议</span>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-  <footer>
-    <p><i class="fas fa-yin-yang"></i> 道法自然 · 天人合一</p>
-    <p class="footer-credit">传统文化智慧平台</p>
-  </footer>
+        <!-- ========================================================= -->
+        <!-- Tab 2: 道家智慧 (原有) -->
+        <!-- ========================================================= -->
+        <section id="daoism-tab" class="tab-content">
+            <h2><i class="fas fa-feather-alt"></i> 道家智慧</h2>
+            <div class="daoism-controls">
+                <button id="randomQuoteBtn"><i class="fas fa-dice"></i> 随机一句</button>
+                <div class="category-filter">
+                    <label>分类：</label>
+                    <select id="categorySelect">
+                        <option value="all">全部</option>
+                    </select>
+                </div>
+            </div>
+            <div id="daoismQuotes" class="daoism-quotes"></div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- Tab 3: 五行学说 (原有) -->
+        <!-- ========================================================= -->
+        <section id="elements-tab" class="tab-content">
+            <h2><i class="fas fa-circle"></i> 五行学说</h2>
+            <div id="elementsGrid" class="elements-grid"></div>
+            <div class="elements-relationship">
+                <h3>相生相克关系</h3>
+                <div class="relationship-diagram">
+                    <div class="relationship-item generates">
+                        <h4>相生</h4>
+                        <p>木 → 火 → 土 → 金 → 水 → 木</p>
+                        <small>相互滋生，促进生长</small>
+                    </div>
+                    <div class="relationship-item restricts">
+                        <h4>相克</h4>
+                        <p>木 → 土 → 水 → 火 → 金 → 木</p>
+                        <small>相互制约，平衡发展</small>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- Tab 4: 每日一签 (新增) -->
+        <!-- ========================================================= -->
+        <section id="sign-tab" class="tab-content">
+            <h2><i class="fas fa-scroll"></i> 每日一签</h2>
+            <div class="daily-sign-container">
+                <div class="daily-sign-date" id="signDate">📅 加载中...</div>
+                <div id="dailySignCard" class="daily-sign-card">
+                    <span class="sign-icon">🎋</span>
+                    <div class="sign-original" id="signOriginal">道可道，非常道</div>
+                    <div class="sign-translation" id="signTranslation">可以用语言表达的道，就不是永恒的道</div>
+                    <div class="sign-interpretation" id="signInterpretation">道的本质是不可言说的，我们需要超越语言的局限。</div>
+                    <div class="sign-source" id="signSource">——《道德经》第一章</div>
+                    <div class="sign-tag" id="signCategory"># 道</div>
+                </div>
+                <button class="daily-sign-refresh" id="refreshSignBtn"><i class="fas fa-sync-alt"></i> 换一签</button>
+                <p style="margin-top:16px;font-size:13px;color:#9a8b7a;">每日一签，随缘而安。每次刷新随机抽取一句智慧箴言。</p>
+            </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- Tab 5: 静心引导 (新增) -->
+        <!-- ========================================================= -->
+        <section id="meditation-tab" class="tab-content">
+            <h2><i class="fas fa-spa"></i> 静心引导</h2>
+            <div class="meditation-container">
+                <div class="meditation-timer">
+                    <span class="timer-label">静心计时</span>
+                    <span id="timerDisplay">05:00</span>
+                </div>
+                <div class="meditation-controls">
+                    <button class="btn-preset active-preset" data-minutes="3">3分</button>
+                    <button class="btn-preset" data-minutes="5">5分</button>
+                    <button class="btn-preset" data-minutes="10">10分</button>
+                    <button class="btn-preset" data-minutes="15">15分</button>
+                    <button class="btn-start" id="meditationStartBtn"><i class="fas fa-play"></i> 开始</button>
+                    <button class="btn-reset" id="meditationResetBtn"><i class="fas fa-undo"></i> 重置</button>
+                </div>
+                <div class="meditation-guide" id="meditationGuide">
+                    <span class="guide-icon">🧘</span>
+                    <span id="guideText">点击「开始」，进入静心时光。深呼吸，放下杂念。</span>
+                </div>
+                <p style="margin-top:14px;font-size:13px;color:#9a8b7a;text-align:center;">道家曰：「致虚极，守静笃。」静坐片刻，心神自明。</p>
+            </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- Tab 6: 四时养生 (新增) -->
+        <!-- ========================================================= -->
+        <section id="season-tab" class="tab-content">
+            <h2><i class="fas fa-leaf"></i> 四时养生</h2>
+            <div class="season-container">
+                <div id="seasonCurrent" class="season-current">
+                    <!-- JS 动态渲染 -->
+                </div>
+                <div class="season-grid" id="seasonGrid">
+                    <!-- JS 动态渲染 -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ===== 页脚 ===== -->
+    <footer>
+        <p><i class="fas fa-yin-yang"></i> 道法自然 · 天人合一</p>
+        <p class="footer-credit">传统文化智慧平台</p>
+    </footer>
+
 </div>
 
-<script src="js/app.js"></script>
+<!-- ============================================================ -->
+<!-- 引入 Font Awesome 图标库 -->
+<!-- ============================================================ -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<!-- ============================================================ -->
+<!-- JavaScript：所有数据 + 逻辑 -->
+<!-- ============================================================ -->
+<script>
+    // =============================================================
+    // 1. 数据区
+    // =============================================================
+
+    // ----- 生肖列表 -----
+    const ZODIACS = ['鼠', '牛', '虎', '兔', '龙', '蛇', '马', '羊', '猴', '鸡', '狗', '猪'];
+
+    // ----- 运势模板 -----
+    const FORTUNE_TEMPLATES = [{
+        luckLevel: '上上签',
+        luckScore: '95',
+        summary: '天时地利人和，万事皆顺，大吉大利',
+        career: '事业如日中天，升迁有望，宜抓住机遇',
+        love: '桃花运旺盛，情投意合，单身者有望脱单',
+        wealth: '财源广进，投资获利，偏财运佳',
+        luckyColors: ['红色', '金色', '紫色'],
+        luckyNumbers: [6, 8, 9],
+        advice: '保持谦逊，继续努力，忌骄傲自满'
+    }, {
+        luckLevel: '上签',
+        luckScore: '82',
+        summary: '诸事顺利，但需防小人是非',
+        career: '工作稳步前进，注意人际关系，避免口舌之争',
+        love: '感情稳定，细水长流，宜多陪伴对方',
+        wealth: '财运平稳，宜守不宜攻，避免大额投资',
+        luckyColors: ['蓝色', '白色', '银色'],
+        luckyNumbers: [3, 7, 11],
+        advice: '谨言慎行，明哲保身，低调行事'
+    }, {
+        luckLevel: '上签',
+        luckScore: '78',
+        summary: '机缘巧合，贵人相助，柳暗花明',
+        career: '工作有贵人提携，项目顺利推进，有意外收获',
+        love: '感情升温，沟通顺畅，关系更进一步',
+        wealth: '偏财运佳，有意外之财，但不宜贪心',
+        luckyColors: ['绿色', '青色', '粉色'],
+        luckyNumbers: [2, 5, 12],
+        advice: '善用人脉，广结善缘，知恩图报'
+    }, {
+        luckLevel: '中签',
+        luckScore: '65',
+        summary: '平淡如水，顺势而为，不争不抢',
+        career: '按部就班，无大起大落，宜沉淀积累',
+        love: '平平淡淡，珍惜眼前人，莫强求',
+        wealth: '收支平衡，避免大额投资，宜储蓄',
+        luckyColors: ['黄色', '棕色', '米色'],
+        luckyNumbers: [4, 10, 15],
+        advice: '静心修炼，等待时机，厚积薄发'
+    }, {
+        luckLevel: '中签',
+        luckScore: '58',
+        summary: '运途起伏，得失参半，需保持平常心',
+        career: '工作中遇到挑战，但也是成长的机会',
+        love: '感情有波折，需要更多理解和包容',
+        wealth: '财运一般，不宜投机，稳健为上',
+        luckyColors: ['紫色', '灰色', '深蓝'],
+        luckyNumbers: [1, 6, 13],
+        advice: '随遇而安，知足常乐，莫强求'
+    }, {
+        luckLevel: '下签',
+        luckScore: '42',
+        summary: '运势低迷，需韬光养晦，静待时机',
+        career: '工作受阻，宜求稳避锋芒，暂缓重要决策',
+        love: '感情波折，需多沟通包容，避免争执',
+        wealth: '财运不佳，谨慎理财，避免借贷',
+        luckyColors: ['白色', '黑色', '深灰'],
+        luckyNumbers: [5, 9, 14],
+        advice: '修身养性，积德行善，耐心等待转机'
+    }, {
+        luckLevel: '下签',
+        luckScore: '35',
+        summary: '诸事不顺，宜守不宜攻，以静制动',
+        career: '事业遭遇瓶颈，多听他人建议，勿冲动',
+        love: '感情面临考验，需要冷静处理',
+        wealth: '财运低迷，控制开支，避免投资',
+        luckyColors: ['深蓝', '紫色', '灰色'],
+        luckyNumbers: [3, 8, 16],
+        advice: '养精蓄锐，反思总结，等待时机'
+    }];
+    // ----- 道家名言 -----
+    const DAOISM_QUOTES = [{
+        id: '1',
+        source: '《道德经》',
+        chapter: '第一章',
+        original: '道可道，非常道；名可名，非常名。无名，天地之始；有名，万物之母。',
+        translation: '可以用语言表达的道，就不是永恒的道；可以用名称称呼的名，就不是永恒的名。无名是天地的始源，有名是万物的根本。',
+        interpretation: '道的本质是不可言说的，任何试图用语言来定义道的做法都是有限的。我们应该超越语言的局限，直接体验道的奥妙。',
+        category: '道'
+    }, {
+        id: '2',
+        source: '《道德经》',
+        chapter: '第八章',
+        original: '上善若水。水善利万物而不争，处众人之所恶，故几于道。',
+        translation: '最高的善就像水一样。水善于滋润万物而不与万物相争，停留在众人都不喜欢的地方，所以最接近道。',
+        interpretation: '水具有柔软、谦卑、包容的特性，这正是道的体现。我们应当学习水的品质，以柔克刚，不与世争。',
+        category: '德'
+    }, {
+        id: '3',
+        source: '《道德经》',
+        chapter: '第二十五章',
+        original: '人法地，地法天，天法道，道法自然。',
+        translation: '人取法地，地取法天，天取法道，道取法自然。',
+        interpretation: '万事万物都有其遵循的法则，而这个最终的法则是自然。我们应该顺应自然规律，不要强求，让事物按其本性发展。',
+        category: '自然'
+    }, {
+        id: '4',
+        source: '《道德经》',
+        chapter: '第六十四章',
+        original: '合抱之木，生于毫末；九层之台，起于累土；千里之行，始于足下。',
+        translation: '合抱的大树，生于细小的幼苗；九层的高台，起于一筐筐泥土；千里的远行，始于脚下的第一步。',
+        interpretation: '所有伟大的成就都开始于微小的一步。我们应该注重积累，脚踏实地地前行，不要好高骛远。',
+        category: '无为'
+    }, {
+        id: '5',
+        source: '《庄子》',
+        chapter: '逍遥游',
+        original: '北冥有鱼，其名为鲲。鲲之大，不知其几千里也。化而为鸟，其名为鹏。',
+        translation: '北海有一条鱼，名字叫鲲。鲲的大，不知道有几千里。变化成鸟，名字叫鹏。',
+        interpretation: '庄子通过鲲鹏的寓言告诉我们，要有超越世俗的视野和追求自由的勇气。生命可以超越形体的限制，达到精神的自由境界。',
+        category: '自然'
+    }, {
+        id: '6',
+        source: '《道德经》',
+        chapter: '第三十六章',
+        original: '柔弱胜刚强。',
+        translation: '柔弱可以战胜刚强。',
+        interpretation: '看似柔弱的事物，往往蕴含着强大的生命力。以柔克刚，是道家的重要智慧，也是处世的哲学。',
+        category: '柔'
+    }, {
+        id: '7',
+        source: '《道德经》',
+        chapter: '第四十八章',
+        original: '为学日益，为道日损。损之又损，以至于无为。',
+        translation: '求学的人，知识一天比一天增加；求道的人，欲念一天比一天减少。减少又减少，到最后达到无为的境界。',
+        interpretation: '学习知识是做加法，修道则是做减法。真正的智慧在于放下执念和欲望，回归到最本真的状态。',
+        category: '无为'
+    }, {
+        id: '8',
+        source: '《道德经》',
+        chapter: '第五十八章',
+        original: '祸兮福之所倚，福兮祸之所伏。',
+        translation: '灾祸啊，幸福紧靠在它旁边；幸福啊，灾祸潜伏在它里面。',
+        interpretation: '福祸相依，互相转化。遇到好事不要得意忘形，遇到坏事也不要太过悲观，保持平常心看待得失。',
+        category: '道'
+    }, {
+        id: '9',
+        source: '《庄子》',
+        chapter: '齐物论',
+        original: '天地与我并生，而万物与我为一。',
+        translation: '天地与我一同存在，万物和我合为一体。',
+        interpretation: '人与天地万物本是同源同体，我们不应把自己与自然对立起来。这种天人合一的思想，是道家的核心理念之一。',
+        category: '自然'
+    }, {
+        id: '10',
+        source: '《道德经》',
+        chapter: '第六十三章',
+        original: '天下难事，必作于易；天下大事，必作于细。',
+        translation: '天下所有的难事，一定要从简单的事情做起；天下所有的大事，一定要从细微的地方入手。',
+        interpretation: '细节决定成败，大事都是由小事积累而成。我们应该重视每一个微小的步骤，脚踏实地地做事。',
+        category: '无为'
+    }, {
+        id: '11',
+        source: '《道德经》',
+        chapter: '第二十二章',
+        original: '夫唯不争，故天下莫能与之争。',
+        translation: '正因为不与人争，所以天下没有人能和他相争。',
+        interpretation: '真正的强者不争一时之高下，不计较一城一池之得失。不争，反而能赢得更多，这是以退为进的智慧。',
+        category: '不争'
+    }, {
+        id: '12',
+        source: '《道德经》',
+        chapter: '第十六章',
+        original: '致虚极，守静笃。万物并作，吾以观复。',
+        translation: '追求心灵的空灵极致，坚守内心的宁静专注。万物都在蓬勃生长，我从中观察到它们循环往复的规律。',
+        interpretation: '在快节奏的现代生活中，我们更需要静下心来，观察世界运行的规律。静能生慧，静能明道。',
+        category: '静'
+    },{
+        id: '13',
+        source: '《道德经》',
+        chapter: '第四十一章',
+        original: '大方无隅，大器晚成，大音希声，大象无形。',
+        translation: '最方正的东西反而没有棱角，最大的器物总是最后完成，最大的声音反而听不见，最大的形象反而看不见形状。',
+        interpretation: '真正的伟大往往不显于外在形式。大道无形无声，却包容万物。做人做事不必追求表面的完美，内涵才是根本。',
+        category: '道'
+    }, {
+        id: '14',
+        source: '《庄子》',
+        chapter: '养生主',
+        original: '吾生也有涯，而知也无涯。以有涯随无涯，殆矣。',
+        translation: '我的生命是有限的，而知识是无限的。用有限的生命去追求无限的知识，是很危险的事。',
+        interpretation: '庄子提醒我们，在有限的生命中不应贪多求全，而应有所取舍，抓住根本，顺应自然之道。',
+        category: '无为'
+    }, {
+        id: '15',
+        source: '《道德经》',
+        chapter: '第三十三章',
+        original: '知人者智，自知者明。胜人者有力，自胜者强。',
+        translation: '能了解别人的人是聪慧的，能认识自己的人才算明智。能战胜别人的人是有力量的，能战胜自己的人才算真正强大。',
+        interpretation: '真正的强大不在于战胜外界，而在于战胜自己的欲望、恐惧和执念。自知自胜，才是最高境界。',
+        category: '德'
+    }, {
+        id: '16',
+        source: '《道德经》',
+        chapter: '第七十八章',
+        original: '天下莫柔弱于水，而攻坚强者莫之能胜。',
+        translation: '天下没有比水更柔弱的了，然而攻克坚硬强大的东西，没有能胜过水的。',
+        interpretation: '水看似柔弱，却能滴水穿石、冲刷大地。以柔克刚、以弱胜强，正是道家处世哲学的生动体现。',
+        category: '柔'
+    }, {
+        id: '17',
+        source: '《庄子》',
+        chapter: '秋水',
+        original: '井蛙不可以语于海者，拘于虚也；夏虫不可以语于冰者，笃于时也。',
+        translation: '不能和井底的青蛙谈论大海，是因为它受所处环境的限制；不能和夏天的虫子谈论冰雪，是因为它受季节的限制。',
+        interpretation: '人的认知受限于自身所处的环境和条件。我们应该保持谦逊，认识到自己认知的局限性，不要以己度人。',
+        category: '自然'
+    }, {
+        id: '18',
+        source: '《道德经》',
+        chapter: '第五十六章',
+        original: '知者不言，言者不知。',
+        translation: '真正有智慧的人不多说话，夸夸其谈的人反而没有真知。',
+        interpretation: '真正的智慧往往沉静内敛，不需要通过言语来证明自己。沉默并非无知，而是对道的敬畏与体悟。',
+        category: '静'
+    }, {
+        id: '19',
+        source: '《道德经》',
+        chapter: '第九章',
+        original: '功遂身退，天之道也。',
+        translation: '功业完成后就退隐，这是符合天道的。',
+        interpretation: '做事要懂得适可而止，成功后不居功自傲，不贪恋权位。进退有度、知止不殆，才是明智之举。',
+        category: '不争'
+    }, {
+        id: '20',
+        source: '《庄子》',
+        chapter: '大宗师',
+        original: '相濡以沫，不如相忘于江湖。',
+        translation: '泉水干涸后，鱼儿互相吐沫湿润对方，不如各自在江湖中自由自在，彼此相忘。',
+        interpretation: '与其在困境中相互扶持却都不得自由，不如各自在大道上逍遥自在。放下执着，顺应自然，才是真正的解脱。',
+        category: '自然'
+    }, {
+        id: '21',
+        source: '《道德经》',
+        chapter: '第六十七章',
+        original: '我有三宝，持而保之：一曰慈，二曰俭，三曰不敢为天下先。',
+        translation: '我有三件宝物，坚持保存着它们：第一是慈爱，第二是节俭，第三是不敢争在天下人的前面。',
+        interpretation: '慈爱带来勇气，节俭带来宽广，不争先反而能成其先。这三宝是道家修身养性、处世立身的基本原则。',
+        category: '德'
+    }, {
+        id: '22',
+        source: '《道德经》',
+        chapter: '第七十六章',
+        original: '坚强者死之徒，柔弱者生之徒。',
+        translation: '坚硬刚强的东西属于死亡一类，柔软柔弱的东西属于生存一类。',
+        interpretation: '草木生时柔软，死后枯硬。道家崇尚柔弱，因为柔弱中蕴含着生机与活力，而刚强则往往走向僵化与消亡。',
+        category: '柔'
+    }];
+
+    // ----- 五行数据 -----
+    const FIVE_ELEMENTS = [{
+        element: '金',
+        description: '金属质地，坚硬刚强，具有变革与决断之性',
+        direction: '西',
+        season: '秋',
+        color: '白色',
+        colorHex: '#e8e8e8',
+        icon: '⚔️',
+        generates: '金生水',
+        restricts: '金克木',
+        characteristics: ['刚毅果断', '重义守信', '爱憎分明', '有领导力'],
+        professions: ['军警', '法官', '医生', '金融从业者']
+    }, {
+        element: '木',
+        description: '树木生长，生机勃勃，具有生长与仁爱之性',
+        direction: '东',
+        season: '春',
+        color: '青色',
+        colorHex: '#7bc5a0',
+        icon: '🌳',
+        generates: '木生火',
+        restricts: '木克土',
+        characteristics: ['仁慈温和', '有同情心', '善于沟通', '有创造力'],
+        professions: ['教师', '艺术家', '设计师', '心理咨询师']
+    }, {
+        element: '水',
+        description: '流动不息，善于变化，具有智慧与灵活之性',
+        direction: '北',
+        season: '冬',
+        color: '黑色',
+        colorHex: '#4a4a4a',
+        icon: '💧',
+        generates: '水生木',
+        restricts: '水克火',
+        characteristics: ['聪明智慧', '善于变通', '深谋远虑', '有洞察力'],
+        professions: ['科学家', '策略师', '外交官', '网络工程师']
+    }, {
+        element: '火',
+        description: '炽热向上，光明温暖，具有热烈与礼仪之性',
+        direction: '南',
+        season: '夏',
+        color: '赤色',
+        colorHex: '#e74c3c',
+        icon: '🔥',
+        generates: '火生土',
+        restricts: '火克金',
+        characteristics: ['热情开朗', '重礼守规', '有感染力', '有远见'],
+        professions: ['领导人', '表演艺术家', '公关', '教育工作者']
+    }, {
+        element: '土',
+        description: '厚德载物，包容万有，具有承载与诚信之性',
+        direction: '中',
+        season: '长夏',
+        color: '黄色',
+        colorHex: '#f1c40f',
+        icon: '⛰️',
+        generates: '土生金',
+        restricts: '土克水',
+        characteristics: ['稳重诚实', '脚踏实地', '有包容心', '善于协调'],
+        professions: ['管理者', '农民', '建筑师', '人力资源']
+    }];
+
+    // =============================================================
+    // 新增数据：每日一签（灵感签）
+    // =============================================================
+    const DAILY_SIGNS = [{
+        // ... 原有16句保持不变 ...
+        original: '道可道，非常道；名可名，非常名。',
+        translation: '可以用语言表达的道，就不是永恒的道；可以用名称称呼的名，就不是永恒的名。',
+        interpretation: '真正的智慧超越语言与概念，用心感受比用脑分析更重要。',
+        source: '《道德经》第一章',
+        category: '道'
+    }, {
+        original: '上善若水。水善利万物而不争，处众人之所恶，故几于道。',
+        translation: '最高的善就像水一样。水善于滋润万物而不与万物相争，停留在众人都不喜欢的地方，所以最接近道。',
+        interpretation: '学习水的品质：柔软包容、谦卑不争、滋养万物。今日宜以柔和之心对待人与事。',
+        source: '《道德经》第八章',
+        category: '德'
+    }, {
+        original: '人法地，地法天，天法道，道法自然。',
+        translation: '人取法地，地取法天，天取法道，道取法自然。',
+        interpretation: '回归自然的节奏，不强迫、不抗拒。今日宜顺其自然，让事情按其本性发展。',
+        source: '《道德经》第二十五章',
+        category: '自然'
+    }, {
+        original: '合抱之木，生于毫末；九层之台，起于累土；千里之行，始于足下。',
+        translation: '合抱的大树，生于细小的幼苗；九层的高台，起于一筐筐泥土；千里的远行，始于脚下的第一步。',
+        interpretation: '伟大的成就始于微小的积累。今日宜关注当下，踏实走好每一步。',
+        source: '《道德经》第六十四章',
+        category: '无为'
+    }, {
+        original: '祸兮福之所倚，福兮祸之所伏。',
+        translation: '灾祸啊，幸福紧靠在它旁边；幸福啊，灾祸潜伏在它里面。',
+        interpretation: '得失之间，本是循环。今日若遇挫折，或许正是转机；若逢喜事，亦需保持清醒。',
+        source: '《道德经》第五十八章',
+        category: '道'
+    }, {
+        original: '致虚极，守静笃。万物并作，吾以观复。',
+        translation: '追求心灵的空灵极致，坚守内心的宁静专注。万物都在蓬勃生长，我从中观察到它们循环往复的规律。',
+        interpretation: '在纷繁中找回内心的宁静，静观万物之变。今日宜留出片刻静坐，让心回归清澈。',
+        source: '《道德经》第十六章',
+        category: '静'
+    }, {
+        original: '柔弱胜刚强。',
+        translation: '柔弱可以战胜刚强。',
+        interpretation: '真正的力量不在于对抗，而在于韧性。今日宜以柔和的姿态面对冲突，以退为进。',
+        source: '《道德经》第三十六章',
+        category: '柔'
+    }, {
+        original: '天地与我并生，而万物与我为一。',
+        translation: '天地与我一同存在，万物和我合为一体。',
+        interpretation: '你并不孤独，你是天地万物的共同存在。今日宜感受与万物的连接，心怀感恩。',
+        source: '《庄子·齐物论》',
+        category: '自然'
+    }, {
+        original: '夫唯不争，故天下莫能与之争。',
+        translation: '正因为不与人争，所以天下没有人能和他相争。',
+        interpretation: '不争之争，是最高明的争。今日宜放下比较之心，专注做好自己。',
+        source: '《道德经》第二十二章',
+        category: '不争'
+    }, {
+        original: '天下难事，必作于易；天下大事，必作于细。',
+        translation: '天下所有的难事，一定要从简单的事情做起；天下所有的大事，一定要从细微的地方入手。',
+        interpretation: '化繁为简，积小成大。今日宜分解目标，从最小的一步开始行动。',
+        source: '《道德经》第六十三章',
+        category: '无为'
+    }, {
+        original: '为学日益，为道日损。损之又损，以至于无为。',
+        translation: '求学的人，知识一天比一天增加；求道的人，欲念一天比一天减少。减少又减少，到最后达到无为的境界。',
+        interpretation: '成长不只是做加法，更需要做减法。今日宜放下一些不必要的执念，让心灵更轻盈。',
+        source: '《道德经》第四十八章',
+        category: '无为'
+    }, {
+        original: '北冥有鱼，其名为鲲。鲲之大，不知其几千里也。化而为鸟，其名为鹏。',
+        translation: '北海有一条鱼，名字叫鲲。鲲的大，不知道有几千里。变化成鸟，名字叫鹏。',
+        interpretation: '生命蕴含无限的潜能与可能性。今日宜突破自我设限，拥抱变化与成长。',
+        source: '《庄子·逍遥游》',
+        category: '自然'
+    }, {
+        original: '知者不言，言者不知。',
+        translation: '真正智慧的人不夸夸其谈，夸夸其谈的人不一定真有智慧。',
+        interpretation: '沉默是金的智慧。今日宜多倾听、少说教，在静默中体会更多。',
+        source: '《道德经》第五十六章',
+        category: '静'
+    }, {
+        original: '大方无隅，大器晚成，大音希声，大象无形。',
+        translation: '最方正的东西没有棱角，最大的器物最后完成，最大的声音听不到声音，最大的形象没有形状。',
+        interpretation: '真正伟大的事物往往不以显赫的姿态呈现。今日宜透过现象看本质，不轻易下判断。',
+        source: '《道德经》第四十一章',
+        category: '道'
+    }, {
+        original: '知足不辱，知止不殆。',
+        translation: '知道满足就不会受辱，知道适可而止就不会遇到危险。',
+        interpretation: '欲望无穷，但生命有限。今日宜知足常乐，珍惜已经拥有的一切。',
+        source: '《道德经》第四十四章',
+        category: '德'
+    }, {
+        original: '大巧若拙，大辩若讷。',
+        translation: '最灵巧的东西反而显得笨拙，最善于辩论的人反而显得木讷。',
+        interpretation: '真正的高手往往看起来朴实无华。今日宜以质朴之心待人接物，不刻意表现。',
+        source: '《道德经》第四十五章',
+        category: '德'
+    },
+
+        // ---------- 新增20句 ----------
+        {
+            original: '道常无为而无不为。',
+            translation: '道永远是顺其自然无所作为的，却又没有一件事情不是它所为。',
+            interpretation: '最高的作为是不刻意作为。今日宜放下控制欲，信任生命的自然流动。',
+            source: '《道德经》第三十七章',
+            category: '无为'
+        }, {
+            original: '反者道之动，弱者道之用。',
+            translation: '相反相成是道的运动规律，柔弱谦下是道的作用方式。',
+            interpretation: '事物发展到极致就会转向反面。今日若处顺境，宜谦卑自省；若处逆境，静待转机。',
+            source: '《道德经》第四十章',
+            category: '道'
+        }, {
+            original: '万物负阴而抱阳，冲气以为和。',
+            translation: '万物背负着阴气而怀抱着阳气，阴阳二气相互激荡而达到和谐。',
+            interpretation: '平衡是万物的本质。今日宜在动与静、忙与闲之间找到自己的节奏。',
+            source: '《道德经》第四十二章',
+            category: '自然'
+        }, {
+            original: '天下之至柔，驰骋天下之至坚。',
+            translation: '天下最柔软的东西，能够驾驭天下最坚硬的东西。',
+            interpretation: '柔软的力量往往最持久。今日宜用理解代替对抗，用包容代替指责。',
+            source: '《道德经》第四十三章',
+            category: '柔'
+        }, {
+            original: '圣人不积，既以为人己愈有，既以与人己愈多。',
+            translation: '圣人不积蓄，尽力帮助别人，自己反而更充足；尽力给予别人，自己反而更丰富。',
+            interpretation: '真正的富足来自给予。今日宜慷慨分享自己的时间、善意或知识。',
+            source: '《道德经》第八十一章',
+            category: '德'
+        }, {
+            original: '飘风不终朝，骤雨不终日。',
+            translation: '狂风刮不了一整个早上，暴雨下不了一整天。',
+            interpretation: '再猛烈的情绪和困难都会过去。今日若感到焦虑或愤怒，提醒自己：这也会过去。',
+            source: '《道德经》第二十三章',
+            category: '自然'
+        }, {
+            original: '夫物芸芸，各复归其根。归根曰静，是谓复命。',
+            translation: '万物纷纷纭纭，最终都要回归到自己的根源。回归根源叫做静，这叫做回归生命的本质。',
+            interpretation: '喧嚣过后，总要回归内在的宁静。今日宜留出与自己独处的时光。',
+            source: '《道德经》第十六章',
+            category: '静'
+        }, {
+            original: '知人者智，自知者明。胜人者有力，自胜者强。',
+            translation: '了解别人是智慧，了解自己才是真正的明智。战胜别人是有力量，战胜自己才是真正的强大。',
+            interpretation: '真正的成长是与自己比较。今日宜反思自我，而非评判他人。',
+            source: '《道德经》第三十三章',
+            category: '德'
+        }, {
+            original: '不出户，知天下；不窥牖，见天道。',
+            translation: '不出大门，就能知道天下的事理；不望窗外，就能了解自然的规律。',
+            interpretation: '内在的觉知比外在的信息更重要。今日宜减少外界干扰，倾听内心的声音。',
+            source: '《道德经》第四十七章',
+            category: '静'
+        }, {
+            original: '泉涸，鱼相与处于陆，相呴以湿，相濡以沫，不如相忘于江湖。',
+            translation: '泉水干涸了，鱼儿们一起困在陆地上，用湿气互相呼吸，用口沫互相湿润，还不如在江湖中互相忘记。',
+            interpretation: '与其在困境中相互扶持，不如各自在适合自己的环境中自由生活。今日宜尊重彼此的空间。',
+            source: '《庄子·大宗师》',
+            category: '自然'
+        }, {
+            original: '吾生也有涯，而知也无涯。以有涯随无涯，殆矣。',
+            translation: '我的生命是有限的，而知识是无限的。用有限的生命去追求无限的知识，那就危险了。',
+            interpretation: '不必追逐所有，选择真正重要的。今日宜放下对信息的焦虑，专注内在的成长。',
+            source: '《庄子·养生主》',
+            category: '无为'
+        }, {
+            original: '天地有大美而不言。',
+            translation: '天地拥有最伟大的美，却不言不语。',
+            interpretation: '真正的美好无需言语。今日宜用眼睛和心灵去发现生活中的美，而非用言语评判。',
+            source: '《庄子·知北游》',
+            category: '自然'
+        }, {
+            original: '不以物挫志。',
+            translation: '不因为外在的事物而挫败自己的心志。',
+            interpretation: '外界的评价和得失不能动摇你的内在价值。今日宜保持内心的定力，不被外物牵引。',
+            source: '《庄子·天地》',
+            category: '不争'
+        }, {
+            original: '其安易持，其未兆易谋。',
+            translation: '局面安定时容易保持，事态未露苗头时容易筹划。',
+            interpretation: '未雨绸缪胜过亡羊补牢。今日宜静观当下的状态，在问题萌芽前就做好准备。',
+            source: '《道德经》第六十四章',
+            category: '无为'
+        }, {
+            original: '圣人之道，为而不争。',
+            translation: '圣人的处事之道，是有所作为但不与人争。',
+            interpretation: '做好自己的事，不必与人攀比。今日宜专注自己的道路，而非他人的节奏。',
+            source: '《道德经》第八十一章',
+            category: '不争'
+        }, {
+            original: '大象无形，道隐无名。',
+            translation: '最大的形象没有形状，大道隐藏着没有名称。',
+            interpretation: '最根本的东西往往最不显眼。今日宜珍惜那些平凡但重要的人和事。',
+            source: '《道德经》第四十一章',
+            category: '道'
+        }, {
+            original: '知其荣，守其辱，为天下谷。',
+            translation: '知道什么是荣耀，却安守着卑微的地位，甘做天下的山谷。',
+            interpretation: '真正的高贵在于谦卑。今日宜保持低调，虚怀若谷。',
+            source: '《道德经》第二十八章',
+            category: '德'
+        }, {
+            original: '至人无己，神人无功，圣人无名。',
+            translation: '真正完善的人没有私己之心，神人不求功绩，圣人不求名声。',
+            interpretation: '放下自我，才能成就更大的自我。今日宜放下对认可和回报的期待。',
+            source: '《庄子·逍遥游》',
+            category: '无为'
+        }, {
+            original: '道生之，德畜之，物形之，势成之。',
+            translation: '道生成万物，德养育万物，万物呈现出各种形态，环境使万物得以成长。',
+            interpretation: '万事万物都是因缘和合而成。今日宜感恩生命中所有的助缘与滋养。',
+            source: '《道德经》第五十一章',
+            category: '自然'
+        }, {
+            original: '美言可以市尊，美行可以加人。',
+            translation: '美好的言语可以赢得尊重，美好的行为可以感化他人。',
+            interpretation: '言行皆有力量。今日宜以善言善行温暖身边之人。',
+            source: '《道德经》第六十二章',
+            category: '德'
+        }];
+
+    // =============================================================
+    // 新增数据：静心引导语
+    // =============================================================
+    const MEDITATION_GUIDES = [
+        // ... 原有8句保持不变 ...
+        '🌿 闭上眼睛，感受呼吸的流动。一呼一吸，与天地同频。',
+        '🍃 放下所有的念头，让心像湖水一样平静。',
+        '🌅 吸气时，感受生命的能量；呼气时，释放所有的疲惫。',
+        '🌙 放松肩膀，放松眉心，让身体成为柔软的容器。',
+        '🌸 此刻，你在这里，完整地在这里。没有过去，没有未来。',
+        '⛰️ 如山般沉稳，如水般流动。动静之间，皆是修行。',
+        '🌟 观想一道温暖的光，从头顶洒落，充满全身。',
+        '🍂 万物皆流，唯有此刻永恒。安住于当下。',
+
+        // ---------- 新增20句 ----------
+        '☀️ 清晨的第一缕光，唤醒沉睡的身体。每一次吸气，都是崭新的开始。',
+        '🌊 像海浪拥抱沙滩，让呼吸拥抱你的每一寸细胞。退潮时，带走所有紧张。',
+        '🌌 仰望内心的星空，思绪如流星划过，不留痕迹。只有浩瀚的宁静。',
+        '🕊️ 轻轻数着呼吸：一，放下过去；二，不忧未来；三，全然在此。',
+        '🌱 感觉自己像一颗种子，在寂静中扎根，在呼吸中向上生长。',
+        '💧 观想一滴甘露，从眉心滴落，顺着脊柱，洗净所有的疲惫与杂念。',
+        '🎋 如竹之虚心，如风之过隙。让念头来去自如，心不动。',
+        '🌄 你是一座山，云雾（思绪）缭绕，但山的本质从未改变。',
+        '🍵 如品一盏清茶，感受气息的温润。苦后回甘，正如静坐后的清明。',
+        '🌪️ 任思绪如风，你只需做那观风之人。不抓取，不排斥。',
+        '🪷 心似莲花开，淤泥（烦恼）之下，是清澈如水的觉知。',
+        '🎐 听，不是用耳朵，而是用整个身体去聆听这份寂静的声音。',
+        '🌿 将手轻放于小腹，感受呼吸推动生命的律动。一开一合，宇宙同息。',
+        '🏔️ 吸气，与高山同在；呼气，与白云同游。身心无限宽广。',
+        '💫 像尘埃落定，身体慢慢下沉。沉入大地，沉入存在的基底。',
+        '🍁 觉察每一个微小的感受，不加评判。它们升起，停留，然后自然消逝。',
+        '🌊 让呼吸成为你的锚。在风浪（情绪）中，稳住这艘船。',
+        '☁️ 你是天空，念头是云朵。云来云往，天空依旧湛蓝。',
+        '🔥 观想腹部有一团温暖的火，融化所有的僵硬与抗拒。',
+        '🌳 想象自己是一棵古树，双脚扎根大地，双手伸向天空。稳定而柔软。',
+        '🌙 将注意力放在眉心，如月光倾泻，照亮内在幽暗的角落。',
+        '🪶 每一次呼气，像羽毛轻轻飘落。越来越轻，越来越静。',
+        '🌌 感受心跳的节奏，那是宇宙最原始的鼓点。与之共振，万物归一。',
+        '🌸 你既是赏花人，也是花本身。在呼吸中绽放，在寂静中凋零。',
+        '🌬️ 吸，我知我在；呼，我放下我执。这一息之间，便是自由。',
+        '⛅ 让肩膀如云般轻盈，让眉头如风般舒展。此刻，你无事可做。',
+        '🌊 观想自己站在海边，每一个念头都是波浪，你是不动的海岸。',
+        '🕯️ 凝视心中的烛火，不为风动。光明虽小，足以驱散千年暗。'
+    ];
+
+    // =============================================================
+    // 新增数据：四时养生
+    // =============================================================
+    const SEASONS_DATA = {
+        spring: {
+            name: '春',
+            icon: '🌱',
+            element: '木',
+            elementIcon: '🌳',
+            months: [2, 3, 4],
+            advice: {
+                diet: '宜食辛甘发散之品，如韭菜、葱、蒜、豆芽、香菜，助阳气生发。',
+                lifestyle: '夜卧早起，广步于庭，多伸懒腰，舒展筋骨。',
+                emotion: '保持乐观开朗，多与人交流，顺应春生之气。'
+            }
+        },
+        summer: {
+            name: '夏',
+            icon: '☀️',
+            element: '火',
+            elementIcon: '🔥',
+            months: [5, 6, 7],
+            advice: {
+                diet: '宜食清凉解暑之品，如苦瓜、绿豆、西瓜、荷叶，养心清热。',
+                lifestyle: '夜卧早起，适当午休，避免暴晒，保持心静。',
+                emotion: '调息静心，常如冰雪在心，防心火过旺。'
+            }
+        },
+        lateSummer: {
+            name: '长夏',
+            icon: '🌾',
+            element: '土',
+            elementIcon: '⛰️',
+            months: [8, 9],
+            advice: {
+                diet: '宜食健脾祛湿之品，如山药、薏米、茯苓、冬瓜。',
+                lifestyle: '注意防暑湿，适当运动出汗，勿贪凉。',
+                emotion: '心平气和，思虑有度，养护脾胃之气。'
+            }
+        },
+        autumn: {
+            name: '秋',
+            icon: '🍂',
+            element: '金',
+            elementIcon: '⚔️',
+            months: [9, 10, 11],
+            advice: {
+                diet: '宜食滋阴润肺之品，如梨、百合、银耳、白萝卜。',
+                lifestyle: '早卧早起，收敛神气，适当添衣防凉。',
+                emotion: '收敛情绪，勿悲勿躁，保持内心安宁。'
+            }
+        },
+        winter: {
+            name: '冬',
+            icon: '❄️',
+            element: '水',
+            elementIcon: '💧',
+            months: [12, 1, 2],
+            advice: {
+                diet: '宜食温补助阳之品，如羊肉、核桃、黑豆、生姜。',
+                lifestyle: '早卧晚起，必待日光，避寒就温。',
+                emotion: '静心养藏，勿扰动阳气，蓄势待发。'
+            }
+        }
+    };
+
+    // 季节顺序（用于展示）
+    const SEASON_ORDER = ['spring', 'summer', 'lateSummer', 'autumn', 'winter'];
+
+    // =============================================================
+    // 2. 工具函数
+    // =============================================================
+
+    function randomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function pickRandom(arr) {
+        return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function formatDate(d) {
+        const y = d.getFullYear();
+        const m = String(d.getMonth() + 1).padStart(2, '0');
+        const day = String(d.getDate()).padStart(2, '0');
+        return y + '年' + m + '月' + day + '日';
+    }
+
+    // =============================================================
+    // 3. 运势逻辑
+    // =============================================================
+
+    function getDailyFortune(zodiac) {
+        if (!ZODIACS.includes(zodiac)) {
+            zodiac = pickRandom(ZODIACS);
+        }
+        const template = pickRandom(FORTUNE_TEMPLATES);
+
+        const allColors = ['红色', '金色', '蓝色', '绿色', '紫色', '白色', '黑色', '黄色', '棕色', '粉色', '银色', '米色', '灰色', '深蓝'];
+        const luckyColors = [];
+        const count = randomInt(2, 4);
+        while (luckyColors.length < count) {
+            const c = pickRandom(allColors);
+            if (!luckyColors.includes(c)) luckyColors.push(c);
+        }
+
+        const luckyNumbers = [];
+        while (luckyNumbers.length < 3) {
+            const n = randomInt(1, 9);
+            if (!luckyNumbers.includes(n)) luckyNumbers.push(n);
+        }
+
+        return {
+            date: formatDate(new Date()),
+            zodiac: zodiac,
+            luckLevel: template.luckLevel,
+            luckScore: template.luckScore,
+            summary: template.summary,
+            career: template.career,
+            love: template.love,
+            wealth: template.wealth,
+            luckyColors: luckyColors,
+            luckyNumbers: luckyNumbers,
+            advice: template.advice
+        };
+    }
+
+    // =============================================================
+    // 4. 渲染函数
+    // =============================================================
+
+    // ----- 4a. 渲染运势 -----
+    // 渲染运势函数（使用 innerHTML 整体替换）
+    function renderFortune(fortune) {
+        const container = document.getElementById('fortuneResult');
+        if (!container) {
+            console.error('❌ fortuneResult 元素不存在');
+            return;
+        }
+
+        const colorMap = {
+            '红色': '#ff6b6b',
+            '金色': '#ffd700',
+            '蓝色': '#4a9eff',
+            '绿色': '#51cf66',
+            '紫色': '#9775fa',
+            '白色': '#f0f0f0',
+            '黑色': '#343a40',
+            '黄色': '#ffd93d',
+            '棕色': '#a67c52',
+            '粉色': '#f8a5c2',
+            '银色': '#c0c0c0',
+            '米色': '#f5e6d3',
+            '灰色': '#adb5bd',
+            '深蓝': '#1a2a6c'
+        };
+
+        const colorsHtml = fortune.luckyColors.map(c =>
+            `<span class="color-tag" style="background:${colorMap[c] || '#ccc'};color:${['白色','黄色','金色','米色','粉色'].includes(c)?'#333':'#fff'}">${c}</span>`
+        ).join('');
+
+        // 🔥 直接替换整个容器内容（占位 → 运势结果）
+        container.innerHTML = `
+        <div class="fortune-card">
+            <div class="fortune-header">
+                <span class="fortune-date">📅 ${fortune.date}</span>
+                <span class="fortune-zodiac">🐉 ${fortune.zodiac}</span>
+                <span class="fortune-level" data-level="${fortune.luckLevel}">${fortune.luckLevel}</span>
+            </div>
+            <div class="fortune-score">
+                <span class="score-label">运势指数</span>
+                <span class="score-value">${fortune.luckScore}</span>
+            </div>
+            <div class="fortune-details">
+                <div class="detail-item"><i class="fas fa-bullseye"></i> 总运势：${fortune.summary}</div>
+                <div class="detail-item"><i class="fas fa-briefcase"></i> 事业：${fortune.career}</div>
+                <div class="detail-item"><i class="fas fa-heart"></i> 感情：${fortune.love}</div>
+                <div class="detail-item"><i class="fas fa-coins"></i> 财运：${fortune.wealth}</div>
+            </div>
+            <div class="fortune-extra">
+                <div><span>🎨 幸运色：</span> ${colorsHtml}</div>
+                <div><span>🔢 幸运数字：</span> ${fortune.luckyNumbers.join('、')}</div>
+                <div class="advice"><span>💡 建议：</span> ${fortune.advice}</div>
+            </div>
+        </div>
+    `;
+
+        container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // ----- 4b. 渲染道家名言 -----
+    function renderQuotes(quotes) {
+        const container = document.getElementById('daoismQuotes');
+        if (!quotes || quotes.length === 0) {
+            container.innerHTML = '<p style="text-align:center;color:#8b7a6a;padding:30px 0;">📭 暂无相关名言</p>';
+            return;
+        }
+        container.innerHTML = quotes.map(q => `
+                <div class="quote-card">
+                    <div class="quote-source">📖 ${q.source} · ${q.chapter}</div>
+                    <div class="quote-original">${q.original}</div>
+                    <div class="quote-translation">📝 ${q.translation}</div>
+                    <div class="quote-interpretation">💭 ${q.interpretation}</div>
+                    <span class="quote-category"># ${q.category}</span>
+                </div>
+            `).join('');
+    }
+
+    // ----- 4c. 渲染五行 -----
+    function renderElements() {
+        const grid = document.getElementById('elementsGrid');
+        grid.innerHTML = FIVE_ELEMENTS.map(el => `
+                <div class="element-card">
+                    <span class="element-icon">${el.icon}</span>
+                    <div class="element-name">${el.element}</div>
+                    <div class="element-desc">${el.description}</div>
+                    <div class="element-detail">方位：${el.direction} · 季节：${el.season}</div>
+                    <div class="element-color" style="background:${el.colorHex};"></div>
+                    <div class="element-detail" style="margin-top:6px;font-size:11px;">
+                        相生：${el.generates} | 相克：${el.restricts}
+                    </div>
+                </div>
+            `).join('');
+    }
+
+    // ----- 4d. 渲染每日一签 -----
+    function renderDailySign(sign) {
+        if (!sign) sign = pickRandom(DAILY_SIGNS);
+        document.getElementById('signOriginal').textContent = sign.original;
+        document.getElementById('signTranslation').textContent = sign.translation;
+        document.getElementById('signInterpretation').textContent = sign.interpretation;
+        document.getElementById('signSource').textContent = '——' + sign.source;
+        document.getElementById('signCategory').textContent = '# ' + sign.category;
+        // 更新日期
+        document.getElementById('signDate').textContent = '📅 ' + formatDate(new Date());
+    }
+
+    // ----- 4e. 渲染四时养生 -----
+    function renderSeason() {
+        const now = new Date();
+        const month = now.getMonth() + 1; // 1-12
+
+        // 判断当前季节
+        let currentSeasonKey = 'spring';
+        if (month >= 3 && month <= 5) currentSeasonKey = 'spring';
+        else if (month >= 6 && month <= 8) currentSeasonKey = 'summer';
+        else if (month >= 9 && month <= 10) currentSeasonKey = 'lateSummer';
+        else if (month >= 11 && month <= 12) currentSeasonKey = 'autumn';
+        else if (month >= 1 && month <= 2) currentSeasonKey = 'winter';
+
+        // 如果月份在 9-10 月，长夏；但传统上 9-11 是秋，我调整一下
+        // 更准确：春 3-5，夏 6-8，秋 9-11，冬 12-2
+        if (month >= 3 && month <= 5) currentSeasonKey = 'spring';
+        else if (month >= 6 && month <= 8) currentSeasonKey = 'summer';
+        else if (month >= 9 && month <= 11) currentSeasonKey = 'autumn';
+        else currentSeasonKey = 'winter';
+
+        const season = SEASONS_DATA[currentSeasonKey];
+
+        // 渲染当前季节
+        const currentEl = document.getElementById('seasonCurrent');
+        currentEl.innerHTML = `
+                <div class="season-icon">${season.icon}</div>
+                <div class="season-info">
+                    <div class="name">${season.name}季 · 养${season.element}</div>
+                    <div class="sub">${season.elementIcon} 五行属 ${season.element}</div>
+                    <span class="element-tag">当前正值 ${season.name}季，宜顺应天时，养护${season.element}气</span>
+                </div>
+            `;
+
+        // 渲染所有季节
+        const grid = document.getElementById('seasonGrid');
+        const seasonNames = {
+            spring: '春',
+            summer: '夏',
+            lateSummer: '长夏',
+            autumn: '秋',
+            winter: '冬'
+        };
+        const seasonIcons = {
+            spring: '🌱',
+            summer: '☀️',
+            lateSummer: '🌾',
+            autumn: '🍂',
+            winter: '❄️'
+        };
+
+        grid.innerHTML = SEASON_ORDER.map(key => {
+            const s = SEASONS_DATA[key];
+            const isActive = key === currentSeasonKey;
+            return `
+                    <div class="season-card" style="${isActive ? 'border-color:#8b6b4d;background:#f8f0e8;' : ''}">
+                        <span class="card-icon">${s.icon}</span>
+                        <div class="card-title">${seasonNames[key]}季 · 养${s.element}</div>
+                        <div class="card-content">
+                            <li><strong>🍲 饮食：</strong>${s.advice.diet}</li>
+                            <li><strong>🧘 起居：</strong>${s.advice.lifestyle}</li>
+                            <li><strong>💭 情志：</strong>${s.advice.emotion}</li>
+                        </div>
+                    </div>
+                `;
+        }).join('');
+    }
+
+    // =============================================================
+    // 5. 冥想计时器逻辑
+    // =============================================================
+    let meditationTimer = null;
+    let meditationSeconds = 300; // 默认5分钟
+    let meditationRemaining = 300;
+    let isMeditationRunning = false;
+    let guideInterval = null;
+
+    function updateTimerDisplay() {
+        const mins = Math.floor(meditationRemaining / 60);
+        const secs = meditationRemaining % 60;
+        document.getElementById('timerDisplay').textContent =
+            String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
+    }
+
+    function updateGuide() {
+        const guideText = document.getElementById('guideText');
+        const guide = pickRandom(MEDITATION_GUIDES);
+        guideText.textContent = guide;
+    }
+
+    function startMeditation() {
+        if (isMeditationRunning) return;
+
+        // 如果剩余时间为0或负，重置到预设
+        if (meditationRemaining <= 0) {
+            meditationRemaining = meditationSeconds;
+            updateTimerDisplay();
+        }
+
+        isMeditationRunning = true;
+        const startBtn = document.getElementById('meditationStartBtn');
+        startBtn.innerHTML = '<i class="fas fa-pause"></i> 暂停';
+        startBtn.classList.add('running');
+
+        // 立即显示一条引导语
+        updateGuide();
+
+        // 每20秒更换引导语
+        guideInterval = setInterval(updateGuide, 20000);
+
+        meditationTimer = setInterval(() => {
+            meditationRemaining--;
+            updateTimerDisplay();
+
+            // 最后10秒闪烁提示
+            if (meditationRemaining <= 10 && meditationRemaining > 0) {
+                const display = document.getElementById('timerDisplay');
+                display.style.color = meditationRemaining % 2 === 0 ? '#c0392b' : '#4a3728';
+            }
+
+            if (meditationRemaining <= 0) {
+                clearInterval(meditationTimer);
+                clearInterval(guideInterval);
+                isMeditationRunning = false;
+                const btn = document.getElementById('meditationStartBtn');
+                btn.innerHTML = '<i class="fas fa-play"></i> 开始';
+                btn.classList.remove('running');
+                document.getElementById('timerDisplay').style.color = '#4a3728';
+                document.getElementById('guideText').textContent = '🧘 静心圆满。愿这份宁静伴随你。';
+                // 播放完成提示音（使用Web Audio API）
+                try {
+                    const ctx = new(window.AudioContext || window.webkitAudioContext)();
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.frequency.value = 523;
+                    osc.type = 'sine';
+                    gain.gain.setValueAtTime(0.3, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 1);
+                    osc.start(ctx.currentTime);
+                    osc.stop(ctx.currentTime + 1);
+                } catch (e) { /* 静默降级 */ }
+            }
+        }, 1000);
+    }
+
+    function pauseMeditation() {
+        if (!isMeditationRunning) return;
+        clearInterval(meditationTimer);
+        clearInterval(guideInterval);
+        isMeditationRunning = false;
+        const btn = document.getElementById('meditationStartBtn');
+        btn.innerHTML = '<i class="fas fa-play"></i> 继续';
+        btn.classList.remove('running');
+    }
+
+    function resetMeditation() {
+        clearInterval(meditationTimer);
+        clearInterval(guideInterval);
+        isMeditationRunning = false;
+        meditationRemaining = meditationSeconds;
+        updateTimerDisplay();
+        document.getElementById('timerDisplay').style.color = '#4a3728';
+        const btn = document.getElementById('meditationStartBtn');
+        btn.innerHTML = '<i class="fas fa-play"></i> 开始';
+        btn.classList.remove('running');
+        document.getElementById('guideText').textContent = '🧘 点击「开始」，进入静心时光。深呼吸，放下杂念。';
+    }
+
+    function setMeditationMinutes(minutes) {
+        if (isMeditationRunning) return;
+        meditationSeconds = minutes * 60;
+        meditationRemaining = meditationSeconds;
+        updateTimerDisplay();
+        document.getElementById('timerDisplay').style.color = '#4a3728';
+
+        // 更新预设按钮样式
+        document.querySelectorAll('.btn-preset').forEach(btn => {
+            btn.classList.toggle('active-preset', parseInt(btn.dataset.minutes) === minutes);
+        });
+    }
+
+    // =============================================================
+    // 6. 事件绑定与初始化
+    // =============================================================
+
+    // ----- 6a. Tab 切换 -----
+    document.querySelectorAll('nav a').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+            this.classList.add('active');
+
+            const tab = this.dataset.tab;
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.getElementById(tab + '-tab').classList.add('active');
+
+            // 切换到静心Tab时，重置计时器显示（但不停止正在运行的计时器）
+            if (tab === 'meditation') {
+                // 什么都不做，保持状态
+            }
+            if (tab === 'season') {
+                renderSeason();
+            }
+        });
+    });
+
+    // ----- 6b. 运势 -----
+    const zodiacSelect = document.getElementById('zodiacSelect');
+    ZODIACS.forEach(z => {
+        const opt = document.createElement('option');
+        opt.value = z;
+        opt.textContent = z;
+        zodiacSelect.appendChild(opt);
+    });
+
+    // 点击查看运势时，隐藏占位，显示结果
+    document.getElementById('getFortuneBtn').addEventListener('click', function() {
+        const zodiac = zodiacSelect.value;
+        if (!zodiac) {
+            alert('请先选择您的生肖 🐉');
+            return;
+        }
+        const fortune = getDailyFortune(zodiac);
+        renderFortune(fortune);
+    });
+
+    // ----- 6c. 道家名言 -----
+    const categorySelect = document.getElementById('categorySelect');
+    const categories = [...new Set(DAOISM_QUOTES.map(q => q.category))];
+    categories.forEach(cat => {
+        const opt = document.createElement('option');
+        opt.value = cat;
+        opt.textContent = cat;
+        categorySelect.appendChild(opt);
+    });
+
+    function filterQuotes() {
+        const cat = categorySelect.value;
+        if (cat === 'all') {
+            renderQuotes(DAOISM_QUOTES);
+        } else {
+            const filtered = DAOISM_QUOTES.filter(q => q.category === cat);
+            renderQuotes(filtered);
+        }
+    }
+
+    categorySelect.addEventListener('change', filterQuotes);
+
+    document.getElementById('randomQuoteBtn').addEventListener('click', function() {
+        const random = pickRandom(DAOISM_QUOTES);
+        renderQuotes([random]);
+    });
+
+    // ----- 6d. 五行 -----
+    renderElements();
+
+    // ----- 6e. 每日一签 -----
+    // 尝试从 localStorage 读取今日签，如果日期不同则刷新
+    function loadDailySign() {
+        const today = formatDate(new Date());
+        const stored = localStorage.getItem('dailySign');
+        const storedDate = localStorage.getItem('dailySignDate');
+        if (stored && storedDate === today) {
+            try {
+                const sign = JSON.parse(stored);
+                renderDailySign(sign);
+                return;
+            } catch (e) { /* ignore */ }
+        }
+        // 否则随机选一个
+        const sign = pickRandom(DAILY_SIGNS);
+        localStorage.setItem('dailySign', JSON.stringify(sign));
+        localStorage.setItem('dailySignDate', today);
+        renderDailySign(sign);
+    }
+
+    document.getElementById('refreshSignBtn').addEventListener('click', function() {
+        const sign = pickRandom(DAILY_SIGNS);
+        renderDailySign(sign);
+        // 也更新 localStorage
+        localStorage.setItem('dailySign', JSON.stringify(sign));
+        localStorage.setItem('dailySignDate', formatDate(new Date()));
+    });
+
+    // ----- 6f. 冥想计时器 -----
+    document.getElementById('meditationStartBtn').addEventListener('click', function() {
+        if (isMeditationRunning) {
+            pauseMeditation();
+        } else {
+            // 如果当前显示的是 "继续"，说明是暂停状态，直接恢复
+            if (this.innerHTML.includes('继续')) {
+                startMeditation();
+            } else {
+                startMeditation();
+            }
+        }
+    });
+
+    document.getElementById('meditationResetBtn').addEventListener('click', resetMeditation);
+
+    document.querySelectorAll('.btn-preset').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const minutes = parseInt(this.dataset.minutes);
+            setMeditationMinutes(minutes);
+        });
+    });
+
+    // 初始化计时器显示
+    setMeditationMinutes(5);
+
+    // ----- 6g. 四时养生 -----
+    renderSeason();
+
+    // =============================================================
+    // 7. 页面加载完成后的默认展示
+    // =============================================================
+
+    // 默认显示所有名言
+    renderQuotes(DAOISM_QUOTES);
+
+    // 加载每日一签
+    loadDailySign();
+
+    // 控制台欢迎
+    console.log('🎋 传统文化智慧平台已加载');
+    console.log('📜 共 ' + DAOISM_QUOTES.length + ' 条道家名言');
+    console.log('🌟 共 ' + FIVE_ELEMENTS.length + ' 种五行属性');
+    console.log('🐉 共 ' + ZODIACS.length + ' 个生肖');
+    console.log('🎋 共 ' + DAILY_SIGNS.length + ' 条每日灵签');
+    console.log('✨ 道法自然 · 天人合一');
+</script>
+
 </body>
 </html>
