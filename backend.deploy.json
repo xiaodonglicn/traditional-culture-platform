@@ -1,6 +1,6 @@
 {
-  "runtime": "Java",
-  "buildCommand": "mvn clean package -DskipTests",
-  "startCommand": "java -jar target/*.jar",
+  "type": "container",
+  "runtime": "docker",
+  "entry": "Dockerfile",
   "port": 8080
 }

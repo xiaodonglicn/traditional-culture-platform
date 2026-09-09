@@ -1,0 +1,8 @@
+.idea
+.vscode
+*.iml
+*.md
+zhihu-ai-works-deploy-helper
+.git
+.gitignore
+target
