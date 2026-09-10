@@ -5,7 +5,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>传统文化智慧 · 道法自然</title>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E☯%3C/text%3E%3C/svg%3E">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        /* ===== 自定义印章字体 ===== */
+        @font-face {
+            font-family: 'FuZhuan';
+            src: url('fonts/fuzhuan-thin.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'FangZhuan';
+            src: url('fonts/fangzhuan.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'BaiZhouTaiZhuan';
+            src: url('fonts/baizhouzhuan.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+
+
+        @font-face {
+            font-family: 'JiuDieFuZhuan';
+            src: url('fonts/jiudiezhuan.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'HanDingFangZhuan';
+            src: url('fonts/handingfanzhuan.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'QingYangZiTi';
+            src: url('fonts/qingyangziti.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+
+
         /* ===== 全局重置 & 字体 ===== */
         * {
             margin: 0;
@@ -2057,6 +2111,238 @@
         }
 
         /* ========================================================= */
+        /* 新增：印章生成 */
+        /* ========================================================= */
+        .seal-container {
+            padding: 4px 0;
+        }
+
+        .seal-panel {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 24px;
+            align-items: start;
+        }
+
+        .seal-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            background: #f8f4f0;
+            border-radius: 16px;
+            padding: 24px 26px;
+        }
+
+        .seal-field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .seal-field label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #5a3e2b;
+        }
+        .seal-font-tip {
+            font-size: 12px;
+            color: #9a8b7a;
+            line-height: 1.6;
+            margin: -2px 0 2px;
+        }
+
+        .seal-field input[type="text"] {
+            padding: 10px 16px;
+            border-radius: 10px;
+            border: 2px solid #ddd;
+            font-size: 16px;
+            background: #fff;
+            color: #4a3728;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            transition: border-color 0.3s;
+        }
+
+        .seal-field input[type="text"]:focus {
+            outline: none;
+            border-color: #8b6b4d;
+        }
+
+        .seal-radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .seal-radio {
+            padding: 7px 16px;
+            border: 2px solid #e0d5c8;
+            border-radius: 30px;
+            background: #fff;
+            color: #5a3e2b;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .seal-radio:hover {
+            border-color: #c9a87c;
+        }
+
+        .seal-radio.active {
+            background: #8b6b4d;
+            border-color: #8b6b4d;
+            color: #fff;
+        }
+
+        .seal-color-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .seal-color {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+            transition: all 0.25s;
+            padding: 0;
+        }
+
+        .seal-color:hover {
+            transform: scale(1.1);
+        }
+
+        .seal-color.active {
+            box-shadow: 0 0 0 3px #8b6b4d;
+            transform: scale(1.1);
+        }
+
+        .seal-field input[type="range"] {
+            width: 100%;
+            accent-color: #8b6b4d;
+            cursor: pointer;
+        }
+
+        .seal-size-value {
+            font-size: 13px;
+            color: #8b7a6a;
+            margin-top: -2px;
+        }
+
+        .seal-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 6px;
+        }
+
+        .seal-btn-primary {
+            flex: 1;
+            padding: 11px 22px;
+            border: none;
+            border-radius: 30px;
+            background: linear-gradient(145deg, #8b6b4d, #6b4f3a);
+            color: #fff;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.25s;
+            min-width: 120px;
+        }
+
+        .seal-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(139, 107, 77, 0.32);
+        }
+
+        .seal-btn-secondary {
+            flex: 1;
+            padding: 11px 22px;
+            border: 2px solid #d5c8b8;
+            border-radius: 30px;
+            background: #fff;
+            color: #5a3e2b;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.25s;
+            min-width: 120px;
+        }
+
+        .seal-btn-secondary:hover {
+            background: #f5ede6;
+            border-color: #8b6b4d;
+        }
+
+        .seal-preview-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            position: sticky;
+            top: 20px;
+        }
+
+        .seal-preview {
+            background: linear-gradient(145deg, #fdfaf7, #f5ede6);
+            border: 2px dashed #d5c8b8;
+            border-radius: 18px;
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 300px;
+            width: 100%;
+        }
+
+        #sealCanvas {
+            display: block;
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+
+        .seal-preview-tip {
+            font-size: 13px;
+            color: #9a8b7a;
+            text-align: center;
+        }
+
+        .seal-tip {
+            font-size: 13px;
+            color: #9a8b7a;
+            text-align: center;
+            line-height: 1.8;
+            margin-top: 24px;
+        }
+
+        @media (max-width: 860px) {
+            .seal-panel {
+                grid-template-columns: 1fr;
+            }
+            .seal-preview-wrap {
+                position: static;
+                order: -1;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .seal-controls {
+                padding: 18px 16px;
+            }
+            .seal-actions {
+                flex-direction: column;
+            }
+            /* 新增：字体按钮在小屏下缩小 */
+            #sealFontGroup .seal-radio {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+        }
+
+        /* ========================================================= */
         /* 页脚 */
         /* ========================================================= */
         footer {
@@ -2400,6 +2686,7 @@
                 <div class="nav-dropdown">
                     <a data-tab="daoname">测测道号</a>
                     <a data-tab="mountains">云游名山</a>
+                    <a data-tab="seal">印章生成</a>
                 </div>
             </div>
         </nav>
@@ -2660,6 +2947,113 @@
                 <div class="mountains-grid" id="mountainsGrid"></div>
 
                 <p class="mountains-tip">💡 道家认为名山胜地乃天地灵气所钟，修道之人常择此栖隐。点击卡片可查看详情。</p>
+            </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- Tab: 印章生成 (新增) -->
+        <!-- ========================================================= -->
+        <section id="seal-tab" class="tab-content">
+            <h2><i class="fas fa-stamp"></i> 印章生成</h2>
+            <div class="seal-container">
+
+                <div class="seal-panel">
+                    <!-- 左侧：参数设置 -->
+                    <div class="seal-controls">
+                        <div class="seal-field">
+                            <label>印章文字（2-4 字）</label>
+                            <input type="text" id="sealText" maxlength="4" value="道法自然" placeholder="请输入 2-4 个字">
+                        </div>
+
+                        <div class="seal-field">
+                            <label>印章字体</label>
+                            <p class="seal-font-tip">篆书字体较大，首次使用需加载，请稍候几秒，加载后即可秒切。</p>
+                            <div class="seal-radio-group" id="sealFontGroup">
+                                <button class="seal-radio active" data-font="kaishu">楷书</button>
+                                <button class="seal-radio" data-font="fuzhuan">富篆书体</button>
+                                <button class="seal-radio" data-font="fangzhuan">繁方篆</button>
+                                <button class="seal-radio" data-font="baizhoutaizhuan">白舟太篆书</button>
+                                <button class="seal-radio" data-font="handingfangzhuan">汉鼎繁篆</button>
+                                <button class="seal-radio" data-font="jiudiefuzhuan">九叠篆</button>
+                                <button class="seal-radio" data-font="qingyangziti">青羊体</button>
+
+                            </div>
+                        </div>
+
+                        <div class="seal-field">
+                            <label>排列方式</label>
+                            <div class="seal-radio-group" id="sealLayoutGroup">
+                                <button class="seal-radio active" data-layout="auto">自动</button>
+                                <button class="seal-radio" data-layout="horizontal">横排</button>
+                                <button class="seal-radio" data-layout="vertical">竖排</button>
+                                <button class="seal-radio" data-layout="square">田字</button>
+                            </div>
+                        </div>
+
+                        <div class="seal-field">
+                            <label>印章样式</label>
+                            <div class="seal-radio-group" id="sealStyleGroup">
+                                <button class="seal-radio active" data-style="zhu">朱文（阳刻）</button>
+                                <button class="seal-radio" data-style="bai">白文（阴刻）</button>
+                            </div>
+                        </div>
+
+                        <div class="seal-field">
+                            <label>边框样式</label>
+                            <div class="seal-radio-group" id="sealBorderGroup">
+                                <button class="seal-radio active" data-border="square">方框</button>
+                                <button class="seal-radio" data-border="rounded">圆角</button>
+                                <button class="seal-radio" data-border="circle">圆形</button>
+                                <button class="seal-radio" data-border="none">无框</button>
+                            </div>
+                        </div>
+
+                        <div class="seal-field">
+                            <label>印章颜色</label>
+                            <div class="seal-color-group" id="sealColorGroup">
+                                <button class="seal-color active" data-color="#c0392b" style="background:#c0392b;"></button>
+                                <button class="seal-color" data-color="#8b1a1a" style="background:#8b1a1a;"></button>
+                                <button class="seal-color" data-color="#2c2c2c" style="background:#2c2c2c;"></button>
+                                <button class="seal-color" data-color="#1a4d8f" style="background:#1a4d8f;"></button>
+                                <button class="seal-color" data-color="#2d6a4f" style="background:#2d6a4f;"></button>
+                            </div>
+                        </div>
+
+                        <div class="seal-field">
+                            <label>印章尺寸</label>
+                            <input type="range" id="sealSize" min="140" max="260" value="200" step="10">
+                            <span class="seal-size-value" id="sealSizeValue">200 px</span>
+                        </div>
+
+                        <div class="seal-field">
+                            <label>做旧效果</label>
+                            <div class="seal-radio-group" id="sealTextureGroup">
+                                <button class="seal-radio active" data-texture="clean">干净</button>
+                                <button class="seal-radio" data-texture="light">轻微</button>
+                                <button class="seal-radio" data-texture="heavy">斑驳</button>
+                            </div>
+                        </div>
+
+                        <div class="seal-actions">
+                            <button class="seal-btn-primary" id="sealDownloadBtn">
+                                <i class="fas fa-download"></i> 下载图片
+                            </button>
+                            <button class="seal-btn-secondary" id="sealRandomBtn">
+                                <i class="fas fa-dice"></i> 随机生成
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 右侧：预览 -->
+                    <div class="seal-preview-wrap">
+                        <div class="seal-preview" id="sealPreview">
+                            <canvas id="sealCanvas" width="200" height="200"></canvas>
+                        </div>
+                        <p class="seal-preview-tip">点击「下载图片」保存为 PNG</p>
+                    </div>
+                </div>
+
+                <p class="seal-tip">💡 印章为道家风格，可自由搭配文字、排列、边框与颜色。</p>
             </div>
         </section>
 
@@ -4137,6 +4531,93 @@
         tags: ['刘阮遇仙', '玉霄之天', '南宗']
     }];
 
+
+    // =============================================================
+    // 新增数据：印章生成
+    // =============================================================
+    const SEAL_RANDOM_TEXTS = [
+        '道法自然', '清静无为', '上善若水', '致虚守静',
+        '天人合一', '返璞归真', '玄之又玄', '抱朴守拙',
+        '虚怀若谷', '大巧若拙', '知白守黑', '顺其自然',
+        '无为而治', '逍遥游', '齐物论', '养生主',
+        '清虚', '玄微', '静一', '抱一',
+        '守拙', '归真', '观复', '明心'
+    ];
+
+    // 印章字体映射：优先使用系统自带/常见书法字体，回退到通用字体
+    // 说明：篆书、甲骨文等古文字体，浏览器不一定都有，做多级回退。
+    const SEAL_FONTS = {
+        fuzhuan: {
+            label: '富篆书体',
+            stack: "'FuZhuan', 'STKaiti', 'KaiTi', serif",
+            weight: 'normal',
+            letterSpacing: 0.05
+        },
+        fangzhuan: {
+            label: '繁方篆',
+            stack: "'FangZhuan', 'STKaiti', 'KaiTi', serif",
+            weight: 'normal',
+            letterSpacing: 0.05
+        },
+        baizhoutaizhuan: {
+            label: '白舟太篆书',
+            stack: "'BaiZhouTaiZhuan', 'STKaiti', 'KaiTi', serif",
+            weight: 'normal',
+            letterSpacing: 0.05
+        },
+
+
+        handingfangzhuan: {
+            label: '汉鼎繁篆',
+            stack: "'HanDingFangZhuan', 'STKaiti', 'KaiTi', serif",
+            weight: 'normal',
+            letterSpacing: 0.05
+        },
+        jiudiefuzhuan: {
+            label: '九叠篆',
+            stack: "'JiuDieFuZhuan', 'STKaiti', 'KaiTi', serif",
+            weight: 'normal',
+            letterSpacing: 0.05
+        },
+        qingyangziti: {
+            label: '青羊体',
+            stack: "'QingYangZiTi', 'STKaiti', 'KaiTi', serif",
+            weight: 'normal',
+            letterSpacing: 0.05
+        },
+
+        kaishu: {
+            label: '楷书',
+            stack: "'STKaiti', 'KaiTi', '楷体', 'Kaiti SC', 'Georgia', serif",
+            weight: 'bold',
+            letterSpacing: 0
+        }
+    };
+
+    // 获取当前字体的 font 简写字符串
+    function getSealFont(size) {
+        const f = SEAL_FONTS[SEAL_STATE.font] || SEAL_FONTS.zhuanshu;
+        return `${f.weight} ${size}px ${f.stack}`;
+    }
+
+    // 获取当前字体的字距系数（相对字号）
+    function getSealLetterSpacing() {
+        const f = SEAL_FONTS[SEAL_STATE.font] || SEAL_FONTS.zhuanshu;
+        return f.letterSpacing || 0;
+    }
+
+    const SEAL_STATE = {
+        text: '道法自然',
+        font: 'kaishu',
+        layout: 'auto',
+        style: 'zhu',       // zhu=朱文(红底白字) / bai=白文(白底红字)
+        border: 'square',
+        color: '#c0392b',
+        size: 200,
+        texture: 'clean'
+    };
+
+
     // =============================================================
     // 新增数据：每日一签（灵感签）
     // =============================================================
@@ -5247,6 +5728,328 @@
         document.body.style.overflow = '';
     }
 
+    // ----- 4j. 印章生成 -----
+    function drawSeal() {
+        const canvas = document.getElementById('sealCanvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+
+        const size = SEAL_STATE.size;            // 逻辑尺寸
+        const dpr = Math.max(window.devicePixelRatio || 1, 3);  // 至少 2 倍，移动端更清晰
+        // 内部实际像素 = 逻辑尺寸 × dpr
+        canvas.width = size * dpr;
+        canvas.height = size * dpr;
+        // CSS 显示尺寸保持 size
+        // 在小屏上限制最大宽度为容器宽度
+        const wrapWidth = canvas.parentElement.clientWidth - 48; // 减去 padding
+        const displaySize = Math.min(size, wrapWidth);
+        canvas.style.width = displaySize + 'px';
+        canvas.style.height = displaySize + 'px';
+
+        // 缩放绘图上下文，后续所有坐标按逻辑尺寸计算
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+        const color = SEAL_STATE.color;
+        const isZhu = SEAL_STATE.style === 'zhu';
+        const text = SEAL_STATE.text.trim().slice(0, 4);
+        const chars = text.split('');
+
+        // 清空（按逻辑尺寸）
+        ctx.clearRect(0, 0, size, size);
+
+        // 背景
+        if (isZhu) {
+            ctx.fillStyle = color;
+            ctx.fillRect(0, 0, size, size);
+        } else {
+            ctx.fillStyle = '#fdfaf7';
+            ctx.fillRect(0, 0, size, size);
+        }
+
+        const fgColor = isZhu ? '#fdfaf7' : color;
+
+        // 边框
+        const pad = size * 0.06;
+        const borderW = size * 0.035;
+        ctx.strokeStyle = fgColor;
+        ctx.lineWidth = borderW;
+
+        if (SEAL_STATE.border === 'square') {
+            ctx.strokeRect(pad, pad, size - pad * 2, size - pad * 2);
+        } else if (SEAL_STATE.border === 'rounded') {
+            roundRect(ctx, pad, pad, size - pad * 2, size - pad * 2, size * 0.12);
+            ctx.stroke();
+        } else if (SEAL_STATE.border === 'circle') {
+            ctx.beginPath();
+            ctx.arc(size / 2, size / 2, size / 2 - pad, 0, Math.PI * 2);
+            ctx.stroke();
+        }
+
+        // 字体
+        ctx.fillStyle = fgColor;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+
+        const layout = SEAL_STATE.layout === 'auto' ? autoLayout(chars.length) : SEAL_STATE.layout;
+
+        if (layout === 'horizontal') {
+            drawHorizontal(ctx, chars, size, fgColor);
+        } else if (layout === 'vertical') {
+            drawVertical(ctx, chars, size, fgColor);
+        } else if (layout === 'square') {
+            drawSquare(ctx, chars, size, fgColor);
+        }
+
+        // 做旧纹理
+        if (SEAL_STATE.texture !== 'clean') {
+            applyTexture(ctx, size, SEAL_STATE.texture);
+        }
+    }
+
+    function roundRect(ctx, x, y, w, h, r) {
+        ctx.beginPath();
+        ctx.moveTo(x + r, y);
+        ctx.arcTo(x + w, y, x + w, y + h, r);
+        ctx.arcTo(x + w, y + h, x, y + h, r);
+        ctx.arcTo(x, y + h, x, y, r);
+        ctx.arcTo(x, y, x + w, y, r);
+        ctx.closePath();
+    }
+
+    function autoLayout(n) {
+        if (n <= 1) return 'horizontal';
+        if (n === 2) return 'horizontal';
+        if (n === 3) return 'vertical';
+        return 'square';   // 4 字
+    }
+
+    function drawHorizontal(ctx, chars, size) {
+        const base = chars.length === 1 ? 0.5 : chars.length === 2 ? 0.36 : 0.28;
+        const fontSize = size * base;
+        ctx.font = getSealFont(fontSize);
+
+        const spacing = getSealLetterSpacing();
+        const step = fontSize * (1 + spacing);
+        const totalWidth = chars.length * step;
+        const startX = (size - totalWidth) / 2 + step / 2;
+        const y = size / 2;
+        chars.forEach((c, i) => {
+            ctx.fillText(c, startX + i * step, y);
+        });
+    }
+
+    function drawVertical(ctx, chars, size) {
+        const base = chars.length === 2 ? 0.36 : chars.length === 3 ? 0.28 : 0.24;
+        const fontSize = size * base;
+        ctx.font = getSealFont(fontSize);
+
+        const spacing = getSealLetterSpacing();
+        const step = fontSize * (1 + spacing);
+        const totalHeight = chars.length * step;
+        const startY = (size - totalHeight) / 2 + step / 2;
+        const x = size / 2;
+        chars.forEach((c, i) => {
+            ctx.fillText(c, x, startY + i * step);
+        });
+    }
+
+    function drawSquare(ctx, chars, size) {
+        const fontSize = size * 0.28;
+        ctx.font = getSealFont(fontSize);
+        const positions = [
+            { x: size * 0.68, y: size * 0.32 },
+            { x: size * 0.68, y: size * 0.68 },
+            { x: size * 0.32, y: size * 0.32 },
+            { x: size * 0.32, y: size * 0.68 }
+        ];
+        chars.forEach((c, i) => {
+            if (positions[i]) {
+                ctx.fillText(c, positions[i].x, positions[i].y);
+            }
+        });
+    }
+
+    function applyTexture(ctx, size, level) {
+        const count = level === 'light' ? size * 1.2 : size * 3;
+        ctx.save();
+        for (let i = 0; i < count; i++) {
+            const x = Math.random() * size;
+            const y = Math.random() * size;
+            const r = Math.random() * (level === 'light' ? 1.5 : 2.5);
+            ctx.globalAlpha = Math.random() * 0.25 + 0.05;
+            ctx.fillStyle = Math.random() > 0.5 ? '#ffffff' : '#000000';
+            ctx.beginPath();
+            ctx.arc(x, y, r, 0, Math.PI * 2);
+            ctx.fill();
+        }
+        ctx.restore();
+    }
+
+    function updateSealRadioGroup(groupId, activeBtn) {
+        document.querySelectorAll(`#${groupId} .seal-radio`).forEach(b => b.classList.remove('active'));
+        activeBtn.classList.add('active');
+    }
+
+    function updateSealColorGroup(activeBtn) {
+        document.querySelectorAll('#sealColorGroup .seal-color').forEach(b => b.classList.remove('active'));
+        activeBtn.classList.add('active');
+    }
+
+    function bindSealEvents() {
+        // 文字
+        const textInput = document.getElementById('sealText');
+        if (textInput) {
+            textInput.addEventListener('input', function() {
+                SEAL_STATE.text = this.value || '道';
+                drawSeal();
+            });
+        }
+        // 字体
+        document.querySelectorAll('#sealFontGroup .seal-radio').forEach(btn => {
+            btn.addEventListener('click', function() {
+                updateSealRadioGroup('sealFontGroup', this);
+                SEAL_STATE.font = this.dataset.font;
+                drawSeal();
+            });
+        });
+        // 排列方式
+        document.querySelectorAll('#sealLayoutGroup .seal-radio').forEach(btn => {
+            btn.addEventListener('click', function() {
+                updateSealRadioGroup('sealLayoutGroup', this);
+                SEAL_STATE.layout = this.dataset.layout;
+                drawSeal();
+            });
+        });
+
+        // 样式
+        document.querySelectorAll('#sealStyleGroup .seal-radio').forEach(btn => {
+            btn.addEventListener('click', function() {
+                updateSealRadioGroup('sealStyleGroup', this);
+                SEAL_STATE.style = this.dataset.style;
+                drawSeal();
+            });
+        });
+
+        // 边框
+        document.querySelectorAll('#sealBorderGroup .seal-radio').forEach(btn => {
+            btn.addEventListener('click', function() {
+                updateSealRadioGroup('sealBorderGroup', this);
+                SEAL_STATE.border = this.dataset.border;
+                drawSeal();
+            });
+        });
+
+        // 颜色
+        document.querySelectorAll('#sealColorGroup .seal-color').forEach(btn => {
+            btn.addEventListener('click', function() {
+                updateSealColorGroup(this);
+                SEAL_STATE.color = this.dataset.color;
+                drawSeal();
+            });
+        });
+
+        // 尺寸
+        const sizeInput = document.getElementById('sealSize');
+        const sizeValue = document.getElementById('sealSizeValue');
+        if (sizeInput) {
+            sizeInput.addEventListener('input', function() {
+                SEAL_STATE.size = parseInt(this.value);
+                sizeValue.textContent = this.value + ' px';
+                drawSeal();
+            });
+        }
+
+        // 做旧
+        document.querySelectorAll('#sealTextureGroup .seal-radio').forEach(btn => {
+            btn.addEventListener('click', function() {
+                updateSealRadioGroup('sealTextureGroup', this);
+                SEAL_STATE.texture = this.dataset.texture;
+                drawSeal();
+            });
+        });
+
+        // 下载
+        const dlBtn = document.getElementById('sealDownloadBtn');
+        if (dlBtn) {
+            dlBtn.addEventListener('click', function() {
+                const canvas = document.getElementById('sealCanvas');
+                const link = document.createElement('a');
+                link.download = '印章_' + SEAL_STATE.text + '.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        }
+
+        // 随机
+        const rndBtn = document.getElementById('sealRandomBtn');
+        if (rndBtn) {
+            rndBtn.addEventListener('click', function() {
+                randomizeSeal();
+            });
+        }
+    }
+
+    // 字体加载完成后自动重绘
+    if (document.fonts && document.fonts.addEventListener) {
+        document.fonts.addEventListener('loadingdone', function() {
+            // 如果当前在印章 Tab，重绘
+            const sealTab = document.getElementById('seal-tab');
+            if (sealTab && sealTab.classList.contains('active')) {
+                drawSeal();
+            }
+        });
+    }
+
+    function randomizeSeal() {
+        // 随机文字
+        SEAL_STATE.text = pickRandom(SEAL_RANDOM_TEXTS);
+        document.getElementById('sealText').value = SEAL_STATE.text;
+
+        // 随机字体
+        const fontKeys = Object.keys(SEAL_FONTS);
+        SEAL_STATE.font = pickRandom(fontKeys);
+        document.querySelectorAll('#sealFontGroup .seal-radio').forEach(b => {
+            b.classList.toggle('active', b.dataset.font === SEAL_STATE.font);
+        });
+
+        // 随机排列
+        const layouts = ['auto', 'horizontal', 'vertical', 'square'];
+        SEAL_STATE.layout = pickRandom(layouts);
+        document.querySelectorAll('#sealLayoutGroup .seal-radio').forEach(b => {
+            b.classList.toggle('active', b.dataset.layout === SEAL_STATE.layout);
+        });
+
+        // 随机样式
+        SEAL_STATE.style = Math.random() > 0.5 ? 'zhu' : 'bai';
+        document.querySelectorAll('#sealStyleGroup .seal-radio').forEach(b => {
+            b.classList.toggle('active', b.dataset.style === SEAL_STATE.style);
+        });
+
+        // 随机边框
+        const borders = ['square', 'rounded', 'circle', 'none'];
+        SEAL_STATE.border = pickRandom(borders);
+        document.querySelectorAll('#sealBorderGroup .seal-radio').forEach(b => {
+            b.classList.toggle('active', b.dataset.border === SEAL_STATE.border);
+        });
+
+        // 随机颜色
+        const colors = ['#c0392b', '#8b1a1a', '#2c2c2c', '#1a4d8f', '#2d6a4f'];
+        SEAL_STATE.color = pickRandom(colors);
+        document.querySelectorAll('#sealColorGroup .seal-color').forEach(b => {
+            b.classList.toggle('active', b.dataset.color === SEAL_STATE.color);
+        });
+
+        // 随机做旧
+        const textures = ['clean', 'light', 'heavy'];
+        SEAL_STATE.texture = pickRandom(textures);
+        document.querySelectorAll('#sealTextureGroup .seal-radio').forEach(b => {
+            b.classList.toggle('active', b.dataset.texture === SEAL_STATE.texture);
+        });
+
+        drawSeal();
+    }
+
+
     function resetDaomap() {
         clearDaomapSelection();
         // 重置时也可以重新渲染（保证布局稳定）
@@ -5418,6 +6221,14 @@
         if (tab === 'mountains') {
             const grid = document.getElementById('mountainsGrid');
             if (grid && !grid.innerHTML.trim()) renderMountains();
+        }
+        if (tab === 'seal') {
+            const canvas = document.getElementById('sealCanvas');
+            if (canvas && !canvas.dataset.inited) {
+                canvas.dataset.inited = '1';
+                bindSealEvents();
+                drawSeal();
+            }
         }
     }
 
@@ -5667,6 +6478,46 @@
 
     // 加载每日一签
     loadDailySign();
+
+    // =============================================================
+    // 字体异步预加载：页面完全加载后，在空闲时预加载所有印章字体
+    // =============================================================
+    function preloadAllSealFonts() {
+        if (!document.fonts || !document.fonts.load) return;
+
+        const fontFamilies = [
+            'FuZhuan', 'FangZhuan', 'BaiZhouTaiZhuan',
+            'JiuDieFuZhuan', 'HanDingFangZhuan', 'QingYangZiTi'
+        ];
+
+        const sampleText = '道法自然清静无为上善若水';
+
+        // 逐个加载，避免同时发起太多请求
+        fontFamilies.reduce((promise, family) => {
+            return promise.then(() => {
+                return document.fonts.load(`40px ${family}`, sampleText)
+                    .catch(() => {});
+            });
+        }, Promise.resolve()).then(() => {
+            // 全部加载完成，如果当前在印章 Tab，重绘一次
+            const sealTab = document.getElementById('seal-tab');
+            if (sealTab && sealTab.classList.contains('active')) {
+                drawSeal();
+            }
+        });
+    }
+
+    // 页面 load 之后，浏览器空闲时执行
+    if (window.requestIdleCallback) {
+        window.addEventListener('load', function() {
+            requestIdleCallback(preloadAllSealFonts, { timeout: 3000 });
+        });
+    } else {
+        // 降级：load 后延迟 1.5 秒执行
+        window.addEventListener('load', function() {
+            setTimeout(preloadAllSealFonts, 1500);
+        });
+    }
 
 </script>
 
