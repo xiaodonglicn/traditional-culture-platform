@@ -294,6 +294,10 @@
             background: #f8d7da;
             color: #721c24;
         }
+        .fortune-level[data-level="下下签"] {
+            background: #f8d7da;
+            color: #721c24;
+        }
 
         .fortune-score {
             text-align: center;
@@ -894,6 +898,270 @@
         }
 
         /* ========================================================= */
+        /* 新增：测测你的道号 */
+        /* ========================================================= */
+        .daoname-container {
+            max-width: 680px;
+            margin: 0 auto;
+        }
+
+        .daoname-intro {
+            text-align: center;
+            padding: 40px 24px 34px;
+            background: linear-gradient(145deg, #fdfaf7, #f5ede6);
+            border-radius: 18px;
+            border: 2px dashed #d5c8b8;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .daoname-intro-icon {
+            font-size: 64px;
+            line-height: 1;
+            margin-bottom: 12px;
+            opacity: 0.75;
+        }
+
+        .daoname-intro h3 {
+            font-size: 22px;
+            color: #4a3728;
+            margin-bottom: 10px;
+        }
+
+        .daoname-intro p {
+            font-size: 16px;
+            color: #7a6b5a;
+            line-height: 1.9;
+            margin-bottom: 18px;
+        }
+
+        .daoname-hints {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+
+        .daoname-hints span {
+            background: #f0ece6;
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 13px;
+            color: #5a3e2b;
+        }
+
+        .daoname-btn-primary {
+            padding: 11px 38px;
+            border: none;
+            border-radius: 30px;
+            background: linear-gradient(145deg, #8b6b4d, #6b4f3a);
+            color: #fff;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .daoname-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(139, 107, 77, 0.32);
+        }
+
+        .daoname-btn-secondary {
+            padding: 11px 30px;
+            border: 2px solid #d5c8b8;
+            border-radius: 30px;
+            background: #fff;
+            color: #5a3e2b;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .daoname-btn-secondary:hover {
+            background: #f5ede6;
+            border-color: #8b6b4d;
+        }
+
+        /* ----- 答题 ----- */
+        .daoname-quiz {
+            animation: fadeIn 0.4s ease;
+        }
+
+        .daoname-progress {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 26px;
+        }
+
+        .daoname-progress-bar {
+            flex: 1;
+            height: 8px;
+            background: #ece4da;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .daoname-progress-fill {
+            height: 100%;
+            width: 20%;
+            border-radius: 8px;
+            background: linear-gradient(90deg, #8b6b4d, #c9a87c);
+            transition: width 0.4s ease;
+        }
+
+        .daoname-progress-text {
+            font-size: 14px;
+            color: #8b7a6a;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .daoname-question {
+            font-size: 21px;
+            font-weight: 600;
+            color: #4a3728;
+            line-height: 1.6;
+            margin-bottom: 22px;
+            padding-left: 4px;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+        }
+
+        .daoname-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .daoname-option {
+            background: #fdfaf7;
+            border: 2px solid #e8ddd0;
+            border-radius: 14px;
+            padding: 18px 20px;
+            cursor: pointer;
+            transition: all 0.25s;
+            text-align: left;
+            font-size: 15px;
+            color: #4a3728;
+            line-height: 1.6;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .daoname-option:hover {
+            border-color: #8b6b4d;
+            background: #f8f0e8;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 107, 77, 0.12);
+        }
+
+        .daoname-option .opt-icon {
+            font-size: 22px;
+            flex-shrink: 0;
+        }
+
+        .daoname-option.selected {
+            border-color: #8b6b4d;
+            background: #f0e6da;
+        }
+
+        /* ----- 结果 ----- */
+        .daoname-result {
+            animation: fadeIn 0.5s ease;
+        }
+
+        .daoname-result-card {
+            background: linear-gradient(145deg, #fdfaf7, #f5ede6);
+            border: 2px solid #e8ddd0;
+            border-radius: 20px;
+            padding: 38px 32px 32px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .daoname-result-card::before {
+            content: "☯";
+            position: absolute;
+            top: -10px;
+            right: -6px;
+            font-size: 120px;
+            opacity: 0.05;
+            line-height: 1;
+        }
+
+        .daoname-result-label {
+            font-size: 14px;
+            color: #8b7a6a;
+            letter-spacing: 4px;
+            margin-bottom: 14px;
+        }
+
+        .daoname-result-name {
+            font-size: 52px;
+            font-weight: 700;
+            color: #4a3728;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            letter-spacing: 6px;
+            margin-bottom: 20px;
+            background: linear-gradient(145deg, #6b4f3a, #c9a87c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .daoname-result-poem {
+            font-size: 17px;
+            color: #5a3e2b;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            line-height: 2;
+            padding: 16px 20px;
+            background: #fff;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            border-left: 3px solid #c9a87c;
+            text-align: left;
+        }
+
+        .daoname-result-desc {
+            font-size: 15px;
+            color: #7a6b5a;
+            line-height: 1.9;
+            padding: 14px 18px;
+            background: #edf0f5;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            text-align: left;
+        }
+
+        .daoname-result-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 4px;
+        }
+
+        .daoname-result-tags span {
+            background: #e8ddd0;
+            color: #5a3e2b;
+            padding: 5px 18px;
+            border-radius: 30px;
+            font-size: 13px;
+        }
+
+        .daoname-result-actions {
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+            margin-top: 24px;
+            flex-wrap: wrap;
+        }
+
+        /* ========================================================= */
         /* 页脚 */
         /* ========================================================= */
         footer {
@@ -958,6 +1226,12 @@
             .daily-sign-card {
                 padding: 28px 20px;
             }
+            .daoname-options {
+                grid-template-columns: 1fr;
+            }
+            .daoname-result-name {
+                font-size: 40px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -997,6 +1271,12 @@
             .meditation-timer {
                 font-size: 40px;
             }
+            .daoname-result-name {
+                font-size: 34px;
+            }
+            .daoname-result-card {
+                padding: 28px 18px;
+            }
         }
     </style>
 </head>
@@ -1017,6 +1297,7 @@
             <a data-tab="season">四时养生</a>
             <a data-tab="daoism">道家智慧</a>
             <a data-tab="elements">五行学说</a>
+            <a data-tab="daoname">测测道号</a>
         </nav>
     </header>
 
@@ -1151,6 +1432,64 @@
                 </div>
             </div>
         </section>
+
+        <!-- ========================================================= -->
+        <!-- Tab 7: 测测你的道号 (新增) -->
+        <!-- ========================================================= -->
+        <section id="daoname-tab" class="tab-content">
+            <h2><i class="fas fa-hat-wizard"></i> 测测你的道号</h2>
+            <div class="daoname-container">
+
+                <!-- 开始页 -->
+                <div id="daonameIntro" class="daoname-intro">
+                    <div class="daoname-intro-icon">☯</div>
+                    <h3>探寻你的道门名号</h3>
+                    <p>五个问题，照见你的心性。<br>山、水、动、静之间，你的道号自会浮现。</p>
+                    <div class="daoname-hints">
+                        <span>🌄 山水之意</span>
+                        <span>🧘 出世入世</span>
+                        <span>🕊️ 心性气质</span>
+                        <span>📜 专属道号</span>
+                    </div>
+                    <button class="daoname-btn-primary" id="daonameStartBtn">
+                        <i class="fas fa-play"></i> 开始问道
+                    </button>
+                </div>
+
+                <!-- 答题页 -->
+                <div id="daonameQuiz" class="daoname-quiz" style="display:none;">
+                    <div class="daoname-progress">
+                        <div class="daoname-progress-bar">
+                            <div class="daoname-progress-fill" id="daonameProgressFill"></div>
+                        </div>
+                        <span class="daoname-progress-text" id="daonameProgressText">1 / 5</span>
+                    </div>
+                    <div class="daoname-question" id="daonameQuestion">加载中...</div>
+                    <div class="daoname-options" id="daonameOptions"></div>
+                </div>
+
+                <!-- 结果页 -->
+                <div id="daonameResult" class="daoname-result" style="display:none;">
+                    <div class="daoname-result-card">
+                        <div class="daoname-result-label">你的道号是</div>
+                        <div class="daoname-result-name" id="daonameResultName">清虚子</div>
+                        <div class="daoname-result-poem" id="daonameResultPoem"></div>
+                        <div class="daoname-result-desc" id="daonameResultDesc"></div>
+                        <div class="daoname-result-tags" id="daonameResultTags"></div>
+                    </div>
+                    <div class="daoname-result-actions">
+                        <button class="daoname-btn-primary" id="daonameRetryBtn">
+                            <i class="fas fa-redo"></i> 再测一次
+                        </button>
+                        <button class="daoname-btn-secondary" id="daonameCopyBtn">
+                            <i class="fas fa-copy"></i> 复制道号
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
 
     </main>
 
@@ -1593,6 +1932,187 @@
         characteristics: ['稳重诚实', '脚踏实地', '有包容心', '善于协调'],
         professions: ['管理者', '农民', '建筑师', '人力资源']
     }];
+
+    // =============================================================
+    // 新增数据：测测你的道号
+    // =============================================================
+    const DAONAME_QUESTIONS = [{
+        question: '你更喜欢哪种风景？',
+        options: [{
+            text: '巍峨高山，云雾缭绕',
+            icon: '⛰️',
+            tags: ['山', '静']
+        }, {
+            text: '潺潺流水，江海辽阔',
+            icon: '🌊',
+            tags: ['水', '动']
+        }, {
+            text: '幽深竹林，清风徐来',
+            icon: '🎋',
+            tags: ['竹', '清']
+        }, {
+            text: '浩瀚星空，银河倒悬',
+            icon: '🌌',
+            tags: ['虚', '玄']
+        }]
+    }, {
+        question: '你更向往哪种生活？',
+        options: [{
+            text: '入世修行，济世利人',
+            icon: '🏙️',
+            tags: ['入世', '居士']
+        }, {
+            text: '出世隐居，逍遥山水',
+            icon: '🏔️',
+            tags: ['出世', '散人']
+        }, {
+            text: '半隐半仕，随缘度日',
+            icon: '🌗',
+            tags: ['中道', '子']
+        }, {
+            text: '云游四方，寻道问真',
+            icon: '🚶',
+            tags: ['云游', '道人']
+        }]
+    }, {
+        question: '面对纷争，你通常如何应对？',
+        options: [{
+            text: '以柔克刚，不争而胜',
+            icon: '💧',
+            tags: ['柔', '不争']
+        }, {
+            text: '静观其变，顺其自然',
+            icon: '🧘',
+            tags: ['静', '自然']
+        }, {
+            text: '果断出手，快刀斩麻',
+            icon: '⚔️',
+            tags: ['刚', '决']
+        }, {
+            text: '退一步海阔天空',
+            icon: '🕊️',
+            tags: ['退', '和']
+        }]
+    }, {
+        question: '你最喜欢哪种时辰？',
+        options: [{
+            text: '清晨日出，万物初醒',
+            icon: '🌅',
+            tags: ['晨', '阳']
+        }, {
+            text: '正午当空，光明炽热',
+            icon: '☀️',
+            tags: ['午', '明']
+        }, {
+            text: '黄昏日落，晚霞满天',
+            icon: '🌇',
+            tags: ['昏', '霞']
+        }, {
+            text: '深夜人静，月华如水',
+            icon: '🌙',
+            tags: ['夜', '月']
+        }]
+    }, {
+        question: '你觉得自己更接近哪种气质？',
+        options: [{
+            text: '清雅淡泊，如兰如菊',
+            icon: '🌼',
+            tags: ['清', '雅']
+        }, {
+            text: '玄妙深邃，不可捉摸',
+            icon: '🌀',
+            tags: ['玄', '妙']
+        }, {
+            text: '虚怀若谷，包容万物',
+            icon: '🕳️',
+            tags: ['虚', '容']
+        }, {
+            text: '一尘不染，返璞归真',
+            icon: '🪷',
+            tags: ['真', '素']
+        }]
+    }];
+
+    // 道号生成素材
+    const DAONAME_PARTS = {
+        // 前缀用字（取两字组合的候选）
+        prefixChars: {
+            '山': ['清', '玄', '静', '虚', '云', '松'],
+            '水': ['澄', '涵', '润', '玄', '清', '沧'],
+            '竹': ['清', '虚', '翠', '竹', '幽', '风'],
+            '虚': ['玄', '虚', '太', '无', '空', '灵'],
+            '静': ['静', '清', '定', '安', '宁', '寂'],
+            '动': ['玄', '流', '行', '云', '游', '变'],
+            '清': ['清', '澄', '澈', '明', '素', '白'],
+            '玄': ['玄', '妙', '深', '幽', '冥', '微'],
+            '柔': ['柔', '和', '顺', '慈', '绵', '水'],
+            '不争': ['无', '不', '退', '让', '谦', '和'],
+            '自然': ['自', '然', '天', '真', '朴', '素'],
+            '刚': ['刚', '毅', '锋', '锐', '剑', '铁'],
+            '决': ['决', '断', '行', '果', '勇', '猛'],
+            '退': ['退', '隐', '藏', '收', '敛', '避'],
+            '和': ['和', '合', '谐', '安', '平', '顺'],
+            '晨': ['晨', '曦', '朝', '旭', '曙', '晓'],
+            '阳': ['阳', '光', '明', '辉', '耀', '朗'],
+            '午': ['午', '正', '中', '天', '日', '盛'],
+            '明': ['明', '光', '亮', '昭', '显', '赫'],
+            '昏': ['昏', '暮', '晚', '夕', '落', '沉'],
+            '霞': ['霞', '彩', '云', '虹', '锦', '绮'],
+            '夜': ['夜', '宵', '暮', '冥', '暗', '幽'],
+            '月': ['月', '华', '桂', '蟾', '霜', '白'],
+            '清2': ['清', '雅', '淡', '素', '白', '洁'],
+            '雅': ['雅', '韵', '致', '风', '仪', '文'],
+            '玄2': ['玄', '妙', '幽', '深', '冥', '微'],
+            '妙': ['妙', '奇', '巧', '灵', '秀', '异'],
+            '虚2': ['虚', '空', '无', '太', '极', '本'],
+            '容': ['容', '纳', '海', '谷', '阔', '广'],
+            '真': ['真', '朴', '素', '纯', '本', '初'],
+            '素': ['素', '白', '洁', '净', '清', '淡'],
+            '入世': ['济', '世', '利', '人', '行', '善'],
+            '出世': ['隐', '逸', '逍', '遥', '放', '旷'],
+            '中道': ['中', '和', '平', '常', '稳', '安'],
+            '云游': ['云', '游', '行', '走', '访', '寻']
+        },
+        // 后缀
+        suffixes: ['子', '散人', '居士', '道人', '真人', '上人', '仙客', '隐者']
+    };
+
+    // 道号意蕴描述库（按气质关键词匹配）
+    const DAONAME_DESCRIPTIONS = {
+        '山': '你有如山般的沉稳与厚重，不轻易动摇，内心自有一方天地。',
+        '水': '你似水般灵动变通，能屈能伸，善于在变化中寻找出路。',
+        '竹': '你有竹的虚心与气节，清雅自持，不随波逐流。',
+        '虚': '你心怀虚空，能容纳万物，不拘泥于形迹，通达无碍。',
+        '静': '你喜静恶躁，内心安宁，能在喧嚣中保持一份清明。',
+        '动': '你生机勃勃，行动力强，善于在变动中把握先机。',
+        '清': '你品性清正，不染尘俗，如清泉般澄澈见底。',
+        '玄': '你思维深邃，好探究事物本质，常有独到见解。',
+        '柔': '你以柔克刚，不与人争，却往往能笑到最后。',
+        '不争': '你深谙不争之德，以退为进，反而成就更多。',
+        '自然': '你崇尚自然，不做作，不勉强，活得真实自在。',
+        '刚': '你性格刚毅，有决断力，遇事能挺身而出。',
+        '决': '你行事果断，不拖泥带水，有魄力有担当。',
+        '退': '你懂得进退之道，该退则退，不逞一时之勇。',
+        '和': '你以和为贵，善于调和矛盾，是团队中的润滑剂。',
+        '晨': '你如朝阳初升，充满希望与活力，总是积极向上。',
+        '阳': '你光明磊落，热情开朗，能给身边人带来温暖。',
+        '午': '你正值盛年，精力充沛，做事全力以赴。',
+        '明': '你聪明睿智，看问题透彻，不易被表象迷惑。',
+        '昏': '你偏爱黄昏的沉静，懂得在落幕中品味人生。',
+        '霞': '你如晚霞般绚烂，活得精彩，善于发现生活之美。',
+        '夜': '你享受夜的深邃与宁静，内心世界丰富而神秘。',
+        '月': '你如月光般柔和清冷，不张扬，却自有光芒。',
+        '雅': '你气质高雅，有艺术品味，追求精神层面的富足。',
+        '妙': '你思维巧妙，常有灵光一现的点子，富有创造力。',
+        '容': '你心胸宽广，能容人所不能容，有大格局。',
+        '真': '你返璞归真，不慕虚荣，活得简单而真实。',
+        '素': '你崇尚朴素，不爱奢华，内心干净纯粹。',
+        '入世': '你选择入世修行，在红尘中历练，以济世为怀。',
+        '出世': '你向往出世隐居，远离尘嚣，追求精神自由。',
+        '中道': '你行中道，不偏不倚，懂得平衡生活的方方面面。',
+        '云游': '你有一颗云游之心，渴望走遍山川，访道问真。'
+    };
+
 
     // =============================================================
     // 新增数据：每日一签（灵感签）
@@ -2168,6 +2688,154 @@
         }).join('');
     }
 
+    // ----- 4f. 测测你的道号 -----
+    let daonameCurrentStep = 0;
+    let daonameAnswers = [];
+
+    function startDaonameQuiz() {
+        daonameCurrentStep = 0;
+        daonameAnswers = [];
+        document.getElementById('daonameIntro').style.display = 'none';
+        document.getElementById('daonameResult').style.display = 'none';
+        document.getElementById('daonameQuiz').style.display = 'block';
+        renderDaonameQuestion();
+    }
+
+    function renderDaonameQuestion() {
+        const q = DAONAME_QUESTIONS[daonameCurrentStep];
+        const total = DAONAME_QUESTIONS.length;
+
+        document.getElementById('daonameProgressText').textContent =
+            (daonameCurrentStep + 1) + ' / ' + total;
+        document.getElementById('daonameProgressFill').style.width =
+            ((daonameCurrentStep + 1) / total * 100) + '%';
+
+        document.getElementById('daonameQuestion').textContent = q.question;
+
+        const optionsEl = document.getElementById('daonameOptions');
+        optionsEl.innerHTML = q.options.map((opt, idx) => `
+            <div class="daoname-option" data-index="${idx}">
+                <span class="opt-icon">${opt.icon}</span>
+                <span>${opt.text}</span>
+            </div>
+        `).join('');
+
+        optionsEl.querySelectorAll('.daoname-option').forEach(el => {
+            el.addEventListener('click', function() {
+                const idx = parseInt(this.dataset.index);
+                daonameAnswers.push(q.options[idx].tags);
+                this.classList.add('selected');
+                // 短暂延迟后进入下一题
+                setTimeout(() => {
+                    daonameCurrentStep++;
+                    if (daonameCurrentStep < DAONAME_QUESTIONS.length) {
+                        renderDaonameQuestion();
+                    } else {
+                        showDaonameResult();
+                    }
+                }, 260);
+            });
+        });
+    }
+
+    function generateDaoname() {
+        // 统计所有标签出现频率
+        const tagCount = {};
+        daonameAnswers.forEach(tags => {
+            tags.forEach(t => {
+                tagCount[t] = (tagCount[t] || 0) + 1;
+            });
+        });
+
+        // 按频率排序取前几个
+        const sortedTags = Object.keys(tagCount).sort((a, b) => tagCount[b] - tagCount[a]);
+
+        // 选一个主标签作为前缀来源
+        let primaryTag = sortedTags[0] || '清';
+        // 选一个后缀相关标签
+        let suffixTag = '子';
+        const suffixCandidates = ['入世', '出世', '中道', '云游'];
+        for (const t of sortedTags) {
+            if (suffixCandidates.includes(t)) {
+                suffixTag = t;
+                break;
+            }
+        }
+
+        // 生成前缀两个字
+        const prefixPool = DAONAME_PARTS.prefixChars[primaryTag] || DAONAME_PARTS.prefixChars['清'];
+        const firstChar = pickRandom(prefixPool);
+        // 第二个字从另一个池子选，避免重复
+        let secondPool = DAONAME_PARTS.prefixChars[sortedTags[1]] || prefixPool;
+        let secondChar = pickRandom(secondPool);
+        if (secondChar === firstChar) {
+            secondChar = pickRandom(prefixPool.filter(c => c !== firstChar)) || firstChar;
+        }
+
+        // 后缀
+        let suffix = '子';
+        if (suffixTag === '入世') suffix = pickRandom(['居士', '道人', '真人']);
+        else if (suffixTag === '出世') suffix = pickRandom(['散人', '隐者', '仙客']);
+        else if (suffixTag === '中道') suffix = pickRandom(['子', '上人', '居士']);
+        else if (suffixTag === '云游') suffix = pickRandom(['道人', '散人', '仙客']);
+        else suffix = pickRandom(DAONAME_PARTS.suffixes);
+
+        const daoname = firstChar + secondChar + suffix;
+
+        // 生成意蕴描述
+        const descParts = [];
+        sortedTags.slice(0, 4).forEach(t => {
+            if (DAONAME_DESCRIPTIONS[t]) {
+                descParts.push(DAONAME_DESCRIPTIONS[t]);
+            }
+        });
+        const description = descParts.length > 0 ?
+            descParts.join('') :
+            '你有一颗向道之心，清静自然，随缘自在。';
+
+        // 生成签诗
+        const poems = [
+            '山静云深处，水清月近人。\n此心无挂碍，便是道中人。',
+            '云来山更佳，云去山如画。\n山因云晦明，云共山高下。',
+            '竹影扫阶尘不动，月轮穿海水无痕。\n心中若有桃花源，何处不是水云间。',
+            '虚怀若谷纳千川，静观万物皆自得。\n不争不抢不执着，顺其自然便是道。',
+            '晨钟暮鼓警醒世间名利客，\n经声佛号唤回苦海梦迷人。',
+            '玄之又玄众妙门，清静无为是根本。\n若问此身何处来，道法自然自在身。',
+            '一轮明月挂天心，照见古今多少人。\n若得此心常清净，便是人间自在身。'
+        ];
+
+        return {
+            name: daoname,
+            poem: pickRandom(poems),
+            description: description,
+            tags: sortedTags.slice(0, 4)
+        };
+    }
+
+    function showDaonameResult() {
+        const result = generateDaoname();
+
+        document.getElementById('daonameQuiz').style.display = 'none';
+        document.getElementById('daonameResult').style.display = 'block';
+
+        document.getElementById('daonameResultName').textContent = result.name;
+        document.getElementById('daonameResultPoem').textContent = result.poem;
+        document.getElementById('daonameResultDesc').textContent = result.description;
+
+        const tagsEl = document.getElementById('daonameResultTags');
+        tagsEl.innerHTML = result.tags.map(t => `<span># ${t}</span>`).join('');
+
+        // 保存到 window 供复制使用
+        window._daonameResult = result;
+    }
+
+    function resetDaoname() {
+        document.getElementById('daonameIntro').style.display = 'block';
+        document.getElementById('daonameQuiz').style.display = 'none';
+        document.getElementById('daonameResult').style.display = 'none';
+    }
+
+
     // =============================================================
     // 5. 冥想计时器逻辑
     // =============================================================
@@ -2305,6 +2973,9 @@
             if (tab === 'season') {
                 renderSeason();
             }
+            if (tab === 'daoname') {
+                // 保持当前状态，不自动重置
+            }
         });
     });
 
@@ -2414,6 +3085,27 @@
 
     // ----- 6g. 四时养生 -----
     renderSeason();
+
+    // ----- 6h. 测测你的道号 -----
+    document.getElementById('daonameStartBtn').addEventListener('click', startDaonameQuiz);
+    document.getElementById('daonameRetryBtn').addEventListener('click', startDaonameQuiz);
+    document.getElementById('daonameCopyBtn').addEventListener('click', function() {
+        const r = window._daonameResult;
+        if (!r) return;
+        const text = `我的道号是：${r.name}\n\n${r.poem}\n\n${r.description}\n\n—— 传统文化智慧 · 测测你的道号`;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = this;
+                const old = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check"></i> 已复制';
+                setTimeout(() => { btn.innerHTML = old; }, 1600);
+            }).catch(() => {
+                alert('复制失败，请手动复制：\n\n' + text);
+            });
+        } else {
+            alert('复制失败，请手动复制：\n\n' + text);
+        }
+    });
 
     // =============================================================
     // 7. 页面加载完成后的默认展示
