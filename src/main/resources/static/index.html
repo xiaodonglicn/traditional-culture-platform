@@ -1162,6 +1162,313 @@
         }
 
         /* ========================================================= */
+        /* 新增：道家思想图谱 */
+        /* ========================================================= */
+        .daomap-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .daomap-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding: 12px 18px;
+            background: #f8f4f0;
+            border-radius: 14px;
+        }
+
+        .daomap-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            font-size: 13px;
+            color: #7a6b5a;
+            align-items: center;
+        }
+
+        .legend-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .legend-dot {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .legend-line {
+            display: inline-block;
+            width: 22px;
+            height: 2px;
+            background: #8b6b4d;
+            border-radius: 2px;
+        }
+
+        .legend-line.dashed {
+            background: none;
+            border-top: 2px dashed #b0a090;
+            height: 0;
+        }
+
+        .daomap-reset {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 30px;
+            background: #5a3e2b;
+            color: #fff;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .daomap-reset:hover {
+            background: #4a3222;
+            transform: scale(1.03);
+        }
+
+        .daomap-main {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 18px;
+            align-items: stretch;
+        }
+
+        .daomap-canvas-wrap {
+            background: linear-gradient(145deg, #fdfaf7, #f5ede6);
+            border-radius: 16px;
+            border: 1px solid #e8ddd0;
+            padding: 8px;
+            overflow: hidden;
+            min-height: 460px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #daomapSvg {
+            width: 100%;
+            height: auto;
+            max-height: 560px;
+            display: block;
+            cursor: default;
+        }
+
+        /* ----- SVG 节点与连线 ----- */
+        .dm-link {
+            stroke: #c9b8a4;
+            stroke-width: 1.6;
+            fill: none;
+            transition: all 0.3s;
+        }
+
+        .dm-link.dashed {
+            stroke-dasharray: 5 4;
+            stroke: #b8a898;
+        }
+
+        .dm-link.dimmed {
+            opacity: 0.12;
+        }
+
+        .dm-link.highlight {
+            stroke: #8b6b4d;
+            stroke-width: 2.6;
+            opacity: 1;
+        }
+
+        .dm-node {
+            cursor: pointer;
+        }
+
+        .dm-node circle {
+            transition: all 0.3s;
+            stroke: #fff;
+            stroke-width: 2.5;
+        }
+
+        .dm-node.core circle {
+            fill: #8b6b4d;
+        }
+
+        .dm-node.sub circle {
+            fill: #c9a87c;
+        }
+
+        .dm-node text {
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            fill: #4a3728;
+            text-anchor: middle;
+            dominant-baseline: central;
+            pointer-events: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .dm-node.core text {
+            fill: #fff;
+        }
+
+        .dm-node.sub text {
+            fill: #4a3728;
+        }
+
+        .dm-node:hover circle {
+            stroke: #8b6b4d;
+            stroke-width: 3.5;
+        }
+
+        .dm-node.dimmed {
+            opacity: 0.18;
+        }
+
+        .dm-node.highlight circle {
+            stroke: #5a3e2b;
+            stroke-width: 4;
+            filter: drop-shadow(0 0 8px rgba(139, 107, 77, 0.55));
+        }
+
+        .dm-node.active circle {
+            stroke: #4a3222;
+            stroke-width: 4.5;
+            filter: drop-shadow(0 0 10px rgba(139, 107, 77, 0.75));
+        }
+
+        /* ----- 侧栏 ----- */
+        .daomap-side {
+            background: #fdfaf7;
+            border: 1px solid #e8ddd0;
+            border-radius: 16px;
+            padding: 20px 20px 18px;
+            min-height: 460px;
+            overflow-y: auto;
+        }
+
+        .daomap-side-empty {
+            text-align: center;
+            color: #9a8b7a;
+            padding-top: 100px;
+        }
+
+        .side-empty-icon {
+            font-size: 48px;
+            display: block;
+            margin-bottom: 14px;
+            opacity: 0.5;
+        }
+
+        .daomap-side-empty p {
+            font-size: 14px;
+            line-height: 1.9;
+        }
+
+        .daomap-side-content {
+            animation: fadeIn 0.35s ease;
+        }
+
+        .side-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #4a3728;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            letter-spacing: 3px;
+            margin-bottom: 8px;
+        }
+
+        .side-tag {
+            display: inline-block;
+            padding: 3px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            background: #e8ddd0;
+            color: #5a3e2b;
+            margin-bottom: 14px;
+        }
+
+        .side-desc {
+            font-size: 15px;
+            color: #5a5a5a;
+            line-height: 1.9;
+            padding: 12px 16px;
+            background: #f5f0ea;
+            border-radius: 10px;
+            margin-bottom: 12px;
+        }
+
+        .side-quote {
+            font-size: 15px;
+            color: #5a3e2b;
+            line-height: 1.9;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            padding: 12px 16px;
+            background: #edf0f5;
+            border-radius: 10px;
+            border-left: 3px solid #8b6b4d;
+            margin-bottom: 14px;
+        }
+
+        .side-relations {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .side-rel-group {
+            font-size: 13px;
+            color: #7a6b5a;
+            line-height: 1.8;
+        }
+
+        .rel-label {
+            font-weight: 600;
+            color: #5a3e2b;
+        }
+
+        .side-rel-group span:last-child span {
+            display: inline-block;
+            padding: 1px 10px;
+            margin: 2px 4px 2px 0;
+            background: #f0ece6;
+            border-radius: 12px;
+            color: #5a3e2b;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .side-rel-group span:last-child span:hover {
+            background: #8b6b4d;
+            color: #fff;
+        }
+
+        .daomap-tip {
+            font-size: 13px;
+            color: #9a8b7a;
+            text-align: center;
+            line-height: 1.8;
+            margin-top: 4px;
+        }
+
+        /* ----- 响应式 ----- */
+        @media (max-width: 860px) {
+            .daomap-main {
+                grid-template-columns: 1fr;
+            }
+            .daomap-side {
+                min-height: auto;
+            }
+            .daomap-side-empty {
+                padding-top: 30px;
+                padding-bottom: 20px;
+            }
+        }
+
+        /* ========================================================= */
         /* 页脚 */
         /* ========================================================= */
         footer {
@@ -1298,6 +1605,7 @@
             <a data-tab="daoism">道家智慧</a>
             <a data-tab="elements">五行学说</a>
             <a data-tab="daoname">测测道号</a>
+            <a data-tab="daomap">思想图谱</a>
         </nav>
     </header>
 
@@ -1490,7 +1798,58 @@
             </div>
         </section>
 
+        <!-- ========================================================= -->
+        <!-- Tab 8: 道家思想图谱 (新增) -->
+        <!-- ========================================================= -->
+        <section id="daomap-tab" class="tab-content">
+            <h2><i class="fas fa-project-diagram"></i> 道家思想图谱</h2>
+            <div class="daomap-container">
 
+                <div class="daomap-toolbar">
+                    <div class="daomap-legend">
+                        <span class="legend-item"><i class="legend-dot" style="background:#8b6b4d;"></i> 核心概念</span>
+                        <span class="legend-item"><i class="legend-dot" style="background:#c9a87c;"></i> 衍生概念</span>
+                        <span class="legend-item"><i class="legend-line"></i> 相生 / 关联</span>
+                        <span class="legend-item"><i class="legend-line dashed"></i> 相克 / 对治</span>
+                    </div>
+                    <button class="daomap-reset" id="daomapResetBtn">
+                        <i class="fas fa-undo"></i> 重置视图
+                    </button>
+                </div>
+
+                <div class="daomap-main">
+                    <!-- SVG 图谱 -->
+                    <div class="daomap-canvas-wrap">
+                        <svg id="daomapSvg" viewBox="0 0 720 560" preserveAspectRatio="xMidYMid meet"></svg>
+                    </div>
+                    <!-- 侧栏释义 -->
+                    <aside class="daomap-side" id="daomapSide">
+                        <div class="daomap-side-empty" id="daomapSideEmpty">
+                            <span class="side-empty-icon">☯</span>
+                            <p>点击图谱中的任意概念<br>查看其释义与关联</p>
+                        </div>
+                        <div class="daomap-side-content" id="daomapSideContent" style="display:none;">
+                            <div class="side-title" id="daomapSideTitle"></div>
+                            <div class="side-tag" id="daomapSideTag"></div>
+                            <div class="side-desc" id="daomapSideDesc"></div>
+                            <div class="side-quote" id="daomapSideQuote"></div>
+                            <div class="side-relations">
+                                <div class="side-rel-group">
+                                    <span class="rel-label">相生 / 关联：</span>
+                                    <span id="daomapSideGenerates"></span>
+                                </div>
+                                <div class="side-rel-group">
+                                    <span class="rel-label">相克 / 对治：</span>
+                                    <span id="daomapSideRestricts"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+
+                <p class="daomap-tip">💡 图谱中的概念相互关联，点击节点可高亮其直接关系。道家思想以「道」为根，层层展开，彼此相生相成。</p>
+            </div>
+        </section>
     </main>
 
     <!-- ===== 页脚 ===== -->
@@ -2113,6 +2472,242 @@
         '云游': '你有一颗云游之心，渴望走遍山川，访道问真。'
     };
 
+
+    // =============================================================
+    // 新增数据：道家思想图谱
+    // =============================================================
+    // 节点：id / 名称 / 类型(core核心 sub衍生) / 层级 / 描述 / 引文 / 关联
+    const DAOMAP_NODES = [{
+        id: 'dao',
+        name: '道',
+        type: 'core',
+        desc: '道家思想的总根源，宇宙万物的本原与运行法则。道不可言说，却贯穿一切。',
+        quote: '道可道，非常道；名可名，非常名。',
+        generates: ['de', 'ziran', 'wuwei'],
+        restricts: []
+    }, {
+        id: 'de',
+        name: '德',
+        type: 'core',
+        desc: '道在具体事物中的体现与功用。德是道的载体，万物得道而生谓之德。',
+        quote: '道生之，德畜之，物形之，势成之。',
+        generates: ['shan', 'rou'],
+        restricts: ['buwei']
+    }, {
+        id: 'ziran',
+        name: '自然',
+        type: 'core',
+        desc: '自然而然，本然如此。道家认为万物应顺其本性发展，不加强制。',
+        quote: '人法地，地法天，天法道，道法自然。',
+        generates: ['wuwei', 'jing'],
+        restricts: ['wei']
+    }, {
+        id: 'wuwei',
+        name: '无为',
+        type: 'core',
+        desc: '不妄为，顺自然而为。并非什么都不做，而是不违背规律强行干预。',
+        quote: '道常无为而无不为。',
+        generates: ['jing', 'burong'],
+        restricts: ['wei']
+    }, {
+        id: 'rou',
+        name: '柔',
+        type: 'core',
+        desc: '柔弱胜刚强。以柔韧之姿应对万物，是道家重要的处世智慧。',
+        quote: '天下莫柔弱于水，而攻坚强者莫之能胜。',
+        generates: ['shui', 'buwei'],
+        restricts: ['gang']
+    }, {
+        id: 'jing',
+        name: '静',
+        type: 'core',
+        desc: '致虚极，守静笃。静是观照万物、回归本性的根本功夫。',
+        quote: '致虚极，守静笃。万物并作，吾以观复。',
+        generates: ['xu', 'guan'],
+        restricts: ['zao']
+    }, {
+        id: 'burong',
+        name: '不争',
+        type: 'core',
+        desc: '夫唯不争，故天下莫能与之争。不争并非退缩，而是超越竞争的境界。',
+        quote: '夫唯不争，故天下莫能与之争。',
+        generates: ['shan', 'tui'],
+        restricts: ['zheng']
+    }, {
+        id: 'xu',
+        name: '虚',
+        type: 'sub',
+        desc: '虚怀若谷，空灵不滞。心虚则能容万物，不被成见所困。',
+        quote: '虚而不屈，动而愈出。',
+        generates: ['jing'],
+        restricts: []
+    }, {
+        id: 'shan',
+        name: '上善若水',
+        type: 'sub',
+        desc: '最高的善像水一样，利万物而不争，处众人之所恶。',
+        quote: '上善若水。水善利万物而不争。',
+        generates: ['rou'],
+        restricts: []
+    }, {
+        id: 'shui',
+        name: '水',
+        type: 'sub',
+        desc: '水之德，几于道。柔而能刚，顺而能变，是道家最推崇的意象。',
+        quote: '水善利万物而不争，处众人之所恶，故几于道。',
+        generates: ['rou'],
+        restricts: []
+    }, {
+        id: 'guan',
+        name: '观复',
+        type: 'sub',
+        desc: '静观万物循环往复的规律，从变化中体悟不变之道。',
+        quote: '万物并作，吾以观复。',
+        generates: ['jing'],
+        restricts: []
+    }, {
+        id: 'tui',
+        name: '功成身退',
+        type: 'sub',
+        desc: '功业完成后退隐，不居功自傲。知止不殆，是天道。',
+        quote: '功遂身退，天之道也。',
+        generates: ['burong'],
+        restricts: []
+    }, {
+        id: 'pu',
+        name: '朴',
+        type: 'sub',
+        desc: '未经雕琢的原木，喻返璞归真、保持本真的状态。',
+        quote: '见素抱朴，少私寡欲。',
+        generates: ['ziran', 'zhen'],
+        restricts: []
+    }, {
+        id: 'zhen',
+        name: '真',
+        type: 'sub',
+        desc: '本真、真实。道家追求返璞归真，回归生命最本然的状态。',
+        quote: '其真者，所以受于天也。',
+        generates: ['pu', 'ziran'],
+        restricts: []
+    }, {
+        id: 'he',
+        name: '和',
+        type: 'sub',
+        desc: '阴阳调和，万物和谐。和是道在万物关系中的体现。',
+        quote: '万物负阴而抱阳，冲气以为和。',
+        generates: ['ziran'],
+        restricts: []
+    }, {
+        id: 'ming',
+        name: '明',
+        type: 'sub',
+        desc: '自知者明，知常曰明。明是透过表象洞察本质的智慧。',
+        quote: '知人者智，自知者明。',
+        generates: ['jing', 'guan'],
+        restricts: []
+    }, {
+        id: 'wei',
+        name: '妄为',
+        type: 'sub',
+        desc: '违背自然规律的强行作为，是道家所反对的。',
+        quote: '为者败之，执者失之。',
+        generates: [],
+        restricts: ['wuwei', 'ziran']
+    }, {
+        id: 'gang',
+        name: '刚强',
+        type: 'sub',
+        desc: '坚硬刚强之物易折。道家认为刚强属死之徒，柔弱属生之徒。',
+        quote: '坚强者死之徒，柔弱者生之徒。',
+        generates: [],
+        restricts: ['rou']
+    }, {
+        id: 'zheng',
+        name: '争夺',
+        type: 'sub',
+        desc: '争强好胜，是祸患之源。道家主张不争之德。',
+        quote: '夫唯不争，故无尤。',
+        generates: [],
+        restricts: ['burong']
+    }, {
+        id: 'zao',
+        name: '躁动',
+        type: 'sub',
+        desc: '轻浮躁动，失道之象。静为躁君，躁则失君。',
+        quote: '轻则失根，躁则失君。',
+        generates: [],
+        restricts: ['jing']
+    }];
+
+    // 图谱分层布局：中心 + 内环(core) + 外环(sub)
+    const DAOMAP_LAYOUT = {
+        center: {
+            id: 'dao',
+            x: 360,
+            y: 280
+        },
+        // 内环核心概念，按角度分布
+        core: [{
+            id: 'de',
+            angle: -90
+        }, {
+            id: 'ziran',
+            angle: -30
+        }, {
+            id: 'wuwei',
+            angle: 30
+        }, {
+            id: 'rou',
+            angle: 90
+        }, {
+            id: 'jing',
+            angle: 150
+        }, {
+            id: 'burong',
+            angle: 210
+        }],
+        // 外环衍生概念
+        sub: [{
+            id: 'xu',
+            angle: -120
+        }, {
+            id: 'shan',
+            angle: -60
+        }, {
+            id: 'shui',
+            angle: -20
+        }, {
+            id: 'guan',
+            angle: 20
+        }, {
+            id: 'tui',
+            angle: 60
+        }, {
+            id: 'pu',
+            angle: 110
+        }, {
+            id: 'zhen',
+            angle: 150
+        }, {
+            id: 'he',
+            angle: 190
+        }, {
+            id: 'ming',
+            angle: 230
+        }, {
+            id: 'wei',
+            angle: -150
+        }, {
+            id: 'gang',
+            angle: -100
+        }, {
+            id: 'zheng',
+            angle: 100
+        }, {
+            id: 'zao',
+            angle: 260
+        }]
+    };
 
     // =============================================================
     // 新增数据：每日一签（灵感签）
@@ -2887,6 +3482,258 @@
     }
 
 
+    // ----- 4g. 道家思想图谱 -----
+    let daomapActiveId = null;
+    let daomapNodesMap = {};
+
+    function buildDaomapNodesMap() {
+        daomapNodesMap = {};
+        DAOMAP_NODES.forEach(n => {
+            daomapNodesMap[n.id] = n;
+        });
+    }
+
+    function polarToCartesian(cx, cy, radius, angleDeg) {
+        const rad = (angleDeg - 90) * Math.PI / 180;
+        return {
+            x: cx + radius * Math.cos(rad),
+            y: cy + radius * Math.sin(rad)
+        };
+    }
+
+    function renderDaomap() {
+        buildDaomapNodesMap();
+
+        const svg = document.getElementById('daomapSvg');
+        const W = 720,
+            H = 560;
+        const cx = W / 2,
+            cy = H / 2;
+        const R_CORE = 130;
+        const R_SUB = 225;
+
+        // 计算所有节点坐标
+        const coords = {};
+        // 中心
+        coords[DAOMAP_LAYOUT.center.id] = {
+            x: cx,
+            y: cy,
+            r: 38,
+            type: 'core'
+        };
+
+        // 内环
+        DAOMAP_LAYOUT.core.forEach(item => {
+            const p = polarToCartesian(cx, cy, R_CORE, item.angle);
+            coords[item.id] = {
+                x: p.x,
+                y: p.y,
+                r: 28,
+                type: 'core'
+            };
+        });
+
+        // 外环（sub 半径由 20 → 26）
+        DAOMAP_LAYOUT.sub.forEach(item => {
+            const p = polarToCartesian(cx, cy, R_SUB, item.angle);
+            coords[item.id] = {
+                x: p.x,
+                y: p.y,
+                r: 26,
+                type: 'sub'
+            };
+        });
+
+        // 构建连线集合（去重）
+        const links = [];
+        const linkSet = new Set();
+        DAOMAP_NODES.forEach(n => {
+            (n.generates || []).forEach(t => {
+                if (!coords[n.id] || !coords[t]) return;
+                const key = [n.id, t].sort().join('|') + '|gen';
+                if (linkSet.has(key)) return;
+                linkSet.add(key);
+                links.push({
+                    source: n.id,
+                    target: t,
+                    type: 'gen'
+                });
+            });
+            (n.restricts || []).forEach(t => {
+                if (!coords[n.id] || !coords[t]) return;
+                const key = [n.id, t].sort().join('|') + '|res';
+                if (linkSet.has(key)) return;
+                linkSet.add(key);
+                links.push({
+                    source: n.id,
+                    target: t,
+                    type: 'res'
+                });
+            });
+        });
+
+        // 绘制
+        let html = '';
+
+        // 先画连线
+        links.forEach(l => {
+            const s = coords[l.source],
+                t = coords[l.target];
+            if (!s || !t) return;
+            const cls = 'dm-link' + (l.type === 'res' ? ' dashed' : '');
+            html += `<line class="${cls}" data-source="${l.source}" data-target="${l.target}" x1="${s.x}" y1="${s.y}" x2="${t.x}" y2="${t.y}" />`;
+        });
+
+        // 再画节点
+        DAOMAP_NODES.forEach(n => {
+            const c = coords[n.id];
+            if (!c) return;
+            const cls = 'dm-node ' + (n.type === 'core' ? 'core' : 'sub');
+
+            // 根据名字长度动态设置字号
+            const len = n.name.length;
+            let fontSize;
+            if (n.type === 'core') {
+                fontSize = len <= 2 ? 15 : (len === 3 ? 13 : 11);
+            } else {
+                fontSize = len <= 2 ? 14 : (len === 3 ? 12 : 10.5);
+            }
+
+            html += `<g class="${cls}" data-id="${n.id}">
+                <circle cx="${c.x}" cy="${c.y}" r="${c.r}" />
+                <text x="${c.x}" y="${c.y}" style="font-size:${fontSize}px;">${n.name}</text>
+            </g>`;
+        });
+
+        svg.innerHTML = html;
+
+        // 绑定事件
+        svg.querySelectorAll('.dm-node').forEach(nodeEl => {
+            nodeEl.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const id = this.dataset.id;
+                if (daomapActiveId === id) {
+                    clearDaomapSelection();
+                } else {
+                    selectDaomapNode(id);
+                }
+            });
+        });
+
+        // 点击空白清除
+        svg.addEventListener('click', function() {
+            clearDaomapSelection();
+        });
+    }
+
+    function selectDaomapNode(id) {
+        daomapActiveId = id;
+        const node = daomapNodesMap[id];
+        if (!node) return;
+
+        const svg = document.getElementById('daomapSvg');
+
+        // 收集直接关联的节点 id
+        const related = new Set([id]);
+        (node.generates || []).forEach(t => related.add(t));
+        (node.restricts || []).forEach(t => related.add(t));
+        // 反向关联：谁指向当前节点
+        DAOMAP_NODES.forEach(n => {
+            if ((n.generates || []).includes(id)) related.add(n.id);
+            if ((n.restricts || []).includes(id)) related.add(n.id);
+        });
+
+        // 节点样式
+        svg.querySelectorAll('.dm-node').forEach(el => {
+            const nid = el.dataset.id;
+            el.classList.remove('active', 'highlight', 'dimmed');
+            if (nid === id) {
+                el.classList.add('active');
+            } else if (related.has(nid)) {
+                el.classList.add('highlight');
+            } else {
+                el.classList.add('dimmed');
+            }
+        });
+
+        // 连线样式
+        svg.querySelectorAll('.dm-link').forEach(el => {
+            const s = el.dataset.source,
+                t = el.dataset.target;
+            el.classList.remove('highlight', 'dimmed');
+            if ((s === id || t === id) && related.has(s) && related.has(t)) {
+                el.classList.add('highlight');
+            } else {
+                el.classList.add('dimmed');
+            }
+        });
+
+        // 侧栏
+        renderDaomapSide(node);
+    }
+
+    function clearDaomapSelection() {
+        daomapActiveId = null;
+        const svg = document.getElementById('daomapSvg');
+        svg.querySelectorAll('.dm-node').forEach(el => {
+            el.classList.remove('active', 'highlight', 'dimmed');
+        });
+        svg.querySelectorAll('.dm-link').forEach(el => {
+            el.classList.remove('highlight', 'dimmed');
+        });
+        document.getElementById('daomapSideEmpty').style.display = 'block';
+        document.getElementById('daomapSideContent').style.display = 'none';
+    }
+
+    function renderDaomapSide(node) {
+        document.getElementById('daomapSideEmpty').style.display = 'none';
+        const content = document.getElementById('daomapSideContent');
+        content.style.display = 'block';
+
+        document.getElementById('daomapSideTitle').textContent = node.name;
+        document.getElementById('daomapSideTag').textContent =
+            node.type === 'core' ? '# 核心概念' : '# 衍生概念';
+        document.getElementById('daomapSideDesc').textContent = node.desc;
+        document.getElementById('daomapSideQuote').textContent = '「' + node.quote + '」';
+
+        const genEl = document.getElementById('daomapSideGenerates');
+        const resEl = document.getElementById('daomapSideRestricts');
+
+        // 合并正向 + 反向关联
+        const genList = new Set(node.generates || []);
+        const resList = new Set(node.restricts || []);
+        DAOMAP_NODES.forEach(n => {
+            if ((n.generates || []).includes(node.id)) genList.add(n.id);
+            if ((n.restricts || []).includes(node.id)) resList.add(n.id);
+        });
+
+        const renderTags = (ids) => {
+            if (!ids.length) return '<span style="color:#b0a090;">—</span>';
+            return ids.map(tid => {
+                const t = daomapNodesMap[tid];
+                if (!t) return '';
+                return `<span data-jump="${tid}">${t.name}</span>`;
+            }).join('');
+        };
+
+        genEl.innerHTML = renderTags([...genList]);
+        resEl.innerHTML = renderTags([...resList]);
+
+        // 侧栏标签点击跳转
+        content.querySelectorAll('[data-jump]').forEach(el => {
+            el.addEventListener('click', function() {
+                selectDaomapNode(this.dataset.jump);
+            });
+        });
+    }
+
+    function resetDaomap() {
+        clearDaomapSelection();
+        // 重置时也可以重新渲染（保证布局稳定）
+        renderDaomap();
+    }
+
+
     // =============================================================
     // 5. 冥想计时器逻辑
     // =============================================================
@@ -3027,6 +3874,12 @@
             if (tab === 'daoname') {
                 // 保持当前状态，不自动重置
             }
+            if (tab === 'daomap') {
+                // 首次切换时确保已渲染
+                if (!document.getElementById('daomapSvg').innerHTML.trim()) {
+                    renderDaomap();
+                }
+            }
         });
     });
 
@@ -3157,6 +4010,10 @@
             alert('复制失败，请手动复制：\n\n' + text);
         }
     });
+
+    // ----- 6i. 道家思想图谱 -----
+    renderDaomap();
+    document.getElementById('daomapResetBtn').addEventListener('click', resetDaomap);
 
     // =============================================================
     // 7. 页面加载完成后的默认展示
