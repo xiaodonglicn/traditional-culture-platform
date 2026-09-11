@@ -5,9 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>传统文化智慧 · 道法自然</title>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E☯%3C/text%3E%3C/svg%3E">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* ===== 自定义印章字体 ===== */
         @font-face {
             font-family: 'FuZhuan';
             src: url('fonts/fuzhuan-thin.woff2') format('woff2');
@@ -774,7 +772,55 @@
             text-align: center;
             padding: 10px 0;
         }
+        .sign-intro {
+            text-align: center;
+            padding: 40px 24px 34px;
+            background: linear-gradient(145deg, #fdfaf7, #f5ede6);
+            border-radius: 18px;
+            border: 2px dashed #d5c8b8;
+            animation: fadeIn 0.5s ease;
+        }
 
+        .sign-intro-icon {
+            font-size: 64px;
+            line-height: 1;
+            margin-bottom: 12px;
+            opacity: 0.75;
+        }
+
+        .sign-intro h3 {
+            font-size: 22px;
+            color: #4a3728;
+            margin-bottom: 10px;
+        }
+
+        .sign-intro p {
+            font-size: 16px;
+            color: #7a6b5a;
+            line-height: 1.9;
+            margin-bottom: 24px;
+        }
+
+        .sign-btn-primary {
+            padding: 12px 44px;
+            border: none;
+            border-radius: 30px;
+            background: linear-gradient(145deg, #8b6b4d, #6b4f3a);
+            color: #fff;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .sign-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(139, 107, 77, 0.32);
+        }
+
+        .sign-result {
+            animation: fadeIn 0.5s ease;
+        }
         .daily-sign-date {
             font-size: 16px;
             color: #7a6b5a;
@@ -969,6 +1015,406 @@
             transition: all 0.3s;
         }
 
+        /* ===== 静心音乐播放器（紧凑可折叠） ===== */
+        .meditation-music {
+            background: #f8f4f0;
+            border-radius: 14px;
+            margin-top: 18px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        /* --- 顶部一行控制条（始终可见） --- */
+        .music-bar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 18px;
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.25s;
+        }
+
+        .music-bar:hover {
+            background: #f0ece6;
+        }
+
+        .music-bar .bar-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: #e8ddd0;
+            color: #5a3e2b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            flex-shrink: 0;
+            transition: all 0.25s;
+        }
+
+        .music-bar.playing .bar-icon {
+            background: #8b6b4d;
+            color: #fff;
+        }
+
+        /* 播放中的跳动音符 */
+        .music-bar .bar-bars {
+            display: none;
+            align-items: flex-end;
+            gap: 2px;
+            height: 12px;
+            margin-left: 4px;
+        }
+
+        .music-bar.playing .bar-bars {
+            display: inline-flex;
+        }
+
+        .music-bar .bar-bars span {
+            width: 3px;
+            background: #8b6b4d;
+            border-radius: 2px;
+            animation: musicBar 0.9s ease-in-out infinite;
+        }
+
+        .music-bar .bar-bars span:nth-child(1) { height: 5px; animation-delay: 0s; }
+        .music-bar .bar-bars span:nth-child(2) { height: 11px; animation-delay: 0.15s; }
+        .music-bar .bar-bars span:nth-child(3) { height: 7px; animation-delay: 0.3s; }
+        .music-bar .bar-bars span:nth-child(4) { height: 12px; animation-delay: 0.45s; }
+
+        @keyframes musicBar {
+            0%, 100% { transform: scaleY(0.5); }
+            50% { transform: scaleY(1); }
+        }
+
+        .music-bar .bar-info {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .music-bar .bar-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #5a3e2b;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .music-bar .bar-sub {
+            font-size: 12px;
+            color: #9a8b7a;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* 播放/暂停按钮 */
+        .music-bar .bar-play {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: none;
+            background: #8b6b4d;
+            color: #fff;
+            font-size: 13px;
+            cursor: pointer;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.25s;
+        }
+
+        .music-bar .bar-play:hover {
+            background: #6b4f3a;
+            transform: scale(1.06);
+        }
+
+        .music-bar .bar-play:disabled {
+            background: #d5c8b8;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* 展开箭头 */
+        .music-bar .bar-arrow {
+            color: #9a8b7a;
+            font-size: 12px;
+            flex-shrink: 0;
+            transition: transform 0.3s ease;
+        }
+
+        .meditation-music.expanded .bar-arrow {
+            transform: rotate(180deg);
+        }
+
+        /* --- 展开后的曲目区 --- */
+        .music-panel {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease;
+        }
+
+        .meditation-music.expanded .music-panel {
+            max-height: 420px;
+        }
+
+        .music-panel-inner {
+            padding: 4px 16px 16px;
+            border-top: 1px dashed #e0d5c8;
+        }
+
+        .music-volume-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 4px;
+            font-size: 13px;
+            color: #8b7a6a;
+        }
+
+        .music-volume-row input[type="range"] {
+            flex: 1;
+            accent-color: #8b6b4d;
+            cursor: pointer;
+        }
+
+        .music-volume-row .vol-value {
+            font-size: 12px;
+            color: #9a8b7a;
+            min-width: 34px;
+            text-align: right;
+        }
+
+        .music-track-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            max-height: 240px;
+            overflow-y: auto;
+        }
+
+        .music-track {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            border-radius: 10px;
+            background: #fff;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1.5px solid transparent;
+        }
+
+        .music-track:hover {
+            background: #f5ede6;
+            border-color: #e0d5c8;
+        }
+
+        .music-track.active {
+            background: #f0e6da;
+            border-color: #8b6b4d;
+        }
+
+        .music-track .track-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #e8ddd0;
+            color: #5a3e2b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            flex-shrink: 0;
+        }
+
+        .music-track.active .track-icon {
+            background: #8b6b4d;
+            color: #fff;
+        }
+
+        .music-track .track-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .music-track .track-name {
+            font-size: 13px;
+            font-weight: 500;
+            color: #4a3728;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .music-track .track-desc {
+            font-size: 11px;
+            color: #9a8b7a;
+            margin-top: 1px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .music-track .track-check {
+            color: #8b6b4d;
+            font-size: 12px;
+            flex-shrink: 0;
+            opacity: 0;
+        }
+
+        .music-track.active .track-check {
+            opacity: 1;
+        }
+
+        .music-panel-tip {
+            font-size: 11px;
+            color: #b0a090;
+            text-align: center;
+            margin-top: 10px;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 480px) {
+            .music-bar {
+                padding: 10px 14px;
+                gap: 10px;
+            }
+            .music-bar .bar-play {
+                width: 32px;
+                height: 32px;
+            }
+            .music-bar .bar-icon {
+                width: 30px;
+                height: 30px;
+            }
+            .music-panel-inner {
+                padding: 4px 12px 14px;
+            }
+        }
+
+        .music-track-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .music-track {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            border-radius: 10px;
+            background: #fff;
+            cursor: pointer;
+            transition: all 0.25s;
+            border: 2px solid transparent;
+        }
+
+        .music-track:hover {
+            background: #f5ede6;
+            border-color: #e0d5c8;
+        }
+
+        .music-track.active {
+            background: #f0e6da;
+            border-color: #8b6b4d;
+        }
+
+        .music-track .track-play {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: #e8ddd0;
+            color: #5a3e2b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            flex-shrink: 0;
+            transition: all 0.25s;
+        }
+
+        .music-track.active .track-play {
+            background: #8b6b4d;
+            color: #fff;
+        }
+
+        .music-track .track-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .music-track .track-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: #4a3728;
+        }
+
+        .music-track .track-desc {
+            font-size: 12px;
+            color: #9a8b7a;
+            margin-top: 2px;
+        }
+
+        .music-track .track-status {
+            font-size: 12px;
+            color: #8b6b4d;
+            flex-shrink: 0;
+        }
+
+        /* 播放中的跳动音符动画 */
+        .music-playing-bars {
+            display: inline-flex;
+            align-items: flex-end;
+            gap: 2px;
+            height: 14px;
+            margin-left: 4px;
+        }
+
+        .music-playing-bars span {
+            width: 3px;
+            background: #8b6b4d;
+            border-radius: 2px;
+            animation: musicBar 0.9s ease-in-out infinite;
+        }
+
+        .music-playing-bars span:nth-child(1) { height: 6px; animation-delay: 0s; }
+        .music-playing-bars span:nth-child(2) { height: 12px; animation-delay: 0.15s; }
+        .music-playing-bars span:nth-child(3) { height: 8px; animation-delay: 0.3s; }
+        .music-playing-bars span:nth-child(4) { height: 14px; animation-delay: 0.45s; }
+
+        @keyframes musicBar {
+            0%, 100% { transform: scaleY(0.5); }
+            50% { transform: scaleY(1); }
+        }
+
+        .meditation-music .music-tip {
+            font-size: 12px;
+            color: #9a8b7a;
+            text-align: center;
+            margin-top: 12px;
+            line-height: 1.7;
+        }
+
+        @media (max-width: 480px) {
+            .meditation-music {
+                padding: 14px 14px;
+            }
+            .meditation-music .music-volume input[type="range"] {
+                width: 64px;
+            }
+        }
+        .music-bar.loading .bar-play {
+            background: #a89078;
+            cursor: wait;
+        }
         .meditation-guide .guide-icon {
             font-size: 32px;
             margin-right: 16px;
@@ -2343,6 +2789,440 @@
         }
 
         /* ========================================================= */
+        /* 新增：摇签 / 卜卦 加载动画 */
+        /* ========================================================= */
+
+        /* ----- 摇签动画 ----- */
+        .sign-loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 320px;
+            gap: 20px;
+        }
+
+        .sign-tube {
+            position: relative;
+            width: 90px;
+            height: 140px;
+        }
+
+        .sign-tube-body {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 90px;
+            height: 110px;
+            background: linear-gradient(145deg, #8b6b4d, #6b4f3a);
+            border-radius: 8px 8px 12px 12px;
+            box-shadow: 0 6px 20px rgba(139, 107, 77, 0.35),
+            inset 0 -6px 12px rgba(0, 0, 0, 0.18);
+            transform-origin: 50% 100%;
+            animation: tubeShake 0.55s ease-in-out infinite;
+        }
+
+        .sign-tube-body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 78px;
+            height: 14px;
+            background: radial-gradient(ellipse at center, #4a3222 0%, #6b4f3a 70%);
+            border-radius: 50%;
+            box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.4);
+        }
+
+        .sign-sticks {
+            position: absolute;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70px;
+            height: 60px;
+            z-index: 1;
+        }
+
+        .sign-stick {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 5px;
+            height: 55px;
+            background: linear-gradient(180deg, #d4b896 0%, #a8845c 100%);
+            border-radius: 2px 2px 0 0;
+            transform-origin: 50% 100%;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+        }
+
+        .sign-stick::after {
+            content: "";
+            position: absolute;
+            top: 4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 3px;
+            height: 3px;
+            border-radius: 50%;
+            background: #c0392b;
+        }
+
+        @keyframes tubeShake {
+            0%, 100% { transform: rotate(0deg); }
+            20% { transform: rotate(-9deg); }
+            40% { transform: rotate(8deg); }
+            60% { transform: rotate(-6deg); }
+            80% { transform: rotate(4deg); }
+        }
+
+        .sign-stick.s1 { animation: stickShake1 0.6s ease-in-out infinite; }
+        .sign-stick.s2 { animation: stickShake2 0.6s ease-in-out infinite 0.05s; }
+        .sign-stick.s3 { animation: stickShake1 0.6s ease-in-out infinite 0.1s; }
+        .sign-stick.s4 { animation: stickShake2 0.6s ease-in-out infinite 0.15s; }
+        .sign-stick.s5 { animation: stickShake1 0.6s ease-in-out infinite 0.2s; }
+
+        @keyframes stickShake1 {
+            0%, 100% { transform: translateX(-50%) rotate(0deg) translateY(0); }
+            25% { transform: translateX(-50%) rotate(-7deg) translateY(-6px); }
+            50% { transform: translateX(-50%) rotate(5deg) translateY(-3px); }
+            75% { transform: translateX(-50%) rotate(-4deg) translateY(-5px); }
+        }
+
+        @keyframes stickShake2 {
+            0%, 100% { transform: translateX(-50%) rotate(0deg) translateY(0); }
+            25% { transform: translateX(-50%) rotate(6deg) translateY(-5px); }
+            50% { transform: translateX(-50%) rotate(-6deg) translateY(-7px); }
+            75% { transform: translateX(-50%) rotate(3deg) translateY(-2px); }
+        }
+
+        /* 一根"飞出的签" */
+        .sign-fly-stick {
+            position: absolute;
+            bottom: 100px;
+            left: 50%;
+            width: 5px;
+            height: 60px;
+            background: linear-gradient(180deg, #e8d5b0 0%, #b8956a 100%);
+            border-radius: 2px 2px 0 0;
+            transform: translateX(-50%);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .sign-fly-stick::after {
+            content: "";
+            position: absolute;
+            top: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: #c0392b;
+        }
+
+        .sign-loading.flying .sign-fly-stick {
+            animation: stickFly 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        @keyframes stickFly {
+            0% { transform: translateX(-50%) translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateX(-50%) translateY(-120px) rotate(28deg); opacity: 1; }
+        }
+
+        .sign-loading-text {
+            font-size: 17px;
+            color: #8b6b4d;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            letter-spacing: 2px;
+            animation: textPulse 1.4s ease-in-out infinite;
+        }
+
+        @keyframes textPulse {
+            0%, 100% { opacity: 0.55; }
+            50% { opacity: 1; }
+        }
+
+        /* ----- 卜卦动画 ----- */
+        .gua-loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 320px;
+            gap: 20px;
+        }
+
+        .gua-coins {
+            position: relative;
+            width: 200px;
+            height: 100px;
+        }
+
+        .gua-coin {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 52px;
+            height: 52px;
+            margin: -26px 0 0 -26px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 32% 28%, #f4d68a 0%, #c9a23b 55%, #8b6914 100%);
+            box-shadow: 0 4px 12px rgba(139, 105, 20, 0.5),
+            inset 0 0 0 3px rgba(255, 255, 255, 0.18);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6b4f14;
+            font-weight: 700;
+            font-size: 14px;
+            font-family: 'STKaiti', 'KaiTi', serif;
+        }
+
+        .gua-coin::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 16px;
+            height: 16px;
+            transform: translate(-50%, -50%) rotate(45deg);
+            border: 2px solid #6b4f14;
+            background: transparent;
+            border-radius: 2px;
+        }
+
+        .gua-coin.c1 { animation: coinToss1 1.05s ease-in-out infinite; }
+        .gua-coin.c2 { animation: coinToss2 1.05s ease-in-out infinite 0.15s; }
+        .gua-coin.c3 { animation: coinToss3 1.05s ease-in-out infinite 0.3s; }
+
+        @keyframes coinToss1 {
+            0%, 100% { transform: translate(-70px, 0) rotate(0deg); }
+            35% { transform: translate(-70px, -42px) rotate(180deg); }
+            70% { transform: translate(-70px, 6px) rotate(360deg); }
+        }
+
+        @keyframes coinToss2 {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            35% { transform: translate(0, -52px) rotate(200deg); }
+            70% { transform: translate(0, 6px) rotate(380deg); }
+        }
+
+        @keyframes coinToss3 {
+            0%, 100% { transform: translate(70px, 0) rotate(0deg); }
+            35% { transform: translate(70px, -44px) rotate(220deg); }
+            70% { transform: translate(70px, 6px) rotate(400deg); }
+        }
+
+        .gua-loading-text {
+            font-size: 17px;
+            color: #8b6b4d;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            letter-spacing: 2px;
+            animation: textPulse 1.4s ease-in-out infinite;
+        }
+
+        /* 卦象逐爻浮现 */
+        .gua-yao-list {
+            display: flex;
+            flex-direction: column-reverse;
+            gap: 6px;
+            align-items: center;
+            margin-top: 4px;
+            min-height: 60px;
+        }
+
+        .gua-yao {
+            width: 66px;
+            height: 6px;
+            border-radius: 2px;
+            background: #8b6b4d;
+            opacity: 0;
+            transform: scaleX(0);
+            animation: yaoAppear 0.35s ease forwards;
+        }
+
+        .gua-yao.yang {
+            background: #8b6b4d;
+        }
+
+        .gua-yao.yin {
+            background: linear-gradient(90deg,
+            #8b6b4d 0%, #8b6b4d 42%,
+            transparent 42%, transparent 58%,
+            #8b6b4d 58%, #8b6b4d 100%);
+        }
+
+        @keyframes yaoAppear {
+            to { opacity: 1; transform: scaleX(1); }
+        }
+
+        /* ----- 通用：加载容器（覆盖在结果上或替代占位） ----- */
+        .loading-fade {
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* ========================================================= */
+        /* 新增：运势加载动画（八卦盘 + 星光） */
+        /* ========================================================= */
+        .fortune-loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 360px;
+            gap: 24px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* 八卦盘容器 */
+        .fortune-bagua {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 外圈八卦：用 conic-gradient 做旋转光环 */
+        .fortune-bagua-ring {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background:
+                    conic-gradient(from 0deg,
+                    rgba(139, 107, 77, 0.0) 0deg,
+                    rgba(139, 107, 77, 0.55) 90deg,
+                    rgba(201, 168, 124, 0.0) 180deg,
+                    rgba(139, 107, 77, 0.55) 270deg,
+                    rgba(139, 107, 77, 0.0) 360deg);
+            animation: baguaSpin 2.4s linear infinite;
+            mask: radial-gradient(circle, transparent 62%, #000 63%, #000 100%);
+            -webkit-mask: radial-gradient(circle, transparent 62%, #000 63%, #000 100%);
+        }
+
+        /* 内圈虚线圈 */
+        .fortune-bagua-inner {
+            position: absolute;
+            inset: 22px;
+            border-radius: 50%;
+            border: 2px dashed rgba(139, 107, 77, 0.45);
+            animation: baguaSpinReverse 3.6s linear infinite;
+        }
+
+        /* 中心的八卦符号 */
+        .fortune-bagua-center {
+            font-size: 60px;
+            color: #8b6b4d;
+            line-height: 1;
+            animation: baguaPulse 1.6s ease-in-out infinite;
+            text-shadow: 0 0 16px rgba(201, 168, 124, 0.55);
+        }
+
+        @keyframes baguaSpin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes baguaSpinReverse {
+            to { transform: rotate(-360deg); }
+        }
+
+        @keyframes baguaPulse {
+            0%, 100% { transform: scale(1); opacity: 0.85; }
+            50% { transform: scale(1.08); opacity: 1; }
+        }
+
+        /* 星光粒子 */
+        .fortune-stars {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .fortune-star {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 6px;
+            height: 6px;
+            margin: -3px 0 0 -3px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #ffd97a 0%, #c9a87c 60%, transparent 100%);
+            box-shadow: 0 0 8px rgba(255, 217, 122, 0.8);
+            opacity: 0;
+            animation: starFly 1.8s ease-out infinite;
+        }
+
+        .fortune-star.s1 { animation-delay: 0s; }
+        .fortune-star.s2 { animation-delay: 0.3s; }
+        .fortune-star.s3 { animation-delay: 0.6s; }
+        .fortune-star.s4 { animation-delay: 0.9s; }
+        .fortune-star.s5 { animation-delay: 1.2s; }
+        .fortune-star.s6 { animation-delay: 1.5s; }
+
+        @keyframes starFly {
+            0% {
+                opacity: 0;
+                transform: translate(0, 0) scale(0.3);
+            }
+            30% {
+                opacity: 1;
+                transform: translate(var(--tx), var(--ty)) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(calc(var(--tx) * 1.4), calc(var(--ty) * 1.4)) scale(0.4);
+            }
+        }
+
+        /* 加载文字 */
+        .fortune-loading-text {
+            font-size: 17px;
+            color: #8b6b4d;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            letter-spacing: 2px;
+            animation: textPulse 1.4s ease-in-out infinite;
+            text-align: center;
+        }
+
+        /* 六爻小圆点（底部进度感） */
+        .fortune-yao-dots {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .fortune-yao-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #e8ddd0;
+            transition: background 0.4s;
+        }
+
+        .fortune-yao-dot.active {
+            background: #8b6b4d;
+            box-shadow: 0 0 8px rgba(139, 107, 77, 0.55);
+        }
+
+        @media (max-width: 480px) {
+            .fortune-bagua {
+                width: 140px;
+                height: 140px;
+            }
+            .fortune-bagua-center {
+                font-size: 48px;
+            }
+            .fortune-bagua-inner {
+                inset: 16px;
+            }
+        }
+
+        /* ========================================================= */
         /* 页脚 */
         /* ========================================================= */
         footer {
@@ -2364,6 +3244,36 @@
             margin-top: 4px;
         }
 
+        .footer-credit a {
+            color: #9a8b7a;
+            text-decoration: none;
+            border-bottom: 1px dotted #c9a87c;
+            transition: color 0.2s, border-color 0.2s;
+        }
+
+        .footer-credit a:hover {
+            color: #8b6b4d;
+            border-bottom-color: #8b6b4d;
+        }
+
+        .footer-contact {
+            font-size: 12px;
+            color: #9a8b7a;
+            margin-top: 8px;
+            line-height: 1.8;
+        }
+
+        .footer-contact a {
+            color: #8b6b4d;
+            text-decoration: none;
+            border-bottom: 1px dotted #c9a87c;
+            transition: color 0.2s, border-color 0.2s;
+        }
+
+        .footer-contact a:hover {
+            color: #5a3e2b;
+            border-bottom-color: #8b6b4d;
+        }
         /* ========================================================= */
         /* 响应式 */
         /* ========================================================= */
@@ -2624,8 +3534,6 @@
                 <i class="fas fa-bars"></i>
             </button>
 
-
-
         </header>
 
         <!-- 主导航 -->
@@ -2662,7 +3570,7 @@
 
             <div class="nav-group">
                 <a class="nav-group-title" data-group="classic">
-                    <span class="nav-icon">📜</span> 典籍
+                    <span class="nav-icon">📖</span> 典籍
                 </a>
                 <div class="nav-dropdown">
                     <a data-tab="daoism">道家智慧</a>
@@ -2685,8 +3593,8 @@
                 </a>
                 <div class="nav-dropdown">
                     <a data-tab="daoname">测测道号</a>
-                    <a data-tab="mountains">云游名山</a>
                     <a data-tab="seal">印章生成</a>
+                    <a data-tab="mountains">云游名山</a>
                 </div>
             </div>
         </nav>
@@ -2725,6 +3633,8 @@
                     </div>
                 </div>
             </div>
+            <!-- 加载动画容器（默认隐藏） -->
+            <div id="fortuneLoading" class="fortune-loading" style="display:none;"></div>
         </section>
 
         <!-- ========================================================= -->
@@ -2768,22 +3678,39 @@
         </section>
 
         <!-- ========================================================= -->
-        <!-- Tab 4: 每日一签 (新增) -->
+        <!-- Tab 4: 每日一签 -->
         <!-- ========================================================= -->
         <section id="sign-tab" class="tab-content">
             <h2><i class="fas fa-scroll"></i> 每日一签</h2>
             <div class="daily-sign-container">
-                <div class="daily-sign-date" id="signDate">📅 加载中...</div>
-                <div id="dailySignCard" class="daily-sign-card">
-                    <span class="sign-icon">🎋</span>
-                    <div class="sign-original" id="signOriginal">道可道，非常道</div>
-                    <div class="sign-translation" id="signTranslation">可以用语言表达的道，就不是永恒的道</div>
-                    <div class="sign-interpretation" id="signInterpretation">道的本质是不可言说的，我们需要超越语言的局限。</div>
-                    <div class="sign-source" id="signSource">——《道德经》第一章</div>
-                    <div class="sign-tag" id="signCategory"># 道</div>
+
+                <!-- 介绍页 -->
+                <div class="sign-intro" id="signIntro">
+                    <div class="sign-intro-icon">📜</div>
+                    <h3>静心摇签，随缘而安</h3>
+                    <p>心中默念所问之事，<br>点击下方按钮，摇一支属于你的智慧签。</p>
+                    <button class="sign-btn-primary" id="signCastBtn">
+                        <i class="fas fa-hand-holding-heart"></i> 摇签
+                    </button>
                 </div>
-                <button class="daily-sign-refresh" id="refreshSignBtn"><i class="fas fa-sync-alt"></i> 换一签</button>
-                <p style="margin-top:16px;font-size:13px;color:#9a8b7a;">每日一签，随缘而安。每次刷新随机抽取一句智慧箴言。</p>
+
+                <!-- 结果页 -->
+                <div class="sign-result" id="signResult" style="display:none;">
+                    <div class="daily-sign-date" id="signDate">📅 加载中...</div>
+                    <div id="dailySignCard" class="daily-sign-card">
+                        <span class="sign-icon">📜</span>
+                        <div class="sign-original" id="signOriginal">道可道，非常道</div>
+                        <div class="sign-translation" id="signTranslation">可以用语言表达的道，就不是永恒的道</div>
+                        <div class="sign-interpretation" id="signInterpretation">道的本质是不可言说的，我们需要超越语言的局限。</div>
+                        <div class="sign-source" id="signSource">——《道德经》第一章</div>
+                        <div class="sign-tag" id="signCategory"># 道</div>
+                    </div>
+                    <button class="daily-sign-refresh" id="refreshSignBtn">
+                        <i class="fas fa-sync-alt"></i> 再摇一签
+                    </button>
+                    <p style="margin-top:16px;font-size:13px;color:#9a8b7a;">每日一签，随缘而安。每次摇签随机抽取一句智慧箴言。</p>
+                </div>
+
             </div>
         </section>
 
@@ -2851,6 +3778,46 @@
                     <span class="guide-icon">🧘</span>
                     <span id="guideText">点击「开始」，进入静心时光。深呼吸，放下杂念。</span>
                 </div>
+
+                <!-- ===== 静心音乐播放器（紧凑可折叠） ===== -->
+                <div class="meditation-music" id="meditationMusic">
+
+                    <!-- 顶部控制条（始终可见） -->
+                    <div class="music-bar" id="musicBar">
+                        <div class="bar-icon">
+                            <i class="fas fa-music"></i>
+                        </div>
+                        <div class="bar-info">
+                            <div class="bar-title" id="musicBarTitle">静心配乐</div>
+                            <div class="bar-sub" id="musicBarSub">点击展开曲目</div>
+                        </div>
+                        <button class="bar-play" id="musicBarPlay" title="播放/暂停" disabled>
+                            <i class="fas fa-play"></i>
+                        </button>
+                        <i class="fas fa-chevron-down bar-arrow"></i>
+                    </div>
+
+                    <!-- 展开后的曲目面板 -->
+                    <div class="music-panel">
+                        <div class="music-panel-inner">
+
+                            <!-- 音量 -->
+                            <div class="music-volume-row">
+                                <i class="fas fa-volume-down"></i>
+                                <input type="range" id="musicVolume" min="0" max="100" value="60">
+                                <span class="vol-value" id="musicVolumeValue">60%</span>
+                            </div>
+
+                            <!-- 曲目列表 -->
+                            <div class="music-track-list" id="musicTrackList">
+                                <!-- JS 动态渲染 -->
+                            </div>
+
+                            <p class="music-panel-tip">点击曲目播放，音乐循环播放，与静心计时器互不干扰。</p>
+                        </div>
+                    </div>
+                </div>
+
                 <p style="margin-top:14px;font-size:13px;color:#9a8b7a;text-align:center;">道家曰：「致虚极，守静笃。」静坐片刻，心神自明。</p>
             </div>
         </section>
@@ -3114,7 +4081,16 @@
     <!-- ===== 页脚 ===== -->
     <footer>
         <p><i class="fas fa-yin-yang"></i> 道法自然 · 天人合一</p>
-        <p class="footer-credit">传统文化智慧平台</p>
+        <p class="footer-credit">
+            传统文化智慧平台 ·
+            <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">
+                蒙ICP备2025028887号-1
+            </a>
+        </p>
+        <p class="footer-contact">
+            商务合作 · 意见反馈 请联系邮箱
+            <a href="mailto:xiaodonglicn@outlook.com">xiaodonglicn@outlook.com</a>
+        </p>
     </footer>
 
 </div>
@@ -4889,6 +5865,32 @@
     ];
 
     // =============================================================
+    // 新增数据：静心音乐（免费音源，建议替换为你自己的音频文件）
+    // =============================================================
+    // 说明：以下使用免费可商用的音源示例。若链接失效，
+    // 请将音频文件放到本地（如 audio/xxx.mp3），并把 src 改为本地路径。
+    const MEDITATION_MUSIC = [
+        {
+            id: 'guqin-1',
+            name: '风的记忆',
+            desc: '钢琴轻音乐 · 温柔回忆',
+            src: 'audio/风的记忆-钢琴.mp3'
+        },
+        {
+            id: 'guqin-2',
+            name: '流水声-纯音乐',
+            desc: '自然流水 · 涤荡心尘',
+            src: 'audio/流水声-纯音乐.mp3'
+        },
+        {
+            id: 'guqin-3',
+            name: '星空月寂-纯音乐',
+            desc: '静谧夜空 · 月下静心',
+            src: 'audio/星空月寂-纯音乐.mp3'
+        }
+    ];
+
+    // =============================================================
     // 新增数据：四时养生
     // =============================================================
     const SEASONS_DATA = {
@@ -5019,6 +6021,89 @@
     // 4. 渲染函数
     // =============================================================
 
+    // ----- 运势加载动画 -----
+    let isFortuneLoading = false;
+
+    function playFortuneLoading(callback) {
+        if (isFortuneLoading) return;
+        isFortuneLoading = true;
+
+        const loading = document.getElementById('fortuneLoading');
+        const resultContainer = document.getElementById('fortuneResult');
+
+        // 如果找不到动画容器，直接执行回调
+        if (!loading) {
+            callback();
+            isFortuneLoading = false;
+            return;
+        }
+
+        // 1. 隐藏整个结果容器（占位卡 + 旧运势卡都会被隐藏）
+        if (resultContainer) resultContainer.style.display = 'none';
+        // 2. 显示动画容器
+        loading.style.display = 'flex';
+
+        // 3. 生成星光粒子
+        const angles = [30, 90, 150, 210, 270, 330];
+        const starsHTML = angles.map((deg, i) => {
+            const rad = deg * Math.PI / 180;
+            const dist = 70 + Math.random() * 20;
+            const tx = Math.cos(rad) * dist;
+            const ty = Math.sin(rad) * dist;
+            return `<span class="fortune-star s${i + 1}" style="--tx:${tx.toFixed(1)}px; --ty:${ty.toFixed(1)}px;"></span>`;
+        }).join('');
+
+        loading.innerHTML = `
+        <div class="fortune-bagua">
+            <div class="fortune-bagua-ring"></div>
+            <div class="fortune-bagua-inner"></div>
+            <div class="fortune-stars">${starsHTML}</div>
+            <div class="fortune-bagua-center">☯</div>
+        </div>
+        <div class="fortune-yao-dots">
+            <span class="fortune-yao-dot"></span>
+            <span class="fortune-yao-dot"></span>
+            <span class="fortune-yao-dot"></span>
+            <span class="fortune-yao-dot"></span>
+            <span class="fortune-yao-dot"></span>
+            <span class="fortune-yao-dot"></span>
+        </div>
+        <div class="fortune-loading-text" id="fortuneLoadingText">推演中……</div>
+    `;
+
+        const dots = loading.querySelectorAll('.fortune-yao-dot');
+        const textEl = document.getElementById('fortuneLoadingText');
+
+        // 4. 逐个点亮六爻圆点
+        let dotIndex = 0;
+        const dotInterval = setInterval(() => {
+            if (dotIndex < dots.length) {
+                dots[dotIndex].classList.add('active');
+                dotIndex++;
+                if (dotIndex === 3 && textEl) {
+                    textEl.textContent = '星象汇聚中……';
+                }
+                if (dotIndex === 6 && textEl) {
+                    textEl.textContent = '运势生成，为你呈现……';
+                }
+            } else {
+                clearInterval(dotInterval);
+            }
+        }, 280);
+
+        // 5. 2 秒后结束动画
+        setTimeout(() => {
+            clearInterval(dotInterval);
+            // 隐藏动画
+            loading.style.display = 'none';
+            // 恢复结果容器显示
+            if (resultContainer) resultContainer.style.display = 'block';
+            isFortuneLoading = false;
+            // 6. 执行回调（内部会调用 renderFortune 渲染运势）
+            callback();
+        }, 2000);
+    }
+
     // ----- 4a. 渲染运势 -----
     // 渲染运势函数（使用 innerHTML 整体替换）
     function renderFortune(fortune) {
@@ -5054,7 +6139,7 @@
         <div class="fortune-card">
             <div class="fortune-header">
                 <span class="fortune-date">📅 ${fortune.date}</span>
-                <span class="fortune-zodiac">🐉 ${fortune.zodiac}</span>
+                <span class="fortune-zodiac">${fortune.zodiac}</span>
                 <span class="fortune-level" data-level="${fortune.luckLevel}">${fortune.luckLevel}</span>
             </div>
             <div class="fortune-score">
@@ -5113,6 +6198,100 @@
             `).join('');
     }
 
+    // ----- 摇签动画 -----
+    let isSignShaking = false;
+    let currentSign = null;   // 当前摇到的签（内存变量，刷新后清空）
+    let signFirstPlayed = false;
+
+    function playSignShake(callback) {
+        if (isSignShaking) return;
+        isSignShaking = true;
+
+        const resultEl = document.getElementById('signResult');
+        if (!resultEl) {
+            callback();
+            isSignShaking = false;
+            return;
+        }
+
+        // 先显示结果区（此时里面是空的），再替换成动画
+        document.getElementById('signIntro').style.display = 'none';
+        resultEl.style.display = 'block';
+
+        const originalHTML = resultEl.innerHTML;
+        resultEl.innerHTML = `
+            <div class="sign-loading" id="signLoading">
+                <div class="sign-tube">
+                    <div class="sign-sticks">
+                        <div class="sign-stick s1"></div>
+                        <div class="sign-stick s2"></div>
+                        <div class="sign-stick s3"></div>
+                        <div class="sign-stick s4"></div>
+                        <div class="sign-stick s5"></div>
+                    </div>
+                    <div class="sign-tube-body"></div>
+                    <div class="sign-fly-stick"></div>
+                </div>
+                <div class="sign-loading-text" id="signLoadingText">静心摇签中……</div>
+            </div>
+        `;
+
+        const loadingEl = document.getElementById('signLoading');
+        const loadingText = document.getElementById('signLoadingText');
+
+        // 1.4 秒后，飞出一根签
+        setTimeout(() => {
+            if (loadingEl) loadingEl.classList.add('flying');
+            if (loadingText) loadingText.textContent = '签已落定，为你解签……';
+        }, 1400);
+
+        // 2.4 秒后结束动画，恢复结构并渲染
+        setTimeout(() => {
+            resultEl.innerHTML = originalHTML;
+            rebindSignEvents();
+            callback();
+            isSignShaking = false;
+        }, 2400);
+    }
+
+    // 重新绑定摇签相关事件
+    function rebindSignEvents() {
+        const refreshBtn = document.getElementById('refreshSignBtn');
+        if (refreshBtn) {
+            refreshBtn.addEventListener('click', function() {
+                playSignShake(() => {
+                    currentSign = pickRandom(DAILY_SIGNS);
+                    renderDailySign(currentSign);
+                });
+            });
+        }
+        const castBtn = document.getElementById('signCastBtn');
+        if (castBtn) {
+            castBtn.addEventListener('click', function() {
+                playSignShake(() => {
+                    currentSign = pickRandom(DAILY_SIGNS);
+                    renderDailySign(currentSign);
+                });
+            });
+        }
+    }
+
+    // 重新绑定卜卦相关事件
+    function rebindGuaEvents() {
+        const castBtn = document.getElementById('guaCastBtn');
+        const againBtn = document.getElementById('guaAgainBtn');
+        if (castBtn) {
+            castBtn.addEventListener('click', function() {
+                playGuaCast(() => castGua());
+            });
+        }
+        if (againBtn) {
+            againBtn.addEventListener('click', function() {
+                playGuaCast(() => castGua());
+            });
+        }
+    }
+
     // ----- 4d. 渲染每日一签 -----
     function renderDailySign(sign) {
         if (!sign) sign = pickRandom(DAILY_SIGNS);
@@ -5121,8 +6300,17 @@
         document.getElementById('signInterpretation').textContent = sign.interpretation;
         document.getElementById('signSource').textContent = '——' + sign.source;
         document.getElementById('signCategory').textContent = '# ' + sign.category;
-        // 更新日期
         document.getElementById('signDate').textContent = '📅 ' + formatDate(new Date());
+
+        // 切换到结果页
+        document.getElementById('signIntro').style.display = 'none';
+        document.getElementById('signResult').style.display = 'block';
+    }
+
+    // 重置到介绍页
+    function resetDailySign() {
+        document.getElementById('signIntro').style.display = 'block';
+        document.getElementById('signResult').style.display = 'none';
     }
 
     // ----- 4e. 渲染四时养生 -----
@@ -5654,6 +6842,61 @@
         extraEl.innerHTML = gua.extra.map(t => `<span># ${t}</span>`).join('');
     }
 
+    // ----- 卜卦动画 -----
+    let isGuaCasting = false;
+
+    function playGuaCast(callback) {
+        if (isGuaCasting) return;
+        isGuaCasting = true;
+
+        const container = document.querySelector('.gua-container');
+        if (!container) return;
+
+        const originalHTML = container.innerHTML;
+        container.innerHTML = `
+            <div class="gua-loading" id="guaLoading">
+                <div class="gua-coins">
+                    <div class="gua-coin c1">乾</div>
+                    <div class="gua-coin c2">坤</div>
+                    <div class="gua-coin c3">易</div>
+                </div>
+                <div class="gua-yao-list" id="guaYaoList"></div>
+                <div class="gua-loading-text" id="guaLoadingText">凝神掷币中……</div>
+            </div>
+        `;
+
+        const yaoList = document.getElementById('guaYaoList');
+        const loadingText = document.getElementById('guaLoadingText');
+
+        let yaoIndex = 0;
+        const yaoInterval = setInterval(() => {
+            if (yaoIndex >= 6) {
+                clearInterval(yaoInterval);
+                return;
+            }
+            const yao = document.createElement('div');
+            yao.className = 'gua-yao ' + (Math.random() > 0.5 ? 'yang' : 'yin');
+            yao.style.animationDelay = (yaoIndex * 0.05) + 's';
+            yaoList.appendChild(yao);
+            yaoIndex++;
+
+            if (yaoIndex === 3 && loadingText) {
+                loadingText.textContent = '卦象渐成……';
+            }
+            if (yaoIndex === 6 && loadingText) {
+                loadingText.textContent = '卦已成形，为你解读……';
+            }
+        }, 280);
+
+        setTimeout(() => {
+            clearInterval(yaoInterval);
+            container.innerHTML = originalHTML;
+            rebindGuaEvents();
+            callback();
+            isGuaCasting = false;
+        }, 2400);
+    }
+
     function resetGua() {
         document.getElementById('guaIntro').style.display = 'block';
         document.getElementById('guaResult').style.display = 'none';
@@ -6089,6 +7332,10 @@
         }
 
         isMeditationRunning = true;
+        // 静心开始时，如果音乐未播放，自动播放第一首
+        if (meditationAudio && meditationAudio.paused && !currentMusicId) {
+            toggleMusic(MEDITATION_MUSIC[0].id);
+        }
         const startBtn = document.getElementById('meditationStartBtn');
         startBtn.innerHTML = '<i class="fas fa-pause"></i> 暂停';
         startBtn.classList.add('running');
@@ -6118,6 +7365,9 @@
                 btn.classList.remove('running');
                 document.getElementById('timerDisplay').style.color = '#4a3728';
                 document.getElementById('guideText').textContent = '🧘 静心圆满。愿这份宁静伴随你。';
+                // 静心结束，暂停音乐（用户可手动再开）
+                if (meditationAudio) meditationAudio.pause();
+                updateMusicBar();
                 // 播放完成提示音（使用Web Audio API）
                 try {
                     const ctx = new(window.AudioContext || window.webkitAudioContext)();
@@ -6156,7 +7406,9 @@
         const btn = document.getElementById('meditationStartBtn');
         btn.innerHTML = '<i class="fas fa-play"></i> 开始';
         btn.classList.remove('running');
-        document.getElementById('guideText').textContent = '🧘 点击「开始」，进入静心时光。深呼吸，放下杂念。';
+        document.getElementById('guideText').textContent = '点击「开始」，进入静心时光。深呼吸，放下杂念。';
+        // 重置时停止音乐
+        stopMusic();
     }
 
     function setMeditationMinutes(minutes) {
@@ -6171,6 +7423,222 @@
             btn.classList.toggle('active-preset', parseInt(btn.dataset.minutes) === minutes);
         });
     }
+
+    // =============================================================
+    // 5b. 静心音乐播放器（紧凑可折叠）
+    // =============================================================
+    let meditationAudio = null;      // 当前 Audio 对象
+    let currentMusicId = null;       // 当前播放曲目 id
+
+    function initMusicPlayer() {
+        const listEl = document.getElementById('musicTrackList');
+        if (!listEl) return;
+        // 创建 Audio 对象
+        meditationAudio = new Audio();
+        meditationAudio.loop = true;
+        meditationAudio.volume = 0.6;
+        // 允许浏览器提前缓冲
+        meditationAudio.preload = 'auto';
+
+        // 渲染曲目列表
+        renderMusicTracks();
+        updateMusicBar();
+
+        // 音量控制
+        const volInput = document.getElementById('musicVolume');
+        const volValue = document.getElementById('musicVolumeValue');
+        if (volInput) {
+            volInput.addEventListener('input', function (e) {
+                e.stopPropagation();
+                const v = parseInt(this.value);
+                if (meditationAudio) meditationAudio.volume = v / 100;
+                if (volValue) volValue.textContent = v + '%';
+            });
+        }
+
+        // 折叠/展开：点击控制条空白区域
+        const bar = document.getElementById('musicBar');
+        const panel = document.getElementById('meditationMusic');
+        if (bar && panel) {
+            bar.addEventListener('click', function (e) {
+                // 如果点的是播放按钮，不触发折叠
+                if (e.target.closest('.bar-play')) return;
+                panel.classList.toggle('expanded');
+            });
+        }
+
+        // 控制条上的播放/暂停按钮
+        const playBtn = document.getElementById('musicBarPlay');
+        if (playBtn) {
+            playBtn.addEventListener('click', function (e) {
+                e.stopPropagation();
+
+                // 没有选中曲目 → 播放第一首
+                if (!currentMusicId) {
+                    toggleMusic(MEDITATION_MUSIC[0].id);
+                    return;
+                }
+
+                // 有选中曲目 → 切换播放/暂停
+                if (meditationAudio.paused) {
+                    meditationAudio.play().catch(() => {});
+                } else {
+                    meditationAudio.pause();
+                }
+                updateMusicBar();
+            });
+        }
+
+        // 监听播放状态变化，同步 UI
+        meditationAudio.addEventListener('play', updateMusicBar);
+        meditationAudio.addEventListener('pause', updateMusicBar);
+    }
+
+    // =============================================================
+    // 静心音乐：空闲时后台预加载，用户点击即可秒播
+    // =============================================================
+    function preloadMeditationMusic() {
+        if (!MEDITATION_MUSIC.length) return;
+
+        // 用独立的 Audio 对象逐个预加载，避免影响播放器本身
+        MEDITATION_MUSIC.forEach((m, index) => {
+            // 错开时间，避免同时发起多个请求
+            setTimeout(() => {
+                const a = new Audio();
+                a.preload = 'auto';
+                a.src = m.src;
+                // 只加载不播放，加载完成后浏览器会缓存
+                a.load();
+            }, index * 800);   // 每首间隔 800ms
+        });
+    }
+
+    function renderMusicTracks() {
+        const listEl = document.getElementById('musicTrackList');
+        if (!listEl) return;
+
+        listEl.innerHTML = MEDITATION_MUSIC.map(m => `
+        <div class="music-track ${currentMusicId === m.id ? 'active' : ''}" data-id="${m.id}">
+            <div class="track-icon">
+                <i class="fas ${currentMusicId === m.id ? 'fa-pause' : 'fa-play'}"></i>
+            </div>
+            <div class="track-info">
+                <div class="track-name">${m.name}</div>
+                <div class="track-desc">${m.desc}</div>
+            </div>
+            <i class="fas fa-check track-check"></i>
+        </div>
+    `).join('');
+
+        listEl.querySelectorAll('.music-track').forEach(el => {
+            el.addEventListener('click', function (e) {
+                e.stopPropagation();
+                toggleMusic(this.dataset.id);
+            });
+        });
+    }
+
+    // 同步顶部控制条的显示
+    function updateMusicBar() {
+        const bar = document.getElementById('musicBar');
+        const title = document.getElementById('musicBarTitle');
+        const sub = document.getElementById('musicBarSub');
+        const playBtn = document.getElementById('musicBarPlay');
+        if (!bar || !title || !sub || !playBtn) return;
+
+        const track = MEDITATION_MUSIC.find(m => m.id === currentMusicId);
+
+        if (!track) {
+            // 未选择曲目
+            bar.classList.remove('playing');
+            title.textContent = '静心配乐';
+            sub.textContent = '点击展开曲目';
+            playBtn.innerHTML = '<i class="fas fa-play"></i>';
+            playBtn.disabled = true;
+            return;
+        }
+
+        const isPlaying = meditationAudio && !meditationAudio.paused;
+
+        title.innerHTML = `${track.name}${isPlaying ? '<span class="bar-bars"><span></span><span></span><span></span><span></span></span>' : ''}`;
+        sub.textContent = isPlaying ? '正在播放' : '已暂停';
+
+        bar.classList.toggle('playing', isPlaying);
+        playBtn.innerHTML = isPlaying
+            ? '<i class="fas fa-pause"></i>'
+            : '<i class="fas fa-play"></i>';
+        playBtn.disabled = false;
+    }
+
+    function toggleMusic(id) {
+        if (!meditationAudio) return;
+
+        // 同一首：切换播放/暂停
+        if (currentMusicId === id) {
+            if (meditationAudio.paused) {
+                meditationAudio.play().catch(() => {});
+            } else {
+                meditationAudio.pause();
+            }
+            renderMusicTracks();
+            updateMusicBar();
+            return;
+        }
+
+        // 切换到新曲目
+        const track = MEDITATION_MUSIC.find(m => m.id === id);
+        if (!track) return;
+
+        currentMusicId = id;
+        meditationAudio.src = track.src;
+
+        // 显示加载中
+        setMusicLoading(true);
+
+        meditationAudio.play()
+            .then(() => {
+                setMusicLoading(false);
+            })
+            .catch(err => {
+                setMusicLoading(false);
+                console.warn('音频播放失败：', err);
+                alert('音频加载失败，请检查文件路径是否正确。');
+                currentMusicId = null;
+                renderMusicTracks();
+                updateMusicBar();
+            });
+
+        renderMusicTracks();
+        updateMusicBar();
+    }
+
+    // 加载状态显示
+    function setMusicLoading(isLoading) {
+        const bar = document.getElementById('musicBar');
+        const playBtn = document.getElementById('musicBarPlay');
+        const sub = document.getElementById('musicBarSub');
+        if (!bar) return;
+
+        if (isLoading) {
+            bar.classList.add('loading');
+            if (playBtn) playBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            if (sub) sub.textContent = '加载中…';
+        } else {
+            bar.classList.remove('loading');
+            updateMusicBar();
+        }
+    }
+
+    function stopMusic() {
+        if (meditationAudio) {
+            meditationAudio.pause();
+            meditationAudio.currentTime = 0;
+        }
+        currentMusicId = null;
+        renderMusicTracks();
+        updateMusicBar();
+    }
+
 
     // =============================================================
     // 6. 事件绑定与初始化
@@ -6228,6 +7696,16 @@
                 canvas.dataset.inited = '1';
                 bindSealEvents();
                 drawSeal();
+                drawSeal();
+            }
+        }
+        if (tab === 'sign') {
+            if (currentSign) {
+                // 内存里有签（本次会话摇过），直接显示
+                renderDailySign(currentSign);
+            } else {
+                // 没有签（刚打开/刷新页面），显示介绍页
+                resetDailySign();
             }
         }
     }
@@ -6340,7 +7818,9 @@
             return;
         }
         const fortune = getDailyFortune(zodiac);
-        renderFortune(fortune);
+        playFortuneLoading(() => {
+            renderFortune(fortune);
+        });
     });
 
     // ----- 6c. 道家名言 -----
@@ -6374,31 +7854,27 @@
     renderElements();
 
     // ----- 6e. 每日一签 -----
-    // 尝试从 localStorage 读取今日签，如果日期不同则刷新
     function loadDailySign() {
-        const today = formatDate(new Date());
-        const stored = localStorage.getItem('dailySign');
-        const storedDate = localStorage.getItem('dailySignDate');
-        if (stored && storedDate === today) {
-            try {
-                const sign = JSON.parse(stored);
-                renderDailySign(sign);
-                return;
-            } catch (e) { /* ignore */ }
-        }
-        // 否则随机选一个
-        const sign = pickRandom(DAILY_SIGNS);
-        localStorage.setItem('dailySign', JSON.stringify(sign));
-        localStorage.setItem('dailySignDate', today);
-        renderDailySign(sign);
+        // 刷新页面时清空内存变量
+        currentSign = null;
+        // 保持介绍页
+        resetDailySign();
     }
 
+    // 介绍页的「摇签」按钮
+    document.getElementById('signCastBtn').addEventListener('click', function() {
+        playSignShake(() => {
+            currentSign = pickRandom(DAILY_SIGNS);
+            renderDailySign(currentSign);
+        });
+    });
+
+    // 结果页的「再摇一签」按钮
     document.getElementById('refreshSignBtn').addEventListener('click', function() {
-        const sign = pickRandom(DAILY_SIGNS);
-        renderDailySign(sign);
-        // 也更新 localStorage
-        localStorage.setItem('dailySign', JSON.stringify(sign));
-        localStorage.setItem('dailySignDate', formatDate(new Date()));
+        playSignShake(() => {
+            currentSign = pickRandom(DAILY_SIGNS);
+            renderDailySign(currentSign);
+        });
     });
 
     // ----- 6f. 冥想计时器 -----
@@ -6426,7 +7902,18 @@
 
     // 初始化计时器显示
     setMeditationMinutes(5);
-
+    // 初始化静心音乐播放器
+    initMusicPlayer();
+    // 页面空闲时预加载音乐
+    if (window.requestIdleCallback) {
+        window.addEventListener('load', function () {
+            requestIdleCallback(preloadMeditationMusic, { timeout: 3000 });
+        });
+    } else {
+        window.addEventListener('load', function () {
+            setTimeout(preloadMeditationMusic, 1500);
+        });
+    }
     // ----- 6g. 四时养生 -----
     renderSeason();
 
@@ -6456,8 +7943,12 @@
     document.getElementById('daomapResetBtn').addEventListener('click', resetDaomap);
 
     // ----- 6j. 每日一卦 -----
-    document.getElementById('guaCastBtn').addEventListener('click', castGua);
-    document.getElementById('guaAgainBtn').addEventListener('click', castGua);
+    document.getElementById('guaCastBtn').addEventListener('click', function() {
+        playGuaCast(() => castGua());
+    });
+    document.getElementById('guaAgainBtn').addEventListener('click', function() {
+        playGuaCast(() => castGua());
+    });
 
     // ----- 6k. 云游名山 -----
     renderMountains();
