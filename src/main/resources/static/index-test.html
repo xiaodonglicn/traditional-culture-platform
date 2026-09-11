@@ -3514,6 +3514,345 @@
                 padding: 11px 14px;
             }
         }
+        /* ========================================================= */
+        /* 道家典故与寓言 */
+        /* ========================================================= */
+        .parable-controls {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+            padding: 16px 22px;
+            background: #f8f4f0;
+            border-radius: 14px;
+        }
+
+        .parable-controls button {
+            padding: 8px 26px;
+            border: none;
+            border-radius: 30px;
+            background: #5a3e2b;
+            color: #fff;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .parable-controls button:hover {
+            background: #4a3222;
+            transform: scale(1.02);
+        }
+
+        .parable-filter {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .parable-filter select {
+            padding: 8px 16px;
+            border-radius: 10px;
+            border: 2px solid #ddd;
+            background: #fff;
+            cursor: pointer;
+        }
+
+        .parable-search {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+            min-width: 180px;
+            padding: 8px 16px;
+            background: #fff;
+            border: 2px solid #ddd;
+            border-radius: 30px;
+            transition: border-color 0.3s;
+        }
+
+        .parable-search:focus-within {
+            border-color: #8b6b4d;
+        }
+
+        .parable-search i {
+            color: #9a8b7a;
+            font-size: 14px;
+        }
+
+        .parable-search input {
+            flex: 1;
+            border: none;
+            outline: none;
+            background: transparent;
+            font-size: 14px;
+            color: #4a3728;
+        }
+
+        .parable-search input::placeholder {
+            color: #b0a090;
+        }
+
+        /* ----- 典故卡片列表 ----- */
+        .parable-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .parable-card {
+            background: linear-gradient(145deg, #fdfaf7, #f5ede6);
+            border: 1px solid #e8ddd0;
+            border-radius: 16px;
+            padding: 22px 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .parable-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #8b6b4d, #c9a87c);
+        }
+
+        .parable-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(139, 107, 77, 0.14);
+            border-color: #c9a87c;
+        }
+
+        .parable-card-icon {
+            font-size: 34px;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .parable-card-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #4a3728;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            letter-spacing: 2px;
+            margin-bottom: 6px;
+        }
+
+        .parable-card-source {
+            font-size: 12px;
+            color: #8b7a6a;
+            margin-bottom: 10px;
+        }
+
+        .parable-card-preview {
+            font-size: 14px;
+            color: #5a5a5a;
+            line-height: 1.7;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .parable-card-tag {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 3px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            background: #e8ddd0;
+            color: #5a3e2b;
+        }
+
+        /* ----- 详情弹窗 ----- */
+        .parable-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 400;
+        }
+
+        .parable-modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .parable-modal-content {
+            background: linear-gradient(145deg, #fdfaf7, #f5ede6);
+            border-radius: 20px;
+            max-width: 620px;
+            width: 100%;
+            max-height: 88vh;
+            overflow-y: auto;
+            padding: 36px 34px 30px;
+            position: relative;
+            transform: translateY(20px) scale(0.96);
+            transition: all 0.3s;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+        }
+
+        .parable-modal.show .parable-modal-content {
+            transform: translateY(0) scale(1);
+        }
+
+        .parable-modal-close {
+            position: absolute;
+            top: 14px;
+            right: 16px;
+            background: none;
+            border: none;
+            font-size: 22px;
+            color: #8b7a6a;
+            cursor: pointer;
+            padding: 6px 10px;
+            border-radius: 10px;
+            transition: all 0.2s;
+        }
+
+        .parable-modal-close:hover {
+            background: rgba(139, 107, 77, 0.12);
+            color: #5a3e2b;
+        }
+
+        .parable-modal-icon {
+            font-size: 56px;
+            text-align: center;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .parable-modal-title {
+            font-size: 32px;
+            font-weight: 700;
+            text-align: center;
+            color: #4a3728;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            letter-spacing: 4px;
+            margin-bottom: 6px;
+        }
+
+        .parable-modal-source {
+            font-size: 14px;
+            color: #8b7a6a;
+            text-align: center;
+            margin-bottom: 22px;
+        }
+
+        .parable-section {
+            margin-bottom: 16px;
+        }
+
+        .parable-section-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #8b6b4d;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        .parable-original {
+            font-size: 16px;
+            color: #2c2c2c;
+            line-height: 2;
+            padding: 16px 20px;
+            background: #fff;
+            border-radius: 12px;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            border-left: 3px solid #c9a87c;
+        }
+
+        .parable-translation {
+            font-size: 15px;
+            color: #5a5a5a;
+            line-height: 1.9;
+            padding: 14px 18px;
+            background: #f5f0ea;
+            border-radius: 12px;
+        }
+
+        .parable-meaning {
+            font-size: 15px;
+            color: #5a3e2b;
+            line-height: 1.9;
+            padding: 14px 18px;
+            background: #edf0f5;
+            border-radius: 12px;
+            border-left: 3px solid #8b6b4d;
+        }
+
+        .parable-insight {
+            font-size: 15px;
+            color: #2d5a3d;
+            line-height: 1.9;
+            padding: 14px 18px;
+            background: #e8f3ec;
+            border-radius: 12px;
+            border-left: 3px solid #4caf50;
+        }
+
+        .parable-modal-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 20px;
+            padding-top: 18px;
+            border-top: 2px dashed #e0d3c4;
+        }
+
+        .parable-modal-tags span {
+            background: #e8ddd0;
+            color: #5a3e2b;
+            padding: 4px 16px;
+            border-radius: 30px;
+            font-size: 13px;
+        }
+
+        /* ----- 空状态 ----- */
+        .parable-empty {
+            text-align: center;
+            padding: 60px 20px;
+            color: #9a8b7a;
+            grid-column: 1 / -1;
+        }
+
+        .parable-empty-icon {
+            font-size: 48px;
+            display: block;
+            margin-bottom: 12px;
+            opacity: 0.5;
+        }
+
+        @media (max-width: 480px) {
+            .parable-list {
+                grid-template-columns: 1fr;
+            }
+            .parable-modal-content {
+                padding: 28px 20px 22px;
+            }
+            .parable-modal-title {
+                font-size: 24px;
+            }
+            .parable-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .parable-search {
+                min-width: auto;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -3574,6 +3913,7 @@
                 </a>
                 <div class="nav-dropdown">
                     <a data-tab="daoism">道家智慧</a>
+                    <a data-tab="parable">典故寓言</a>
                 </div>
             </div>
 
@@ -3654,6 +3994,30 @@
             <div id="daoismQuotes" class="daoism-quotes"></div>
         </section>
 
+        <!-- ========================================================= -->
+        <!-- Tab: 道家典故与寓言 -->
+        <!-- ========================================================= -->
+        <section id="parable-tab" class="tab-content">
+            <h2><i class="fas fa-mask"></i> 道家典故与寓言</h2>
+
+            <div class="parable-controls">
+                <button id="parableRandomBtn"><i class="fas fa-dice"></i> 随机一则</button>
+                <div class="parable-filter">
+                    <label>分类：</label>
+                    <select id="parableCategorySelect">
+                        <option value="all">全部</option>
+                    </select>
+                </div>
+                <div class="parable-search">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="parableSearchInput" placeholder="搜索典故名或关键字…">
+                </div>
+            </div>
+
+            <div id="parableList" class="parable-list"></div>
+
+
+        </section>
         <!-- ========================================================= -->
         <!-- Tab 3: 五行学说 (原有) -->
         <!-- ========================================================= -->
@@ -4096,7 +4460,41 @@
 </div>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- 道家典故详情弹窗（放在 body 下，避免被祖先 transform 影响） -->
+<div class="parable-modal" id="parableModal">
+    <div class="parable-modal-content">
+        <button class="parable-modal-close" id="parableModalClose">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="parable-modal-icon" id="parableModalIcon">🦋</div>
+        <div class="parable-modal-title" id="parableModalTitle"></div>
+        <div class="parable-modal-source" id="parableModalSource"></div>
 
+        <div class="parable-section">
+            <div class="parable-section-title">📜 原文</div>
+            <div class="parable-original" id="parableModalOriginal"></div>
+        </div>
+
+        <div class="parable-section">
+            <div class="parable-section-title">📝 译文</div>
+            <div class="parable-translation" id="parableModalTranslation"></div>
+        </div>
+
+        <div class="parable-section">
+            <div class="parable-section-title">💭 寓意</div>
+            <div class="parable-meaning" id="parableModalMeaning"></div>
+        </div>
+
+        <div class="parable-section">
+            <div class="parable-section-title">🌿 现代启示</div>
+            <div class="parable-insight" id="parableModalInsight"></div>
+        </div>
+
+        <div class="parable-modal-tags" id="parableModalTags"></div>
+    </div>
+</div>
+
+<!-- 脚本 -->
 <script>
 
     const ZODIACS = ['鼠', '牛', '虎', '兔', '龙', '蛇', '马', '羊', '猴', '鸡', '狗', '猪'];
@@ -4271,7 +4669,319 @@
         luckyColors: ['赤金', '朱红', '明黄'],
         luckyNumbers: [6, 16, 26],
         advice: '戒骄戒躁，回馈他人，福气更长久'
-    }
+    },
+        // ===== 新增 30 条 =====
+        {
+            luckLevel: '上上签',
+            luckScore: '96',
+            summary: '福星拱照，万事亨通，喜从天降',
+            career: '事业步步高升，贵人扶持，宜把握关键机会',
+            love: '情投意合，甜蜜美满，单身者桃花朵朵',
+            wealth: '正财偏财双收，投资眼光精准，收益丰厚',
+            luckyColors: ['金色', '红色', '橙色'],
+            luckyNumbers: [8, 16, 28],
+            advice: '心存善念，乐于分享，好运绵延不绝'
+        }, {
+            luckLevel: '上上签',
+            luckScore: '94',
+            summary: '吉星高照，顺风顺水，喜事连连',
+            career: '事业如虎添翼，项目推进顺利，宜乘胜追击',
+            love: '感情升温迅速，适合表白或求婚',
+            wealth: '财运亨通，偏财有喜，宜合理规划',
+            luckyColors: ['紫色', '金色', '粉色'],
+            luckyNumbers: [6, 9, 18],
+            advice: '谦逊待人，稳中求进，勿得意忘形'
+        }, {
+            luckLevel: '上上签',
+            luckScore: '91',
+            summary: '瑞气盈门，诸事顺遂，心愿达成',
+            career: '工作得心应手，易获上司赏识，宜主动表现',
+            love: '感情甜蜜，彼此信任，关系稳固',
+            wealth: '收入增长，投资有方，宜长期布局',
+            luckyColors: ['红色', '黄色', '金色'],
+            luckyNumbers: [3, 8, 21],
+            advice: '感恩惜福，回馈社会，福报更深'
+        }, {
+            luckLevel: '上签',
+            luckScore: '88',
+            summary: '春风得意，运势上扬，诸事可期',
+            career: '事业稳步上升，团队合作愉快，宜拓展人脉',
+            love: '感情和谐，适合共同出游增进感情',
+            wealth: '财运稳中有升，适合稳健投资',
+            luckyColors: ['绿色', '浅蓝', '白色'],
+            luckyNumbers: [2, 7, 14],
+            advice: '积极进取，保持耐心，好运常伴'
+        }, {
+            luckLevel: '上签',
+            luckScore: '85',
+            summary: '喜鹊登枝，好运临门，诸事顺心',
+            career: '工作进展顺利，有升职加薪之象',
+            love: '感情稳定，适合见家长或定下终身',
+            wealth: '财运不错，有意外之财入账',
+            luckyColors: ['粉色', '浅紫', '米白'],
+            luckyNumbers: [4, 11, 22],
+            advice: '把握时机，勇敢表达，忌优柔寡断'
+        }, {
+            luckLevel: '上签',
+            luckScore: '83',
+            summary: '贵人相助，逢凶化吉，渐入佳境',
+            career: '工作有贵人指点，难题迎刃而解',
+            love: '感情回暖，沟通顺畅，关系升温',
+            wealth: '财运平稳，适合储蓄与小投资',
+            luckyColors: ['天蓝', '银色', '浅绿'],
+            luckyNumbers: [1, 6, 17],
+            advice: '广结善缘，知恩图报，好运自来'
+        }, {
+            luckLevel: '上签',
+            luckScore: '81',
+            summary: '云开见日，运势回升，喜乐安然',
+            career: '工作渐入佳境，宜主动争取机会',
+            love: '感情和睦，宜多陪伴与倾听',
+            wealth: '收入稳定，有额外进账',
+            luckyColors: ['橙色', '浅黄', '白色'],
+            luckyNumbers: [5, 9, 19],
+            advice: '保持乐观，积极行动，忌拖延'
+        }, {
+            luckLevel: '上签',
+            luckScore: '79',
+            summary: '顺风顺水，事半功倍，喜事将近',
+            career: '工作效率提升，易获认可，宜争取资源',
+            love: '感情融洽，适合共同规划未来',
+            wealth: '财运稳中有升，宜理性消费',
+            luckyColors: ['浅蓝', '米白', '浅绿'],
+            luckyNumbers: [2, 10, 23],
+            advice: '脚踏实地，主动沟通，好运常伴'
+        }, {
+            luckLevel: '中签',
+            luckScore: '72',
+            summary: '稳中向好，小有收获，宜知足常乐',
+            career: '工作平稳推进，宜学习新技能提升自我',
+            love: '感情稳定，宜制造小惊喜增进默契',
+            wealth: '财运尚可，适合储蓄和小额理财',
+            luckyColors: ['浅黄', '浅灰', '象牙白'],
+            luckyNumbers: [1, 7, 17],
+            advice: '脚踏实地，不急不躁，稳步前行'
+        }, {
+            luckLevel: '中签',
+            luckScore: '68',
+            summary: '风平浪静，偶有波澜，宜守心自安',
+            career: '工作按部就班，避免多管闲事，专注本职',
+            love: '感情平淡，宜多交流，避免冷战',
+            wealth: '收支平衡，避免冲动消费，宜记账',
+            luckyColors: ['浅蓝', '灰色', '卡其'],
+            luckyNumbers: [5, 12, 20],
+            advice: '减少欲望，专注当下，静待花开'
+        }, {
+            luckLevel: '中签',
+            luckScore: '64',
+            summary: '吉凶参半，宜谨慎行事，以和为贵',
+            career: '工作有小阻碍，宜低调处理，避免冲突',
+            love: '感情易生误会，需耐心解释，勿翻旧账',
+            wealth: '财运起伏，不宜借贷或担保',
+            luckyColors: ['墨绿', '深灰', '藏蓝'],
+            luckyNumbers: [3, 6, 19],
+            advice: '谨言慎行，远离是非，保重身心'
+        }, {
+            luckLevel: '中签',
+            luckScore: '60',
+            summary: '运势平稳，得失随缘，宜顺其自然',
+            career: '工作无明显起伏，宜沉淀积累，等待时机',
+            love: '感情平淡，宜多包容，少计较',
+            wealth: '财运一般，宜守不宜攻，避免冒险',
+            luckyColors: ['米色', '浅灰', '淡蓝'],
+            luckyNumbers: [2, 8, 15],
+            advice: '随遇而安，知足常乐，莫强求'
+        }, {
+            luckLevel: '中签',
+            luckScore: '56',
+            summary: '运途多舛，宜静不宜动，守成为上',
+            career: '工作压力增大，宜调整心态，勿轻易跳槽',
+            love: '感情易起争执，需冷静沟通，避免冲动',
+            wealth: '财运不佳，谨防破财，勿贪小便宜',
+            luckyColors: ['黑色', '深灰', '暗红'],
+            luckyNumbers: [4, 9, 14],
+            advice: '低调行事，减少社交，专注自我修复'
+        }, {
+            luckLevel: '中签',
+            luckScore: '52',
+            summary: '吉凶难料，宜谨慎前行，以稳为主',
+            career: '工作有变数，宜多听建议，勿轻举妄动',
+            love: '感情有波折，需多沟通，避免误解',
+            wealth: '财运不稳，宜保守理财，避免高风险',
+            luckyColors: ['深蓝', '灰色', '墨绿'],
+            luckyNumbers: [1, 6, 13],
+            advice: '谨言慎行，远离是非，静待转机'
+        }, {
+            luckLevel: '下签',
+            luckScore: '48',
+            summary: '运势低迷，宜韬光养晦，静待时机',
+            career: '工作受阻，宜求稳避锋芒，暂缓重要决策',
+            love: '感情波折，需多沟通包容，避免争执',
+            wealth: '财运不佳，谨慎理财，避免借贷',
+            luckyColors: ['白色', '黑色', '深灰'],
+            luckyNumbers: [5, 9, 14],
+            advice: '修身养性，积德行善，耐心等待转机'
+        }, {
+            luckLevel: '下签',
+            luckScore: '44',
+            summary: '乌云蔽日，诸事阻滞，宜修心养性',
+            career: '事业进展缓慢，宜暂缓重大决策，等待转机',
+            love: '感情冷淡，需多包容，避免互相指责',
+            wealth: '财运低迷，控制开支，避免高风险投资',
+            luckyColors: ['深灰', '墨黑', '暗紫'],
+            luckyNumbers: [1, 9, 13],
+            advice: '多行善事，少言是非，静待云开'
+        }, {
+            luckLevel: '下签',
+            luckScore: '40',
+            summary: '时运不济，诸事不宜，宜闭门静养',
+            career: '工作多阻，易遇小人，宜忍让避祸',
+            love: '感情危机，需冷静处理，勿做重大决定',
+            wealth: '财运极差，谨防诈骗与破财，勿投资',
+            luckyColors: ['黑色', '深蓝', '暗灰'],
+            luckyNumbers: [4, 7, 15],
+            advice: '修身养性，远离纷争，静待否极泰来'
+        }, {
+            luckLevel: '下签',
+            luckScore: '36',
+            summary: '运途坎坷，宜守不宜攻，以静制动',
+            career: '事业遭遇瓶颈，多听他人建议，勿冲动',
+            love: '感情面临考验，需要冷静处理',
+            wealth: '财运低迷，控制开支，避免投资',
+            luckyColors: ['深蓝', '紫色', '灰色'],
+            luckyNumbers: [3, 8, 16],
+            advice: '养精蓄锐，反思总结，等待时机'
+        }, {
+            luckLevel: '下签',
+            luckScore: '32',
+            summary: '诸事不顺，宜低调行事，静待转机',
+            career: '工作阻碍重重，宜忍耐避让，勿与人争',
+            love: '感情易生变故，需冷静沟通，勿冲动',
+            wealth: '财运不佳，谨防破财，勿投机',
+            luckyColors: ['黑色', '深灰', '暗红'],
+            luckyNumbers: [2, 6, 12],
+            advice: '低调做人，高调做事，静待时机'
+        }, {
+            luckLevel: '下下签',
+            luckScore: '28',
+            summary: '时运不济，诸事不宜，宜闭门静养',
+            career: '工作多阻，易遇小人，宜忍让避祸',
+            love: '感情危机，需冷静处理，勿做重大决定',
+            wealth: '财运极差，谨防诈骗与破财，勿投资',
+            luckyColors: ['黑色', '深蓝', '暗灰'],
+            luckyNumbers: [4, 7, 15],
+            advice: '修身养性，远离纷争，静待否极泰来'
+        }, {
+            luckLevel: '下下签',
+            luckScore: '22',
+            summary: '运势跌入谷底，宜静心守己，勿妄动',
+            career: '事业停滞，宜暂缓计划，避免冲突',
+            love: '感情冷淡，需多包容，避免争执',
+            wealth: '财运极差，控制开支，避免借贷',
+            luckyColors: ['黑色', '深灰', '暗紫'],
+            luckyNumbers: [1, 5, 11],
+            advice: '修心养性，积德行善，静待否极泰来'
+        }, {
+            luckLevel: '上上签',
+            luckScore: '97',
+            summary: '天降祥瑞，百事大吉，所求皆成',
+            career: '事业腾飞，贵人相助，宜大胆开拓',
+            love: '天赐良缘，感情圆满，单身者遇正缘',
+            wealth: '财星高照，正偏财俱旺，投资大吉',
+            luckyColors: ['赤金', '朱红', '明黄'],
+            luckyNumbers: [6, 16, 26],
+            advice: '戒骄戒躁，回馈他人，福气更长久'
+        }, {
+            luckLevel: '上上签',
+            luckScore: '93',
+            summary: '福星高照，万事顺遂，喜从天降',
+            career: '事业步步高升，贵人扶持，宜把握良机',
+            love: '情投意合，甜蜜美满，单身者桃花旺',
+            wealth: '正偏财双收，投资精准，收益丰厚',
+            luckyColors: ['金色', '红色', '橙色'],
+            luckyNumbers: [8, 16, 28],
+            advice: '心存善念，乐于分享，好运绵延'
+        }, {
+            luckLevel: '上签',
+            luckScore: '89',
+            summary: '喜鹊登枝，好运临门，诸事顺心',
+            career: '工作进展顺利，有升职加薪之象',
+            love: '感情稳定，适合见家长或定下终身',
+            wealth: '财运不错，有意外之财入账',
+            luckyColors: ['粉色', '浅紫', '米白'],
+            luckyNumbers: [4, 11, 22],
+            advice: '把握时机，勇敢表达，忌优柔寡断'
+        }, {
+            luckLevel: '上签',
+            luckScore: '84',
+            summary: '贵人相助，逢凶化吉，渐入佳境',
+            career: '工作有贵人指点，难题迎刃而解',
+            love: '感情回暖，沟通顺畅，关系升温',
+            wealth: '财运平稳，适合储蓄与小投资',
+            luckyColors: ['天蓝', '银色', '浅绿'],
+            luckyNumbers: [1, 6, 17],
+            advice: '广结善缘，知恩图报，好运自来'
+        }, {
+            luckLevel: '中签',
+            luckScore: '74',
+            summary: '稳中向好，小有收获，宜知足常乐',
+            career: '工作平稳推进，宜学习新技能提升自我',
+            love: '感情稳定，宜制造小惊喜增进默契',
+            wealth: '财运尚可，适合储蓄和小额理财',
+            luckyColors: ['浅黄', '浅灰', '象牙白'],
+            luckyNumbers: [1, 7, 17],
+            advice: '脚踏实地，不急不躁，稳步前行'
+        }, {
+            luckLevel: '中签',
+            luckScore: '66',
+            summary: '风平浪静，偶有波澜，宜守心自安',
+            career: '工作按部就班，避免多管闲事，专注本职',
+            love: '感情平淡，宜多交流，避免冷战',
+            wealth: '收支平衡，避免冲动消费，宜记账',
+            luckyColors: ['浅蓝', '灰色', '卡其'],
+            luckyNumbers: [5, 12, 20],
+            advice: '减少欲望，专注当下，静待花开'
+        }, {
+            luckLevel: '中签',
+            luckScore: '61',
+            summary: '吉凶参半，宜谨慎行事，以和为贵',
+            career: '工作有小阻碍，宜低调处理，避免冲突',
+            love: '感情易生误会，需耐心解释，勿翻旧账',
+            wealth: '财运起伏，不宜借贷或担保',
+            luckyColors: ['墨绿', '深灰', '藏蓝'],
+            luckyNumbers: [3, 6, 19],
+            advice: '谨言慎行，远离是非，保重身心'
+        }, {
+            luckLevel: '下签',
+            luckScore: '46',
+            summary: '运势走低，宜静不宜动，守成为上',
+            career: '工作压力增大，宜调整心态，勿轻易跳槽',
+            love: '感情易起争执，需冷静沟通，避免冲动分手',
+            wealth: '财运不佳，谨防破财，勿贪小便宜',
+            luckyColors: ['黑色', '深灰', '暗红'],
+            luckyNumbers: [2, 8, 14],
+            advice: '低调行事，减少社交，专注自我修复'
+        }, {
+            luckLevel: '下签',
+            luckScore: '39',
+            summary: '乌云蔽日，诸事阻滞，宜修心养性',
+            career: '事业进展缓慢，宜暂缓重大决策，等待转机',
+            love: '感情冷淡，需多包容，避免互相指责',
+            wealth: '财运低迷，控制开支，避免高风险投资',
+            luckyColors: ['深灰', '墨黑', '暗紫'],
+            luckyNumbers: [1, 9, 13],
+            advice: '多行善事，少言是非，静待云开'
+        }, {
+            luckLevel: '下下签',
+            luckScore: '26',
+            summary: '时运不济，诸事不宜，宜闭门静养',
+            career: '工作多阻，易遇小人，宜忍让避祸',
+            love: '感情危机，需冷静处理，勿做重大决定',
+            wealth: '财运极差，谨防诈骗与破财，勿投资',
+            luckyColors: ['黑色', '深蓝', '暗灰'],
+            luckyNumbers: [4, 7, 15],
+            advice: '修身养性，远离纷争，静待否极泰来'
+        }
     ];
 
     // ----- 道家名言 -----
@@ -4371,7 +5081,7 @@
         translation: '追求心灵的空灵极致，坚守内心的宁静专注。万物都在蓬勃生长，我从中观察到它们循环往复的规律。',
         interpretation: '在快节奏的现代生活中，我们更需要静下心来，观察世界运行的规律。静能生慧，静能明道。',
         category: '静'
-    },{
+    }, {
         id: '13',
         source: '《道德经》',
         chapter: '第四十一章',
@@ -4452,6 +5162,237 @@
         interpretation: '草木生时柔软，死后枯硬。道家崇尚柔弱，因为柔弱中蕴含着生机与活力，而刚强则往往走向僵化与消亡。',
         category: '柔'
     }];
+
+    const DAOISM_PARABLES = [
+        {
+            id: 'zhuangzhou-mengdie',
+            icon: '🦋',
+            title: '庄周梦蝶',
+            source: '《庄子·齐物论》',
+            category: '齐物',
+            original: `昔者庄周梦为胡蝶，栩栩然胡蝶也，自喻适志与！不知周也。俄然觉，则蘧蘧然周也。不知周之梦为胡蝶与，胡蝶之梦为周与？周与胡蝶，则必有分矣。此之谓物化。`,
+            translation: `从前庄周梦见自己变成蝴蝶，翩翩飞舞，感到非常惬意舒适，忘记了自己是庄周。突然醒来，惊奇地发现自己是庄周。不知道是庄周做梦变成了蝴蝶，还是蝴蝶做梦变成了庄周？庄周与蝴蝶，必定是有区别的。这种转化，就叫做"物化"。`,
+            meaning: `庄子借此表达"物我两忘"的境界。现实与梦境、自我与外物，界限并非绝对分明。万物本为一体，相互转化，不必执着于"我"与"非我"的分别。`,
+            insight: `现代人常被"我是谁""我要成为什么"所困。庄周梦蝶提醒我们：身份、角色、标签都是流动的，不必被单一自我定义束缚。放下执念，反而能活得更自由、更开阔。`,
+            tags: ['物化', '齐物', '逍遥', '自我']
+        },
+        {
+            id: 'paoding-jieniu',
+            icon: '🔪',
+            title: '庖丁解牛',
+            source: '《庄子·养生主》',
+            category: '养生',
+            original: `庖丁为文惠君解牛，手之所触，肩之所倚，足之所履，膝之所踦，砉然向然，奏刀騞然，莫不中音。合于《桑林》之舞，乃中《经首》之会。文惠君曰："嘻，善哉！技盖至此乎？"庖丁释刀对曰："臣之所好者道也，进乎技矣。"`,
+            translation: `庖丁为文惠君宰牛，手触、肩靠、脚踩、膝顶，刀锋过处，皮骨分离之声，无不合乎音律，竟与《桑林》之舞、《经首》之乐相合。文惠君赞叹："技何以至此？"庖丁放下刀回答："我所喜好的是道，已经超过技术了。"`,
+            meaning: `庖丁解牛十九年，刀刃如新，因为他"依乎天理"，顺着牛天然的肌理下刀，避开筋骨交错之处。这是道家"顺其自然""以无厚入有间"的生动写照。`,
+            insight: `做事若硬碰硬，往往费力伤身。真正的高手懂得顺应事物内在规律，找到"缝隙"与"节奏"，四两拨千斤。工作、人际、生活皆如此——顺流而下，远胜逆流而上。`,
+            tags: ['养生', '顺其自然', '技进乎道', '游刃有余']
+        },
+        {
+            id: 'handan-xuebu',
+            icon: '🚶',
+            title: '邯郸学步',
+            source: '《庄子·秋水》',
+            category: '自然',
+            original: `且子独不闻夫寿陵余子之学行于邯郸与？未得国能，又失其故行矣，直匍匐而归耳。`,
+            translation: `你难道没听说过燕国寿陵的少年到邯郸学走路吗？他不但没有学到邯郸人的步法，反而把自己原来的走法也忘了，最后只好爬着回去。`,
+            meaning: `盲目模仿他人，不仅学不到别人的长处，反而会丢失自己的本性。道家强调"不失其本"，保持自己的本真，比模仿他人更重要。`,
+            insight: `现代人常陷入"别人家的孩子""成功学模板"的焦虑。邯郸学步警示我们：与其追逐别人的路，不如深耕自己的道。模仿只能得其形，唯有找到自己的节奏，才能走得稳、走得远。`,
+            tags: ['本真', '自然', '勿模仿', '自我']
+        },
+        {
+            id: 'wangyang-xingtan',
+            icon: '🌊',
+            title: '望洋兴叹',
+            source: '《庄子·秋水》',
+            category: '齐物',
+            original: `秋水时至，百川灌河。泾流之大，两涘渚崖之间，不辩牛马。于是焉河伯欣然自喜，以天下之美为尽在己。顺流而东行，至于北海，东面而视，不见水端。于是焉河伯始旋其面目，望洋向若而叹曰："野语有之曰：闻道百，以为莫己若者，我之谓也。"`,
+            translation: `秋天洪水按时到来，百川注入黄河。水流之大，两岸之间连牛马都分辨不清。河伯欣然自喜，以为天下美景都在自己这里。顺流东行到北海，向东望去，看不到水的尽头。于是河伯改变脸色，望着大海感叹："俗语说：听到很多道理，就以为没人比得上自己，说的就是我啊。"`,
+            meaning: `河伯初见黄河之壮，便自满自大；见到北海之浩瀚，方知自身渺小。庄子借此提醒人们：认知有边界，不要以有限的见识妄自尊大。`,
+            insight: `信息时代，人很容易在"信息茧房"中自满。望洋兴叹提醒我们：保持谦卑，承认认知的局限，才会持续成长。真正的智慧始于"知道自己不知道"。`,
+            tags: ['谦卑', '认知边界', '齐物', '格局']
+        },
+        {
+            id: 'zhaosan-musi',
+            icon: '🐒',
+            title: '朝三暮四',
+            source: '《庄子·齐物论》',
+            category: '齐物',
+            original: `狙公赋芧，曰："朝三而暮四。"众狙皆怒。曰："然则朝四而暮三。"众狙皆悦。名实未亏而喜怒为用，亦因是也。`,
+            translation: `养猴人给猴子分橡子，说："早上三升，晚上四升。"猴子们都很生气。养猴人改口说："那么早上四升，晚上三升。"猴子们都很高兴。名义和实际都没有亏损，猴子们却一喜一怒，这就是顺应它们的心理啊。`,
+            meaning: `总量未变，只是分配方式不同，猴子却喜怒无常。庄子借此说明：世人常被表象、名相所迷惑，执着于"朝三暮四"这样的形式，而忽略了实质。`,
+            insight: `现代人常因"说法不同"而情绪起伏：同样是加班，换个说法就接受；同样是方案，换个包装就认可。朝三暮四提醒我们：看问题要穿透形式，抓住本质。少被话术牵动，多问实质如何。`,
+            tags: ['名实', '齐物', '本质', '情绪']
+        },
+        {
+            id: 'jingwa-guanhai',
+            icon: '🐸',
+            title: '井蛙观海',
+            source: '《庄子·秋水》',
+            category: '齐物',
+            original: `井蛙不可以语于海者，拘于虚也；夏虫不可以语于冰者，笃于时也；曲士不可以语于道者，束于教也。`,
+            translation: `不能和井底的青蛙谈论大海，因为它受所居环境的局限；不能和夏天的虫子谈论冰雪，因为它受季节的局限；不能和见识浅陋的人谈论大道，因为他受所受教育的束缚。`,
+            meaning: `认知受限于环境、时间与教育。庄子并非贬低井蛙、夏虫，而是提醒人们：每个人的认知都有边界，不要以己度人，也不要固守成见。`,
+            insight: `与人沟通时，先理解对方的"井"和"夏"在哪里。换位思考、拓宽视野，才能突破认知的牢笼。同时也提醒自己：你我也可能是某口井里的蛙，保持开放与学习。`,
+            tags: ['认知', '局限', '谦卑', '包容']
+        },
+        {
+            id: 'chijiang-youyu',
+            icon: '🐟',
+            title: '相濡以沫',
+            source: '《庄子·大宗师》',
+            category: '自然',
+            original: `泉涸，鱼相与处于陆，相呴以湿，相濡以沫，不如相忘于江湖。`,
+            translation: `泉水干涸了，鱼儿们一起困在陆地上，用湿气互相呼吸，用口沫互相湿润，还不如在江湖中互相忘记，各自自由自在地生活。`,
+            meaning: `在困境中相互扶持虽感人，但不如各自在适合的环境中自由生活。庄子并非否定情义，而是主张：真正的爱是让彼此都能自在。`,
+            insight: `亲密关系中，过度依赖与捆绑常被误认为深情。相濡以沫提醒我们：好的关系是让彼此成为更好的自己，而非在困境中互相消耗。学会放手，也是一种深情。`,
+            tags: ['自然', '关系', '自由', '放下']
+        },
+        {
+            id: 'tangbi-dangche',
+            icon: '🎋',
+            title: '螳臂当车',
+            source: '《庄子·人间世》',
+            category: '养生',
+            original: `汝不知夫螳螂乎？怒其臂以当车辙，不知其不胜任也，是其才之美者也。`,
+            translation: `你不知道那螳螂吗？它愤怒地举起前臂去阻挡车轮，不知道自己的力量根本不能胜任，这是因为它把自己的才能看得太美了。`,
+            meaning: `螳螂自以为力大，妄图阻挡车轮，结果可想而知。庄子借此告诫：要认清自己的能力边界，不可盲目自大、硬碰硬。`,
+            insight: `勇气可嘉，但莽撞不可取。做事前先评估自身实力与客观形势，量力而行。真正的勇敢，是明知可为而为，明知不可为而不为。`,
+            tags: ['自知', '量力', '谦卑', '养生']
+        },
+        {
+            id: 'zhuangzi-gupen',
+            icon: '👘',
+            title: '庄子鼓盆',
+            source: '《庄子·至乐》',
+            category: '自然',
+            original: `庄子妻死，惠子吊之，庄子则方箕踞鼓盆而歌。惠子曰："与人居，长子老身，死不哭亦足矣，又鼓盆而歌，不亦甚乎！"庄子曰："不然。是其始死也，我独何能无概然！察其始而本无生，非徒无生也而本无形，非徒无形也而本无气。杂乎芒芴之间，变而有气，气变而有形，形变而有生，今又变而之死，是相与为春秋冬夏四时行也。"`,
+            translation: `庄子的妻子死了，惠子前去吊唁，庄子却叉开腿坐着敲盆唱歌。惠子说："你和妻子生活多年，她死了你不哭也就罢了，还敲盆唱歌，太过分了吧！"庄子说："不是这样。她刚死时，我怎么会不难过？但细想她本无生命，不仅无生命而且无形，不仅无形而且无气。在恍惚之间，变而有气，气变而有形，形变而有生，如今又变而死，这就如同春夏秋冬四季运行一样。"`,
+            meaning: `庄子并非无情，而是看透了生死乃自然变化，如四季更替。他超越了世俗的悲喜，以达观的态度面对生死。`,
+            insight: `面对失去，悲伤是人之常情，但不必沉溺。庄子鼓盆提醒我们：生死、得失、聚散，都是自然流转的一部分。接纳变化，才能从痛苦中解脱，活得更通透。`,
+            tags: ['生死', '达观', '自然', '超越']
+        },
+        {
+            id: 'luhou-yangniao',
+            icon: '🕊️',
+            title: '鲁侯养鸟',
+            source: '《庄子·至乐》',
+            category: '自然',
+            original: `昔者海鸟止于鲁郊，鲁侯御而觞之于庙，奏九韶以为乐，具太牢以为膳。鸟乃眩视忧悲，不敢食一脔，不敢饮一杯，三日而死。此以己养养鸟也，非以鸟养养鸟也。`,
+            translation: `从前有只海鸟落在鲁国郊外，鲁侯把它迎进宗庙，奏九韶之乐，备太牢之膳。海鸟却眼花缭乱、忧惧悲伤，不敢吃一块肉，不敢喝一杯酒，三天就死了。这是用养自己的方式养鸟，不是用养鸟的方式养鸟。`,
+            meaning: `鲁侯以自认为最好的方式养鸟，却违背了鸟的天性，最终害死了它。庄子借此说明：不了解对方真正的需要，再好的"好意"也可能成为伤害。`,
+            insight: `教育孩子、管理团队、对待朋友，都要警惕"鲁侯养鸟"式的好意。真正的关怀是理解对方的需求，而非把自认为好的东西强加于人。`,
+            tags: ['自然', '理解', '尊重', '关怀']
+        },
+        {
+            id: 'wuyong-zhiyong',
+            icon: '🌳',
+            title: '无用之用',
+            source: '《庄子·人间世》',
+            category: '养生',
+            original: `匠石之齐，至于曲辕，见栎社树。其大蔽数千牛，絜之百围，其高临山十仞而后有枝，其可以为舟者旁十数。观者如市，匠伯不顾，遂行不辍。弟子厌观之，走及匠石，曰："自吾执斧斤以随夫子，未尝见材如此其美也。先生不肯视，行不辍，何邪？"曰："已矣，勿言之矣！散木也，以为舟则沉，以为棺椁则速腐，以为器则速毁，以为门户则液樠，以为柱则蠹。是不材之木也，无所可用，故能若是之寿。"`,
+            translation: `匠石到齐国，看见一棵栎社树，大得可遮蔽数千头牛，树干百围粗，高耸入云。围观的人多得像集市，匠石却看都不看，继续走路。弟子问："这么好的木材，先生为何不看？"匠石说："算了，别说了！这是散木，做船会沉，做棺椁会速腐，做器具会速毁，做门户会流脂，做柱子会生虫。这是不材之木，正因无所可用，才能如此长寿。"`,
+            meaning: `世人以"有用"为贵，庄子却看到"无用"的大用。正因为这棵树"不成材"，才免于被砍伐，得以尽享天年。`,
+            insight: `现代社会崇尚"有用"，人也被工具化。无用之用提醒我们：保留一些"无用"的爱好、关系、时光，它们恰恰是滋养生命、保持完整的关键。不被功利绑架，才能活得更长久、更从容。`,
+            tags: ['养生', '无用之用', '自然', '价值']
+        },
+        {
+            id: 'xinzhai-zuowang',
+            icon: '🧘',
+            title: '心斋坐忘',
+            source: '《庄子·人间世》',
+            category: '养生',
+            original: `若一志，无听之以耳而听之以心，无听之以心而听之以气。听止于耳，心止于符。气也者，虚而待物者也。唯道集虚。虚者，心斋也。`,
+            translation: `你心志专一，不要用耳朵去听，而要用心灵去听；不要用心灵去听，而要用气去听。耳朵只能听到声音，心灵只能感知现象。气是空虚而能容纳万物的。只有道才能聚集在空虚之中。这种空虚，就是"心斋"。`,
+            meaning: `心斋是道家重要的修养功夫：放下感官与思维的执着，回归虚静的心境，以空虚之心接纳万物，方能与道相通。`,
+            insight: `信息过载的时代，心斋尤为珍贵。每天留出片刻，放下手机、停止思考，只是静静地呼吸、感受。让心回归虚空，才能重新获得清明与力量。`,
+            tags: ['心斋', '虚静', '修养', '养生']
+        },
+        {
+            id: 'haoliang-zhibian',
+            icon: '🐠',
+            title: '濠梁之辩',
+            source: '《庄子·秋水》',
+            category: '齐物',
+            original: `庄子与惠子游于濠梁之上。庄子曰："鯈鱼出游从容，是鱼之乐也。"惠子曰："子非鱼，安知鱼之乐？"庄子曰："子非我，安知我不知鱼之乐？"惠子曰："我非子，固不知子矣；子固非鱼也，子之不知鱼之乐，全矣。"庄子曰："请循其本。子曰汝安知鱼乐云者，既已知吾知之而问我，我知之濠上也。"`,
+            translation: `庄子和惠子在濠水桥上游玩。庄子说："白鱼游得从容自在，这是鱼的快乐。"惠子说："你不是鱼，怎么知道鱼的快乐？"庄子说："你不是我，怎么知道我不知道鱼的快乐？"惠子说："我不是你，固然不知道你；你也不是鱼，你不知道鱼的快乐，这是可以肯定的。"庄子说："请回到最初的话题。你说'你怎么知道鱼快乐'，说明你已经知道我知道鱼快乐才来问我，我是在濠水桥上知道的。"`,
+            meaning: `这场辩论表面在争论"能否知鱼之乐"，实则触及认识论的根本问题：人与万物能否相通？庄子以审美的态度观物，与物同游，超越了主客二分。`,
+            insight: `濠梁之辩提醒我们：理性分析之外，还有感同身受的"体知"。与人相处，不只用逻辑判断，更要用心感受。真正的理解，常常超越语言与推理。`,
+            tags: ['齐物', '体知', '审美', '相通']
+        },
+        {
+            id: 'kunpeng-zhanchi',
+            icon: '🦅',
+            title: '鲲鹏展翅',
+            source: '《庄子·逍遥游》',
+            category: '逍遥',
+            original: `北冥有鱼，其名为鲲。鲲之大，不知其几千里也。化而为鸟，其名为鹏。鹏之背，不知其几千里也；怒而飞，其翼若垂天之云。是鸟也，海运则将徙于南冥。南冥者，天池也。`,
+            translation: `北海有一条鱼，名叫鲲。鲲非常大，不知道有几千里。它变化成鸟，名叫鹏。鹏的背，不知道有几千里；奋起而飞，翅膀像天边的云。这只鸟，海动风起时就要迁徙到南海。南海，就是天池。`,
+            meaning: `鲲化为鹏，从北冥飞往南冥，象征生命突破局限、追求绝对自由的历程。庄子借此表达对"逍遥游"境界的向往：超越世俗束缚，达到精神的绝对自由。`,
+            insight: `每个人心中都有一条鲲，渴望化为鹏、飞向更大的天地。但真正的逍遥不在远方，而在内心的超越。突破自我设限，放下对名利、评价的执着，你便已在逍遥之中。`,
+            tags: ['逍遥', '自由', '超越', '境界']
+        },
+        {
+            id: 'hundun-zhisi',
+            icon: '🌀',
+            title: '浑沌之死',
+            source: '《庄子·应帝王》',
+            category: '自然',
+            original: `南海之帝为儵，北海之帝为忽，中央之帝为浑沌。儵与忽时相与遇于浑沌之地，浑沌待之甚善。儵与忽谋报浑沌之德，曰："人皆有七窍以视听食息，此独无有，尝试凿之。"日凿一窍，七日而浑沌死。`,
+            translation: `南海的帝王叫儵，北海的帝王叫忽，中央的帝王叫浑沌。儵与忽常到浑沌的地方相会，浑沌待他们很好。儵与忽商量报答浑沌的恩德，说："人都有七窍用来视听、吃饭、呼吸，唯独他没有，我们试着给他凿开。"于是每天凿一窍，第七天浑沌就死了。`,
+            meaning: `儵与忽以"好意"为浑沌凿窍，却违背了他的本性，导致其死亡。庄子借此警示：以己度人、强加"标准"于他人，往往造成伤害。自然本真，不容妄加雕琢。`,
+            insight: `教育、管理、亲密关系中，最忌"为你好"式的改造。浑沌之死提醒我们：尊重他人的本性与节奏，不强行"凿窍"，才是真正的善意。有时候，不作为比乱作为更智慧。`,
+            tags: ['自然', '本真', '尊重', '无为']
+        },
+        {
+            id: 'yangzhu-qiqi',
+            icon: '👁️',
+            title: '杨朱泣岐',
+            source: '《荀子·王霸》（道家相关典故）',
+            category: '自然',
+            original: `杨朱哭衢涂曰："此夫过举跬步而觉跌千里者夫！"`,
+            translation: `杨朱站在十字路口哭泣，说："在这里走错半步，等到发觉时已经差之千里了！"`,
+            meaning: `杨朱见歧路而泣，感叹人生选择之难：一步之差，可能导致千里之谬。此典反映了道家对"慎始""顺道"的重视。`,
+            insight: `人生充满岔路，关键选择往往决定方向。杨朱泣岐提醒我们：在重大抉择前，宜静心审慎，顺应本心与规律。但也不必过度焦虑——道法自然，有时随缘而行，亦是正途。`,
+            tags: ['选择', '慎始', '顺道', '人生']
+        },
+        {
+            id: 'jingshui-zhaowu',
+            icon: '💧',
+            title: '静水照物',
+            source: '《庄子·天道》',
+            category: '养生',
+            original: `水静则明烛须眉，平中准，大匠取法焉。水静犹明，而况精神！圣人之心静乎！天地之鉴也，万物之镜也。`,
+            translation: `水静止时能清晰地照见须眉，水平面合乎标准，大匠取法于此。水静尚且能明照，何况精神呢！圣人的心静啊！是天地万物的镜子。`,
+            meaning: `庄子以静水为喻，说明心静才能明察万物。唯有虚静之心，才能如实观照世界，不被杂念与情绪所扰。`,
+            insight: `浮躁的时代，静心是最稀缺的能力。静水照物提醒我们：每天留一点时间让心沉淀，不急于反应、不急于判断。心静了，答案自然浮现。`,
+            tags: ['静心', '观照', '养生', '明察']
+        },
+        {
+            id: 'suiyu-zhian',
+            icon: '🌾',
+            title: '随遇而安',
+            source: '《庄子·养生主》',
+            category: '逍遥',
+            original: `适来，夫子时也；适去，夫子顺也。安时而处顺，哀乐不能入也，古者谓是帝之县解。`,
+            translation: `该来时，是时机到了；该去时，是顺应自然。安于时运、顺应变化，哀乐之情就不能侵入心中，古人把这叫做"帝之悬解"（解除倒悬之苦）。`,
+            meaning: `庄子认为，人若能安于时、顺于变，不被哀乐所困，便获得了真正的解脱。这不是消极，而是对生命流转的深刻接纳。`,
+            insight: `生活总有得失起落，抗拒只会增加痛苦。随遇而安提醒我们：接纳当下，顺势而为。不是放弃努力，而是在尽力之后，坦然面对结果。`,
+            tags: ['逍遥', '顺其自然', '接纳', '解脱']
+        },
+        {
+            id: 'zhili-shu-yangsheng',
+            icon: '🤒',
+            title: '支离疏养生',
+            source: '《庄子·人间世》',
+            category: '养生',
+            original: `支离疏者，颐隐于脐，肩高于顶，会撮指天，五管在上，两髀为胁。挫针治繲，足以糊口；鼓筴播精，足以食十人。上征武士，则支离攘臂而游于其间；上有大役，则支离以有常疾不受功；上与病者粟，则受三钟与十束薪。夫支离其形者，犹足以养其身，终其天年，又况支离其德者乎！`,
+            translation: `支离疏这个人，下巴藏在肚脐里，肩膀高过头顶，发髻朝天，五脏的穴位都在背上，两条大腿和肋骨并生。他靠缝洗衣服足以糊口，替人簸米筛糠足以养活十人。国君征兵，支离疏可以捋起袖子在人群中游逛；国家有徭役，他因残疾而免役；国君救济病残，他能领到三钟米和十捆柴。形体残缺的人，尚且能养活自己、终其天年，何况德行"支离"（超越世俗标准）的人呢！`,
+            meaning: `支离疏形貌丑陋、身体残缺，却因"无用"而免于兵役徭役，得以安享天年。庄子借此再次阐发"无用之用"的思想：世俗眼中的缺陷，反而可能成为保全生命、获得自由的凭借。`,
+            insight: `不必为不符合世俗标准而自卑。支离疏提醒我们：所谓"缺陷"换个角度看可能是"保护"。接纳自己的不完美，找到适合自己的生存之道，反而能活得更自在、更长久。`,
+            tags: ['养生', '无用之用', '接纳', '自在']
+        }
+    ];
 
     // ----- 五行数据 -----
     const FIVE_ELEMENTS = [{
@@ -6131,7 +7072,7 @@
         };
 
         const colorsHtml = fortune.luckyColors.map(c =>
-            `<span class="color-tag" style="background:${colorMap[c] || '#ccc'};color:${['白色','黄色','金色','米色','粉色'].includes(c)?'#333':'#fff'}">${c}</span>`
+            `<span class="color-tag" style="background:${colorMap[c] || '#ccc'};color:${['白色', '黄色', '金色', '米色', '粉色'].includes(c) ? '#333' : '#fff'}">${c}</span>`
         ).join('');
 
         // 🔥 直接替换整个容器内容（占位 → 运势结果）
@@ -6160,7 +7101,7 @@
         </div>
     `;
 
-        container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        container.scrollIntoView({behavior: 'smooth', block: 'start'});
     }
 
     // ----- 4b. 渲染道家名言 -----
@@ -6179,6 +7120,172 @@
                     <span class="quote-category"># ${q.category}</span>
                 </div>
             `).join('');
+    }
+
+    // =============================================================
+    // 道家典故与寓言：渲染与交互
+    // =============================================================
+    let parableCurrentCategory = 'all';
+    let parableSearchKeyword = '';
+
+    function getFilteredParables() {
+        let list = DAOISM_PARABLES;
+
+        // 分类过滤
+        if (parableCurrentCategory !== 'all') {
+            list = list.filter(p => p.category === parableCurrentCategory);
+        }
+
+        // 搜索过滤
+        if (parableSearchKeyword.trim()) {
+            const kw = parableSearchKeyword.trim().toLowerCase();
+            list = list.filter(p =>
+                p.title.toLowerCase().includes(kw) ||
+                p.original.toLowerCase().includes(kw) ||
+                p.translation.toLowerCase().includes(kw) ||
+                p.meaning.toLowerCase().includes(kw) ||
+                p.source.toLowerCase().includes(kw) ||
+                p.tags.some(t => t.toLowerCase().includes(kw))
+            );
+        }
+
+        return list;
+    }
+
+    function renderParables() {
+        const container = document.getElementById('parableList');
+        if (!container) return;
+
+        const list = getFilteredParables();
+
+        if (list.length === 0) {
+            container.innerHTML = `
+            <div class="parable-empty">
+                <span class="parable-empty-icon">📭</span>
+                <p>没有找到相关典故，换个关键词试试～</p>
+            </div>
+        `;
+            return;
+        }
+
+        container.innerHTML = list.map(p => `
+        <div class="parable-card" data-id="${p.id}">
+            <span class="parable-card-icon">${p.icon}</span>
+            <div class="parable-card-title">${p.title}</div>
+            <div class="parable-card-source">${p.source}</div>
+            <div class="parable-card-preview">${p.translation.slice(0, 60)}…</div>
+            <span class="parable-card-tag"># ${p.category}</span>
+        </div>
+    `).join('');
+
+        // 绑定点击事件
+        container.querySelectorAll('.parable-card').forEach(card => {
+            card.addEventListener('click', function () {
+                const id = this.dataset.id;
+                const p = DAOISM_PARABLES.find(x => x.id === id);
+                if (p) openParableModal(p);
+            });
+        });
+    }
+
+    function openParableModal(p) {
+        const modal = document.getElementById('parableModal');
+        if (!modal) return;
+
+        document.getElementById('parableModalIcon').textContent = p.icon;
+        document.getElementById('parableModalTitle').textContent = p.title;
+        document.getElementById('parableModalSource').textContent = '—— ' + p.source;
+        document.getElementById('parableModalOriginal').textContent = p.original;
+        document.getElementById('parableModalTranslation').textContent = p.translation;
+        document.getElementById('parableModalMeaning').textContent = p.meaning;
+        document.getElementById('parableModalInsight').textContent = p.insight;
+
+        document.getElementById('parableModalTags').innerHTML =
+            p.tags.map(t => `<span># ${t}</span>`).join('');
+
+        modal.classList.add('show');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeParableModal() {
+        const modal = document.getElementById('parableModal');
+        if (modal) modal.classList.remove('show');
+        document.body.style.overflow = '';
+    }
+
+    // 初始化分类下拉
+    function initParableCategorySelect() {
+        const select = document.getElementById('parableCategorySelect');
+        if (!select) return;
+
+        // 收集所有分类
+        const categories = [...new Set(DAOISM_PARABLES.map(p => p.category))];
+        categories.forEach(cat => {
+            const opt = document.createElement('option');
+            opt.value = cat;
+            opt.textContent = cat;
+            select.appendChild(opt);
+        });
+
+        select.addEventListener('change', function () {
+            parableCurrentCategory = this.value;
+            renderParables();
+        });
+    }
+
+    // 绑定典故模块事件
+    function initParableEvents() {
+        // 随机一则
+        const randomBtn = document.getElementById('parableRandomBtn');
+        if (randomBtn) {
+            randomBtn.addEventListener('click', function () {
+                const p = pickRandom(DAOISM_PARABLES);
+                openParableModal(p);
+            });
+        }
+
+        // 搜索
+        const searchInput = document.getElementById('parableSearchInput');
+        if (searchInput) {
+            let searchTimer = null;
+            searchInput.addEventListener('input', function () {
+                clearTimeout(searchTimer);
+                searchTimer = setTimeout(() => {
+                    parableSearchKeyword = this.value;
+                    renderParables();
+                }, 220);
+            });
+        }
+
+        // 弹窗关闭
+        const modal = document.getElementById('parableModal');
+        const closeBtn = document.getElementById('parableModalClose');
+        if (modal) {
+            modal.addEventListener('click', function (e) {
+                if (e.target === modal) closeParableModal();
+            });
+        }
+        if (closeBtn) {
+            closeBtn.addEventListener('click', closeParableModal);
+        }
+
+        // ESC 关闭弹窗
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') closeParableModal();
+        });
+
+        // 初始化分类
+        initParableCategorySelect();
+    }
+
+    // 首次进入典籍 Tab 时再初始化
+    let parableInited = false;
+
+    function lazyInitParable() {
+        if (parableInited) return;
+        parableInited = true;
+        initParableEvents();
+        renderParables();
     }
 
     // ----- 4c. 渲染五行 -----
@@ -6258,7 +7365,7 @@
     function rebindSignEvents() {
         const refreshBtn = document.getElementById('refreshSignBtn');
         if (refreshBtn) {
-            refreshBtn.addEventListener('click', function() {
+            refreshBtn.addEventListener('click', function () {
                 playSignShake(() => {
                     currentSign = pickRandom(DAILY_SIGNS);
                     renderDailySign(currentSign);
@@ -6267,7 +7374,7 @@
         }
         const castBtn = document.getElementById('signCastBtn');
         if (castBtn) {
-            castBtn.addEventListener('click', function() {
+            castBtn.addEventListener('click', function () {
                 playSignShake(() => {
                     currentSign = pickRandom(DAILY_SIGNS);
                     renderDailySign(currentSign);
@@ -6281,12 +7388,12 @@
         const castBtn = document.getElementById('guaCastBtn');
         const againBtn = document.getElementById('guaAgainBtn');
         if (castBtn) {
-            castBtn.addEventListener('click', function() {
+            castBtn.addEventListener('click', function () {
                 playGuaCast(() => castGua());
             });
         }
         if (againBtn) {
-            againBtn.addEventListener('click', function() {
+            againBtn.addEventListener('click', function () {
                 playGuaCast(() => castGua());
             });
         }
@@ -6413,7 +7520,7 @@
         `).join('');
 
         optionsEl.querySelectorAll('.daoname-option').forEach(el => {
-            el.addEventListener('click', function() {
+            el.addEventListener('click', function () {
                 const idx = parseInt(this.dataset.index);
                 daonameAnswers.push(q.options[idx].tags);
                 this.classList.add('selected');
@@ -6706,7 +7813,7 @@
 
         // 绑定事件
         svg.querySelectorAll('.dm-node').forEach(nodeEl => {
-            nodeEl.addEventListener('click', function(e) {
+            nodeEl.addEventListener('click', function (e) {
                 e.stopPropagation();
                 const id = this.dataset.id;
                 if (daomapActiveId === id) {
@@ -6718,7 +7825,7 @@
         });
 
         // 点击空白清除
-        svg.addEventListener('click', function() {
+        svg.addEventListener('click', function () {
             clearDaomapSelection();
         });
     }
@@ -6818,7 +7925,7 @@
 
         // 侧栏标签点击跳转
         content.querySelectorAll('[data-jump]').forEach(el => {
-            el.addEventListener('click', function() {
+            el.addEventListener('click', function () {
                 selectDaomapNode(this.dataset.jump);
             });
         });
@@ -6922,7 +8029,7 @@
         `).join('');
 
         grid.querySelectorAll('.mtn-card').forEach(card => {
-            card.addEventListener('click', function() {
+            card.addEventListener('click', function () {
                 const id = this.dataset.id;
                 const m = MOUNTAINS_DATA.find(x => x.id === id);
                 if (m) openMountainModal(m);
@@ -6948,7 +8055,7 @@
                 </div>
             `;
             document.body.appendChild(modal);
-            modal.addEventListener('click', function(e) {
+            modal.addEventListener('click', function (e) {
                 if (e.target === modal) closeMountainModal();
             });
             document.getElementById('mtnModalClose').addEventListener('click', closeMountainModal);
@@ -7100,10 +8207,10 @@
         const fontSize = size * 0.28;
         ctx.font = getSealFont(fontSize);
         const positions = [
-            { x: size * 0.68, y: size * 0.32 },
-            { x: size * 0.68, y: size * 0.68 },
-            { x: size * 0.32, y: size * 0.32 },
-            { x: size * 0.32, y: size * 0.68 }
+            {x: size * 0.68, y: size * 0.32},
+            {x: size * 0.68, y: size * 0.68},
+            {x: size * 0.32, y: size * 0.32},
+            {x: size * 0.32, y: size * 0.68}
         ];
         chars.forEach((c, i) => {
             if (positions[i]) {
@@ -7142,14 +8249,14 @@
         // 文字
         const textInput = document.getElementById('sealText');
         if (textInput) {
-            textInput.addEventListener('input', function() {
+            textInput.addEventListener('input', function () {
                 SEAL_STATE.text = this.value || '道';
                 drawSeal();
             });
         }
         // 字体
         document.querySelectorAll('#sealFontGroup .seal-radio').forEach(btn => {
-            btn.addEventListener('click', function() {
+            btn.addEventListener('click', function () {
                 updateSealRadioGroup('sealFontGroup', this);
                 SEAL_STATE.font = this.dataset.font;
                 drawSeal();
@@ -7157,7 +8264,7 @@
         });
         // 排列方式
         document.querySelectorAll('#sealLayoutGroup .seal-radio').forEach(btn => {
-            btn.addEventListener('click', function() {
+            btn.addEventListener('click', function () {
                 updateSealRadioGroup('sealLayoutGroup', this);
                 SEAL_STATE.layout = this.dataset.layout;
                 drawSeal();
@@ -7166,7 +8273,7 @@
 
         // 样式
         document.querySelectorAll('#sealStyleGroup .seal-radio').forEach(btn => {
-            btn.addEventListener('click', function() {
+            btn.addEventListener('click', function () {
                 updateSealRadioGroup('sealStyleGroup', this);
                 SEAL_STATE.style = this.dataset.style;
                 drawSeal();
@@ -7175,7 +8282,7 @@
 
         // 边框
         document.querySelectorAll('#sealBorderGroup .seal-radio').forEach(btn => {
-            btn.addEventListener('click', function() {
+            btn.addEventListener('click', function () {
                 updateSealRadioGroup('sealBorderGroup', this);
                 SEAL_STATE.border = this.dataset.border;
                 drawSeal();
@@ -7184,7 +8291,7 @@
 
         // 颜色
         document.querySelectorAll('#sealColorGroup .seal-color').forEach(btn => {
-            btn.addEventListener('click', function() {
+            btn.addEventListener('click', function () {
                 updateSealColorGroup(this);
                 SEAL_STATE.color = this.dataset.color;
                 drawSeal();
@@ -7195,7 +8302,7 @@
         const sizeInput = document.getElementById('sealSize');
         const sizeValue = document.getElementById('sealSizeValue');
         if (sizeInput) {
-            sizeInput.addEventListener('input', function() {
+            sizeInput.addEventListener('input', function () {
                 SEAL_STATE.size = parseInt(this.value);
                 sizeValue.textContent = this.value + ' px';
                 drawSeal();
@@ -7204,7 +8311,7 @@
 
         // 做旧
         document.querySelectorAll('#sealTextureGroup .seal-radio').forEach(btn => {
-            btn.addEventListener('click', function() {
+            btn.addEventListener('click', function () {
                 updateSealRadioGroup('sealTextureGroup', this);
                 SEAL_STATE.texture = this.dataset.texture;
                 drawSeal();
@@ -7214,7 +8321,7 @@
         // 下载
         const dlBtn = document.getElementById('sealDownloadBtn');
         if (dlBtn) {
-            dlBtn.addEventListener('click', function() {
+            dlBtn.addEventListener('click', function () {
                 const canvas = document.getElementById('sealCanvas');
                 const link = document.createElement('a');
                 link.download = '印章_' + SEAL_STATE.text + '.png';
@@ -7226,7 +8333,7 @@
         // 随机
         const rndBtn = document.getElementById('sealRandomBtn');
         if (rndBtn) {
-            rndBtn.addEventListener('click', function() {
+            rndBtn.addEventListener('click', function () {
                 randomizeSeal();
             });
         }
@@ -7234,7 +8341,7 @@
 
     // 字体加载完成后自动重绘
     if (document.fonts && document.fonts.addEventListener) {
-        document.fonts.addEventListener('loadingdone', function() {
+        document.fonts.addEventListener('loadingdone', function () {
             // 如果当前在印章 Tab，重绘
             const sealTab = document.getElementById('seal-tab');
             if (sealTab && sealTab.classList.contains('active')) {
@@ -7370,7 +8477,7 @@
                 updateMusicBar();
                 // 播放完成提示音（使用Web Audio API）
                 try {
-                    const ctx = new(window.AudioContext || window.webkitAudioContext)();
+                    const ctx = new (window.AudioContext || window.webkitAudioContext)();
                     const osc = ctx.createOscillator();
                     const gain = ctx.createGain();
                     osc.connect(gain);
@@ -7381,7 +8488,8 @@
                     gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 1);
                     osc.start(ctx.currentTime);
                     osc.stop(ctx.currentTime + 1);
-                } catch (e) { /* 静默降级 */ }
+                } catch (e) { /* 静默降级 */
+                }
             }
         }, 1000);
     }
@@ -7481,7 +8589,8 @@
 
                 // 有选中曲目 → 切换播放/暂停
                 if (meditationAudio.paused) {
-                    meditationAudio.play().catch(() => {});
+                    meditationAudio.play().catch(() => {
+                    });
                 } else {
                     meditationAudio.pause();
                 }
@@ -7576,7 +8685,8 @@
         // 同一首：切换播放/暂停
         if (currentMusicId === id) {
             if (meditationAudio.paused) {
-                meditationAudio.play().catch(() => {});
+                meditationAudio.play().catch(() => {
+                });
             } else {
                 meditationAudio.pause();
             }
@@ -7708,11 +8818,14 @@
                 resetDailySign();
             }
         }
+        if (tab === 'parable') {
+            lazyInitParable();
+        }
     }
 
     // ----- 二级菜单点击（核心） -----
     document.querySelectorAll('.nav-dropdown a').forEach(link => {
-        link.addEventListener('click', function(e) {
+        link.addEventListener('click', function (e) {
             e.preventDefault();
             e.stopPropagation();        // 阻止冒泡到 document
 
@@ -7731,7 +8844,7 @@
 
     // ----- 一级分组标题点击 -----
     document.querySelectorAll('.nav-group-title').forEach(title => {
-        title.addEventListener('click', function(e) {
+        title.addEventListener('click', function (e) {
             e.preventDefault();
             e.stopPropagation();
 
@@ -7762,7 +8875,7 @@
         document.querySelectorAll('.nav-group').forEach(g => g.classList.remove('open'));
     }
 
-    navToggle?.addEventListener('click', function(e) {
+    navToggle?.addEventListener('click', function (e) {
         e.stopPropagation();
         if (mainNav.classList.contains('open')) {
             closeMobileNav();
@@ -7772,7 +8885,7 @@
     });
 
     // 遮罩：只关闭抽屉，不穿透
-    navOverlay?.addEventListener('click', function(e) {
+    navOverlay?.addEventListener('click', function (e) {
         e.stopPropagation();
         e.preventDefault();
         closeMobileNav();
@@ -7780,7 +8893,7 @@
 
     // ----- 窗口尺寸变化清理 -----
     let navResizeTimer = null;
-    window.addEventListener('resize', function() {
+    window.addEventListener('resize', function () {
         clearTimeout(navResizeTimer);
         navResizeTimer = setTimeout(() => {
             if (!isMobileNav()) {
@@ -7793,7 +8906,7 @@
     });
 
     // ----- ESC 关闭 -----
-    document.addEventListener('keydown', function(e) {
+    document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') closeMobileNav();
     });
 
@@ -7811,7 +8924,7 @@
     });
 
     // 点击查看运势时，隐藏占位，显示结果
-    document.getElementById('getFortuneBtn').addEventListener('click', function() {
+    document.getElementById('getFortuneBtn').addEventListener('click', function () {
         const zodiac = zodiacSelect.value;
         if (!zodiac) {
             alert('请先选择您的生肖 🐉');
@@ -7845,7 +8958,7 @@
 
     categorySelect.addEventListener('change', filterQuotes);
 
-    document.getElementById('randomQuoteBtn').addEventListener('click', function() {
+    document.getElementById('randomQuoteBtn').addEventListener('click', function () {
         const random = pickRandom(DAOISM_QUOTES);
         renderQuotes([random]);
     });
@@ -7862,7 +8975,7 @@
     }
 
     // 介绍页的「摇签」按钮
-    document.getElementById('signCastBtn').addEventListener('click', function() {
+    document.getElementById('signCastBtn').addEventListener('click', function () {
         playSignShake(() => {
             currentSign = pickRandom(DAILY_SIGNS);
             renderDailySign(currentSign);
@@ -7870,7 +8983,7 @@
     });
 
     // 结果页的「再摇一签」按钮
-    document.getElementById('refreshSignBtn').addEventListener('click', function() {
+    document.getElementById('refreshSignBtn').addEventListener('click', function () {
         playSignShake(() => {
             currentSign = pickRandom(DAILY_SIGNS);
             renderDailySign(currentSign);
@@ -7878,7 +8991,7 @@
     });
 
     // ----- 6f. 冥想计时器 -----
-    document.getElementById('meditationStartBtn').addEventListener('click', function() {
+    document.getElementById('meditationStartBtn').addEventListener('click', function () {
         if (isMeditationRunning) {
             pauseMeditation();
         } else {
@@ -7894,7 +9007,7 @@
     document.getElementById('meditationResetBtn').addEventListener('click', resetMeditation);
 
     document.querySelectorAll('.btn-preset').forEach(btn => {
-        btn.addEventListener('click', function() {
+        btn.addEventListener('click', function () {
             const minutes = parseInt(this.dataset.minutes);
             setMeditationMinutes(minutes);
         });
@@ -7907,7 +9020,7 @@
     // 页面空闲时预加载音乐
     if (window.requestIdleCallback) {
         window.addEventListener('load', function () {
-            requestIdleCallback(preloadMeditationMusic, { timeout: 3000 });
+            requestIdleCallback(preloadMeditationMusic, {timeout: 3000});
         });
     } else {
         window.addEventListener('load', function () {
@@ -7920,7 +9033,7 @@
     // ----- 6h. 测测你的道号 -----
     document.getElementById('daonameStartBtn').addEventListener('click', startDaonameQuiz);
     document.getElementById('daonameRetryBtn').addEventListener('click', startDaonameQuiz);
-    document.getElementById('daonameCopyBtn').addEventListener('click', function() {
+    document.getElementById('daonameCopyBtn').addEventListener('click', function () {
         const r = window._daonameResult;
         if (!r) return;
         const text = `我的道号是：${r.name}\n\n${r.poem}\n\n${r.description}\n\n—— 传统文化智慧 · 测测你的道号`;
@@ -7929,7 +9042,9 @@
                 const btn = this;
                 const old = btn.innerHTML;
                 btn.innerHTML = '<i class="fas fa-check"></i> 已复制';
-                setTimeout(() => { btn.innerHTML = old; }, 1600);
+                setTimeout(() => {
+                    btn.innerHTML = old;
+                }, 1600);
             }).catch(() => {
                 alert('复制失败，请手动复制：\n\n' + text);
             });
@@ -7943,17 +9058,17 @@
     document.getElementById('daomapResetBtn').addEventListener('click', resetDaomap);
 
     // ----- 6j. 每日一卦 -----
-    document.getElementById('guaCastBtn').addEventListener('click', function() {
+    document.getElementById('guaCastBtn').addEventListener('click', function () {
         playGuaCast(() => castGua());
     });
-    document.getElementById('guaAgainBtn').addEventListener('click', function() {
+    document.getElementById('guaAgainBtn').addEventListener('click', function () {
         playGuaCast(() => castGua());
     });
 
     // ----- 6k. 云游名山 -----
     renderMountains();
     document.querySelectorAll('.mtn-filter-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
+        btn.addEventListener('click', function () {
             document.querySelectorAll('.mtn-filter-btn').forEach(b => b.classList.remove('active'));
             this.classList.add('active');
             mountainsCurrentFilter = this.dataset.filter;
@@ -7987,7 +9102,8 @@
         fontFamilies.reduce((promise, family) => {
             return promise.then(() => {
                 return document.fonts.load(`40px ${family}`, sampleText)
-                    .catch(() => {});
+                    .catch(() => {
+                    });
             });
         }, Promise.resolve()).then(() => {
             // 全部加载完成，如果当前在印章 Tab，重绘一次
@@ -8000,17 +9116,17 @@
 
     // 页面 load 之后，浏览器空闲时执行
     if (window.requestIdleCallback) {
-        window.addEventListener('load', function() {
-            requestIdleCallback(preloadAllSealFonts, { timeout: 3000 });
+        window.addEventListener('load', function () {
+            requestIdleCallback(preloadAllSealFonts, {timeout: 3000});
         });
     } else {
         // 降级：load 后延迟 1.5 秒执行
-        window.addEventListener('load', function() {
+        window.addEventListener('load', function () {
             setTimeout(preloadAllSealFonts, 1500);
         });
     }
 
-</script>
 
+</script>
 </body>
 </html>
