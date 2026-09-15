@@ -3853,6 +3853,988 @@
             }
         }
 
+        /* ========================================================= */
+        /* 新增：二十四节气养生 */
+        /* ========================================================= */
+        .solarterm-container {
+            padding: 4px 0;
+        }
+
+        /* ----- 当前节气卡片 ----- */
+        .solarterm-current {
+            background: linear-gradient(145deg, #fdfaf7, #f5ede6);
+            border-radius: 16px;
+            padding: 24px 28px;
+            border: 1px solid #e8ddd0;
+            margin-bottom: 24px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 20px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .solarterm-current .st-icon {
+            font-size: 56px;
+            text-align: center;
+            min-width: 80px;
+        }
+
+        .solarterm-current .st-info {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .solarterm-current .st-name {
+            font-size: 28px;
+            font-weight: 600;
+            color: #4a3728;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            letter-spacing: 2px;
+        }
+
+        .solarterm-current .st-sub {
+            font-size: 15px;
+            color: #7a6b5a;
+            margin-top: 4px;
+            line-height: 1.7;
+        }
+
+        .solarterm-current .st-tag {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 4px 20px;
+            border-radius: 30px;
+            font-size: 14px;
+            background: #e8ddd0;
+            color: #5a3e2b;
+            font-weight: 500;
+        }
+
+        .solarterm-current .st-season {
+            display: inline-block;
+            margin-left: 8px;
+            padding: 4px 16px;
+            border-radius: 30px;
+            font-size: 13px;
+            background: #f0ece6;
+            color: #5a3e2b;
+        }
+
+        /* ----- 节气轮盘 ----- */
+        .solarterm-wheel-wrap {
+            background: linear-gradient(145deg, #fdfaf7, #f5ede6);
+            border-radius: 18px;
+            border: 1px solid #e8ddd0;
+            padding: 10px;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 340px;
+        }
+
+        #solartermWheel {
+            width: 100%;
+            max-width: 520px;
+            height: auto;
+            display: block;
+        }
+
+        /* ----- 节气轮盘（优化版） ----- */
+        .solarterm-wheel-wrap {
+            background: linear-gradient(145deg, #fdfaf7, #f5ede6);
+            border-radius: 18px;
+            border: 1px solid #e8ddd0;
+            padding: 10px;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 420px;
+        }
+
+        #solartermWheel {
+            width: 100%;
+            max-width: 620px;
+            height: auto;
+            display: block;
+            overflow: visible;
+        }
+
+        /* 节点 */
+        .st-node {
+            cursor: pointer;
+            transform-origin: center;
+            transform-box: fill-box;
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .st-node circle {
+            transition: all 0.25s ease;
+            stroke: #fff;
+            stroke-width: 2.5;
+        }
+
+        .st-node.season-spring circle { fill: #7bc5a0; }
+        .st-node.season-summer circle { fill: #e74c3c; }
+        .st-node.season-autumn circle { fill: #c9a87c; }
+        .st-node.season-winter circle { fill: #6b8cae; }
+
+        .st-node text {
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            fill: #fff;
+            text-anchor: middle;
+            dominant-baseline: central;
+            pointer-events: none;
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            transition: font-size 0.25s ease;
+        }
+
+        /* hover：放大 + 外发光 */
+        .st-node:hover {
+            transform: scale(1.18);
+        }
+
+        .st-node:hover circle {
+            stroke: #5a3e2b;
+            stroke-width: 3.5;
+            filter: drop-shadow(0 0 10px rgba(139, 107, 77, 0.7));
+        }
+
+        .st-node:hover text {
+            font-size: 15px;
+        }
+
+        /* 当前选中：更强高亮 + 脉冲 */
+        .st-node.active {
+            transform: scale(1.22);
+        }
+
+        .st-node.active circle {
+            stroke: #5a3e2b;
+            stroke-width: 4.5;
+            filter: drop-shadow(0 0 14px rgba(139, 107, 77, 0.85));
+            animation: stPulse 2s ease-in-out infinite;
+        }
+
+        .st-node.active text {
+            font-size: 16px;
+        }
+
+        @keyframes stPulse {
+            0%, 100% {
+                filter: drop-shadow(0 0 10px rgba(139, 107, 77, 0.6));
+            }
+            50% {
+                filter: drop-shadow(0 0 20px rgba(139, 107, 77, 1));
+            }
+        }
+
+        /* 点击弹跳 */
+        .st-node.bounce {
+            animation: stBounce 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes stBounce {
+            0% { transform: scale(1.22); }
+            40% { transform: scale(1.38); }
+            70% { transform: scale(1.12); }
+            100% { transform: scale(1.22); }
+        }
+
+        /* 中心圆装饰 */
+        .st-center-ring {
+            fill: rgba(255, 255, 255, 0.6);
+            stroke: #e0d5c8;
+            stroke-width: 1.5;
+            stroke-dasharray: 4 4;
+            transition: all 0.3s ease;
+        }
+
+        .st-center-ring-outer {
+            fill: none;
+            stroke: #e8ddd0;
+            stroke-width: 1;
+            stroke-dasharray: 2 6;
+        }
+
+        .st-center-text {
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            fill: #8b6b4d;
+            text-anchor: middle;
+            dominant-baseline: central;
+            font-weight: 700;
+            font-size: 22px;
+            letter-spacing: 4px;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+
+        .st-center-sub {
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            fill: #b0a090;
+            text-anchor: middle;
+            dominant-baseline: central;
+            font-size: 12px;
+            letter-spacing: 2px;
+            pointer-events: none;
+        }
+
+        /* 中心指针：指向当前节气 */
+        .st-pointer {
+            stroke: #8b6b4d;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0.85;
+        }
+
+        .st-pointer-dot {
+            fill: #8b6b4d;
+            transition: all 0.3s ease;
+        }
+
+        /* 节点到中心的连线（淡） */
+        .st-spoke {
+            stroke: #e0d5c8;
+            stroke-width: 1;
+            opacity: 0.5;
+            transition: all 0.3s ease;
+        }
+
+        .st-spoke.active {
+            stroke: #8b6b4d;
+            stroke-width: 1.8;
+            opacity: 0.9;
+        }
+
+        /* 四季弧线色带 */
+        .st-season-arc {
+            fill: none;
+            stroke-width: 8;
+            opacity: 0.18;
+            stroke-linecap: round;
+        }
+
+        .st-season-arc.spring { stroke: #7bc5a0; }
+        .st-season-arc.summer { stroke: #e74c3c; }
+        .st-season-arc.autumn { stroke: #c9a87c; }
+        .st-season-arc.winter { stroke: #6b8cae; }
+
+        .st-season-label {
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            fill: #b0a090;
+            text-anchor: middle;
+            dominant-baseline: central;
+            font-size: 15px;
+            pointer-events: none;
+            letter-spacing: 3px;
+            font-weight: 600;
+        }
+
+        /* 小屏适配：轮盘整体缩放，但字号保持可读 */
+        @media (max-width: 768px) {
+            .solarterm-wheel-wrap {
+                min-height: 360px;
+                padding: 6px;
+            }
+            .st-node text {
+                font-size: 12px;
+            }
+            .st-node:hover text {
+                font-size: 13px;
+            }
+            .st-node.active text {
+                font-size: 13px;
+            }
+            .st-center-text {
+                font-size: 18px;
+            }
+            .st-center-sub {
+                font-size: 11px;
+            }
+            .st-season-label {
+                font-size: 13px;
+            }
+        }
+
+        /* ----- 节气详情 ----- */
+        .solarterm-detail {
+            background: #fdfaf7;
+            border: 1px solid #e8ddd0;
+            border-radius: 16px;
+            padding: 26px 28px;
+            margin-bottom: 24px;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .solarterm-detail .sd-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+            padding-bottom: 14px;
+            margin-bottom: 18px;
+            border-bottom: 2px dashed #e0d3c4;
+        }
+
+        .solarterm-detail .sd-icon {
+            font-size: 40px;
+            line-height: 1;
+        }
+
+        .solarterm-detail .sd-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #4a3728;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            letter-spacing: 2px;
+        }
+
+        .solarterm-detail .sd-date {
+            font-size: 14px;
+            color: #8b7a6a;
+            margin-left: auto;
+        }
+
+        .solarterm-detail .sd-desc {
+            font-size: 15px;
+            color: #5a5a5a;
+            line-height: 1.9;
+            padding: 14px 18px;
+            background: #fff;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            border-left: 3px solid #c9a87c;
+        }
+
+        .solarterm-detail .sd-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+
+        .solarterm-detail .sd-item {
+            background: #f5f0ea;
+            border-radius: 12px;
+            padding: 14px 18px;
+        }
+
+        .solarterm-detail .sd-item-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #8b6b4d;
+            margin-bottom: 6px;
+        }
+
+        .solarterm-detail .sd-item-content {
+            font-size: 14px;
+            color: #5a5a5a;
+            line-height: 1.8;
+        }
+
+        .solarterm-detail .sd-item-content li {
+            list-style: none;
+            padding: 2px 0;
+        }
+
+        .solarterm-detail .sd-item-content li::before {
+            content: "· ";
+            color: #8b6b4d;
+        }
+
+        .solarterm-detail .sd-poem {
+            font-size: 16px;
+            color: #5a3e2b;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            line-height: 2;
+            text-align: center;
+            padding: 16px 20px;
+            background: #edf0f5;
+            border-radius: 12px;
+            border-left: 3px solid #8b6b4d;
+            margin-bottom: 14px;
+        }
+
+        .solarterm-detail .sd-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .solarterm-detail .sd-tags span {
+            background: #e8ddd0;
+            color: #5a3e2b;
+            padding: 4px 16px;
+            border-radius: 30px;
+            font-size: 13px;
+        }
+
+        /* ----- 四季分组浏览 ----- */
+        .solarterm-groups {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+        }
+
+        .st-group {
+            background: #fdfaf7;
+            border: 1px solid #e8ddd0;
+            border-radius: 14px;
+            padding: 18px 20px;
+            transition: all 0.3s;
+        }
+
+        .st-group:hover {
+            box-shadow: 0 6px 22px rgba(0, 0, 0, 0.05);
+        }
+
+        .st-group-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #4a3728;
+            margin-bottom: 12px;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .st-group-terms {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .st-term-chip {
+            padding: 5px 14px;
+            border-radius: 30px;
+            font-size: 13px;
+            background: #f0ece6;
+            color: #5a3e2b;
+            cursor: pointer;
+            transition: all 0.25s;
+            border: 1.5px solid transparent;
+        }
+
+        .st-term-chip:hover {
+            background: #e0d8ce;
+        }
+
+        .st-term-chip.active {
+            background: #8b6b4d;
+            color: #fff;
+            border-color: #8b6b4d;
+        }
+
+        /* 小屏适配 */
+        @media (max-width: 768px) {
+            .solarterm-detail .sd-grid {
+                grid-template-columns: 1fr;
+            }
+            .solarterm-detail {
+                padding: 20px 18px;
+            }
+            .solarterm-current {
+                padding: 20px 18px;
+            }
+            .solarterm-current .st-name {
+                font-size: 24px;
+            }
+            .solarterm-wheel-wrap {
+                min-height: 280px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .solarterm-groups {
+                grid-template-columns: 1fr;
+            }
+            .solarterm-detail .sd-title {
+                font-size: 20px;
+            }
+        }
+        /* ========================================================= */
+        /* 新增：十二时辰养生 */
+        /* ========================================================= */
+        .shichen-container {
+            padding: 4px 0;
+        }
+
+        /* ----- 当前时辰卡片 ----- */
+        .shichen-current {
+            background: linear-gradient(145deg, #fdfaf7, #f5ede6);
+            border-radius: 16px;
+            padding: 24px 28px;
+            border: 1px solid #e8ddd0;
+            margin-bottom: 24px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 20px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .shichen-current .sc-icon {
+            font-size: 56px;
+            text-align: center;
+            min-width: 80px;
+            line-height: 1;
+        }
+
+        .shichen-current .sc-info {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .shichen-current .sc-name {
+            font-size: 28px;
+            font-weight: 600;
+            color: #4a3728;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            letter-spacing: 3px;
+        }
+
+        .shichen-current .sc-sub {
+            font-size: 15px;
+            color: #7a6b5a;
+            margin-top: 6px;
+            line-height: 1.7;
+        }
+
+        .shichen-current .sc-tag {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 4px 20px;
+            border-radius: 30px;
+            font-size: 14px;
+            background: #e8ddd0;
+            color: #5a3e2b;
+            font-weight: 500;
+        }
+
+        .shichen-current .sc-organ {
+            display: inline-block;
+            margin-left: 8px;
+            padding: 4px 16px;
+            border-radius: 30px;
+            font-size: 13px;
+            background: #f0ece6;
+            color: #5a3e2b;
+        }
+
+        /* ----- 时辰轮盘 ----- */
+        .shichen-wheel-wrap {
+            background: linear-gradient(145deg, #fdfaf7, #f5ede6);
+            border-radius: 18px;
+            border: 1px solid #e8ddd0;
+            padding: 10px;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 420px;
+        }
+
+        #shichenWheel {
+            width: 100%;
+            max-width: 620px;
+            height: auto;
+            display: block;
+            overflow: visible;
+        }
+
+        /* 时辰节点 */
+        .sc-node {
+            cursor: pointer;
+            transform-origin: center;
+            transform-box: fill-box;
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .sc-node circle {
+            transition: all 0.25s ease;
+            stroke: #fff;
+            stroke-width: 2.5;
+        }
+
+        /* 十二时辰按五行/阴阳配色：阳时暖色，阴时冷色 */
+        .sc-node.yang circle { fill: #c9a87c; }
+        .sc-node.yin circle { fill: #6b8cae; }
+
+        .sc-node text {
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            fill: #fff;
+            text-anchor: middle;
+            dominant-baseline: central;
+            pointer-events: none;
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            transition: font-size 0.25s ease;
+        }
+
+        .sc-node:hover {
+            transform: scale(1.18);
+        }
+
+        .sc-node:hover circle {
+            stroke: #5a3e2b;
+            stroke-width: 3.5;
+            filter: drop-shadow(0 0 10px rgba(139, 107, 77, 0.7));
+        }
+
+        .sc-node:hover text {
+            font-size: 15px;
+        }
+
+        .sc-node.active {
+            transform: scale(1.22);
+        }
+
+        .sc-node.active circle {
+            stroke: #5a3e2b;
+            stroke-width: 4.5;
+            filter: drop-shadow(0 0 14px rgba(139, 107, 77, 0.85));
+            animation: scPulse 2s ease-in-out infinite;
+        }
+
+        .sc-node.active text {
+            font-size: 16px;
+        }
+
+        @keyframes scPulse {
+            0%, 100% { filter: drop-shadow(0 0 10px rgba(139, 107, 77, 0.6)); }
+            50% { filter: drop-shadow(0 0 20px rgba(139, 107, 77, 1)); }
+        }
+
+        .sc-node.bounce {
+            animation: scBounce 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes scBounce {
+            0% { transform: scale(1.22); }
+            40% { transform: scale(1.38); }
+            70% { transform: scale(1.12); }
+            100% { transform: scale(1.22); }
+        }
+
+        /* 中心装饰 */
+        .sc-center-ring {
+            fill: rgba(255, 255, 255, 0.6);
+            stroke: #e0d5c8;
+            stroke-width: 1.5;
+            stroke-dasharray: 4 4;
+        }
+
+        .sc-center-ring-outer {
+            fill: none;
+            stroke: #e8ddd0;
+            stroke-width: 1;
+            stroke-dasharray: 2 6;
+        }
+
+        .sc-center-text {
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            fill: #8b6b4d;
+            text-anchor: middle;
+            dominant-baseline: central;
+            font-weight: 700;
+            font-size: 22px;
+            letter-spacing: 4px;
+            pointer-events: none;
+        }
+
+        .sc-center-sub {
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            fill: #b0a090;
+            text-anchor: middle;
+            dominant-baseline: central;
+            font-size: 12px;
+            letter-spacing: 2px;
+            pointer-events: none;
+        }
+
+        /* 指针 */
+        .sc-pointer {
+            stroke: #8b6b4d;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0.75;
+        }
+
+        .sc-pointer-dot {
+            fill: #8b6b4d;
+            transition: all 0.3s ease;
+            opacity: 0.9;
+        }
+
+        /* 节点-中心连线 */
+        .sc-spoke {
+            stroke: #e0d5c8;
+            stroke-width: 1;
+            opacity: 0.5;
+            transition: all 0.3s ease;
+        }
+
+        .sc-spoke.active {
+            stroke: #8b6b4d;
+            stroke-width: 1.8;
+            opacity: 0.9;
+        }
+
+        /* 昼夜色带（外圈弧线） */
+        .sc-day-arc {
+            fill: none;
+            stroke: #c9a87c;
+            stroke-width: 8;
+            opacity: 0.18;
+            stroke-linecap: round;
+        }
+
+        .sc-night-arc {
+            fill: none;
+            stroke: #6b8cae;
+            stroke-width: 8;
+            opacity: 0.18;
+            stroke-linecap: round;
+        }
+
+        /* 中心小字标签 */
+        .sc-label-day, .sc-label-night {
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            text-anchor: middle;
+            dominant-baseline: central;
+            font-size: 13px;
+            letter-spacing: 2px;
+            font-weight: 600;
+            pointer-events: none;
+        }
+        .sc-label-day { fill: #c9a87c; }
+        .sc-label-night { fill: #6b8cae; }
+
+        /* ----- 时辰详情 ----- */
+        .shichen-detail {
+            background: #fdfaf7;
+            border: 1px solid #e8ddd0;
+            border-radius: 16px;
+            padding: 26px 28px;
+            margin-bottom: 24px;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .shichen-detail .scd-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+            padding-bottom: 14px;
+            margin-bottom: 18px;
+            border-bottom: 2px dashed #e0d3c4;
+        }
+
+        .shichen-detail .scd-icon {
+            font-size: 40px;
+            line-height: 1;
+        }
+
+        .shichen-detail .scd-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #4a3728;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            letter-spacing: 3px;
+        }
+
+        .shichen-detail .scd-time {
+            font-size: 14px;
+            color: #8b7a6a;
+            margin-left: auto;
+        }
+
+        .shichen-detail .scd-desc {
+            font-size: 15px;
+            color: #5a5a5a;
+            line-height: 1.9;
+            padding: 14px 18px;
+            background: #fff;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            border-left: 3px solid #c9a87c;
+        }
+
+        .shichen-detail .scd-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+
+        .shichen-detail .scd-item {
+            background: #f5f0ea;
+            border-radius: 12px;
+            padding: 14px 18px;
+        }
+
+        .shichen-detail .scd-item-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #8b6b4d;
+            margin-bottom: 6px;
+        }
+
+        .shichen-detail .scd-item-content {
+            font-size: 14px;
+            color: #5a5a5a;
+            line-height: 1.8;
+        }
+
+        .shichen-detail .scd-item-content li {
+            list-style: none;
+            padding: 2px 0;
+        }
+
+        .shichen-detail .scd-item-content li::before {
+            content: "· ";
+            color: #8b6b4d;
+        }
+
+        .shichen-detail .scd-quote {
+            font-size: 16px;
+            color: #5a3e2b;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            line-height: 2;
+            text-align: center;
+            padding: 16px 20px;
+            background: #edf0f5;
+            border-radius: 12px;
+            border-left: 3px solid #8b6b4d;
+            margin-bottom: 14px;
+        }
+
+        .shichen-detail .scd-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .shichen-detail .scd-tags span {
+            background: #e8ddd0;
+            color: #5a3e2b;
+            padding: 4px 16px;
+            border-radius: 30px;
+            font-size: 13px;
+        }
+
+        /* ----- 十二时辰快速浏览 ----- */
+        .shichen-groups {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+        }
+
+        .sc-group {
+            background: #fdfaf7;
+            border: 1px solid #e8ddd0;
+            border-radius: 14px;
+            padding: 18px 20px;
+            transition: all 0.3s;
+        }
+
+        .sc-group:hover {
+            box-shadow: 0 6px 22px rgba(0, 0, 0, 0.05);
+        }
+
+        .sc-group-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #4a3728;
+            margin-bottom: 12px;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sc-group-terms {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .sc-term-chip {
+            padding: 5px 14px;
+            border-radius: 30px;
+            font-size: 13px;
+            background: #f0ece6;
+            color: #5a3e2b;
+            cursor: pointer;
+            transition: all 0.25s;
+            border: 1.5px solid transparent;
+        }
+
+        .sc-term-chip:hover {
+            background: #e0d8ce;
+        }
+
+        .sc-term-chip.active {
+            background: #8b6b4d;
+            color: #fff;
+            border-color: #8b6b4d;
+        }
+
+        /* 小屏适配 */
+        @media (max-width: 768px) {
+            .shichen-detail .scd-grid {
+                grid-template-columns: 1fr;
+            }
+            .shichen-detail {
+                padding: 20px 18px;
+            }
+            .shichen-current {
+                padding: 20px 18px;
+            }
+            .shichen-current .sc-name {
+                font-size: 24px;
+            }
+            .shichen-wheel-wrap {
+                min-height: 360px;
+                padding: 6px;
+            }
+            .sc-node text {
+                font-size: 12px;
+            }
+            .sc-node:hover text {
+                font-size: 13px;
+            }
+            .sc-node.active text {
+                font-size: 13px;
+            }
+            .sc-center-text {
+                font-size: 18px;
+            }
+            .sc-center-sub {
+                font-size: 11px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .shichen-groups {
+                grid-template-columns: 1fr;
+            }
+            .shichen-detail .scd-title {
+                font-size: 20px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -3903,7 +4885,8 @@
                 </a>
                 <div class="nav-dropdown">
                     <a data-tab="season">四时养生</a>
-
+                    <a data-tab="solarterm">二十四节气</a>
+                    <a data-tab="shichen">十二时辰</a>
                 </div>
             </div>
 
@@ -4187,7 +5170,7 @@
         </section>
 
         <!-- ========================================================= -->
-        <!-- Tab 6: 四时养生 (新增) -->
+        <!-- Tab 6: 四时养生-->
         <!-- ========================================================= -->
         <section id="season-tab" class="tab-content">
             <h2><i class="fas fa-leaf"></i> 四时养生</h2>
@@ -4202,7 +5185,55 @@
         </section>
 
         <!-- ========================================================= -->
-        <!-- Tab 7: 测测你的道号 (新增) -->
+        <!-- Tab: 二十四节气养生 -->
+        <!-- ========================================================= -->
+        <section id="solarterm-tab" class="tab-content">
+            <h2><i class="fas fa-sun"></i> 二十四节气养生</h2>
+            <div class="solarterm-container">
+
+                <!-- 当前节气卡片 -->
+                <div id="solartermCurrent" class="solarterm-current"></div>
+
+                <!-- 节气轮盘 -->
+                <div class="solarterm-wheel-wrap">
+                    <svg id="solartermWheel" viewBox="0 0 620 620" preserveAspectRatio="xMidYMid meet"></svg>
+                </div>
+
+                <!-- 当前节气详情 -->
+                <div id="solartermDetail" class="solarterm-detail"></div>
+
+                <!-- 四季分组浏览 -->
+                <div class="solarterm-groups" id="solartermGroups"></div>
+
+            </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- Tab: 十二时辰养生  -->
+        <!-- ========================================================= -->
+        <section id="shichen-tab" class="tab-content">
+            <h2><i class="fas fa-clock"></i> 十二时辰养生</h2>
+            <div class="shichen-container">
+
+                <!-- 当前时辰卡片 -->
+                <div id="shichenCurrent" class="shichen-current"></div>
+
+                <!-- 时辰轮盘 -->
+                <div class="shichen-wheel-wrap">
+                    <svg id="shichenWheel" viewBox="0 0 620 620" preserveAspectRatio="xMidYMid meet"></svg>
+                </div>
+
+                <!-- 当前时辰详情 -->
+                <div id="shichenDetail" class="shichen-detail"></div>
+
+                <!-- 十二时辰快速浏览 -->
+                <div class="shichen-groups" id="shichenGroups"></div>
+
+            </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- Tab 7: 测测你的道号 -->
         <!-- ========================================================= -->
         <section id="daoname-tab" class="tab-content">
             <h2><i class="fas fa-hat-wizard"></i> 测测你的道号</h2>
@@ -4259,7 +5290,7 @@
         </section>
 
         <!-- ========================================================= -->
-        <!-- Tab: 云游名山 (新增) -->
+        <!-- Tab: 云游名山-->
         <!-- ========================================================= -->
         <section id="mountains-tab" class="tab-content">
             <h2><i class="fas fa-mountain"></i> 云游名山</h2>
@@ -6901,6 +7932,427 @@
     const SEASON_ORDER = ['spring', 'summer', 'lateSummer', 'autumn', 'winter'];
 
     // =============================================================
+    // 新增数据：二十四节气养生
+    // =============================================================
+    // 字段说明：
+    // name 节气名 / icon 图标 / season 所属季节(spring/summer/autumn/winter)
+    // date 大致日期 / angle 轮盘角度(0=正上方，顺时针)
+    // desc 气候特点 / diet 饮食 / lifestyle 起居 / emotion 情志
+    // acupoint 推荐穴位 / poem 节气诗谚 / tags 标签
+    const SOLAR_TERMS = [
+        // ===== 春 =====
+        {
+            name: '立春', icon: '🌱', season: 'spring', date: '2月3-5日', angle: 0,
+            desc: '东风解冻，蛰虫始振。万物复苏，阳气初生，养生重在养肝护阳。',
+            diet: ['宜食辛甘发散之品：韭菜、葱、香菜、豆芽', '少食酸涩，以免收敛肝气', '可饮花茶疏肝理气'],
+            lifestyle: ['夜卧早起，广步于庭', '注意春捂，勿过早减衣', '舒展筋骨，多做伸展运动'],
+            emotion: '保持心情舒畅，戒怒戒躁，顺应春生之气。',
+            acupoint: '太冲穴、肝俞穴',
+            poem: '律回岁晚冰霜少，春到人间草木知。',
+            tags: ['养肝', '护阳', '春捂']
+        },
+        {
+            name: '雨水', icon: '🌧️', season: 'spring', date: '2月18-20日', angle: 15,
+            desc: '冰雪消融，降水增多。湿气渐盛，养生重在健脾祛湿。',
+            diet: ['宜食健脾祛湿之品：山药、薏米、茯苓', '少食生冷油腻', '可食粥养胃'],
+            lifestyle: ['适当运动，微汗即可', '注意防寒保暖，勿过早减衣', '居室保持干燥通风'],
+            emotion: '心平气和，避免思虑过度伤脾。',
+            acupoint: '足三里、阴陵泉',
+            poem: '天街小雨润如酥，草色遥看近却无。',
+            tags: ['健脾', '祛湿', '防寒']
+        },
+        {
+            name: '惊蛰', icon: '🐛', season: 'spring', date: '3月5-7日', angle: 30,
+            desc: '春雷始鸣，蛰虫惊醒。肝气旺盛，养生重在疏肝理气。',
+            diet: ['宜食清淡疏肝之品：芹菜、菠菜、菊花茶', '少食辛辣燥热', '可食梨润肺'],
+            lifestyle: ['早睡早起，适当午休', '多到户外呼吸新鲜空气', '运动以舒缓为主'],
+            emotion: '戒怒戒郁，保持心境平和，可听音乐疏解情绪。',
+            acupoint: '太冲穴、期门穴',
+            poem: '微雨众卉新，一雷惊蛰始。',
+            tags: ['疏肝', '理气', '清燥']
+        },
+        {
+            name: '春分', icon: '🌸', season: 'spring', date: '3月20-22日', angle: 45,
+            desc: '昼夜均分，阴阳平衡。养生重在调和阴阳，以平为期。',
+            diet: ['饮食宜寒热均衡，不偏不倚', '宜食时令蔬菜：荠菜、香椿、春笋', '少食大寒大热之品'],
+            lifestyle: ['作息规律，顺应昼夜', '适度运动，不宜过劳', '注意防过敏'],
+            emotion: '保持平和心态，不悲不喜，阴阳调和。',
+            acupoint: '太冲穴、合谷穴',
+            poem: '仲春初四日，春色正中分。',
+            tags: ['调和', '阴阳', '平衡']
+        },
+        {
+            name: '清明', icon: '🌿', season: 'spring', date: '4月4-6日', angle: 60,
+            desc: '气清景明，万物皆显。肝气升发，养生重在清肝明目。',
+            diet: ['宜食清肝之品：菊花、枸杞、决明子茶', '青团、荠菜等时令食物', '少食发物'],
+            lifestyle: ['踏青郊游，舒畅心情', '早睡早起，勿熬夜', '注意防花粉过敏'],
+            emotion: '追思怀远，但勿过度悲伤，保持情绪平稳。',
+            acupoint: '太冲穴、睛明穴',
+            poem: '清明时节雨纷纷，路上行人欲断魂。',
+            tags: ['清肝', '明目', '踏青']
+        },
+        {
+            name: '谷雨', icon: '🌾', season: 'spring', date: '4月19-21日', angle: 75,
+            desc: '雨生百谷，湿气渐重。养生重在健脾祛湿，为入夏做准备。',
+            diet: ['宜食健脾祛湿之品：薏米、赤小豆、山药', '少食生冷甜腻', '可饮谷雨茶'],
+            lifestyle: ['适当运动出汗，排出湿气', '注意保暖，勿贪凉', '保持居室通风'],
+            emotion: '心平气和，勿思虑过度，养护脾胃。',
+            acupoint: '足三里、丰隆穴',
+            poem: '谷雨如丝复似尘，煮瓶浮蜡正尝新。',
+            tags: ['健脾', '祛湿', '备夏']
+        },
+        // ===== 夏 =====
+        {
+            name: '立夏', icon: '☀️', season: 'summer', date: '5月5-7日', angle: 90,
+            desc: '万物繁茂，阳气渐盛。养生重在养心安神，为盛夏做准备。',
+            diet: ['宜食养心之品：红豆、莲子、百合', '少食油腻，多食蔬果', '可饮绿茶清热'],
+            lifestyle: ['夜卧早起，适当午休', '避免暴晒，注意防晒', '运动宜在清晨或傍晚'],
+            emotion: '戒怒戒躁，保持心境平和，养护心气。',
+            acupoint: '内关穴、神门穴',
+            poem: '绿树阴浓夏日长，楼台倒影入池塘。',
+            tags: ['养心', '安神', '防暑']
+        },
+        {
+            name: '小满', icon: '🌾', season: 'summer', date: '5月20-22日', angle: 105,
+            desc: '麦粒渐满，湿气渐盛。养生重在清热祛湿，防皮肤病。',
+            diet: ['宜食清热祛湿之品：苦瓜、冬瓜、绿豆', '少食辛辣燥热', '可饮荷叶茶'],
+            lifestyle: ['勤换衣物，保持干爽', '避免潮湿环境', '适当运动排汗'],
+            emotion: '心平气和，勿烦躁，静心养神。',
+            acupoint: '曲池穴、阴陵泉',
+            poem: '夜莺啼绿柳，皓月醒长空。',
+            tags: ['清热', '祛湿', '护肤']
+        },
+        {
+            name: '芒种', icon: '🌾', season: 'summer', date: '6月5-7日', angle: 120,
+            desc: '有芒可种，梅雨绵绵。湿气最盛，养生重在祛湿健脾。',
+            diet: ['宜食健脾祛湿之品：薏米、扁豆、冬瓜', '少食甜腻生冷', '可饮酸梅汤生津'],
+            lifestyle: ['勤换衣物，防霉防潮', '适当运动，微汗即可', '保证充足睡眠'],
+            emotion: '保持心情舒畅，勿郁闷，防湿困脾。',
+            acupoint: '足三里、阴陵泉',
+            poem: '时雨及芒种，四野皆插秧。',
+            tags: ['祛湿', '健脾', '防霉']
+        },
+        {
+            name: '夏至', icon: '🌞', season: 'summer', date: '6月21-22日', angle: 135,
+            desc: '阳气至极，阴气始生。养生重在养护阳气，冬病夏治。',
+            diet: ['宜食清淡之品：苦瓜、绿豆、西瓜', '少食生冷，护脾胃', '可食生姜温阳'],
+            lifestyle: ['晚睡早起，适当午休', '避免正午暴晒', '可艾灸冬病夏治'],
+            emotion: '静心养神，戒躁戒怒，使志无怒。',
+            acupoint: '神阙穴、关元穴',
+            poem: '昼晷已云极，宵漏自此长。',
+            tags: ['养阳', '冬病夏治', '静心']
+        },
+        {
+            name: '小暑', icon: '🔥', season: 'summer', date: '7月6-8日', angle: 150,
+            desc: '暑气渐盛，热浪来袭。养生重在清热解暑，养心宁神。',
+            diet: ['宜食清热解暑之品：绿豆汤、苦瓜、莲子', '少食辛辣油腻', '可饮菊花茶'],
+            lifestyle: ['避免正午外出', '适当午休，养精蓄锐', '空调温度不宜过低'],
+            emotion: '心静自然凉，戒躁戒怒，养护心气。',
+            acupoint: '内关穴、曲池穴',
+            poem: '倏忽温风至，因循小暑来。',
+            tags: ['解暑', '养心', '静神']
+        },
+        {
+            name: '大暑', icon: '🌡️', season: 'summer', date: '7月22-24日', angle: 165,
+            desc: '一年最热，湿热交蒸。养生重在防暑祛湿，养护心脾。',
+            diet: ['宜食清热祛湿之品：绿豆、冬瓜、薏米', '多饮温水，补充津液', '少食生冷'],
+            lifestyle: ['避免高温时段外出', '保证充足睡眠', '注意防中暑'],
+            emotion: '静心养神，勿烦躁，心静则凉。',
+            acupoint: '内关穴、足三里',
+            poem: '赤日几时过，清风无处寻。',
+            tags: ['防暑', '祛湿', '养心']
+        },
+        // ===== 秋 =====
+        {
+            name: '立秋', icon: '🍂', season: 'autumn', date: '8月7-9日', angle: 180,
+            desc: '暑去凉来，燥气渐生。养生重在润肺防燥，收敛阳气。',
+            diet: ['宜食润肺之品：梨、百合、银耳、蜂蜜', '少食辛辣燥热', '可食芝麻润肠'],
+            lifestyle: ['早卧早起，收敛神气', '适当添衣，防秋凉', '运动以舒缓为主'],
+            emotion: '收敛情绪，勿悲秋，保持内心安宁。',
+            acupoint: '肺俞穴、太渊穴',
+            poem: '云天收夏色，木叶动秋声。',
+            tags: ['润肺', '防燥', '收敛']
+        },
+        {
+            name: '处暑', icon: '🌤️', season: 'autumn', date: '8月22-24日', angle: 195,
+            desc: '暑气渐消，秋凉始生。养生重在润燥养肺，调整作息。',
+            diet: ['宜食润燥之品：梨、莲藕、银耳', '少食辛辣烧烤', '可饮蜂蜜水润肠'],
+            lifestyle: ['早卧早起，适当午休', '注意早晚温差，及时添衣', '适度运动增强体质'],
+            emotion: '保持平和，勿悲秋，收敛神气。',
+            acupoint: '肺俞穴、太溪穴',
+            poem: '疾风驱急雨，残暑扫除空。',
+            tags: ['润燥', '养肺', '调息']
+        },
+        {
+            name: '白露', icon: '💧', season: 'autumn', date: '9月7-9日', angle: 210,
+            desc: '露凝而白，秋燥渐盛。养生重在滋阴润肺，防凉防燥。',
+            diet: ['宜食滋阴润肺之品：梨、百合、山药、蜂蜜', '少食辛辣', '可饮清茶润喉'],
+            lifestyle: ['早晚添衣，勿露身', '早卧早起，收敛神气', '室内可加湿'],
+            emotion: '保持心境平和，勿悲忧，养护肺气。',
+            acupoint: '肺俞穴、列缺穴',
+            poem: '蒹葭苍苍，白露为霜。',
+            tags: ['滋阴', '润肺', '防凉']
+        },
+        {
+            name: '秋分', icon: '🌕', season: 'autumn', date: '9月22-24日', angle: 225,
+            desc: '昼夜均分，阴阳平衡。养生重在调和阴阳，润燥养肺。',
+            diet: ['饮食宜寒热均衡', '宜食润燥之品：梨、银耳、芝麻', '少食大寒大热'],
+            lifestyle: ['作息规律，顺应昼夜', '适度运动，不宜过劳', '注意防凉防燥'],
+            emotion: '保持平和心态，不悲不喜，阴阳调和。',
+            acupoint: '太渊穴、太溪穴',
+            poem: '金气秋分，风清露冷秋期半。',
+            tags: ['调和', '润燥', '平衡']
+        },
+        {
+            name: '寒露', icon: '🍁', season: 'autumn', date: '10月8-9日', angle: 240,
+            desc: '露气寒冷，将凝为霜。养生重在防寒保暖，滋阴润燥。',
+            diet: ['宜食滋阴润燥之品：芝麻、核桃、银耳', '少食辛辣', '可食山药健脾'],
+            lifestyle: ['注意保暖，勿露脚踝', '早卧早起，收敛神气', '适度运动御寒'],
+            emotion: '保持乐观，勿悲秋，养护肺气。',
+            acupoint: '太溪穴、涌泉穴',
+            poem: '袅袅凉风动，凄凄寒露零。',
+            tags: ['防寒', '滋阴', '保暖']
+        },
+        {
+            name: '霜降', icon: '❄️', season: 'autumn', date: '10月23-24日', angle: 255,
+            desc: '露结为霜，秋末冬初。养生重在平补脾胃，为入冬做准备。',
+            diet: ['宜食平补之品：山药、栗子、萝卜、牛肉', '少食生冷', '可食柿子润肺'],
+            lifestyle: ['注意保暖，防寒防燥', '适当运动，增强体质', '早卧早起'],
+            emotion: '保持平和，勿悲忧，养护脾胃。',
+            acupoint: '足三里、脾俞穴',
+            poem: '霜降水返壑，风落木归山。',
+            tags: ['平补', '健脾', '备冬']
+        },
+        // ===== 冬 =====
+        {
+            name: '立冬', icon: '🌨️', season: 'winter', date: '11月7-8日', angle: 270,
+            desc: '水始冰，地始冻。万物收藏，养生重在养肾藏精。',
+            diet: ['宜食温补之品：羊肉、核桃、黑豆、生姜', '少食生冷寒凉', '可食饺子补冬'],
+            lifestyle: ['早卧晚起，必待日光', '注意保暖，避寒就温', '减少剧烈运动'],
+            emotion: '静心养藏，勿扰动阳气，蓄势待发。',
+            acupoint: '肾俞穴、关元穴',
+            poem: '细雨生寒未有霜，庭前木叶半青黄。',
+            tags: ['养肾', '藏精', '温补']
+        },
+        {
+            name: '小雪', icon: '🌨️', season: 'winter', date: '11月22-23日', angle: 285,
+            desc: '气寒将雪，万物闭藏。养生重在温肾助阳，防寒保暖。',
+            diet: ['宜食温补之品：羊肉、桂圆、红枣', '少食生冷', '可饮姜茶暖身'],
+            lifestyle: ['早卧晚起，避寒就温', '注意头颈保暖', '适当运动，勿大汗'],
+            emotion: '保持心境平和，勿抑郁，养护肾气。',
+            acupoint: '肾俞穴、太溪穴',
+            poem: '花雪随风不厌看，更多还肯失林峦。',
+            tags: ['温肾', '助阳', '保暖']
+        },
+        {
+            name: '大雪', icon: '❄️', season: 'winter', date: '12月6-8日', angle: 300,
+            desc: '积雪深厚，天寒地冻。养生重在温补阳气，固肾藏精。',
+            diet: ['宜食温补之品：羊肉、牛肉、核桃、黑芝麻', '少食生冷', '可食火锅温阳'],
+            lifestyle: ['早卧晚起，必待日光', '注意全身保暖', '减少户外活动'],
+            emotion: '静心养神，勿躁动，固护阳气。',
+            acupoint: '关元穴、命门穴',
+            poem: '千山鸟飞绝，万径人踪灭。',
+            tags: ['温补', '固肾', '藏精']
+        },
+        {
+            name: '冬至', icon: '🌑', season: 'winter', date: '12月21-23日', angle: 315,
+            desc: '阴极之至，阳气始生。养生重在护阳藏精，冬病冬防。',
+            diet: ['宜食温补之品：羊肉、饺子、汤圆', '少食生冷', '可食当归生姜羊肉汤'],
+            lifestyle: ['早卧晚起，必待日光', '注意保暖，护住阳气', '可艾灸冬病冬防'],
+            emotion: '静心养藏，勿扰动阳气，安神定志。',
+            acupoint: '关元穴、神阙穴',
+            poem: '天时人事日相催，冬至阳生春又来。',
+            tags: ['护阳', '藏精', '冬病冬防']
+        },
+        {
+            name: '小寒', icon: '🥶', season: 'winter', date: '1月5-7日', angle: 330,
+            desc: '寒气渐盛，滴水成冰。养生重在温肾壮阳，防寒保暖。',
+            diet: ['宜食温补之品：羊肉、鸡肉、核桃、桂圆', '少食生冷', '可食腊八粥'],
+            lifestyle: ['早卧晚起，避寒就温', '注意手脚保暖', '适当运动，勿大汗'],
+            emotion: '保持乐观，勿抑郁，养护肾气。',
+            acupoint: '肾俞穴、命门穴',
+            poem: '小寒连大吕，欢鹊垒新巢。',
+            tags: ['温肾', '壮阳', '保暖']
+        },
+        {
+            name: '大寒', icon: '🧊', season: 'winter', date: '1月20-21日', angle: 345,
+            desc: '一年最冷，寒气至极。养生重在温补阳气，为迎春做准备。',
+            diet: ['宜食温补之品：羊肉、牛肉、红枣、桂圆', '少食生冷', '可食八宝饭'],
+            lifestyle: ['早卧晚起，必待日光', '注意保暖，防寒防风', '适当运动，增强体质'],
+            emotion: '静心养神，勿躁动，蓄势迎春。',
+            acupoint: '关元穴、足三里',
+            poem: '旧雪未及消，新雪又拥户。',
+            tags: ['温补', '迎春', '藏阳']
+        }
+    ];
+
+    // 季节分组信息（用于底部四季浏览）
+    const SOLAR_TERM_SEASONS = [
+        { key: 'spring', name: '春', icon: '🌱', terms: ['立春', '雨水', '惊蛰', '春分', '清明', '谷雨'] },
+        { key: 'summer', name: '夏', icon: '☀️', terms: ['立夏', '小满', '芒种', '夏至', '小暑', '大暑'] },
+        { key: 'autumn', name: '秋', icon: '🍂', terms: ['立秋', '处暑', '白露', '秋分', '寒露', '霜降'] },
+        { key: 'winter', name: '冬', icon: '❄️', terms: ['立冬', '小雪', '大雪', '冬至', '小寒', '大寒'] }
+    ];
+
+    // =============================================================
+    // 新增数据：十二时辰养生
+    // =============================================================
+    // angle: 轮盘角度（0=正上方，顺时针，每个时辰 30°）
+    // 子时在正下方（180°），符合传统「子午线」意象
+    const SHICHEN_DATA = [
+        {
+            name: '子时', icon: '🌙', time: '23:00 - 01:00', organ: '胆经',
+            yinyang: 'yang', // 子时为阳气初生，用暖色
+            angle: 180,
+            desc: '夜半，又名子夜、中夜。此时胆经当令，阳气初生，宜入睡养胆。',
+            sleep: ['此时应已入睡，保证深度睡眠', '睡前勿进食、勿剧烈运动', '保持卧室安静黑暗'],
+            diet: ['不宜进食，若口渴可饮少量温水', '忌浓茶、咖啡、酒精'],
+            emotion: '安静入眠，勿思虑，让心神归于宁静。',
+            acupoint: '风池穴、阳陵泉',
+            quote: '子时一阳生，安睡以养胆。',
+            tags: ['养胆', '入睡', '阳气初生']
+        },
+        {
+            name: '丑时', icon: '🌌', time: '01:00 - 03:00', organ: '肝经',
+            yinyang: 'yin',
+            angle: 210,
+            desc: '鸡鸣，又称荒鸡。此时肝经当令，肝藏血、主疏泄，宜深睡养肝。',
+            sleep: ['保持深度睡眠，肝血得以归藏', '勿熬夜，熬夜最伤肝血', '睡姿以右侧卧为宜'],
+            diet: ['不宜进食', '白天可食青色食物养肝：菠菜、芹菜'],
+            emotion: '熟睡中，勿惊醒，让肝气顺畅条达。',
+            acupoint: '太冲穴、肝俞穴',
+            quote: '人卧则血归于肝，丑时安眠养肝血。',
+            tags: ['养肝', '藏血', '深睡']
+        },
+        {
+            name: '寅时', icon: '🌄', time: '03:00 - 05:00', organ: '肺经',
+            yinyang: 'yin',
+            angle: 240,
+            desc: '平旦，又称黎明、早晨。此时肺经当令，气血由静转动，宜熟睡养肺。',
+            sleep: ['保持睡眠，肺气得以宣发', '哮喘、咳嗽者此时易发作，需注意', '勿过早起床，待天亮'],
+            diet: ['不宜进食', '白天可食白色润肺食物：梨、百合、银耳'],
+            emotion: '安然入睡，肺主气，气顺则心安。',
+            acupoint: '太渊穴、肺俞穴',
+            quote: '寅时肺朝百脉，安睡以养肺气。',
+            tags: ['养肺', '宣发', '熟睡']
+        },
+        {
+            name: '卯时', icon: '🌅', time: '05:00 - 07:00', organ: '大肠经',
+            yinyang: 'yang',
+            angle: 270,
+            desc: '日出，又称破晓。此时大肠经当令，宜起床排便，排出毒素。',
+            sleep: ['此时宜起床，顺应阳气升发', '起床后喝一杯温水', '可做简单伸展运动'],
+            diet: ['起床后饮温水 200-300ml', '可食温热易消化食物', '忌生冷'],
+            emotion: '神清气爽，迎接新的一天，保持愉悦心情。',
+            acupoint: '合谷穴、天枢穴',
+            quote: '卯时大肠经旺，晨起排便一身轻。',
+            tags: ['排便', '起床', '排毒']
+        },
+        {
+            name: '辰时', icon: '🍚', time: '07:00 - 09:00', organ: '胃经',
+            yinyang: 'yang',
+            angle: 300,
+            desc: '食时，又称早食。此时胃经当令，是吃早餐的最佳时机。',
+            sleep: ['已起床，精神饱满', '可做适度晨练', '不宜再赖床'],
+            diet: ['早餐宜温热、营养均衡', '宜食：粥、鸡蛋、牛奶、包子', '忌生冷、油腻、空腹'],
+            emotion: '心情愉快地进食，细嚼慢咽，感恩食物。',
+            acupoint: '足三里、中脘穴',
+            quote: '辰时胃经旺，早餐吃好一天安。',
+            tags: ['早餐', '养胃', '进食']
+        },
+        {
+            name: '巳时', icon: '☀️', time: '09:00 - 11:00', organ: '脾经',
+            yinyang: 'yang',
+            angle: 330,
+            desc: '隅中，临近中午。此时脾经当令，脾主运化，是工作学习的黄金时段。',
+            sleep: ['精神最旺，宜专注工作', '不宜久坐，每小时起身活动', '可做适度运动'],
+            diet: ['可饮温水，不宜大量进食', '忌生冷、甜腻', '可食少量坚果'],
+            emotion: '思虑有度，勿过度用脑伤脾，保持专注而放松。',
+            acupoint: '三阴交、脾俞穴',
+            quote: '巳时脾经旺，运化水谷精神爽。',
+            tags: ['健脾', '工作', '运化']
+        },
+        {
+            name: '午时', icon: '🌞', time: '11:00 - 13:00', organ: '心经',
+            yinyang: 'yin', // 午时阴生，用冷色
+            angle: 0,
+            desc: '日中，又称正午。此时心经当令，阳气至极，宜小憩养心。',
+            sleep: ['宜午休 20-30 分钟', '不宜睡太久，以免影响夜间睡眠', '闭目养神亦可'],
+            diet: ['午餐宜八分饱', '宜食：清淡、易消化', '忌过饱、过油腻'],
+            emotion: '心静自然凉，保持心情平和，勿大喜大怒。',
+            acupoint: '内关穴、神门穴',
+            quote: '午时心经旺，小憩养心精神足。',
+            tags: ['养心', '午休', '静心']
+        },
+        {
+            name: '未时', icon: '🌤️', time: '13:00 - 15:00', organ: '小肠经',
+            yinyang: 'yin',
+            angle: 30,
+            desc: '日昳，太阳偏西。此时小肠经当令，小肠分清泌浊，宜多饮水助吸收。',
+            sleep: ['午休后精神恢复', '可做轻度工作', '不宜剧烈运动'],
+            diet: ['多饮温水，助小肠吸收', '可食少量水果', '忌大量进食'],
+            emotion: '保持平和，勿急躁，让身体从容运化。',
+            acupoint: '后溪穴、天宗穴',
+            quote: '未时小肠经旺，饮水助吸收。',
+            tags: ['小肠', '饮水', '吸收']
+        },
+        {
+            name: '申时', icon: '🍵', time: '15:00 - 17:00', organ: '膀胱经',
+            yinyang: 'yang',
+            angle: 60,
+            desc: '哺时，又称夕食。此时膀胱经当令，是工作学习效率最高的时段之一。',
+            sleep: ['精神饱满，宜高效工作', '可适量运动，如散步、拉伸', '不宜久坐'],
+            diet: ['可饮下午茶，如淡茶、温水', '可食少量坚果、水果', '忌咖啡因过量'],
+            emotion: '保持专注，勿焦虑，适时放松眼睛和肩颈。',
+            acupoint: '委中穴、承山穴',
+            quote: '申时膀胱经旺，多喝水勤排尿。',
+            tags: ['膀胱', '工作', '运动']
+        },
+        {
+            name: '酉时', icon: '🌇', time: '17:00 - 19:00', organ: '肾经',
+            yinyang: 'yin',
+            angle: 90,
+            desc: '日入，又称日落。此时肾经当令，肾藏精，宜静养收敛。',
+            sleep: ['不宜过度劳累', '可做舒缓运动，如散步', '准备进入休息状态'],
+            diet: ['晚餐宜清淡、少而精', '宜食：黑色食物养肾，如黑豆、黑芝麻', '忌过饱、过咸'],
+            emotion: '收敛心神，勿过度兴奋，为夜晚安睡做准备。',
+            acupoint: '太溪穴、肾俞穴',
+            quote: '酉时肾经旺，养精蓄锐待明日。',
+            tags: ['养肾', '藏精', '晚餐']
+        },
+        {
+            name: '戌时', icon: '🌆', time: '19:00 - 21:00', organ: '心包经',
+            yinyang: 'yin',
+            angle: 120,
+            desc: '黄昏，又称日暮。此时心包经当令，心包为心之屏障，宜放松心情。',
+            sleep: ['宜放松，为睡眠做准备', '可散步、听音乐、阅读', '不宜剧烈运动'],
+            diet: ['不宜再进食', '可饮少量温水', '忌浓茶、咖啡'],
+            emotion: '心情愉悦，与家人交流，释放一天的压力。',
+            acupoint: '内关穴、劳宫穴',
+            quote: '戌时心包经旺，放松心情好入眠。',
+            tags: ['心包', '放松', '准备入睡']
+        },
+        {
+            name: '亥时', icon: '🌃', time: '21:00 - 23:00', organ: '三焦经',
+            yinyang: 'yin',
+            angle: 150,
+            desc: '人定，又称定昏。此时三焦经当令，三焦通百脉，宜安睡养百脉。',
+            sleep: ['宜在 23:00 前入睡', '睡前泡脚、听轻音乐', '远离手机、电脑'],
+            diet: ['不宜进食', '可饮少量温水', '忌饮酒助眠'],
+            emotion: '心平气和，放下万缘，安然入睡。',
+            acupoint: '外关穴、支沟穴',
+            quote: '亥时三焦通百脉，安睡养颜又养身。',
+            tags: ['三焦', '入睡', '养百脉']
+        }
+    ];
+
+    // 时辰分组：白天（卯~申）、夜晚（酉~寅）
+    const SHICHEN_GROUPS = [
+        { key: 'day', name: '昼', icon: '☀️', terms: ['卯时', '辰时', '巳时', '午时', '未时', '申时'] },
+        { key: 'night', name: '夜', icon: '🌙', terms: ['酉时', '戌时', '亥时', '子时', '丑时', '寅时'] }
+    ];
+
+    // =============================================================
     // 2. 工具函数
     // =============================================================
 
@@ -7486,6 +8938,485 @@
                 `;
         }).join('');
     }
+
+    // =============================================================
+    // 新增：二十四节气养生
+    // =============================================================
+    let solartermActiveName = null;
+
+    // 获取当前节气
+    function getCurrentSolarTerm() {
+        const now = new Date();
+        const month = now.getMonth() + 1;
+        const day = now.getDate();
+
+        // 每个节气的近似起始日期（月, 日）
+        const termDates = [
+            { name: '小寒', m: 1, d: 5 }, { name: '大寒', m: 1, d: 20 },
+            { name: '立春', m: 2, d: 4 }, { name: '雨水', m: 2, d: 19 },
+            { name: '惊蛰', m: 3, d: 6 }, { name: '春分', m: 3, d: 21 },
+            { name: '清明', m: 4, d: 5 }, { name: '谷雨', m: 4, d: 20 },
+            { name: '立夏', m: 5, d: 6 }, { name: '小满', m: 5, d: 21 },
+            { name: '芒种', m: 6, d: 6 }, { name: '夏至', m: 6, d: 21 },
+            { name: '小暑', m: 7, d: 7 }, { name: '大暑', m: 7, d: 23 },
+            { name: '立秋', m: 8, d: 8 }, { name: '处暑', m: 8, d: 23 },
+            { name: '白露', m: 9, d: 8 }, { name: '秋分', m: 9, d: 23 },
+            { name: '寒露', m: 10, d: 8 }, { name: '霜降', m: 10, d: 24 },
+            { name: '立冬', m: 11, d: 7 }, { name: '小雪', m: 11, d: 22 },
+            { name: '大雪', m: 12, d: 7 }, { name: '冬至', m: 12, d: 22 }
+        ];
+
+        // 倒序查找：当前日期 >= 节气日期
+        for (let i = termDates.length - 1; i >= 0; i--) {
+            const t = termDates[i];
+            if (month > t.m || (month === t.m && day >= t.d)) {
+                return SOLAR_TERMS.find(s => s.name === t.name);
+            }
+        }
+        // 1月5日之前属于上一年冬至
+        return SOLAR_TERMS.find(s => s.name === '冬至');
+    }
+
+    // 渲染顶部当前节气卡片
+    function renderSolarTermCurrent(term) {
+        const el = document.getElementById('solartermCurrent');
+        if (!el) return;
+        const seasonMap = { spring: '春', summer: '夏', autumn: '秋', winter: '冬' };
+        el.innerHTML = `
+        <div class="st-icon">${term.icon}</div>
+        <div class="st-info">
+            <div class="st-name">${term.name}</div>
+            <div class="st-sub">${term.desc}</div>
+            <span class="st-tag">${term.date}</span>
+            <span class="st-season">${seasonMap[term.season]}季</span>
+        </div>
+    `;
+    }
+    // 渲染节气轮盘（优化版：大字 + 强互动）
+    function renderSolarTermWheel(activeName) {
+        const svg = document.getElementById('solartermWheel');
+        if (!svg) return;
+
+        const cx = 310, cy = 310;
+        const rOuter = 270;      // 外圈半径（节点中心）
+        const rInner = 100;      // 中心圆半径
+        const rArc = 300;        // 季节色带半径
+        const nodeR = 26;        // 节点半径（加大）
+
+        let html = '';
+
+        // ===== 1. 四季色带（外圈弧线） =====
+        // 每个季节 90°，从该季第一个节气到最后一个节气
+        // 春: 0°~75°, 夏: 90°~165°, 秋: 180°~255°, 冬: 270°~345°
+        const seasonArcs = [
+            { cls: 'spring', start: 0, end: 75 },
+            { cls: 'summer', start: 90, end: 165 },
+            { cls: 'autumn', start: 180, end: 255 },
+            { cls: 'winter', start: 270, end: 345 }
+        ];
+
+        function polar(radius, angleDeg) {
+            const rad = (angleDeg - 90) * Math.PI / 180;
+            return { x: cx + radius * Math.cos(rad), y: cy + radius * Math.sin(rad) };
+        }
+
+        seasonArcs.forEach(arc => {
+            const s = polar(rArc, arc.start);
+            const e = polar(rArc, arc.end);
+            // 弧线路径（大弧标志 0，因为每段 <180°）
+            const path = `M ${s.x.toFixed(1)} ${s.y.toFixed(1)} A ${rArc} ${rArc} 0 0 1 ${e.x.toFixed(1)} ${e.y.toFixed(1)}`;
+            html += `<path class="st-season-arc ${arc.cls}" d="${path}"></path>`;
+        });
+
+        // ===== 2. 中心装饰圆 =====
+        html += `<circle class="st-center-ring-outer" cx="${cx}" cy="${cy}" r="${rInner + 18}"></circle>`;
+        html += `<circle class="st-center-ring" cx="${cx}" cy="${cy}" r="${rInner}"></circle>`;
+
+        // ===== 3. 节点到中心的连线（spoke） =====
+        SOLAR_TERMS.forEach(term => {
+            const p1 = polar(rInner + 20, term.angle);
+            const p2 = polar(rOuter - nodeR - 4, term.angle);
+            const activeCls = term.name === activeName ? ' active' : '';
+            html += `<line class="st-spoke${activeCls}" x1="${p1.x.toFixed(1)}" y1="${p1.y.toFixed(1)}" x2="${p2.x.toFixed(1)}" y2="${p2.y.toFixed(1)}"></line>`;
+        });
+
+        // ===== 4. 中心指针（从中心圆边缘指向当前节气） =====
+        const currentTerm = SOLAR_TERMS.find(t => t.name === activeName);
+        if (currentTerm) {
+            // 指针起点：中心圆边缘（rInner - 6），终点：靠近节点
+            const start = polar(rInner - 6, currentTerm.angle);
+            const end = polar(rOuter - nodeR - 10, currentTerm.angle);
+            html += `<line class="st-pointer" x1="${start.x.toFixed(1)}" y1="${start.y.toFixed(1)}" x2="${end.x.toFixed(1)}" y2="${end.y.toFixed(1)}"></line>`;
+            html += `<circle class="st-pointer-dot" cx="${end.x.toFixed(1)}" cy="${end.y.toFixed(1)}" r="4"></circle>`;
+        }
+
+        // ===== 5. 中心文字 =====
+        html += `<text class="st-center-text" x="${cx}" y="${cy - 8}">节气</text>`;
+        html += `<text class="st-center-sub" x="${cx}" y="${cy + 16}">二十四</text>`;
+
+        // ===== 6. 24 个节点 =====
+        SOLAR_TERMS.forEach(term => {
+            const p = polar(rOuter, term.angle);
+            const active = term.name === activeName ? ' active' : '';
+            html += `
+            <g class="st-node season-${term.season}${active}" data-name="${term.name}" data-angle="${term.angle}">
+                <circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${nodeR}"></circle>
+                <text x="${p.x.toFixed(1)}" y="${p.y.toFixed(1)}">${term.name}</text>
+            </g>
+        `;
+        });
+
+        // ===== 7. 四季标签（放在色带外侧） =====
+        const seasonLabels = [
+            { text: '春', angle: 37.5 },
+            { text: '夏', angle: 127.5 },
+            { text: '秋', angle: 217.5 },
+            { text: '冬', angle: 307.5 }
+        ];
+        seasonLabels.forEach(s => {
+            const p = polar(rArc + 36, s.angle);
+            html += `<text class="st-season-label" x="${p.x.toFixed(1)}" y="${p.y.toFixed(1)}">${s.text}</text>`;
+        });
+
+        svg.innerHTML = html;
+
+        // ===== 8. 绑定交互 =====
+        const centerText = svg.querySelector('.st-center-text');
+        const centerSub = svg.querySelector('.st-center-sub');
+
+        svg.querySelectorAll('.st-node').forEach(node => {
+            // 悬停：中心显示该节气名
+            node.addEventListener('mouseenter', function () {
+                const name = this.dataset.name;
+                if (centerText) centerText.textContent = name;
+                if (centerSub) centerSub.textContent = '点击查看';
+            });
+
+            node.addEventListener('mouseleave', function () {
+                if (centerText) centerText.textContent = '节气';
+                if (centerSub) centerSub.textContent = '二十四';
+            });
+
+            // 点击：弹跳 + 切换
+            node.addEventListener('click', function () {
+                const name = this.dataset.name;
+                const term = SOLAR_TERMS.find(t => t.name === name);
+                if (!term) return;
+
+                // 弹跳动画
+                this.classList.add('bounce');
+                setTimeout(() => this.classList.remove('bounce'), 500);
+
+                // 切换
+                selectSolarTerm(term);
+            });
+        });
+    }
+
+    // 渲染节气详情
+    function renderSolarTermDetail(term) {
+        const el = document.getElementById('solartermDetail');
+        if (!el) return;
+
+        const dietHtml = term.diet.map(d => `<li>${d}</li>`).join('');
+        const lifeHtml = term.lifestyle.map(l => `<li>${l}</li>`).join('');
+        const tagsHtml = term.tags.map(t => `<span># ${t}</span>`).join('');
+
+        el.innerHTML = `
+        <div class="sd-header">
+            <span class="sd-icon">${term.icon}</span>
+            <span class="sd-title">${term.name}</span>
+            <span class="sd-date">📅 ${term.date}</span>
+        </div>
+        <div class="sd-desc">${term.desc}</div>
+        <div class="sd-grid">
+            <div class="sd-item">
+                <div class="sd-item-title">🍲 饮食调养</div>
+                <div class="sd-item-content"><ul>${dietHtml}</ul></div>
+            </div>
+            <div class="sd-item">
+                <div class="sd-item-title">🧘 起居调摄</div>
+                <div class="sd-item-content"><ul>${lifeHtml}</ul></div>
+            </div>
+            <div class="sd-item">
+                <div class="sd-item-title">💭 情志养生</div>
+                <div class="sd-item-content">${term.emotion}</div>
+            </div>
+            <div class="sd-item">
+                <div class="sd-item-title">📍 推荐穴位</div>
+                <div class="sd-item-content">${term.acupoint}</div>
+            </div>
+        </div>
+        <div class="sd-poem">${term.poem}</div>
+        <div class="sd-tags">${tagsHtml}</div>
+    `;
+    }
+
+    // 渲染底部四季分组
+    function renderSolarTermGroups(activeName) {
+        const el = document.getElementById('solartermGroups');
+        if (!el) return;
+
+        el.innerHTML = SOLAR_TERM_SEASONS.map(season => `
+        <div class="st-group">
+            <div class="st-group-title">${season.icon} ${season.name}季</div>
+            <div class="st-group-terms">
+                ${season.terms.map(name => `
+                    <span class="st-term-chip${name === activeName ? ' active' : ''}" data-name="${name}">${name}</span>
+                `).join('')}
+            </div>
+        </div>
+    `).join('');
+
+        // 绑定点击
+        el.querySelectorAll('.st-term-chip').forEach(chip => {
+            chip.addEventListener('click', function () {
+                const name = this.dataset.name;
+                const term = SOLAR_TERMS.find(t => t.name === name);
+                if (term) selectSolarTerm(term);
+            });
+        });
+    }
+
+    // 选中某个节气（统一入口）
+    function selectSolarTerm(term) {
+        solartermActiveName = term.name;
+        renderSolarTermWheel(term.name);
+        renderSolarTermDetail(term);
+        renderSolarTermGroups(term.name);
+        renderSolarTermCurrent(term);
+    }
+
+    // 初始化二十四节气模块
+    function initSolarTerm() {
+        const current = getCurrentSolarTerm();
+        selectSolarTerm(current);
+    }
+
+
+    // =============================================================
+    // 新增：十二时辰养生
+    // =============================================================
+    let shichenActiveName = null;
+
+    // 根据当前时间获取时辰
+    function getCurrentShichen() {
+        const h = new Date().getHours();
+        // 23:00-01:00 为子时，以此类推
+        // 时辰索引：子=0, 丑=1, ... 亥=11
+        let idx;
+        if (h === 23 || h === 0) idx = 0;
+        else idx = Math.floor((h + 1) / 2) % 12;
+
+        const name = SHICHEN_DATA[idx].name;
+        return SHICHEN_DATA.find(s => s.name === name);
+    }
+
+    // 渲染当前时辰卡片
+    function renderShichenCurrent(shichen) {
+        const el = document.getElementById('shichenCurrent');
+        if (!el) return;
+        el.innerHTML = `
+        <div class="sc-icon">${shichen.icon}</div>
+        <div class="sc-info">
+            <div class="sc-name">${shichen.name}</div>
+            <div class="sc-sub">${shichen.desc}</div>
+            <span class="sc-tag">🕐 ${shichen.time}</span>
+            <span class="sc-organ">${shichen.organ}</span>
+        </div>
+    `;
+    }
+
+    // 渲染时辰轮盘
+    function renderShichenWheel(activeName) {
+        const svg = document.getElementById('shichenWheel');
+        if (!svg) return;
+
+        const cx = 310, cy = 310;
+        const rOuter = 270;
+        const rInner = 100;
+        const rArc = 300;
+        const nodeR = 26;
+
+        let html = '';
+
+        function polar(radius, angleDeg) {
+            const rad = (angleDeg - 90) * Math.PI / 180;
+            return { x: cx + radius * Math.cos(rad), y: cy + radius * Math.sin(rad) };
+        }
+
+        // ===== 1. 昼夜色带 =====
+        // 昼：卯(270°) ~ 申(60°)，跨 0°，分两段画
+        // 夜：酉(90°) ~ 寅(240°)
+        // 为简化，用四段弧拼出昼夜
+        // 昼：270°→360° 和 0°→60°
+        const dayArcs = [
+            { start: 270, end: 358 },
+            { start: 2, end: 60 }
+        ];
+        const nightArcs = [
+            { start: 90, end: 240 }
+        ];
+
+        dayArcs.forEach(a => {
+            const s = polar(rArc, a.start), e = polar(rArc, a.end);
+            html += `<path class="sc-day-arc" d="M ${s.x.toFixed(1)} ${s.y.toFixed(1)} A ${rArc} ${rArc} 0 0 1 ${e.x.toFixed(1)} ${e.y.toFixed(1)}"></path>`;
+        });
+        nightArcs.forEach(a => {
+            const s = polar(rArc, a.start), e = polar(rArc, a.end);
+            html += `<path class="sc-night-arc" d="M ${s.x.toFixed(1)} ${s.y.toFixed(1)} A ${rArc} ${rArc} 0 0 1 ${e.x.toFixed(1)} ${e.y.toFixed(1)}"></path>`;
+        });
+
+        // ===== 2. 中心装饰 =====
+        html += `<circle class="sc-center-ring-outer" cx="${cx}" cy="${cy}" r="${rInner + 18}"></circle>`;
+        html += `<circle class="sc-center-ring" cx="${cx}" cy="${cy}" r="${rInner}"></circle>`;
+
+        // ===== 3. 节点到中心连线 =====
+        SHICHEN_DATA.forEach(s => {
+            const p1 = polar(rInner + 20, s.angle);
+            const p2 = polar(rOuter - nodeR - 4, s.angle);
+            const activeCls = s.name === activeName ? ' active' : '';
+            html += `<line class="sc-spoke${activeCls}" x1="${p1.x.toFixed(1)}" y1="${p1.y.toFixed(1)}" x2="${p2.x.toFixed(1)}" y2="${p2.y.toFixed(1)}"></line>`;
+        });
+
+        // ===== 4. 指针（从中心圆边缘指向当前时辰） =====
+        const current = SHICHEN_DATA.find(s => s.name === activeName);
+        if (current) {
+            const start = polar(rInner - 6, current.angle);
+            const end = polar(rOuter - nodeR - 10, current.angle);
+            html += `<line class="sc-pointer" x1="${start.x.toFixed(1)}" y1="${start.y.toFixed(1)}" x2="${end.x.toFixed(1)}" y2="${end.y.toFixed(1)}"></line>`;
+            html += `<circle class="sc-pointer-dot" cx="${end.x.toFixed(1)}" cy="${end.y.toFixed(1)}" r="4"></circle>`;
+        }
+
+        // ===== 5. 中心文字 =====
+        html += `<text class="sc-center-text" x="${cx}" y="${cy - 16}">时辰</text>`;
+        html += `<text class="sc-center-sub" x="${cx}" y="${cy + 14}">十二</text>`;
+
+        // ===== 6. 十二时辰节点 =====
+        SHICHEN_DATA.forEach(s => {
+            const p = polar(rOuter, s.angle);
+            const active = s.name === activeName ? ' active' : '';
+            const yy = s.yinyang === 'yang' ? 'yang' : 'yin';
+            html += `
+            <g class="sc-node ${yy}${active}" data-name="${s.name}">
+                <circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${nodeR}"></circle>
+                <text x="${p.x.toFixed(1)}" y="${p.y.toFixed(1)}">${s.name}</text>
+            </g>
+        `;
+        });
+
+        // ===== 7. 昼夜标签 =====
+        const dayLabel = polar(rArc + 36, 345);
+        const nightLabel = polar(rArc + 36, 165);
+        html += `<text class="sc-label-day" x="${dayLabel.x.toFixed(1)}" y="${dayLabel.y.toFixed(1)}">昼</text>`;
+        html += `<text class="sc-label-night" x="${nightLabel.x.toFixed(1)}" y="${nightLabel.y.toFixed(1)}">夜</text>`;
+
+        svg.innerHTML = html;
+
+        // ===== 8. 交互 =====
+        const centerText = svg.querySelector('.sc-center-text');
+        const centerSub = svg.querySelector('.sc-center-sub');
+
+        svg.querySelectorAll('.sc-node').forEach(node => {
+            node.addEventListener('mouseenter', function () {
+                const name = this.dataset.name;
+                if (centerText) centerText.textContent = name;
+                if (centerSub) centerSub.textContent = '点击查看';
+            });
+            node.addEventListener('mouseleave', function () {
+                if (centerText) centerText.textContent = '时辰';
+                if (centerSub) centerSub.textContent = '十二';
+            });
+            node.addEventListener('click', function () {
+                const name = this.dataset.name;
+                const s = SHICHEN_DATA.find(x => x.name === name);
+                if (!s) return;
+                this.classList.add('bounce');
+                setTimeout(() => this.classList.remove('bounce'), 500);
+                selectShichen(s);
+            });
+        });
+    }
+
+    // 渲染时辰详情
+    function renderShichenDetail(s) {
+        const el = document.getElementById('shichenDetail');
+        if (!el) return;
+
+        const sleepHtml = s.sleep.map(x => `<li>${x}</li>`).join('');
+        const dietHtml = s.diet.map(x => `<li>${x}</li>`).join('');
+        const tagsHtml = s.tags.map(t => `<span># ${t}</span>`).join('');
+
+        el.innerHTML = `
+        <div class="scd-header">
+            <span class="scd-icon">${s.icon}</span>
+            <span class="scd-title">${s.name}</span>
+            <span class="scd-time">🕐 ${s.time} · ${s.organ}</span>
+        </div>
+        <div class="scd-desc">${s.desc}</div>
+        <div class="scd-grid">
+            <div class="scd-item">
+                <div class="scd-item-title">😴 起居调摄</div>
+                <div class="scd-item-content"><ul>${sleepHtml}</ul></div>
+            </div>
+            <div class="scd-item">
+                <div class="scd-item-title">🍲 饮食建议</div>
+                <div class="scd-item-content"><ul>${dietHtml}</ul></div>
+            </div>
+            <div class="scd-item">
+                <div class="scd-item-title">💭 情志养生</div>
+                <div class="scd-item-content">${s.emotion}</div>
+            </div>
+            <div class="scd-item">
+                <div class="scd-item-title">📍 推荐穴位</div>
+                <div class="scd-item-content">${s.acupoint}</div>
+            </div>
+        </div>
+        <div class="scd-quote">${s.quote}</div>
+        <div class="scd-tags">${tagsHtml}</div>
+    `;
+    }
+
+    // 渲染底部昼夜分组
+    function renderShichenGroups(activeName) {
+        const el = document.getElementById('shichenGroups');
+        if (!el) return;
+
+        el.innerHTML = SHICHEN_GROUPS.map(g => `
+        <div class="sc-group">
+            <div class="sc-group-title">${g.icon} ${g.name}</div>
+            <div class="sc-group-terms">
+                ${g.terms.map(name => `
+                    <span class="sc-term-chip${name === activeName ? ' active' : ''}" data-name="${name}">${name}</span>
+                `).join('')}
+            </div>
+        </div>
+    `).join('');
+
+        el.querySelectorAll('.sc-term-chip').forEach(chip => {
+            chip.addEventListener('click', function () {
+                const name = this.dataset.name;
+                const s = SHICHEN_DATA.find(x => x.name === name);
+                if (s) selectShichen(s);
+            });
+        });
+    }
+
+    // 统一入口
+    function selectShichen(s) {
+        shichenActiveName = s.name;
+        renderShichenWheel(s.name);
+        renderShichenDetail(s);
+        renderShichenGroups(s.name);
+        renderShichenCurrent(s);
+    }
+
+    // 初始化十二时辰模块
+    function initShichen() {
+        const current = getCurrentShichen();
+        selectShichen(current);
+    }
+
 
     // ----- 4f. 测测你的道号 -----
     let daonameCurrentStep = 0;
@@ -8820,6 +10751,14 @@
         }
         if (tab === 'parable') {
             lazyInitParable();
+        }
+        if (tab === 'solarterm') {
+            const wheel = document.getElementById('solartermWheel');
+            if (wheel && !wheel.innerHTML.trim()) initSolarTerm();
+        }
+        if (tab === 'shichen') {
+            const wheel = document.getElementById('shichenWheel');
+            if (wheel && !wheel.innerHTML.trim()) initShichen();
         }
     }
 
