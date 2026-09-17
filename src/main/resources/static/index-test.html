@@ -4616,7 +4616,12 @@
             letter-spacing: 2px;
             font-weight: 600;
             pointer-events: none;
+            paint-order: stroke;      /* 先描边再填充，增强在色带上的可读性 */
+            stroke: #fdfaf7;          /* 浅色描边 */
+            stroke-width: 3px;
         }
+        .sc-label-day { fill: #c9a87c; }
+        .sc-label-night { fill: #6b8cae; }
         .sc-label-day { fill: #c9a87c; }
         .sc-label-night { fill: #6b8cae; }
 
@@ -5123,7 +5128,7 @@
                 </div>
                 <div class="meditation-guide" id="meditationGuide">
                     <span class="guide-icon">🧘</span>
-                    <span id="guideText">点击「开始」，进入静心时光。深呼吸，放下杂念。</span>
+                    <span id="guideText">点击「开始」，进入静心时光，深呼吸，放下杂念。</span>
                 </div>
 
                 <!-- ===== 静心音乐播放器（紧凑可折叠） ===== -->
@@ -9251,8 +9256,8 @@
         // 为简化，用四段弧拼出昼夜
         // 昼：270°→360° 和 0°→60°
         const dayArcs = [
-            { start: 270, end: 358 },
-            { start: 2, end: 60 }
+            { start: 270, end: 360 },
+            { start: 0, end: 60 }
         ];
         const nightArcs = [
             { start: 90, end: 240 }
@@ -9304,10 +9309,11 @@
             </g>
         `;
         });
-
-        // ===== 7. 昼夜标签 =====
-        const dayLabel = polar(rArc + 36, 345);
-        const nightLabel = polar(rArc + 36, 165);
+        // ===== 7. 昼夜标签（放在色带内侧，避免超出 viewBox） =====
+        // viewBox 620×620，中心 310，半径上限约 300
+        // 色带 rArc=300 已接近边缘，标签改放到色带内侧 rArc-32=268 处
+        const dayLabel = polar(rArc - 32, 345);
+        const nightLabel = polar(rArc - 32, 165);
         html += `<text class="sc-label-day" x="${dayLabel.x.toFixed(1)}" y="${dayLabel.y.toFixed(1)}">昼</text>`;
         html += `<text class="sc-label-night" x="${nightLabel.x.toFixed(1)}" y="${nightLabel.y.toFixed(1)}">夜</text>`;
 
@@ -10445,7 +10451,7 @@
         const btn = document.getElementById('meditationStartBtn');
         btn.innerHTML = '<i class="fas fa-play"></i> 开始';
         btn.classList.remove('running');
-        document.getElementById('guideText').textContent = '点击「开始」，进入静心时光。深呼吸，放下杂念。';
+        document.getElementById('guideText').textContent = '点击「开始」，进入静心时光，深呼吸，放下杂念。';
         // 重置时停止音乐
         stopMusic();
     }
