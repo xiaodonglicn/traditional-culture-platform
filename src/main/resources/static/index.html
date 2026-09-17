@@ -5804,6 +5804,420 @@
             }
         }
 
+        /* ========================================================= */
+        /* 修心：心斋坐忘 */
+        /* ========================================================= */
+        .xinzhai-container {
+            max-width: 680px;
+            margin: 0 auto;
+        }
+
+        .xinzhai-intro {
+            text-align: center;
+            padding: 40px 24px 34px;
+            background: linear-gradient(145deg, #fdfaf7, #f5ede6);
+            border-radius: 18px;
+            border: 2px dashed #d5c8b8;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .xinzhai-intro-icon {
+            font-size: 64px;
+            line-height: 1;
+            margin-bottom: 12px;
+            opacity: 0.75;
+        }
+
+        .xinzhai-intro h3 {
+            font-size: 22px;
+            color: #4a3728;
+            margin-bottom: 10px;
+        }
+
+        .xinzhai-intro p {
+            font-size: 16px;
+            color: #7a6b5a;
+            line-height: 1.9;
+            margin-bottom: 18px;
+        }
+
+        .xinzhai-stages-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+
+        .xinzhai-stages-preview span {
+            background: #f0ece6;
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 13px;
+            color: #5a3e2b;
+        }
+
+        .xinzhai-btn-primary {
+            padding: 12px 44px;
+            border: none;
+            border-radius: 30px;
+            background: linear-gradient(145deg, #8b6b4d, #6b4f3a);
+            color: #fff;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .xinzhai-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(139, 107, 77, 0.32);
+        }
+
+        .xinzhai-btn-secondary {
+            display: block;
+            margin: 20px auto 0;
+            padding: 10px 36px;
+            border: 2px solid #d5c8b8;
+            border-radius: 30px;
+            background: #fff;
+            color: #5a3e2b;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .xinzhai-btn-secondary:hover {
+            background: #f5ede6;
+            border-color: #8b6b4d;
+        }
+
+        /* ----- 修行界面 ----- */
+        .xinzhai-stage {
+            text-align: center;
+            padding: 20px 0;
+            animation: fadeIn 0.5s ease;
+        }
+
+        /* ----- 修行进度（6层） ----- */
+        .xinzhai-progress {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 24px;
+        }
+
+        .xinzhai-progress-dots {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .xinzhai-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #e8ddd0;
+            transition: all 0.4s;
+        }
+
+        .xinzhai-dot.active {
+            background: #8b6b4d;
+            box-shadow: 0 0 10px rgba(139, 107, 77, 0.6);
+            transform: scale(1.35);
+        }
+
+        .xinzhai-dot.done {
+            background: #c9a87c;
+        }
+
+
+        .xinzhai-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #e8ddd0;
+            transition: all 0.4s;
+        }
+
+        .xinzhai-dot.active {
+            background: #8b6b4d;
+            box-shadow: 0 0 10px rgba(139, 107, 77, 0.6);
+            transform: scale(1.35);
+        }
+
+        .xinzhai-dot.done {
+            background: #c9a87c;
+        }
+
+        /* ----- 晋阶提示（浮现在圆环与阶段名之间） ----- */
+        .xinzhai-levelup {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 48px;                 /* 固定高度，占位不跳动 */
+            margin-top: -8px;
+            margin-bottom: 4px;
+            text-align: center;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            font-size: 16px;
+            color: #8b6b4d;
+            letter-spacing: 2px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .xinzhai-levelup.show {
+            animation: xinzhaiLevelUp 2s ease-out forwards;
+        }
+
+        .xinzhai-levelup .levelup-main {
+            display: block;
+            font-size: 18px;
+            font-weight: 700;
+            color: #4a3728;
+            margin-bottom: 2px;
+            line-height: 1.2;
+        }
+
+        .xinzhai-levelup .levelup-sub {
+            display: block;
+            font-size: 13px;
+            color: #8b6b4d;
+            letter-spacing: 3px;
+            line-height: 1.2;
+        }
+
+        .xinzhai-levelup.show {
+            animation: xinzhaiLevelUp 2s ease-out forwards;
+        }
+
+        .xinzhai-levelup .levelup-main {
+            display: block;
+            font-size: 18px;
+            font-weight: 700;
+            color: #4a3728;
+            margin-bottom: 4px;
+        }
+
+        .xinzhai-levelup .levelup-sub {
+            display: block;
+            font-size: 13px;
+            color: #8b6b4d;
+            letter-spacing: 3px;
+        }
+
+        @keyframes xinzhaiLevelUp {
+            0% {
+                opacity: 0;
+                transform: translateY(6px) scale(0.92);
+                filter: blur(3px);
+            }
+            20% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+                filter: blur(0);
+            }
+            75% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+                filter: blur(0);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-4px) scale(1.02);
+                filter: blur(2px);
+            }
+        }
+
+        /* 圆环（呼吸引导） */
+        .xinzhai-circle-wrap {
+            position: relative;
+            width: 220px;
+            height: 220px;
+            margin: 0 auto 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .xinzhai-circle-outer {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            border: 2px solid #e8ddd0;
+        }
+
+        .xinzhai-circle-pulse {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: radial-gradient(circle,
+            rgba(201, 168, 124, 0.15) 0%,
+            rgba(139, 107, 77, 0.05) 60%,
+            transparent 100%);
+            animation: xinzhaiBreath 6s ease-in-out infinite;
+        }
+
+        @keyframes xinzhaiBreath {
+            0%, 100% { transform: scale(0.85); opacity: 0.5; }
+            50%      { transform: scale(1);    opacity: 1; }
+        }
+
+        .xinzhai-circle-center {
+            position: relative;
+            z-index: 2;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            font-size: 40px;
+            font-weight: 700;
+            color: #8b6b4d;
+            line-height: 1;
+            text-shadow: 0 0 20px rgba(201, 168, 124, 0.6);
+        }
+
+        /* 阶段名与引导语 */
+        .xinzhai-stage-name {
+            font-size: 24px;
+            font-weight: 600;
+            color: #4a3728;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            letter-spacing: 3px;
+            margin-bottom: 6px;
+        }
+
+        .xinzhai-stage-guide {
+            font-size: 17px;
+            color: #5a3e2b;
+            line-height: 2;
+            padding: 18px 24px;
+            background: #f8f4f0;
+            border-radius: 14px;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.5s;
+            margin-bottom: 20px;
+        }
+
+        /* 原文引用 */
+        .xinzhai-quote {
+            font-size: 15px;
+            color: #8b6b4d;
+            line-height: 1.9;
+            padding: 12px 20px;
+            background: #edf0f5;
+            border-radius: 10px;
+            border-left: 3px solid #8b6b4d;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            margin-bottom: 20px;
+        }
+
+        .xinzhai-quote .quote-text {
+            display: block;
+        }
+
+        .xinzhai-quote .quote-source {
+            display: block;
+            text-align: right;
+            margin-top: 6px;
+            font-size: 13px;
+            color: #a89078;
+        }
+
+        /* 控制按钮 */
+        .xinzhai-controls {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 24px;
+        }
+
+        .xinzhai-controls button {
+            padding: 10px 28px;
+            border: none;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .xinzhai-controls .btn-next {
+            background: linear-gradient(145deg, #8b6b4d, #6b4f3a);
+            color: #fff;
+        }
+
+        .xinzhai-controls .btn-next:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(139, 107, 77, 0.32);
+        }
+
+        .xinzhai-controls .btn-stop {
+            background: #e8ddd0;
+            color: #5a3e2b;
+        }
+
+        .xinzhai-controls .btn-stop:hover {
+            background: #d5c8b8;
+        }
+
+        /* 完成页 */
+        .xinzhai-complete {
+            text-align: center;
+            padding: 40px 24px;
+            background: linear-gradient(145deg, #fdfaf7, #f5ede6);
+            border-radius: 18px;
+            border: 2px solid #e8ddd0;
+            animation: fadeIn 0.6s ease;
+        }
+
+        .xinzhai-complete-icon {
+            font-size: 72px;
+            display: block;
+            margin-bottom: 16px;
+            animation: xinzhaiPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes xinzhaiPulse {
+            0%, 100% { transform: scale(1); opacity: 0.85; }
+            50%      { transform: scale(1.08); opacity: 1; }
+        }
+
+        .xinzhai-complete h3 {
+            font-size: 24px;
+            color: #4a3728;
+            margin-bottom: 12px;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+        }
+
+        .xinzhai-complete p {
+            font-size: 16px;
+            color: #7a6b5a;
+            line-height: 1.9;
+            margin-bottom: 20px;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+        }
+
+
+        @media (max-width: 480px) {
+            .xinzhai-circle-wrap {
+                width: 180px;
+                height: 180px;
+            }
+            .xinzhai-circle-center {
+                font-size: 32px;
+            }
+            .xinzhai-stage-name {
+                font-size: 20px;
+            }
+
+        }
     </style>
 </head>
 <body>
@@ -5846,6 +6260,7 @@
                 </a>
                 <div class="nav-dropdown">
                     <a data-tab="meditation">静心引导</a>
+                    <a data-tab="xinzhai">心斋坐忘</a>
                 </div>
             </div>
 
@@ -6138,6 +6553,92 @@
                 </div>
 
                 <p style="margin-top:14px;font-size:13px;color:#9a8b7a;text-align:center;">道家曰：「致虚极，守静笃。」静坐片刻，心神自明。</p>
+            </div>
+        </section>
+
+
+        <!-- ========================================================= -->
+        <!-- Tab: 心斋坐忘 -->
+        <!-- ========================================================= -->
+        <section id="xinzhai-tab" class="tab-content">
+            <h2><i class="fas fa-moon"></i> 心斋坐忘</h2>
+            <div class="xinzhai-container">
+
+                <!-- 介绍页 -->
+                <div class="xinzhai-intro" id="xinzhaiIntro">
+                    <div class="xinzhai-intro-icon">🌙</div>
+                    <h3>心斋坐忘，与道合一</h3>
+                    <p>庄子曰：「唯道集虚，虚者，心斋也。」<br>
+                        三层放下，回归本然。</p>
+                    <div class="xinzhai-stages-preview">
+                        <span>🌊 外忘 · 放下外境</span>
+                        <span>🫁 内忘 · 放下身体</span>
+                        <span>🪷 坐忘 · 放下自我</span>
+                    </div>
+                    <button class="xinzhai-btn-primary" id="xinzhaiStartBtn">
+                        <i class="fas fa-play"></i> 开始修行
+                    </button>
+                </div>
+
+                <!-- 修行页 -->
+                <div id="xinzhaiPractice" style="display:none;">
+                    <div class="xinzhai-stage">
+
+                        <!-- 进度 -->
+                        <div class="xinzhai-progress" id="xinzhaiProgress">
+                            <div class="xinzhai-progress-dots" id="xinzhaiProgressDots">
+                                <!-- 6 个点由 JS 动态生成 -->
+                            </div>
+                        </div>
+
+                        <!-- 呼吸圆环 -->
+                        <div class="xinzhai-circle-wrap">
+                            <div class="xinzhai-circle-outer"></div>
+                            <div class="xinzhai-circle-pulse"></div>
+                            <div class="xinzhai-circle-center" id="xinzhaiCircleText">虚</div>
+                        </div>
+
+                        <!-- 晋阶提示（在圆环下方单独浮出） -->
+                        <div class="xinzhai-levelup" id="xinzhaiLevelUp">
+                            <span class="levelup-main" id="xinzhaiLevelUpMain"></span>
+                            <span class="levelup-sub" id="xinzhaiLevelUpSub"></span>
+                        </div>
+
+                        <!-- 阶段名 -->
+                        <div class="xinzhai-stage-name" id="xinzhaiStageName">外忘</div>
+
+                        <!-- 引导语 -->
+                        <div class="xinzhai-stage-guide" id="xinzhaiStageGuide">
+                            放下外界的一切声音……
+                        </div>
+
+                        <!-- 原文引用 -->
+                        <div class="xinzhai-quote" id="xinzhaiQuote"></div>
+
+                        <!-- 控制 -->
+                        <div class="xinzhai-controls">
+                            <button class="btn-next" id="xinzhaiNextBtn">
+                                <i class="fas fa-arrow-right"></i> 进入下一层
+                            </button>
+                            <button class="btn-stop" id="xinzhaiStopBtn">
+                                <i class="fas fa-stop"></i> 结束
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 完成页 -->
+                <div class="xinzhai-complete" id="xinzhaiComplete" style="display:none;">
+                    <span class="xinzhai-complete-icon">🧘</span>
+                    <h3>心斋圆满</h3>
+                    <p>外忘、内忘、息忘、念忘、我忘、坐忘，<br>
+                        六层放下，层层深入。<br>
+                        此刻的你，已与道合一。</p>
+                    <button class="xinzhai-btn-primary" id="xinzhaiAgainBtn">
+                        <i class="fas fa-redo"></i> 再来一次
+                    </button>
+                </div>
+
             </div>
         </section>
 
@@ -9418,6 +9919,15 @@
     // 2. 工具函数
     // =============================================================
 
+    // =============================================================
+    // 状态变量声明（提前声明，避免 TDZ）
+    // =============================================================
+
+    // ----- 心斋坐忘 -----
+    let xinzhaiCurrentStage = 0;
+    let xinzhaiGuideInterval = null;
+    let xinzhaiGuideIndex = 0;
+
     function randomInt(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
@@ -11829,6 +12339,9 @@
             const wheel = document.getElementById('shichenWheel');
             if (wheel && !wheel.innerHTML.trim()) initShichen();
         }
+        if (tab === 'xinzhai') {
+            initXinzhai();
+        }
     }
 
     // ----- 二级菜单点击（核心） -----
@@ -13477,6 +13990,350 @@
     lazyInitHerb();
     initTcmQA();
     prewarmTcmQAFont();
+    // 初始化心斋坐忘与念头观察
+    initXinzhai();
+
+    // =============================================================
+    // 修心：心斋坐忘
+    // =============================================================
+    // 三层阶段的引导语池
+    // 六层修行阶段，每层 20 条引导语
+    const XINZHAI_STAGES = [
+        {
+            key: 'waiwang',
+            name: '外忘',
+            circleText: '虚',
+            levelupMain: '外忘已成',
+            levelupSub: '渐入内忘',
+            guides: [
+                '放下外界的一切声音，让它们像风一样穿过你。',
+                '不必抓住任何声音，也不必推开任何声音。',
+                '此刻，世界在你之外，你在世界之外。',
+                '让耳根清净，让心回归虚空。',
+                '窗外车马喧嚣，与你无关。',
+                '不去分辨声音的好恶，只是让它来，让它走。',
+                '声音像过客，你的心是空屋。',
+                '不迎不拒，不喜不厌。',
+                '让世界安静下来，不是世界静了，是你静了。',
+                '耳根一放，万籁俱寂。',
+                '听见了，但不再追随。',
+                '声音只是声音，与你无碍。',
+                '让外境如流水，你如岸。',
+                '不必隔绝世界，只需不与它纠缠。',
+                '声音来了又走，你的心始终空旷。',
+                '不去评判，不去记忆，只是听。',
+                '外境如云，来去自如。',
+                '你不再需要抓住什么，也不再需要躲避什么。',
+                '放下耳朵，让心归于虚空。',
+                '这一层，你学会了——外面的一切，都只是风景。'
+            ],
+            quote: {
+                text: '「无听之以耳，而听之以心。」',
+                source: '——《庄子·人间世》'
+            }
+        },
+        {
+            key: 'neiwang',
+            name: '内忘',
+            circleText: '静',
+            levelupMain: '内忘已成',
+            levelupSub: '渐入息忘',
+            guides: [
+                '放下对身体的感觉，让身体成为虚无的容器。',
+                '不必在意呼吸的深浅，也不必控制念头来去。',
+                '让心像一面镜子，照见一切，却不留痕迹。',
+                '念头来了，让它来；念头走了，让它走。',
+                '身体的酸麻胀痛，只是信号，不是命令。',
+                '不去数呼吸，不去追念头。',
+                '让身体放松，像一件挂在架子上的衣服。',
+                '身体在，但你不必是身体。',
+                '感受它在，但不被它牵动。',
+                '让呼吸自己呼吸，让身体自己安放。',
+                '念头像河水，你只是岸边看水的人。',
+                '不用力，不较劲，只是看着。',
+                '身体的每一种感受，都让它自然流过。',
+                '不必追求无念，念头本自空。',
+                '心像镜子，来了就照，去了不留。',
+                '放下对身体的控制，让它自己运转。',
+                '念头再多，也动摇不了你内在的宁静。',
+                '让身体休息，让心也休息。',
+                '这一层，你学会了——身体是客栈，你不是客人。',
+                '内忘，不是消灭身体，而是不再被身体束缚。'
+            ],
+            quote: {
+                text: '「无听之以心，而听之以气。」',
+                source: '——《庄子·人间世》'
+            }
+        },
+        {
+            key: 'xiwang',
+            name: '息忘',
+            circleText: '空',
+            levelupMain: '息忘已成',
+            levelupSub: '渐入念忘',
+            guides: [
+                '放下对呼吸的执着，让呼吸回到它本来的样子。',
+                '不去数息，不去观息，也不去止息。',
+                '呼吸不是你的，是天地的。',
+                '让气息自己进出，你不必干涉。',
+                '不追求深长，不害怕短浅。',
+                '呼吸如潮汐，自有它的节律。',
+                '忘记“我在呼吸”，只让呼吸在。',
+                '气息与天地相通，你只是通道。',
+                '不控制，不造作，只是让气自然流动。',
+                '不必在意呼吸是否平稳，平稳与否都是它。',
+                '呼吸不来不去，只是如如。',
+                '不数呼吸，不观呼吸，只是与呼吸同在。',
+                '气息出入之间，就是天地的一次呼吸。',
+                '不去感觉呼吸，让呼吸感觉你。',
+                '放下对呼吸的挂念，它自会安好。',
+                '气满自溢，气尽自续，本无须管。',
+                '让呼吸像风，来去无踪。',
+                '忘记呼吸，才是真正的呼吸。',
+                '这一层，你学会了——呼吸不是你做的事，是你存在的事。',
+                '息忘，不是没有呼吸，而是不再执着于呼吸。'
+            ],
+            quote: {
+                text: '「真人之息以踵，众人之息以喉。」',
+                source: '——《庄子·大宗师》'
+            }
+        },
+        {
+            key: 'nianwang',
+            name: '念忘',
+            circleText: '无',
+            levelupMain: '念忘已成',
+            levelupSub: '渐入我忘',
+            guides: [
+                '放下对念头的执着，让它像飞鸟过空。',
+                '念头生起，不必追逐，不必压抑。',
+                '来者自来，去者自去。',
+                '心不随念转，念自无碍。',
+                '不必问念头从哪里来，也不必问它到哪里去。',
+                '念头如云，你是天空。',
+                '不去评价念头的善恶好坏。',
+                '看着念头，但不进入念头。',
+                '念起即觉，觉之即空。',
+                '不抗拒，不对治，只是看着。',
+                '念头再多，也只是一场电影。',
+                '坐在观众席上，不去演这场戏。',
+                '念头的本质是空，观照的本质也是空。',
+                '不去寻找“无念”，因为念本来就是空。',
+                '让念头自由，你不必管它。',
+                '念头来的时候，你就是它；念头走的时候，你就是空。',
+                '不修不整，只是看着。',
+                '不去抓，不去放，因为本来就没有可抓可放。',
+                '这一层，你学会了——念起念灭，皆是虚幻。',
+                '念忘，不是没有念头，而是不再被念头带走。'
+            ],
+            quote: {
+                text: '「若一志，无听之以耳而听之以心。」',
+                source: '——《庄子·人间世》'
+            }
+        },
+        {
+            key: 'wowang',
+            name: '我忘',
+            circleText: '忘',
+            levelupMain: '我忘已成',
+            levelupSub: '渐入坐忘',
+            guides: [
+                '放下“我”的存在，与天地融为一体。',
+                '不再有观察者，不再有被观察者。',
+                '没有主体，没有客体，只有如是。',
+                '“我”只是一堆念头的组合，不必当真。',
+                '放下“我在修行”这个想法。',
+                '没有修的人，也没有修的事。',
+                '我相一破，众生相、寿者相俱破。',
+                '不再问“我是谁”，因为问题本身就是幻。',
+                '没有一个“我”在经历这一切。',
+                '不再寻找开悟，因为没有人需要开悟。',
+                '主体消融，只有觉知本身在。',
+                '放下“我在放下”，才是真正的放下。',
+                '没有你，没有我，只有存在。',
+                '我执一松，天地宽阔。',
+                '不再是“我”在呼吸，而是呼吸在呼吸。',
+                '不再是“我”在觉知，而是觉知本身在觉知。',
+                '“我”的边界消失了，与万物相通。',
+                '没有内外，没有自他，只有一体。',
+                '这一层，你学会了——“我”从来不存在。',
+                '我忘，不是失去自己，而是找到更大的自己。'
+            ],
+            quote: {
+                text: '「堕肢体，黜聪明，离形去知，同于大通。」',
+                source: '——《庄子·大宗师》'
+            }
+        },
+        {
+            key: 'zuowang',
+            name: '坐忘',
+            circleText: '道',
+            levelupMain: '坐忘圆满',
+            levelupSub: '与道合一',
+            guides: [
+                '物我两忘，天地合一。',
+                '唯道集虚，虚者，心斋也。',
+                '没有内，没有外，只有如如。',
+                '不再有“修行者”，只有修行本身。',
+                '不再有“道”，因为你已是道。',
+                '天地与我并生，万物与我为一。',
+                '一言不发，万象皆说。',
+                '不修之修，才是真修。',
+                '不悟之悟，才是真悟。',
+                '无门之门，才是真门。',
+                '不用语言，不用思虑，只是如是。',
+                '一切众生，本自具足。',
+                '道不远人，人自远道。',
+                '放下最后一丝挂碍，天地豁然开朗。',
+                '虚空粉碎，大地平沉。',
+                '一念不生，万法庄严。',
+                '当下即是，无须他求。',
+                '不增不减，不垢不净。',
+                '这一层，你不再学习——你已在道中。',
+                '坐忘，不是忘了什么，而是想起了本来面目。'
+            ],
+            quote: {
+                text: '「同于大通，此谓坐忘。」',
+                source: '——《庄子·大宗师》'
+            }
+        }
+    ];
+
+
+    function startXinzhai() {
+        document.getElementById('xinzhaiIntro').style.display = 'none';
+        document.getElementById('xinzhaiComplete').style.display = 'none';
+        document.getElementById('xinzhaiPractice').style.display = 'block';
+
+        xinzhaiCurrentStage = 0;
+        // 首次进入不显示晋阶提示
+        renderXinzhaiStage();
+    }
+
+    // 首次进入时生成进度点
+    function renderXinzhaiProgressDots() {
+        const container = document.getElementById('xinzhaiProgressDots');
+        if (!container) return;
+        if (container.dataset.inited) return;
+        container.dataset.inited = '1';
+
+        container.innerHTML = XINZHAI_STAGES.map(() =>
+            '<div class="xinzhai-dot"></div>'
+        ).join('');
+    }
+
+    function renderXinzhaiStage(prevStageIndex) {
+        const stage = XINZHAI_STAGES[xinzhaiCurrentStage];
+        const total = XINZHAI_STAGES.length;
+        const current = xinzhaiCurrentStage + 1;
+
+        // 首次进入时生成进度点
+        renderXinzhaiProgressDots();
+
+        // 更新进度点
+        const dots = document.querySelectorAll('#xinzhaiProgressDots .xinzhai-dot');
+        dots.forEach((dot, idx) => {
+            dot.classList.remove('active', 'done');
+            if (idx < xinzhaiCurrentStage) dot.classList.add('done');
+            else if (idx === xinzhaiCurrentStage) dot.classList.add('active');
+        });
+
+        // 更新圆环中心文字
+        document.getElementById('xinzhaiCircleText').textContent = stage.circleText;
+
+        // 更新阶段名
+        document.getElementById('xinzhaiStageName').textContent = stage.name;
+
+        // 更新原文引用
+        document.getElementById('xinzhaiQuote').innerHTML =
+            `<span class="quote-text">${stage.quote.text}</span>` +
+            `<span class="quote-source">${stage.quote.source}</span>`;
+
+        // 显示第一条引导语
+        xinzhaiGuideIndex = 0;
+        document.getElementById('xinzhaiStageGuide').textContent = stage.guides[0];
+
+        // 每 8 秒换一句引导语
+        clearInterval(xinzhaiGuideInterval);
+        xinzhaiGuideInterval = setInterval(() => {
+            xinzhaiGuideIndex = (xinzhaiGuideIndex + 1) % stage.guides.length;
+            const guideEl = document.getElementById('xinzhaiStageGuide');
+            guideEl.style.opacity = '0';
+            setTimeout(() => {
+                guideEl.textContent = stage.guides[xinzhaiGuideIndex];
+                guideEl.style.opacity = '1';
+            }, 400);
+        }, 8000);
+
+        // 更新按钮文字
+        const nextBtn = document.getElementById('xinzhaiNextBtn');
+        if (xinzhaiCurrentStage === total - 1) {
+            nextBtn.innerHTML = '<i class="fas fa-check"></i> 圆满';
+        } else {
+            nextBtn.innerHTML = '<i class="fas fa-arrow-right"></i> 进入下一层';
+        }
+
+        // 如果是从上一层进入（prevStageIndex 不为 undefined），显示晋阶提示
+        if (typeof prevStageIndex === 'number' && prevStageIndex !== xinzhaiCurrentStage) {
+            showXinzhaiLevelUp(prevStageIndex);
+        }
+    }
+
+    // 显示晋阶提示
+    function showXinzhaiLevelUp(prevStageIndex) {
+        const prevStage = XINZHAI_STAGES[prevStageIndex];
+        if (!prevStage) return;
+
+        const levelUpEl = document.getElementById('xinzhaiLevelUp');
+        const mainEl = document.getElementById('xinzhaiLevelUpMain');
+        const subEl = document.getElementById('xinzhaiLevelUpSub');
+        if (!levelUpEl || !mainEl || !subEl) return;
+
+        mainEl.textContent = prevStage.levelupMain;
+        subEl.textContent = prevStage.levelupSub;
+
+        // 重置动画
+        levelUpEl.classList.remove('show');
+        void levelUpEl.offsetWidth;
+        levelUpEl.classList.add('show');
+
+        // 2 秒后移除
+        setTimeout(() => levelUpEl.classList.remove('show'), 2100);
+    }
+
+    function nextXinzhaiStage() {
+        if (xinzhaiCurrentStage < XINZHAI_STAGES.length - 1) {
+            const prev = xinzhaiCurrentStage;
+            xinzhaiCurrentStage++;
+            renderXinzhaiStage(prev);
+        } else {
+            // 完成
+            completeXinzhai();
+        }
+    }
+
+    function completeXinzhai() {
+        clearInterval(xinzhaiGuideInterval);
+        document.getElementById('xinzhaiPractice').style.display = 'none';
+        document.getElementById('xinzhaiComplete').style.display = 'block';
+    }
+
+    function stopXinzhai() {
+        clearInterval(xinzhaiGuideInterval);
+        document.getElementById('xinzhaiPractice').style.display = 'none';
+        document.getElementById('xinzhaiIntro').style.display = 'block';
+        document.getElementById('xinzhaiComplete').style.display = 'none';
+    }
+
+    function initXinzhai() {
+        if (document.getElementById('xinzhaiStartBtn').dataset.inited) return;
+        document.getElementById('xinzhaiStartBtn').dataset.inited = '1';
+
+        document.getElementById('xinzhaiStartBtn').addEventListener('click', startXinzhai);
+        document.getElementById('xinzhaiNextBtn').addEventListener('click', nextXinzhaiStage);
+        document.getElementById('xinzhaiStopBtn').addEventListener('click', stopXinzhai);
+        document.getElementById('xinzhaiAgainBtn').addEventListener('click', startXinzhai);
+    }
 
 </script>
 </body>
