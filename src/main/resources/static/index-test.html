@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>传统文化智慧 · 道法自然</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E☯%3C/text%3E%3C/svg%3E">
     <style>
         @font-face {
@@ -6218,6 +6219,882 @@
             }
 
         }
+        /* ========================================================= */
+        /* 云游名山：地图视图 */
+        /* ========================================================= */
+        .mountains-view-toggle {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            justify-content: center;
+        }
+
+        .mtn-view-btn {
+            padding: 8px 24px;
+            border: 2px solid #e0d5c8;
+            border-radius: 30px;
+            background: #fff;
+            color: #5a3e2b;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.25s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .mtn-view-btn:hover {
+            border-color: #c9a87c;
+            background: #f8f4f0;
+        }
+
+        .mtn-view-btn.active {
+            background: #8b6b4d;
+            border-color: #8b6b4d;
+            color: #fff;
+        }
+
+        .mountains-map-wrap {
+            position: relative;
+            background: linear-gradient(145deg, #fdfaf7, #f5ede6);
+            border: 1px solid #e8ddd0;
+            border-radius: 16px;
+            padding: 10px;
+            margin-bottom: 20px;
+            min-height: 520px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #mountainsMap {
+            width: 100%;
+            max-width: 820px;
+            height: auto;
+            display: block;
+            overflow: visible;
+        }
+
+        /* ========================================================= */
+        /* 云游名山：地图视图（ECharts 版） */
+        /* ========================================================= */
+        .mountains-view-toggle {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            justify-content: center;
+        }
+
+        .mtn-view-btn {
+            padding: 8px 24px;
+            border: 2px solid #e0d5c8;
+            border-radius: 30px;
+            background: #fff;
+            color: #5a3e2b;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.25s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .mtn-view-btn:hover {
+            border-color: #c9a87c;
+            background: #f8f4f0;
+        }
+
+        .mtn-view-btn.active {
+            background: #8b6b4d;
+            border-color: #8b6b4d;
+            color: #fff;
+        }
+
+        .mountains-map-wrap {
+            position: relative;
+            background: linear-gradient(145deg, #fdfaf7, #f5ede6);
+            border: 1px solid #e8ddd0;
+            border-radius: 16px;
+            padding: 12px 12px 4px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        #mountainsMapEcharts {
+            width: 100%;
+            height: 560px;
+            border-radius: 12px;
+            touch-action: none;
+        }
+
+        .mtn-map-legend {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            padding: 10px 0 8px;
+            font-size: 13px;
+            color: #7a6b5a;
+            flex-wrap: wrap;
+        }
+
+        .mtn-map-legend .legend-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .mtn-map-legend .legend-dot {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+        }
+
+        @media (max-width: 768px) {
+            #mountainsMapEcharts {
+                height: 420px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #mountainsMapEcharts {
+                height: 340px;
+            }
+            .mtn-map-legend {
+                gap: 14px;
+                font-size: 12px;
+            }
+        }
+
+        .mtn-marker circle {
+            stroke: #fff;
+            stroke-width: 2;
+            transition: all 0.25s;
+        }
+
+        .mtn-marker.dongtian circle { fill: #c9a87c; }
+        .mtn-marker.fudi circle { fill: #7bc5a0; }
+
+        .mtn-marker text {
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            fill: #4a3728;
+            text-anchor: middle;
+            dominant-baseline: central;
+            pointer-events: none;
+            font-weight: 600;
+            font-size: 11px;
+            paint-order: stroke;
+            stroke: #fdfaf7;
+            stroke-width: 3px;
+            stroke-linejoin: round;
+        }
+
+        .mtn-marker:hover {
+            transform: scale(1.3);
+        }
+
+        .mtn-marker:hover circle {
+            stroke: #5a3e2b;
+            stroke-width: 3;
+            filter: drop-shadow(0 0 8px rgba(139, 107, 77, 0.8));
+        }
+
+        .mtn-marker.active circle {
+            stroke: #5a3e2b;
+            stroke-width: 3.5;
+            filter: drop-shadow(0 0 12px rgba(139, 107, 77, 0.95));
+        }
+
+        .mtn-marker.dimmed {
+            opacity: 0.2;
+        }
+
+        .mtn-province:hover {
+            fill: #e8ddd0;
+        }
+
+        /* 地图标记 */
+        .mtn-marker {
+            cursor: pointer;
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform-origin: center;
+            transform-box: fill-box;
+        }
+
+        .mtn-marker circle {
+            stroke: #fff;
+            stroke-width: 2;
+            transition: all 0.25s;
+        }
+
+        .mtn-marker.dongtian circle { fill: #c9a87c; }
+        .mtn-marker.fudi circle { fill: #7bc5a0; }
+
+        .mtn-marker text {
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            fill: #4a3728;
+            text-anchor: middle;
+            dominant-baseline: central;
+            pointer-events: none;
+            font-weight: 600;
+            font-size: 10px;
+        }
+
+        .mtn-marker:hover {
+            transform: scale(1.35);
+        }
+
+        .mtn-marker:hover circle {
+            stroke: #5a3e2b;
+            stroke-width: 3;
+            filter: drop-shadow(0 0 8px rgba(139, 107, 77, 0.8));
+        }
+
+        .mtn-marker.active circle {
+            stroke: #5a3e2b;
+            stroke-width: 3.5;
+            filter: drop-shadow(0 0 12px rgba(139, 107, 77, 0.95));
+        }
+
+        .mtn-marker.dimmed {
+            opacity: 0.2;
+        }
+
+        .mtn-marker.highlight circle {
+            stroke: #5a3e2b;
+            stroke-width: 3;
+        }
+
+        /* 地图 tooltip */
+        .mtn-map-tooltip {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.98);
+            border: 1px solid #e0d5c8;
+            border-radius: 10px;
+            padding: 8px 14px;
+            font-size: 13px;
+            color: #4a3728;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+            z-index: 10;
+            white-space: nowrap;
+        }
+
+        .mtn-map-tooltip.show {
+            opacity: 1;
+        }
+
+        .mtn-map-tooltip .tip-name {
+            font-weight: 700;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+        }
+
+        .mtn-map-tooltip .tip-loc {
+            font-size: 12px;
+            color: #8b7a6a;
+            margin-top: 2px;
+        }
+
+        /* 地图图例 */
+        .mtn-map-legend {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 10px;
+            font-size: 13px;
+            color: #7a6b5a;
+        }
+
+        .mtn-map-legend .legend-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .mtn-map-legend .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+        }
+
+        @media (max-width: 768px) {
+            .mountains-map-wrap {
+                min-height: 380px;
+            }
+            .mtn-marker text {
+                font-size: 8px;
+            }
+        }
+        /* ========================================================= */
+        /* 五行学说：增强版 */
+        /* ========================================================= */
+
+        /* ---------- 五行卡片增强 ---------- */
+        .element-card {
+            position: relative;
+            overflow: hidden;
+            border-top: 4px solid var(--el-color, #8b6b4d);
+        }
+
+        .element-card .element-more {
+            margin-top: 10px;
+            padding-top: 8px;
+            border-top: 1px dashed #e0d5c8;
+            font-size: 12px;
+            color: #8b7a6a;
+            line-height: 1.9;
+            text-align: left;
+        }
+
+        .element-card .element-more span {
+            display: block;
+        }
+
+        .element-card .element-more strong {
+            color: #5a3e2b;
+            font-weight: 600;
+        }
+
+        .element-card .element-professions {
+            margin-top: 6px;
+            font-size: 11px;
+            color: #9a8b7a;
+            line-height: 1.7;
+            text-align: left;
+        }
+
+        /* ---------- 五行圆盘 ---------- */
+        .elements-wheel-wrap {
+            background: linear-gradient(145deg, #fdfaf7, #f5ede6);
+            border: 1px solid #e8ddd0;
+            border-radius: 18px;
+            padding: 24px 20px 20px;
+            margin-top: 24px;
+            text-align: center;
+        }
+
+        .elements-wheel-wrap h3 {
+            margin-top: 0;
+        }
+
+        .elements-wheel-tip {
+            font-size: 13px;
+            color: #9a8b7a;
+            margin-bottom: 16px;
+            line-height: 1.7;
+        }
+
+        #elementsWheel {
+            width: 100%;
+            max-width: 520px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            overflow: visible;
+        }
+
+        /* 圆盘节点 */
+        .el-wheel-node {
+            cursor: pointer;
+            transform-origin: center;
+            transform-box: fill-box;
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .el-wheel-node circle {
+            stroke: #fff;
+            stroke-width: 3;
+            transition: all 0.25s ease;
+        }
+
+        .el-wheel-node text {
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            fill: #fff;
+            text-anchor: middle;
+            dominant-baseline: central;
+            pointer-events: none;
+            font-weight: 700;
+            font-size: 26px;
+            letter-spacing: 2px;
+            transition: font-size 0.25s ease;
+        }
+
+        .el-wheel-node:hover {
+            transform: scale(1.15);
+        }
+
+        .el-wheel-node:hover circle {
+            stroke: #5a3e2b;
+            stroke-width: 4;
+            filter: drop-shadow(0 0 10px rgba(139, 107, 77, 0.7));
+        }
+
+        .el-wheel-node.active {
+            transform: scale(1.22);
+        }
+
+        .el-wheel-node.active circle {
+            stroke: #5a3e2b;
+            stroke-width: 5;
+            filter: drop-shadow(0 0 14px rgba(139, 107, 77, 0.9));
+            animation: elPulse 2s ease-in-out infinite;
+        }
+
+        .el-wheel-node.active text {
+            font-size: 28px;
+        }
+
+        @keyframes elPulse {
+            0%, 100% { filter: drop-shadow(0 0 10px rgba(139, 107, 77, 0.6)); }
+            50%      { filter: drop-shadow(0 0 20px rgba(139, 107, 77, 1)); }
+        }
+
+        .el-wheel-node.dimmed {
+            opacity: 0.25;
+        }
+
+        .el-wheel-node.highlight circle {
+            stroke: #5a3e2b;
+            stroke-width: 4;
+        }
+
+        /* 圆盘连线：相生（实线）、相克（虚线） */
+        .el-link {
+            fill: none;
+            transition: all 0.3s ease;
+        }
+
+        .el-link.generate {
+            stroke: #7bc5a0;
+            stroke-width: 3;
+            stroke-linecap: round;
+        }
+
+        .el-link.restrict {
+            stroke: #e74c3c;
+            stroke-width: 2;
+            stroke-dasharray: 6 5;
+            stroke-linecap: round;
+        }
+
+        .el-link.dimmed {
+            opacity: 0.1;
+        }
+
+        .el-link.highlight {
+            stroke-width: 4;
+            opacity: 1;
+            filter: drop-shadow(0 0 6px rgba(139, 107, 77, 0.5));
+        }
+
+        /* 圆盘中心文字 */
+        .el-center-ring {
+            fill: rgba(255, 255, 255, 0.7);
+            stroke: #e0d5c8;
+            stroke-width: 1.5;
+            stroke-dasharray: 4 4;
+        }
+
+        .el-center-text {
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            fill: #8b6b4d;
+            text-anchor: middle;
+            dominant-baseline: central;
+            font-weight: 700;
+            font-size: 22px;
+            letter-spacing: 6px;
+            pointer-events: none;
+        }
+
+        .el-center-sub {
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            fill: #b0a090;
+            text-anchor: middle;
+            dominant-baseline: central;
+            font-size: 12px;
+            letter-spacing: 3px;
+            pointer-events: none;
+        }
+
+        /* 圆盘图例 */
+        .el-wheel-legend {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 16px;
+            font-size: 13px;
+            color: #7a6b5a;
+            flex-wrap: wrap;
+        }
+
+        .el-wheel-legend .legend-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .el-wheel-legend .legend-line {
+            display: inline-block;
+            width: 24px;
+            height: 3px;
+            border-radius: 2px;
+        }
+
+        .el-wheel-legend .legend-line.generate {
+            background: #7bc5a0;
+        }
+
+        .el-wheel-legend .legend-line.restrict {
+            background: none;
+            border-top: 2px dashed #e74c3c;
+            height: 0;
+        }
+
+        /* ---------- 五行详情面板 ---------- */
+        .elements-detail-panel {
+            margin-top: 24px;
+            background: #fdfaf7;
+            border: 1px solid #e8ddd0;
+            border-radius: 18px;
+            padding: 26px 28px;
+            min-height: 200px;
+            transition: all 0.3s;
+        }
+
+        .elements-detail-empty {
+            text-align: center;
+            color: #9a8b7a;
+            padding: 40px 20px;
+        }
+
+        .elements-detail-empty .empty-icon {
+            font-size: 52px;
+            display: block;
+            margin-bottom: 14px;
+            opacity: 0.5;
+        }
+
+        .elements-detail-empty p {
+            font-size: 15px;
+            line-height: 1.9;
+        }
+
+        .elements-detail-content {
+            animation: fadeIn 0.35s ease;
+        }
+
+        /* 详情头部 */
+        .el-detail-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            padding-bottom: 16px;
+            margin-bottom: 18px;
+            border-bottom: 2px dashed #e0d3c4;
+        }
+
+        .el-detail-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            flex-shrink: 0;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+        }
+
+        .el-detail-title {
+            font-size: 30px;
+            font-weight: 700;
+            color: #4a3728;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            letter-spacing: 3px;
+        }
+
+        .el-detail-subtitle {
+            font-size: 14px;
+            color: #8b7a6a;
+            margin-top: 4px;
+        }
+
+        .el-detail-tag {
+            display: inline-block;
+            margin-left: 10px;
+            padding: 3px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            background: #e8ddd0;
+            color: #5a3e2b;
+            vertical-align: middle;
+        }
+
+        /* 详情描述 */
+        .el-detail-desc {
+            font-size: 15px;
+            color: #5a5a5a;
+            line-height: 1.9;
+            padding: 14px 18px;
+            background: #f5f0ea;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            border-left: 3px solid #c9a87c;
+        }
+
+        /* 详情网格 */
+        .el-detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+
+        .el-detail-item {
+            background: #fff;
+            border-radius: 12px;
+            padding: 14px 18px;
+            border-left: 3px solid #e0d5c8;
+            transition: all 0.25s;
+        }
+
+        .el-detail-item:hover {
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+        }
+
+        .el-detail-item-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #8b6b4d;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .el-detail-item-content {
+            font-size: 14px;
+            color: #5a5a5a;
+            line-height: 1.9;
+        }
+
+        .el-detail-item-content ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .el-detail-item-content li {
+            padding: 2px 0;
+            position: relative;
+            padding-left: 14px;
+        }
+
+        .el-detail-item-content li::before {
+            content: "·";
+            color: #8b6b4d;
+            position: absolute;
+            left: 4px;
+            font-weight: 700;
+        }
+
+        /* 五行生克高亮色 */
+        .el-detail-item.generate {
+            border-left-color: #7bc5a0;
+        }
+
+        .el-detail-item.generate .el-detail-item-title {
+            color: #4caf50;
+        }
+
+        .el-detail-item.restrict {
+            border-left-color: #e74c3c;
+        }
+
+        .el-detail-item.restrict .el-detail-item-title {
+            color: #e74c3c;
+        }
+
+        /* 性格与平衡 */
+        .el-detail-narrative {
+            font-size: 15px;
+            color: #5a3e2b;
+            line-height: 1.9;
+            padding: 16px 20px;
+            background: #edf0f5;
+            border-radius: 12px;
+            border-left: 3px solid #8b6b4d;
+            margin-bottom: 14px;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+        }
+
+        .el-detail-narrative .narrative-label {
+            display: inline-block;
+            font-weight: 700;
+            color: #8b6b4d;
+            margin-right: 6px;
+            font-family: 'Segoe UI', 'PingFang SC', sans-serif;
+            font-size: 13px;
+        }
+
+        /* 详情标签 */
+        .el-detail-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 2px dashed #e0d3c4;
+        }
+
+        .el-detail-tags span {
+            background: #e8ddd0;
+            color: #5a3e2b;
+            padding: 4px 16px;
+            border-radius: 30px;
+            font-size: 13px;
+        }
+
+        /* ---------- 五行对应表 ---------- */
+        .elements-table-wrap {
+            margin-top: 24px;
+            background: linear-gradient(145deg, #fdfaf7, #f5ede6);
+            border: 1px solid #e8ddd0;
+            border-radius: 18px;
+            padding: 24px 24px 20px;
+        }
+
+        .elements-table-wrap h3 {
+            margin-top: 0;
+            text-align: center;
+        }
+
+        .elements-table-scroll {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border-radius: 12px;
+        }
+
+        .elements-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            min-width: 640px;
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .elements-table thead th {
+            background: #8b6b4d;
+            color: #fff;
+            font-weight: 600;
+            padding: 12px 10px;
+            text-align: center;
+            font-size: 13px;
+            white-space: nowrap;
+            letter-spacing: 1px;
+        }
+
+        .elements-table tbody td {
+            padding: 12px 10px;
+            text-align: center;
+            color: #5a3e2b;
+            border-bottom: 1px solid #f0e8dc;
+            white-space: nowrap;
+        }
+
+        .elements-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .elements-table tbody tr {
+            transition: background 0.2s;
+            cursor: pointer;
+        }
+
+        .elements-table tbody tr:hover {
+            background: #f8f4f0;
+        }
+
+        .elements-table tbody tr.active {
+            background: #f0e6da;
+            box-shadow: inset 4px 0 0 #8b6b4d;
+        }
+
+        /* 表格首列：五行名 */
+        .elements-table .col-element {
+            font-weight: 700;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            font-size: 16px;
+            letter-spacing: 2px;
+            color: #4a3728;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .elements-table .col-element .el-dot {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+        }
+
+        /* ---------- 响应式 ---------- */
+        @media (max-width: 768px) {
+            .elements-detail-grid {
+                grid-template-columns: 1fr;
+            }
+            .el-detail-title {
+                font-size: 24px;
+            }
+            .el-wheel-node text {
+                font-size: 20px;
+            }
+            .el-wheel-node.active text {
+                font-size: 22px;
+            }
+            .el-center-text {
+                font-size: 18px;
+            }
+            .elements-detail-panel {
+                padding: 20px 18px;
+            }
+            .elements-table-wrap {
+                padding: 18px 14px 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .elements-table {
+                font-size: 12px;
+                min-width: 560px;
+            }
+            .elements-table thead th,
+            .elements-table tbody td {
+                padding: 10px 8px;
+            }
+            .el-detail-icon {
+                width: 52px;
+                height: 52px;
+                font-size: 24px;
+            }
+            .el-detail-title {
+                font-size: 22px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -6393,7 +7270,11 @@
         <!-- ========================================================= -->
         <section id="elements-tab" class="tab-content">
             <h2><i class="fas fa-circle"></i> 五行学说</h2>
+
+            <!-- 五行总览 -->
             <div id="elementsGrid" class="elements-grid"></div>
+
+            <!-- 五行相生相克关系图 -->
             <div class="elements-relationship">
                 <h3>相生相克关系</h3>
                 <div class="relationship-diagram">
@@ -6407,6 +7288,45 @@
                         <p>木 → 土 → 水 → 火 → 金 → 木</p>
                         <small>相互制约，平衡发展</small>
                     </div>
+                </div>
+            </div>
+
+            <!-- 新增：五行圆盘交互图 -->
+            <div class="elements-wheel-wrap">
+                <h3>五行生克圆盘</h3>
+                <p class="elements-wheel-tip">点击任意一行，查看其生克关系与详细属性</p>
+                <svg id="elementsWheel" viewBox="0 0 600 600" preserveAspectRatio="xMidYMid meet"></svg>
+            </div>
+
+            <!-- 新增：五行详情面板 -->
+            <div class="elements-detail-panel" id="elementsDetailPanel">
+                <div class="elements-detail-empty" id="elementsDetailEmpty">
+                    <span class="empty-icon">☯</span>
+                    <p>点击上方圆盘或卡片中的任意一行<br>查看详细属性与生克关系</p>
+                </div>
+                <div class="elements-detail-content" id="elementsDetailContent" style="display:none;"></div>
+            </div>
+
+            <!-- 新增：五行对应表 -->
+            <div class="elements-table-wrap">
+                <h3>五行对应一览</h3>
+                <div class="elements-table-scroll">
+                    <table class="elements-table" id="elementsTable">
+                        <thead>
+                        <tr>
+                            <th>五行</th>
+                            <th>方位</th>
+                            <th>季节</th>
+                            <th>颜色</th>
+                            <th>五脏</th>
+                            <th>情志</th>
+                            <th>五味</th>
+                            <th>气候</th>
+                            <th>数字</th>
+                        </tr>
+                        </thead>
+                        <tbody id="elementsTableBody"></tbody>
+                    </table>
                 </div>
             </div>
         </section>
@@ -6763,7 +7683,7 @@
         </section>
 
         <!-- ========================================================= -->
-        <!-- Tab: 云游名山-->
+        <!-- Tab: 云游名山 -->
         <!-- ========================================================= -->
         <section id="mountains-tab" class="tab-content">
             <h2><i class="fas fa-mountain"></i> 云游名山</h2>
@@ -6779,9 +7699,34 @@
                     </div>
                 </div>
 
-                <div class="mountains-grid" id="mountainsGrid"></div>
+                <!-- 视图切换 -->
+                <div class="mountains-view-toggle">
+                    <button class="mtn-view-btn active" data-view="map">
+                        <i class="fas fa-map-marked-alt"></i> 地图
+                    </button>
+                    <button class="mtn-view-btn" data-view="grid">
+                        <i class="fas fa-th-large"></i> 卡片
+                    </button>
+                </div>
 
-                <p class="mountains-tip">💡 道家认为名山胜地乃天地灵气所钟，修道之人常择此栖隐。点击卡片可查看详情。</p>
+                <!-- 地图视图（ECharts 容器） -->
+                <div id="mountainsMapWrap" class="mountains-map-wrap">
+                    <div id="mountainsMapEcharts"></div>
+                    <div class="mtn-map-legend">
+                <span class="legend-item">
+                    <i class="legend-dot" style="background:#c9a87c;"></i> 洞天
+                </span>
+                        <span class="legend-item">
+                    <i class="legend-dot" style="background:#7bc5a0;"></i> 福地
+                </span>
+                        <span class="legend-item">🖱️ 可缩放拖动</span>
+                    </div>
+                </div>
+
+                <!-- 卡片视图 -->
+                <div class="mountains-grid" id="mountainsGrid" style="display:none;"></div>
+
+                <p class="mountains-tip">💡 道家认为名山胜地乃天地灵气所钟，修道之人常择此栖隐。点击地图上的标记或下方卡片可查看详情。</p>
             </div>
         </section>
 
@@ -7988,68 +8933,75 @@
         }
     ];
 
-    // ----- 五行数据 -----
-    const FIVE_ELEMENTS = [{
-        element: '金',
-        description: '金属质地，坚硬刚强，具有变革与决断之性',
-        direction: '西',
-        season: '秋',
-        color: '白色',
-        colorHex: '#e8e8e8',
-        icon: '⚔️',
-        generates: '金生水',
-        restricts: '金克木',
-        characteristics: ['刚毅果断', '重义守信', '爱憎分明', '有领导力'],
-        professions: ['军警', '法官', '医生', '金融从业者']
-    }, {
-        element: '木',
-        description: '树木生长，生机勃勃，具有生长与仁爱之性',
-        direction: '东',
-        season: '春',
-        color: '青色',
-        colorHex: '#7bc5a0',
-        icon: '🌳',
-        generates: '木生火',
-        restricts: '木克土',
-        characteristics: ['仁慈温和', '有同情心', '善于沟通', '有创造力'],
-        professions: ['教师', '艺术家', '设计师', '心理咨询师']
-    }, {
-        element: '水',
-        description: '流动不息，善于变化，具有智慧与灵活之性',
-        direction: '北',
-        season: '冬',
-        color: '黑色',
-        colorHex: '#4a4a4a',
-        icon: '💧',
-        generates: '水生木',
-        restricts: '水克火',
-        characteristics: ['聪明智慧', '善于变通', '深谋远虑', '有洞察力'],
-        professions: ['科学家', '策略师', '外交官', '网络工程师']
-    }, {
-        element: '火',
-        description: '炽热向上，光明温暖，具有热烈与礼仪之性',
-        direction: '南',
-        season: '夏',
-        color: '赤色',
-        colorHex: '#e74c3c',
-        icon: '🔥',
-        generates: '火生土',
-        restricts: '火克金',
-        characteristics: ['热情开朗', '重礼守规', '有感染力', '有远见'],
-        professions: ['领导人', '表演艺术家', '公关', '教育工作者']
-    }, {
-        element: '土',
-        description: '厚德载物，包容万有，具有承载与诚信之性',
-        direction: '中',
-        season: '长夏',
-        color: '黄色',
-        colorHex: '#f1c40f',
-        icon: '⛰️',
-        generates: '土生金',
-        restricts: '土克水',
-        characteristics: ['稳重诚实', '脚踏实地', '有包容心', '善于协调'],
-        professions: ['管理者', '农民', '建筑师', '人力资源']
-    }];
+    const FIVE_ELEMENTS = [
+        {
+            element: '金',
+            description: '金属质地，坚硬刚强，具有变革与决断之性',
+            direction: '西', season: '秋', color: '白色', colorHex: '#e8e8e8',
+            icon: '⚔️', generates: '金生水', restricts: '金克木',
+            characteristics: ['刚毅果断', '重义守信', '爱憎分明', '有领导力'],
+            professions: ['军警', '法官', '医生', '金融从业者'],
+            // 新增
+            organ: '肺、大肠', emotion: '悲', taste: '辛', sound: '哭',
+            climate: '燥', planet: '太白', heavenlyStem: '庚、辛',
+            earthlyBranch: '申、酉', number: '4、9', creature: '虎、猴',
+            // 现代解读
+            personality: '金型人通常意志坚定、执行力强，做事有原则，但有时过于刚硬，需要学会柔和与变通。',
+            balance: '金过旺则易固执、苛责；金不足则易优柔寡断、缺乏魄力。宜以水润金、以火炼金。'
+        },
+        {
+            element: '木',
+            description: '树木生长，生机勃勃，具有生长与仁爱之性',
+            direction: '东', season: '春', color: '青色', colorHex: '#7bc5a0',
+            icon: '🌳', generates: '木生火', restricts: '木克土',
+            characteristics: ['仁慈温和', '有同情心', '善于沟通', '有创造力'],
+            professions: ['教师', '艺术家', '设计师', '心理咨询师'],
+            organ: '肝、胆', emotion: '怒', taste: '酸', sound: '呼',
+            climate: '风', planet: '岁星', heavenlyStem: '甲、乙',
+            earthlyBranch: '寅、卯', number: '3、8', creature: '虎、兔',
+            personality: '木型人通常富有同情心、创造力强，善于规划与生长，但有时过于理想化，需要落地与坚持。',
+            balance: '木过旺则易怒、固执；木不足则易抑郁、缺乏动力。宜以金克木、以火泄木。'
+        },
+        {
+            element: '水',
+            description: '流动不息，善于变化，具有智慧与灵活之性',
+            direction: '北', season: '冬', color: '黑色', colorHex: '#4a4a4a',
+            icon: '💧', generates: '水生木', restricts: '水克火',
+            characteristics: ['聪明智慧', '善于变通', '深谋远虑', '有洞察力'],
+            professions: ['科学家', '策略师', '外交官', '网络工程师'],
+            organ: '肾、膀胱', emotion: '恐', taste: '咸', sound: '呻',
+            climate: '寒', planet: '辰星', heavenlyStem: '壬、癸',
+            earthlyBranch: '子、亥', number: '1、6', creature: '鼠、猪',
+            personality: '水型人通常智慧灵活、善于变通，适应力强，但有时过于多虑，需要坚定与行动。',
+            balance: '水过旺则易恐惧、多疑；水不足则易健忘、缺乏智慧。宜以土制水、以木泄水。'
+        },
+        {
+            element: '火',
+            description: '炽热向上，光明温暖，具有热烈与礼仪之性',
+            direction: '南', season: '夏', color: '赤色', colorHex: '#e74c3c',
+            icon: '🔥', generates: '火生土', restricts: '火克金',
+            characteristics: ['热情开朗', '重礼守规', '有感染力', '有远见'],
+            professions: ['领导人', '表演艺术家', '公关', '教育工作者'],
+            organ: '心、小肠', emotion: '喜', taste: '苦', sound: '笑',
+            climate: '暑', planet: '荧惑', heavenlyStem: '丙、丁',
+            earthlyBranch: '巳、午', number: '2、7', creature: '蛇、马',
+            personality: '火型人通常热情开朗、富有感染力，行动力强，但有时过于急躁，需要沉静与耐心。',
+            balance: '火过旺则易急躁、失眠；火不足则易冷漠、缺乏活力。宜以水制火、以土泄火。'
+        },
+        {
+            element: '土',
+            description: '厚德载物，包容万有，具有承载与诚信之性',
+            direction: '中', season: '长夏', color: '黄色', colorHex: '#f1c40f',
+            icon: '⛰️', generates: '土生金', restricts: '土克水',
+            characteristics: ['稳重诚实', '脚踏实地', '有包容心', '善于协调'],
+            professions: ['管理者', '农民', '建筑师', '人力资源'],
+            organ: '脾、胃', emotion: '思', taste: '甘', sound: '歌',
+            climate: '湿', planet: '镇星', heavenlyStem: '戊、己',
+            earthlyBranch: '辰、戌、丑、未', number: '5、10', creature: '牛、龙、羊、狗',
+            personality: '土型人通常稳重踏实、包容心强，善于协调，但有时过于保守，需要开放与创新。',
+            balance: '土过旺则易思虑、固执；土不足则易缺乏安全感、难以承载。宜以木疏土、以金泄土。'
+        }
+    ];
 
     // =============================================================
     // 新增数据：测测你的道号
@@ -8798,7 +9750,7 @@
     }];
 
     // =============================================================
-    // 新增数据：云游名山（洞天福地精选 24 处）
+    // 新增数据：云游名山（洞天福地精选 24 处，含经纬度坐标）
     // =============================================================
     const MOUNTAINS_DATA = [{
         id: 'wangwu',
@@ -8807,6 +9759,8 @@
         loc: '河南济源',
         type: 'dongtian',
         typeName: '十大洞天之首',
+        lng: 112.15,
+        lat: 35.15,
         desc: '道教十大洞天之首，号「小有清虚之天」。传说黄帝曾在此祭天，老子也曾在此修道。山势雄浑，云海翻涌，自古为修道圣地。',
         poem: '王屋山头云作堆，\n小有清虚洞里来。',
         tags: ['十大洞天', '黄帝祭天', '清虚之天']
@@ -8817,6 +9771,8 @@
         loc: '浙江台州',
         type: 'dongtian',
         typeName: '十大洞天之二',
+        lng: 121.10,
+        lat: 28.60,
         desc: '号「大有空明之天」。相传仙人刘奉林在此乘鹤飞升，遗落羽衣，故得名委羽。山中空明幽邃，是道教第二洞天。',
         poem: '委羽山头鹤已飞，\n空明洞里月相随。',
         tags: ['十大洞天', '刘奉林', '空明之天']
@@ -8827,6 +9783,8 @@
         loc: '陕西汉中',
         type: 'dongtian',
         typeName: '十大洞天之三',
+        lng: 107.03,
+        lat: 33.07,
         desc: '号「太玄总真之天」。山中有洞，幽深莫测，传为仙人西城王君所居。山势险峻，林木苍翠，为修道绝佳之地。',
         poem: '西城山色入云深，\n太玄洞里访真人。',
         tags: ['十大洞天', '西城王君', '太玄之天']
@@ -8837,6 +9795,8 @@
         loc: '陕西商洛',
         type: 'dongtian',
         typeName: '十大洞天之四',
+        lng: 109.94,
+        lat: 33.87,
         desc: '号「三元极真之天」。相传为黄帝问道广成子之处，山中有三元洞，灵气充沛，是道家修真之要地。',
         poem: '西玄山上问三元，\n极真洞里悟先天。',
         tags: ['十大洞天', '黄帝问道', '三元之天']
@@ -8847,6 +9807,8 @@
         loc: '四川都江堰',
         type: 'dongtian',
         typeName: '十大洞天之五',
+        lng: 103.57,
+        lat: 30.90,
         desc: '号「宝仙九室之天」。道教发祥地之一，张道陵曾在此结茅传道。山色青翠，云雾缭绕，有「青城天下幽」之誉。',
         poem: '青城山下白云深，\n九室宫中访道心。',
         tags: ['十大洞天', '张道陵', '宝仙九室']
@@ -8857,6 +9819,8 @@
         loc: '浙江天台',
         type: 'dongtian',
         typeName: '十大洞天之六',
+        lng: 121.03,
+        lat: 29.15,
         desc: '号「上清玉平之天」。山石赤色如霞，故称赤城。传为王子乔修道之所，山中霞光万道，气象万千。',
         poem: '赤城霞起映天台，\n上清宫里玉平开。',
         tags: ['十大洞天', '王子乔', '上清玉平']
@@ -8867,6 +9831,8 @@
         loc: '广东惠州',
         type: 'dongtian',
         typeName: '十大洞天之七',
+        lng: 114.10,
+        lat: 23.28,
         desc: '号「朱明耀真之天」。葛洪曾在此炼丹著书，山中草药繁盛，泉石清幽，为岭南道教第一名山。',
         poem: '罗浮山下四时春，\n朱明洞里炼金丹。',
         tags: ['十大洞天', '葛洪', '朱明耀真']
@@ -8877,6 +9843,8 @@
         loc: '江苏句容',
         type: 'dongtian',
         typeName: '十大洞天之八',
+        lng: 119.30,
+        lat: 31.78,
         desc: '即茅山，号「金坛华阳之天」。三茅真君在此得道，上清派祖庭。山中宫观林立，香火鼎盛，为道教圣地。',
         poem: '句曲山前茅草青，\n华阳洞里诵黄庭。',
         tags: ['十大洞天', '三茅真君', '金坛华阳']
@@ -8887,6 +9855,8 @@
         loc: '江苏苏州',
         type: 'dongtian',
         typeName: '十大洞天之九',
+        lng: 120.42,
+        lat: 31.10,
         desc: '号「左神幽虚之天」。位于太湖西山，山中溶洞幽深，传为龙神所居。湖光山色，相映成趣。',
         poem: '林屋洞中别有天，\n左神幽处访龙眠。',
         tags: ['十大洞天', '太湖', '左神幽虚']
@@ -8897,6 +9867,8 @@
         loc: '浙江丽水',
         type: 'dongtian',
         typeName: '十大洞天之十',
+        lng: 120.30,
+        lat: 28.45,
         desc: '号「成德隐玄之天」。山势巍峨，云海壮阔，传为仙人修炼之所。登顶可观日出，气象万千。',
         poem: '括苍山顶看日出，\n成德隐玄悟天机。',
         tags: ['十大洞天', '日出', '成德隐玄']
@@ -8907,6 +9879,8 @@
         loc: '山东泰安',
         type: 'fudi',
         typeName: '三十六小洞天',
+        lng: 117.10,
+        lat: 36.25,
         desc: '五岳之首，号「蓬玄太空之天」。历代帝王封禅之地，道家视为通天之处。山中庙宇众多，灵气充沛。',
         poem: '泰山顶上望蓬莱，\n蓬玄洞里拜玉皇。',
         tags: ['五岳', '封禅', '蓬玄太空']
@@ -8917,6 +9891,8 @@
         loc: '陕西渭南',
         type: 'fudi',
         typeName: '三十六小洞天',
+        lng: 110.08,
+        lat: 34.48,
         desc: '五岳之西，号「太极总仙之天」。山势险峻，奇峰林立，传为陈抟老祖修道之所。华山论剑，名扬天下。',
         poem: '华山论剑天下险，\n太极总仙悟玄机。',
         tags: ['五岳', '陈抟', '太极总仙']
@@ -8927,6 +9903,8 @@
         loc: '湖南衡阳',
         type: 'fudi',
         typeName: '三十六小洞天',
+        lng: 112.70,
+        lat: 27.25,
         desc: '五岳之南，号「朱陵太虚之天」。山色秀丽，云雾缭绕，传为祝融氏所居。道家七十二福地之一。',
         poem: '衡山如飞云如盖，\n朱陵洞中访祝融。',
         tags: ['五岳', '祝融', '朱陵太虚']
@@ -8937,6 +9915,8 @@
         loc: '吉林延边',
         type: 'fudi',
         typeName: '七十二福地',
+        lng: 128.06,
+        lat: 42.00,
         desc: '关东第一山，号「天池洞天」。山巅天池如镜，云雾变幻莫测。传为女真族发祥地，道家视为北方灵山。',
         poem: '长白天池映日月，\n云海苍茫隐仙踪。',
         tags: ['天池', '关东第一山', '北方灵山']
@@ -8947,6 +9927,8 @@
         loc: '湖北十堰',
         type: 'fudi',
         typeName: '七十二福地',
+        lng: 111.00,
+        lat: 32.40,
         desc: '道教名山，号「太和仙境」。张三丰在此创太极拳，武当派祖庭。山势如龟蛇盘踞，宫观依山而建。',
         poem: '武当山上太极圆，\n太和宫中悟真玄。',
         tags: ['张三丰', '太极拳', '太和仙境']
@@ -8957,6 +9939,8 @@
         loc: '江西鹰潭',
         type: 'fudi',
         typeName: '七十二福地',
+        lng: 116.98,
+        lat: 28.12,
         desc: '正一道祖庭，张天师世居之地。山形如龙虎相搏，泸溪河蜿蜒而过。山中崖墓众多，神秘莫测。',
         poem: '龙虎山中天师府，\n泸溪河畔道法传。',
         tags: ['正一道', '张天师', '祖庭']
@@ -8967,6 +9951,8 @@
         loc: '安徽黄山',
         type: 'fudi',
         typeName: '七十二福地',
+        lng: 118.03,
+        lat: 29.85,
         desc: '号「白岳仙山」。与黄山南北相望，山势平缓，云雾缭绕。道教宫观众多，为江南道教名山。',
         poem: '齐云山上白云飞，\n白岳宫中访仙归。',
         tags: ['白岳', '江南名山', '仙山']
@@ -8977,6 +9963,8 @@
         loc: '四川成都',
         type: 'fudi',
         typeName: '七十二福地',
+        lng: 103.38,
+        lat: 30.65,
         desc: '道教发源地之一，张道陵在此创立五斗米道。山形如鹤鸣，林木葱郁，为道教祖庭之一。',
         poem: '鹤鸣山上鹤长鸣，\n天师道法自此兴。',
         tags: ['张道陵', '五斗米道', '发源地']
@@ -8987,6 +9975,8 @@
         loc: '江西樟树',
         type: 'fudi',
         typeName: '七十二福地',
+        lng: 115.55,
+        lat: 27.98,
         desc: '号「灵宝之天」。葛玄在此炼丹修道，灵宝派祖庭。山中草药繁盛，为药都樟树的发源地。',
         poem: '阁皂山上灵宝开，\n葛玄丹灶今犹在。',
         tags: ['葛玄', '灵宝派', '祖庭']
@@ -8997,6 +9987,8 @@
         loc: '江苏句容',
         type: 'fudi',
         typeName: '七十二福地',
+        lng: 119.28,
+        lat: 31.78,
         desc: '上清派祖庭，三茅真君得道处。山中宫观林立，道教文化深厚。号「金坛华阳之天」。',
         poem: '茅山道士法术高，\n华阳洞里诵黄庭。',
         tags: ['上清派', '三茅真君', '祖庭']
@@ -9007,6 +9999,8 @@
         loc: '陕西西安',
         type: 'fudi',
         typeName: '七十二福地',
+        lng: 108.90,
+        lat: 33.95,
         desc: '即终南山，号「太乙近天都」。老子曾在此讲经，尹喜结草为楼。山中隐士众多，为修道隐居之胜地。',
         poem: '终南山上隐士多，\n太乙宫中问道心。',
         tags: ['终南山', '老子', '隐居']
@@ -9017,6 +10011,8 @@
         loc: '湖南永州',
         type: 'fudi',
         typeName: '七十二福地',
+        lng: 111.95,
+        lat: 25.35,
         desc: '号「湘中灵山」。舜帝南巡葬于此，九峰相似，游者疑焉。山中云雾缭绕，传为仙人居所。',
         poem: '九疑山上云茫茫，\n舜帝南巡葬潇湘。',
         tags: ['舜帝', '湘中灵山', '九峰']
@@ -9027,6 +10023,8 @@
         loc: '福建南平',
         type: 'fudi',
         typeName: '七十二福地',
+        lng: 117.98,
+        lat: 27.72,
         desc: '号「升真元化之天」。山中三十六峰，九曲溪环绕。朱熹曾在此讲学，道家视为第十六升真元化洞天。',
         poem: '武夷山下九曲溪，\n升真洞里悟元机。',
         tags: ['九曲溪', '朱熹', '升真元化']
@@ -9037,6 +10035,8 @@
         loc: '浙江台州',
         type: 'fudi',
         typeName: '七十二福地',
+        lng: 121.03,
+        lat: 29.20,
         desc: '号「玉霄之天」。山势秀丽，云霞缭绕，传为刘晨阮肇遇仙处。佛教天台宗与道教南宗皆发源于此。',
         poem: '天台山上桃花开，\n刘阮遇仙不复回。',
         tags: ['刘阮遇仙', '玉霄之天', '南宗']
@@ -10315,18 +11315,357 @@
     // ----- 4c. 渲染五行 -----
     function renderElements() {
         const grid = document.getElementById('elementsGrid');
+        if (!grid) return;
+
         grid.innerHTML = FIVE_ELEMENTS.map(el => `
-                <div class="element-card">
-                    <span class="element-icon">${el.icon}</span>
-                    <div class="element-name">${el.element}</div>
-                    <div class="element-desc">${el.description}</div>
-                    <div class="element-detail">方位：${el.direction} · 季节：${el.season}</div>
-                    <div class="element-color" style="background:${el.colorHex};"></div>
-                    <div class="element-detail" style="margin-top:6px;font-size:11px;">
-                        相生：${el.generates} | 相克：${el.restricts}
-                    </div>
+        <div class="element-card" data-element="${el.element}" style="--el-color:${el.colorHex};">
+            <span class="element-icon">${el.icon}</span>
+            <div class="element-name">${el.element}</div>
+            <div class="element-desc">${el.description}</div>
+            <div class="element-detail">方位：${el.direction} · 季节：${el.season}</div>
+            <div class="element-color" style="background:${el.colorHex};"></div>
+            <div class="element-more">
+                <span><strong>五脏：</strong>${el.organ}</span>
+                <span><strong>情志：</strong>${el.emotion} · <strong>五味：</strong>${el.taste}</span>
+                <span><strong>相生：</strong>${el.generates} · <strong>相克：</strong>${el.restricts}</span>
+            </div>
+        </div>
+    `).join('');
+
+        // 卡片点击 → 定位到圆盘对应节点
+        grid.querySelectorAll('.element-card').forEach(card => {
+            card.addEventListener('click', function () {
+                const element = this.dataset.element;
+                selectElement(element);
+            });
+        });
+    }
+
+    // =============================================================
+    // 五行学说：圆盘交互
+    // =============================================================
+    let elementsActiveName = null;
+
+    // 五行圆盘布局：以中心为原点，按传统方位排布
+    // 木东（右）、火南（下）、土中（中心）、金西（左）、水北（上）
+    // 角度约定：0°=正上方，顺时针
+    const ELEMENTS_WHEEL_LAYOUT = {
+        '水': { angle: 0,     x: null, y: null },   // 北 → 上
+        '木': { angle: 90,    x: null, y: null },   // 东 → 右
+        '火': { angle: 180,   x: null, y: null },   // 南 → 下
+        '金': { angle: 270,   x: null, y: null },   // 西 → 左
+        '土': { angle: null,  x: null, y: null }    // 中 → 中心
+    };
+
+    // 相生链：木→火→土→金→水→木
+    const ELEMENTS_GENERATE_CHAIN = ['木', '火', '土', '金', '水'];
+
+    // 相克链：木→土→水→火→金→木
+    const ELEMENTS_RESTRICT_CHAIN = ['木', '土', '水', '火', '金'];
+
+    function renderElementsWheel(activeName) {
+        const svg = document.getElementById('elementsWheel');
+        if (!svg) return;
+
+        const cx = 300, cy = 300;
+        const rOuter = 200;      // 节点半径（离中心距离）
+        const rCenter = 52;      // 中心节点半径
+        const nodeR = 40;        // 外圈节点半径
+
+        let html = '';
+
+        // 计算各元素坐标
+        const coords = {};
+        FIVE_ELEMENTS.forEach(el => {
+            const layout = ELEMENTS_WHEEL_LAYOUT[el.element];
+            if (el.element === '土') {
+                coords[el.element] = { x: cx, y: cy };
+            } else {
+                const rad = (layout.angle - 90) * Math.PI / 180;
+                coords[el.element] = {
+                    x: cx + rOuter * Math.cos(rad),
+                    y: cy + rOuter * Math.sin(rad)
+                };
+            }
+        });
+
+        // ===== 1. 相生连线（外圈顺时针弧线）=====
+        // 木→火→土→金→水→木
+        // 用弧线连接相邻两行，形成圆环
+        for (let i = 0; i < ELEMENTS_GENERATE_CHAIN.length; i++) {
+            const from = ELEMENTS_GENERATE_CHAIN[i];
+            const to = ELEMENTS_GENERATE_CHAIN[(i + 1) % ELEMENTS_GENERATE_CHAIN.length];
+            if (from === '土' || to === '土') continue;
+
+            const p1 = coords[from];
+            const p2 = coords[to];
+            if (!p1 || !p2) continue;
+
+            // 用二次贝塞尔曲线画外弧
+            const mx = (p1.x + p2.x) / 2;
+            const my = (p1.y + p2.y) / 2;
+            // 控制点向外偏移
+            const dx = mx - cx;
+            const dy = my - cy;
+            const len = Math.sqrt(dx * dx + dy * dy) || 1;
+            const cxCtrl = mx + (dx / len) * 45;
+            const cyCtrl = my + (dy / len) * 45;
+
+            html += `<path class="el-link generate" data-from="${from}" data-to="${to}" data-type="generate"
+            d="M ${p1.x.toFixed(1)} ${p1.y.toFixed(1)} Q ${cxCtrl.toFixed(1)} ${cyCtrl.toFixed(1)} ${p2.x.toFixed(1)} ${p2.y.toFixed(1)}"></path>`;
+        }
+
+        // ===== 2. 相克连线（穿过中心的直线）=====
+        // 木克土、土克水、水克火、火克金、金克木
+        // 为避免中心节点遮挡，画在土节点下方
+        for (let i = 0; i < ELEMENTS_RESTRICT_CHAIN.length; i++) {
+            const from = ELEMENTS_RESTRICT_CHAIN[i];
+            const to = ELEMENTS_RESTRICT_CHAIN[(i + 1) % ELEMENTS_RESTRICT_CHAIN.length];
+            if (from === '土' || to === '土') {
+                // 与土相关的相克：从中心到目标节点
+                const p1 = coords[from];
+                const p2 = coords[to];
+                if (!p1 || !p2) continue;
+                html += `<line class="el-link restrict" data-from="${from}" data-to="${to}" data-type="restrict"
+                x1="${p1.x.toFixed(1)}" y1="${p1.y.toFixed(1)}" x2="${p2.x.toFixed(1)}" y2="${p2.y.toFixed(1)}"></line>`;
+                continue;
+            }
+            const p1 = coords[from];
+            const p2 = coords[to];
+            if (!p1 || !p2) continue;
+            html += `<line class="el-link restrict" data-from="${from}" data-to="${to}" data-type="restrict"
+            x1="${p1.x.toFixed(1)}" y1="${p1.y.toFixed(1)}" x2="${p2.x.toFixed(1)}" y2="${p2.y.toFixed(1)}"></line>`;
+        }
+
+        // ===== 3. 中心装饰 =====
+        html += `<circle class="el-center-ring" cx="${cx}" cy="${cy}" r="${rCenter + 10}"></circle>`;
+
+        // ===== 4. 五行节点 =====
+        FIVE_ELEMENTS.forEach(el => {
+            const c = coords[el.element];
+            if (!c) return;
+
+            const isCenter = el.element === '土';
+            const r = isCenter ? rCenter : nodeR;
+            const active = el.element === activeName ? ' active' : '';
+
+            html += `
+            <g class="el-wheel-node${active}" data-element="${el.element}">
+                <circle cx="${c.x.toFixed(1)}" cy="${c.y.toFixed(1)}" r="${r}"
+                    fill="${el.colorHex}"></circle>
+                <text x="${c.x.toFixed(1)}" y="${c.y.toFixed(1)}"
+                    style="font-size:${isCenter ? 26 : 28}px;">${el.element}</text>
+            </g>
+        `;
+        });
+
+        // ===== 5. 中心文字（若土未选中，显示"五行"）=====
+        if (activeName !== '土') {
+            html += `<text class="el-center-sub" x="${cx}" y="${cy - rCenter - 24}">五行生克</text>`;
+        }
+
+        svg.innerHTML = html;
+
+        // ===== 6. 绑定交互 =====
+        svg.querySelectorAll('.el-wheel-node').forEach(node => {
+            node.addEventListener('click', function () {
+                const element = this.dataset.element;
+                if (elementsActiveName === element) {
+                    clearElementSelection();
+                } else {
+                    selectElement(element);
+                }
+            });
+        });
+    }
+
+    // 选中某个五行：高亮圆盘 + 卡片 + 表格，并展示详情
+    function selectElement(element) {
+        elementsActiveName = element;
+        const el = FIVE_ELEMENTS.find(x => x.element === element);
+        if (!el) return;
+
+        // 1. 重绘圆盘（带 active 状态）
+        renderElementsWheel(element);
+
+        // 2. 卡片高亮
+        document.querySelectorAll('.element-card').forEach(card => {
+            card.style.boxShadow = '';
+            if (card.dataset.element === element) {
+                card.style.boxShadow = '0 8px 28px rgba(139, 107, 77, 0.28)';
+                card.style.borderColor = '#8b6b4d';
+            } else {
+                card.style.borderColor = '#e8ddd0';
+            }
+        });
+
+        // 3. 表格行高亮
+        document.querySelectorAll('#elementsTableBody tr').forEach(tr => {
+            tr.classList.toggle('active', tr.dataset.element === element);
+        });
+
+        // 4. 渲染详情面板
+        renderElementDetail(el);
+
+        // 5. 滚动到详情面板（平滑）
+        const panel = document.getElementById('elementsDetailPanel');
+        if (panel) {
+            panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+    }
+
+    // 清除选中
+    function clearElementSelection() {
+        elementsActiveName = null;
+        renderElementsWheel(null);
+
+        document.querySelectorAll('.element-card').forEach(card => {
+            card.style.boxShadow = '';
+            card.style.borderColor = '#e8ddd0';
+        });
+        document.querySelectorAll('#elementsTableBody tr').forEach(tr => {
+            tr.classList.remove('active');
+        });
+
+        const empty = document.getElementById('elementsDetailEmpty');
+        const content = document.getElementById('elementsDetailContent');
+        if (empty) empty.style.display = 'block';
+        if (content) content.style.display = 'none';
+    }
+
+    // 渲染五行详情
+    function renderElementDetail(el) {
+        const empty = document.getElementById('elementsDetailEmpty');
+        const content = document.getElementById('elementsDetailContent');
+        if (!empty || !content) return;
+
+        empty.style.display = 'none';
+        content.style.display = 'block';
+
+        // 相生相克目标
+        const generateTo = el.generates.replace('生', ' → ').replace(el.element, '').trim();
+        const restrictTo = el.restricts.replace('克', ' → ').replace(el.element, '').trim();
+
+        // 计算谁生我、谁克我
+        const generatedBy = FIVE_ELEMENTS.filter(x =>
+            x.generates.replace('生', '').startsWith(el.element)
+        ).map(x => x.element);
+
+        const restrictedBy = FIVE_ELEMENTS.filter(x =>
+            x.restricts.replace('克', '').startsWith(el.element)
+        ).map(x => x.element);
+
+        content.innerHTML = `
+        <div class="el-detail-header">
+            <div class="el-detail-icon" style="background:${el.colorHex};color:${['白色', '黄色'].includes(el.color) ? '#4a3728' : '#fff'};">
+                ${el.icon}
+            </div>
+            <div>
+                <div class="el-detail-title">
+                    ${el.element}
+                    <span class="el-detail-tag">${el.direction} · ${el.season}</span>
                 </div>
-            `).join('');
+                <div class="el-detail-subtitle">${el.description}</div>
+            </div>
+        </div>
+
+        <div class="el-detail-desc">${el.personality}</div>
+
+        <div class="el-detail-grid">
+            <div class="el-detail-item">
+                <div class="el-detail-item-title">🫀 对应脏腑</div>
+                <div class="el-detail-item-content">${el.organ}</div>
+            </div>
+            <div class="el-detail-item">
+                <div class="el-detail-item-title">🎨 颜色 · 方位 · 季节</div>
+                <div class="el-detail-item-content">${el.color} · ${el.direction} · ${el.season}</div>
+            </div>
+            <div class="el-detail-item">
+                <div class="el-detail-item-title">💭 情志 · 五味 · 气候</div>
+                <div class="el-detail-item-content">${el.emotion} · ${el.taste} · ${el.climate}</div>
+            </div>
+            <div class="el-detail-item">
+                <div class="el-detail-item-title">⭐ 星宿 · 天干 · 地支</div>
+                <div class="el-detail-item-content">${el.planet} · ${el.heavenlyStem} · ${el.earthlyBranch}</div>
+            </div>
+            <div class="el-detail-item generate">
+                <div class="el-detail-item-title">🌱 相生（我生 · 生我）</div>
+                <div class="el-detail-item-content">
+                    <div>我生：<strong>${el.element} → ${generateTo}</strong></div>
+                    <div>生我：<strong>${generatedBy.join('、') || '—'} → ${el.element}</strong></div>
+                </div>
+            </div>
+            <div class="el-detail-item restrict">
+                <div class="el-detail-item-title">⚔️ 相克（我克 · 克我）</div>
+                <div class="el-detail-item-content">
+                    <div>我克：<strong>${el.element} → ${restrictTo}</strong></div>
+                    <div>克我：<strong>${restrictedBy.join('、') || '—'} → ${el.element}</strong></div>
+                </div>
+            </div>
+            <div class="el-detail-item">
+                <div class="el-detail-item-title">✨ 性格特质</div>
+                <div class="el-detail-item-content">
+                    <ul>${el.characteristics.map(c => `<li>${c}</li>`).join('')}</ul>
+                </div>
+            </div>
+            <div class="el-detail-item">
+                <div class="el-detail-item-title">💼 适合职业</div>
+                <div class="el-detail-item-content">
+                    <ul>${el.professions.map(p => `<li>${p}</li>`).join('')}</ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="el-detail-narrative">
+            <span class="narrative-label">平衡之道：</span>${el.balance}
+        </div>
+
+        <div class="el-detail-tags">
+            <span># 数字 ${el.number}</span>
+            <span># 声音 ${el.sound}</span>
+            <span># 生肖 ${el.creature}</span>
+            <span># ${el.generates}</span>
+            <span># ${el.restricts}</span>
+        </div>
+    `;
+    }
+
+    // =============================================================
+    // 五行对应表：渲染与交互
+    // =============================================================
+    function renderElementsTable() {
+        const tbody = document.getElementById('elementsTableBody');
+        if (!tbody) return;
+
+        tbody.innerHTML = FIVE_ELEMENTS.map(el => `
+        <tr data-element="${el.element}">
+            <td>
+                <div class="col-element">
+                    <span class="el-dot" style="background:${el.colorHex};"></span>
+                    ${el.element}
+                </div>
+            </td>
+            <td>${el.direction}</td>
+            <td>${el.season}</td>
+            <td>${el.color}</td>
+            <td>${el.organ}</td>
+            <td>${el.emotion}</td>
+            <td>${el.taste}</td>
+            <td>${el.climate}</td>
+            <td>${el.number}</td>
+        </tr>
+    `).join('');
+
+        tbody.querySelectorAll('tr').forEach(tr => {
+            tr.addEventListener('click', function () {
+                const element = this.dataset.element;
+                if (elementsActiveName === element) {
+                    clearElementSelection();
+                } else {
+                    selectElement(element);
+                }
+            });
+        });
     }
 
     // ----- 摇签动画 -----
@@ -11518,19 +12857,20 @@
 
     function renderMountains() {
         const grid = document.getElementById('mountainsGrid');
+        if (!grid) return;
         let list = MOUNTAINS_DATA;
         if (mountainsCurrentFilter !== 'all') {
             list = MOUNTAINS_DATA.filter(m => m.type === mountainsCurrentFilter);
         }
         grid.innerHTML = list.map(m => `
-            <div class="mtn-card" data-id="${m.id}">
-                <span class="mtn-card-icon">${m.icon}</span>
-                <div class="mtn-card-name">${m.name}</div>
-                <div class="mtn-card-loc">📍 ${m.loc}</div>
-                <div class="mtn-card-desc">${m.desc}</div>
-                <span class="mtn-card-tag ${m.type === 'dongtian' ? 'tian' : 'fudi'}">${m.typeName}</span>
-            </div>
-        `).join('');
+        <div class="mtn-card" data-id="${m.id}">
+            <span class="mtn-card-icon">${m.icon}</span>
+            <div class="mtn-card-name">${m.name}</div>
+            <div class="mtn-card-loc">📍 ${m.loc}</div>
+            <div class="mtn-card-desc">${m.desc}</div>
+            <span class="mtn-card-tag ${m.type === 'dongtian' ? 'tian' : 'fudi'}">${m.typeName}</span>
+        </div>
+    `).join('');
 
         grid.querySelectorAll('.mtn-card').forEach(card => {
             card.addEventListener('click', function () {
@@ -11539,6 +12879,297 @@
                 if (m) openMountainModal(m);
             });
         });
+    }
+
+    // =============================================================
+    // 云游名山（ECharts 地图版）
+    // =============================================================
+    let mountainsCurrentView = 'map';
+    let mountainsActiveId = null;
+    let mountainsChart = null;
+    let chinaMapRegistered = false;
+    let chinaGeoJsonCache = null;
+
+    // 中国地图 GeoJSON 地址（多 CDN 回退）
+    const CHINA_GEOJSON_URLS = [
+        'https://geo.datav.aliyun.com/areas_v3/bound/100000_full.json',
+        'https://geo.datav.aliyun.com/areas_v3/bound/100000.json'  // 备用：不含子区域的版本
+    ];
+
+    // 依次尝试加载 GeoJSON
+    async function loadChinaGeoJson() {
+        if (chinaGeoJsonCache) return chinaGeoJsonCache;
+
+        for (const url of CHINA_GEOJSON_URLS) {
+            try {
+                const res = await fetch(url);
+                if (!res.ok) continue;
+                const json = await res.json();
+                chinaGeoJsonCache = json;
+                return json;
+            } catch (e) {
+                // 尝试下一个
+            }
+        }
+        throw new Error('中国地图数据加载失败');
+    }
+
+    // 初始化地图
+    async function initMountainsMap() {
+        const container = document.getElementById('mountainsMapEcharts');
+        if (!container || typeof echarts === 'undefined') return;
+
+        // 显示加载中
+        container.innerHTML = `
+        <div style="display:flex;align-items:center;justify-content:center;height:100%;color:#8b6b4d;font-family:'STKaiti','KaiTi',serif;font-size:16px;letter-spacing:2px;">
+            🗺️ 地图加载中……
+        </div>
+    `;
+
+        try {
+            const geoJson = await loadChinaGeoJson();
+
+            if (!chinaMapRegistered) {
+                echarts.registerMap('china', geoJson);
+                chinaMapRegistered = true;
+            }
+
+            // 清空加载提示
+            container.innerHTML = '';
+
+            // 创建实例（若已存在则复用）
+            if (mountainsChart) {
+                mountainsChart.dispose();
+            }
+            mountainsChart = echarts.init(container);
+
+            updateMountainsChart();
+
+            // 响应式
+            window.addEventListener('resize', () => {
+                if (mountainsChart) mountainsChart.resize();
+            });
+
+            // 点击事件
+            mountainsChart.on('click', params => {
+                if (params.data && params.data.meta) {
+                    mountainsActiveId = params.data.meta.id;
+                    openMountainModal(params.data.meta);
+                }
+            });
+
+        } catch (e) {
+            container.innerHTML = `
+            <div style="display:flex;align-items:center;justify-content:center;height:100%;color:#c0392b;font-size:14px;text-align:center;padding:20px;">
+                地图数据加载失败，请检查网络后重试。<br>
+                <button onclick="initMountainsMap()" style="margin-top:12px;padding:6px 20px;border:none;border-radius:20px;background:#8b6b4d;color:#fff;cursor:pointer;">重新加载</button>
+            </div>
+        `;
+        }
+    }
+
+    // 更新地图数据（过滤、高亮）
+    function updateMountainsChart() {
+        if (!mountainsChart) return;
+
+        const list = mountainsCurrentFilter === 'all'
+            ? MOUNTAINS_DATA
+            : MOUNTAINS_DATA.filter(m => m.type === mountainsCurrentFilter);
+
+        const data = list.map(m => {
+            const isActive = m.id === mountainsActiveId;
+            const baseColor = m.type === 'dongtian' ? '#c9a87c' : '#7bc5a0';
+            return {
+                name: m.name,
+                value: [m.lng, m.lat],
+                meta: m,
+                symbolSize: isActive ? 20 : 14,
+                itemStyle: {
+                    color: baseColor,
+                    borderColor: isActive ? '#5a3e2b' : '#fff',
+                    borderWidth: isActive ? 3 : 2,
+                    shadowBlur: isActive ? 16 : 6,
+                    shadowColor: isActive
+                        ? 'rgba(139, 107, 77, 0.9)'
+                        : 'rgba(139, 107, 77, 0.35)'
+                },
+                label: {
+                    show: true,
+                    formatter: '{b}',
+                    position: 'right',
+                    color: '#4a3728',
+                    fontFamily: 'STKaiti, KaiTi, serif',
+                    fontSize: 12,
+                    fontWeight: 600,
+                    textBorderColor: '#fdfaf7',
+                    textBorderWidth: 3
+                }
+            };
+        });
+
+        mountainsChart.setOption({
+            tooltip: {
+                trigger: 'item',
+                backgroundColor: 'rgba(255, 255, 255, 0.98)',
+                borderColor: '#e0d5c8',
+                borderWidth: 1,
+                padding: [10, 14],
+                textStyle: {
+                    color: '#4a3728',
+                    fontSize: 13
+                },
+                extraCssText: 'box-shadow: 0 6px 20px rgba(0,0,0,0.12); border-radius: 10px;',
+                formatter: p => {
+                    if (p.data && p.data.meta) {
+                        const m = p.data.meta;
+                        const tag = m.type === 'dongtian' ? '洞天' : '福地';
+                        return `
+                        <div style="font-family:'STKaiti','KaiTi',serif;font-size:16px;font-weight:700;color:#4a3728;margin-bottom:4px;">
+                            ${m.name}
+                        </div>
+                        <div style="font-size:12px;color:#8b7a6a;">📍 ${m.loc}</div>
+                        <div style="font-size:12px;color:#8b6b4d;margin-top:4px;">${m.typeName} · ${tag}</div>
+                        <div style="font-size:11px;color:#b0a090;margin-top:6px;border-top:1px dashed #e0d5c8;padding-top:6px;">
+                            点击查看详情
+                        </div>
+                    `;
+                    }
+                    return p.name;
+                }
+            },
+            geo: {
+                map: 'china',
+                roam: true,
+                zoom: 2.2,                  // 放大 2.2 倍
+                center: [116, 31],          // 聚焦江浙皖赣一带
+                scaleLimit: { min: 1.0, max: 8 },
+                itemStyle: {
+                    areaColor: '#f5ede0',
+                    borderColor: '#c9b8a4',
+                    borderWidth: 1,
+                    shadowColor: 'rgba(139, 107, 77, 0.12)',
+                    shadowBlur: 12
+                },
+                emphasis: {
+                    itemStyle: {
+                        areaColor: '#e8ddd0',
+                        borderColor: '#8b6b4d',
+                        borderWidth: 1.5
+                    },
+                    label: {
+                        show: false
+                    }
+                },
+                select: {
+                    itemStyle: {
+                        areaColor: '#e8ddd0'
+                    }
+                }
+            },
+            series: [{
+                type: 'scatter',
+                coordinateSystem: 'geo',
+                data: data,
+                zlevel: 2,
+                emphasis: {
+                    scale: 1.4,
+                    itemStyle: {
+                        borderWidth: 3
+                    }
+                },
+                animationDuration: 600,
+                animationEasing: 'cubicOut'
+            }]
+        }, true);
+    }
+
+    // 切换地图/卡片视图
+    function switchMountainsView(view) {
+        mountainsCurrentView = view;
+        const mapWrap = document.getElementById('mountainsMapWrap');
+        const grid = document.getElementById('mountainsGrid');
+        const btns = document.querySelectorAll('.mtn-view-btn');
+
+        btns.forEach(b => b.classList.toggle('active', b.dataset.view === view));
+
+        if (view === 'map') {
+            mapWrap.style.display = 'block';
+            grid.style.display = 'none';
+            // 初始化或更新地图
+            if (!mountainsChart) {
+                initMountainsMap();
+            } else {
+                updateMountainsChart();
+                // 视图切换后 resize，避免容器尺寸变化导致地图显示异常
+                setTimeout(() => mountainsChart && mountainsChart.resize(), 50);
+            }
+        } else {
+            mapWrap.style.display = 'none';
+            grid.style.display = 'grid';
+            renderMountains();
+        }
+    }
+
+    // 卡片视图渲染（保留原有逻辑）
+    function renderMountains() {
+        const grid = document.getElementById('mountainsGrid');
+        if (!grid) return;
+        let list = MOUNTAINS_DATA;
+        if (mountainsCurrentFilter !== 'all') {
+            list = MOUNTAINS_DATA.filter(m => m.type === mountainsCurrentFilter);
+        }
+        grid.innerHTML = list.map(m => `
+        <div class="mtn-card" data-id="${m.id}">
+            <span class="mtn-card-icon">${m.icon}</span>
+            <div class="mtn-card-name">${m.name}</div>
+            <div class="mtn-card-loc">📍 ${m.loc}</div>
+            <div class="mtn-card-desc">${m.desc}</div>
+            <span class="mtn-card-tag ${m.type === 'dongtian' ? 'tian' : 'fudi'}">${m.typeName}</span>
+        </div>
+    `).join('');
+
+        grid.querySelectorAll('.mtn-card').forEach(card => {
+            card.addEventListener('click', function () {
+                const id = this.dataset.id;
+                const m = MOUNTAINS_DATA.find(x => x.id === id);
+                if (m) {
+                    mountainsActiveId = id;
+                    openMountainModal(m);
+                    // 同步高亮地图
+                    if (mountainsChart) updateMountainsChart();
+                }
+            });
+        });
+    }
+
+    // 初始化云游名山
+    function initMountains() {
+        if (window._mtnInited) return;
+        window._mtnInited = true;
+
+        // 过滤按钮
+        document.querySelectorAll('.mtn-filter-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                document.querySelectorAll('.mtn-filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                mountainsCurrentFilter = this.dataset.filter;
+                if (mountainsCurrentView === 'map') {
+                    updateMountainsChart();
+                } else {
+                    renderMountains();
+                }
+            });
+        });
+
+        // 视图切换
+        document.querySelectorAll('.mtn-view-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                switchMountainsView(this.dataset.view);
+            });
+        });
+
+        // 默认地图视图
+        switchMountainsView('map');
     }
 
     function openMountainModal(m) {
@@ -12300,6 +13931,16 @@
         if (tab === 'herb') {
             lazyInitHerb();
         }
+        if (tab === 'elements') {
+            const wheel = document.getElementById('elementsWheel');
+            if (wheel && !wheel.innerHTML.trim()) {
+                renderElementsWheel(null);
+            }
+            const tbody = document.getElementById('elementsTableBody');
+            if (tbody && !tbody.innerHTML.trim()) {
+                renderElementsTable();
+            }
+        }
         if (tab === 'tcmqa') {
             initTcmQA();
         }
@@ -12307,8 +13948,13 @@
             // 卦象无需预渲染，点击按钮才生成
         }
         if (tab === 'mountains') {
-            const grid = document.getElementById('mountainsGrid');
-            if (grid && !grid.innerHTML.trim()) renderMountains();
+            // 首次进入时初始化地图
+            if (!window._mtnInited) {
+                initMountains();
+            } else if (mountainsChart) {
+                // 已初始化过，切回来时 resize，避免容器尺寸问题
+                setTimeout(() => mountainsChart.resize(), 80);
+            }
         }
         if (tab === 'seal') {
             const canvas = document.getElementById('sealCanvas');
@@ -12486,6 +14132,8 @@
 
     // ----- 6d. 五行 -----
     renderElements();
+    renderElementsWheel(null);
+    renderElementsTable();
 
     // ----- 6e. 每日一签 -----
     function loadDailySign() {
@@ -12587,7 +14235,7 @@
     });
 
     // ----- 6k. 云游名山 -----
-    renderMountains();
+    initMountains();
     document.querySelectorAll('.mtn-filter-btn').forEach(btn => {
         btn.addEventListener('click', function () {
             document.querySelectorAll('.mtn-filter-btn').forEach(b => b.classList.remove('active'));
