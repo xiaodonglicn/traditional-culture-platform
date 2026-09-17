@@ -4616,7 +4616,12 @@
             letter-spacing: 2px;
             font-weight: 600;
             pointer-events: none;
+            paint-order: stroke;      /* 先描边再填充，增强在色带上的可读性 */
+            stroke: #fdfaf7;          /* 浅色描边 */
+            stroke-width: 3px;
         }
+        .sc-label-day { fill: #c9a87c; }
+        .sc-label-night { fill: #6b8cae; }
         .sc-label-day { fill: #c9a87c; }
         .sc-label-night { fill: #6b8cae; }
 
@@ -4835,6 +4840,933 @@
                 font-size: 20px;
             }
         }
+        /* ========================================================= */
+        /* 新增：中药本草 */
+        /* ========================================================= */
+        .herb-controls {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+            padding: 16px 22px;
+            background: #f8f4f0;
+            border-radius: 14px;
+        }
+
+        .herb-controls button {
+            padding: 8px 26px;
+            border: none;
+            border-radius: 30px;
+            background: #5a3e2b;
+            color: #fff;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .herb-controls button:hover {
+            background: #4a3222;
+            transform: scale(1.02);
+        }
+
+        .herb-filter {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .herb-filter select {
+            padding: 8px 16px;
+            border-radius: 10px;
+            border: 2px solid #ddd;
+            background: #fff;
+            cursor: pointer;
+        }
+
+        .herb-search {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+            min-width: 180px;
+            padding: 8px 16px;
+            background: #fff;
+            border: 2px solid #ddd;
+            border-radius: 30px;
+            transition: border-color 0.3s;
+        }
+
+        .herb-search:focus-within {
+            border-color: #8b6b4d;
+        }
+
+        .herb-search i {
+            color: #9a8b7a;
+            font-size: 14px;
+        }
+
+        .herb-search input {
+            flex: 1;
+            border: none;
+            outline: none;
+            background: transparent;
+            font-size: 14px;
+            color: #4a3728;
+        }
+
+        .herb-search input::placeholder {
+            color: #b0a090;
+        }
+
+        /* ----- 本草卡片列表 ----- */
+        .herb-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .herb-card {
+            background: linear-gradient(145deg, #fdfaf7, #f5ede6);
+            border: 1px solid #e8ddd0;
+            border-radius: 16px;
+            padding: 22px 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .herb-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #8b6b4d, #c9a87c);
+        }
+
+        .herb-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(139, 107, 77, 0.14);
+            border-color: #c9a87c;
+        }
+
+        .herb-card-icon {
+            font-size: 34px;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .herb-card-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #4a3728;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            letter-spacing: 2px;
+            margin-bottom: 6px;
+        }
+
+        .herb-card-nature {
+            font-size: 12px;
+            color: #8b7a6a;
+            margin-bottom: 10px;
+        }
+
+        .herb-card-preview {
+            font-size: 14px;
+            color: #5a5a5a;
+            line-height: 1.7;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .herb-card-tag {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 3px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            background: #e8ddd0;
+            color: #5a3e2b;
+        }
+
+        /* ----- 本草详情弹窗 ----- */
+        .herb-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 400;
+        }
+
+        .herb-modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .herb-modal-content {
+            background: linear-gradient(145deg, #fdfaf7, #f5ede6);
+            border-radius: 20px;
+            max-width: 620px;
+            width: 100%;
+            max-height: 88vh;
+            overflow-y: auto;
+            padding: 36px 34px 30px;
+            position: relative;
+            transform: translateY(20px) scale(0.96);
+            transition: all 0.3s;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+        }
+
+        .herb-modal.show .herb-modal-content {
+            transform: translateY(0) scale(1);
+        }
+
+        .herb-modal-close {
+            position: absolute;
+            top: 14px;
+            right: 16px;
+            background: none;
+            border: none;
+            font-size: 22px;
+            color: #8b7a6a;
+            cursor: pointer;
+            padding: 6px 10px;
+            border-radius: 10px;
+            transition: all 0.2s;
+        }
+
+        .herb-modal-close:hover {
+            background: rgba(139, 107, 77, 0.12);
+            color: #5a3e2b;
+        }
+
+        .herb-modal-icon {
+            font-size: 56px;
+            text-align: center;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .herb-modal-title {
+            font-size: 32px;
+            font-weight: 700;
+            text-align: center;
+            color: #4a3728;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            letter-spacing: 4px;
+            margin-bottom: 6px;
+        }
+
+        .herb-modal-nature {
+            font-size: 14px;
+            color: #8b7a6a;
+            text-align: center;
+            margin-bottom: 22px;
+        }
+
+        .herb-section {
+            margin-bottom: 16px;
+        }
+
+        .herb-section-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #8b6b4d;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        .herb-section-content {
+            font-size: 15px;
+            color: #5a5a5a;
+            line-height: 1.9;
+            padding: 14px 18px;
+            background: #f5f0ea;
+            border-radius: 12px;
+        }
+
+        .herb-section-content.efficacy {
+            background: #e8f3ec;
+            border-left: 3px solid #4caf50;
+            color: #2d5a3d;
+        }
+
+        .herb-section-content.taboo {
+            background: #fdecea;
+            border-left: 3px solid #e74c3c;
+            color: #721c24;
+        }
+
+        .herb-modal-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 20px;
+            padding-top: 18px;
+            border-top: 2px dashed #e0d3c4;
+        }
+
+        .herb-modal-tags span {
+            background: #e8ddd0;
+            color: #5a3e2b;
+            padding: 4px 16px;
+            border-radius: 30px;
+            font-size: 13px;
+        }
+
+        .herb-empty {
+            text-align: center;
+            padding: 60px 20px;
+            color: #9a8b7a;
+            grid-column: 1 / -1;
+        }
+
+        .herb-empty-icon {
+            font-size: 48px;
+            display: block;
+            margin-bottom: 12px;
+            opacity: 0.5;
+        }
+
+        /* ========================================================= */
+        /* 新增：中医小知识 / 每日一问 */
+        /* ========================================================= */
+        .tcmqa-container {
+            max-width: 680px;
+            margin: 0 auto;
+        }
+
+        .tcmqa-intro {
+            text-align: center;
+            padding: 40px 24px 34px;
+            background: linear-gradient(145deg, #fdfaf7, #f5ede6);
+            border-radius: 18px;
+            border: 2px dashed #d5c8b8;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tcmqa-intro-icon {
+            font-size: 64px;
+            line-height: 1;
+            margin-bottom: 12px;
+            opacity: 0.75;
+        }
+
+        .tcmqa-intro h3 {
+            font-size: 22px;
+            color: #4a3728;
+            margin-bottom: 10px;
+        }
+
+        .tcmqa-intro p {
+            font-size: 16px;
+            color: #7a6b5a;
+            line-height: 1.9;
+            margin-bottom: 24px;
+        }
+
+        .tcmqa-btn-primary {
+            padding: 12px 44px;
+            border: none;
+            border-radius: 30px;
+            background: linear-gradient(145deg, #8b6b4d, #6b4f3a);
+            color: #fff;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .tcmqa-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(139, 107, 77, 0.32);
+        }
+
+        .tcmqa-btn-secondary {
+            display: block;
+            margin: 20px auto 0;
+            padding: 10px 36px;
+            border: 2px solid #d5c8b8;
+            border-radius: 30px;
+            background: #fff;
+            color: #5a3e2b;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .tcmqa-btn-secondary:hover {
+            background: #f5ede6;
+            border-color: #8b6b4d;
+        }
+
+        /* ----- 翻转卡片 ----- */
+        .tcmqa-card-wrap {
+            perspective: 1200px;
+            margin-bottom: 24px;
+        }
+
+        .tcmqa-card {
+            position: relative;
+            width: 100%;
+            min-height: 320px;
+            transform-style: preserve-3d;
+            transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .tcmqa-card.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .tcmqa-face {
+            position: absolute;
+            inset: 0;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            border-radius: 20px;
+            padding: 40px 36px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+        }
+
+        .tcmqa-face-front {
+            background: linear-gradient(145deg, #fdfaf7, #f5ede6);
+            border: 2px solid #e8ddd0;
+        }
+
+        .tcmqa-face-back {
+            background: linear-gradient(145deg, #f0f7f2, #e3efe6);
+            border: 2px solid #c8dfd0;
+            transform: rotateY(180deg) translateZ(0);
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            will-change: transform;
+        }
+
+        .tcmqa-face-icon {
+            font-size: 48px;
+            margin-bottom: 14px;
+            opacity: 0.8;
+        }
+
+        .tcmqa-face-label {
+            font-size: 13px;
+            color: #8b7a6a;
+            letter-spacing: 4px;
+            margin-bottom: 14px;
+        }
+
+        .tcmqa-question {
+            font-size: 24px;
+            font-weight: 600;
+            color: #4a3728;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            line-height: 1.7;
+            letter-spacing: 1px;
+        }
+
+        .tcmqa-answer {
+            font-size: 16px;
+            color: #2d5a3d;
+            line-height: 2;
+            text-align: left;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+        }
+
+        /* ----- 优化后的翻转提示 ----- */
+        .tcmqa-hint {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 22px;
+            padding: 8px 22px;
+            border-radius: 30px;
+            background: #8b6b4d;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            animation: tcmqaHintPulse 1.6s ease-in-out infinite;
+            box-shadow: 0 4px 14px rgba(139, 107, 77, 0.35);
+        }
+
+        .tcmqa-hint .hint-finger {
+            display: inline-block;
+            font-size: 16px;
+            animation: tcmqaFingerTap 1.2s ease-in-out infinite;
+        }
+
+        @keyframes tcmqaHintPulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 4px 14px rgba(139, 107, 77, 0.35);
+            }
+            50% {
+                transform: scale(1.06);
+                box-shadow: 0 6px 22px rgba(139, 107, 77, 0.55);
+            }
+        }
+
+        @keyframes tcmqaFingerTap {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+        }
+
+        /* 背面的提示：低调一些，避免抢眼 */
+        .tcmqa-hint.hint-back {
+            background: #c8dfd0;
+            color: #2d5a3d;
+            box-shadow: 0 4px 14px rgba(76, 175, 80, 0.25);
+            animation: none;
+            font-size: 13px;
+            padding: 6px 18px;
+        }
+
+        /* 卡片正面增加悬停反馈，暗示可点击 */
+        .tcmqa-face-front {
+            cursor: pointer;
+            transition: box-shadow 0.3s, transform 0.3s;
+        }
+
+        .tcmqa-card:not(.flipped) .tcmqa-face-front:hover {
+            box-shadow: 0 12px 36px rgba(139, 107, 77, 0.18);
+        }
+
+        /* 首次进入时的引导箭头 */
+        .tcmqa-tap-guide {
+            position: absolute;
+            bottom: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            color: #8b6b4d;
+            font-size: 12px;
+            opacity: 0.75;
+            pointer-events: none;
+            animation: tcmqaGuideFloat 1.8s ease-in-out infinite;
+        }
+
+        @keyframes tcmqaGuideFloat {
+            0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.75; }
+            50% { transform: translateX(-50%) translateY(-6px); opacity: 1; }
+        }
+
+        .tcmqa-card-tag {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 4px 18px;
+            border-radius: 30px;
+            font-size: 12px;
+            background: #e8ddd0;
+            color: #5a3e2b;
+        }
+
+        /* ----- 知识库累积 ----- */
+        .tcmqa-library {
+            margin-top: 28px;
+            padding-top: 22px;
+            border-top: 2px dashed #e0d3c4;
+        }
+
+        .tcmqa-library-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #5a3e2b;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tcmqa-library-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .tcmqa-lib-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 16px;
+            border-radius: 10px;
+            background: #f8f4f0;
+            font-size: 14px;
+            color: #5a3e2b;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tcmqa-lib-item:hover {
+            background: #f0e6da;
+        }
+
+        .tcmqa-lib-item .lib-icon {
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .tcmqa-lib-item .lib-text {
+            flex: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .tcmqa-lib-item .lib-arrow {
+            color: #b0a090;
+            font-size: 12px;
+        }
+
+        .tcmqa-empty-tip {
+            font-size: 13px;
+            color: #b0a090;
+            text-align: center;
+            padding: 16px 0;
+        }
+
+        /* 弹窗（用于知识库查看详情） */
+        .tcmqa-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 400;
+        }
+
+        .tcmqa-modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .tcmqa-modal-content {
+            background: linear-gradient(145deg, #fdfaf7, #f5ede6);
+            border-radius: 20px;
+            max-width: 560px;
+            width: 100%;
+            max-height: 86vh;
+            overflow-y: auto;
+            padding: 34px 32px 28px;
+            position: relative;
+            transform: translateY(20px) scale(0.96);
+            transition: all 0.3s;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+        }
+
+        .tcmqa-modal.show .tcmqa-modal-content {
+            transform: translateY(0) scale(1);
+        }
+
+        .tcmqa-modal-close {
+            position: absolute;
+            top: 14px;
+            right: 16px;
+            background: none;
+            border: none;
+            font-size: 22px;
+            color: #8b7a6a;
+            cursor: pointer;
+            padding: 6px 10px;
+            border-radius: 10px;
+            transition: all 0.2s;
+        }
+
+        .tcmqa-modal-close:hover {
+            background: rgba(139, 107, 77, 0.12);
+            color: #5a3e2b;
+        }
+
+        .tcmqa-modal-q {
+            font-size: 20px;
+            font-weight: 600;
+            color: #4a3728;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            line-height: 1.7;
+            margin-bottom: 16px;
+            padding-left: 4px;
+        }
+
+        .tcmqa-modal-a {
+            font-size: 15px;
+            color: #2d5a3d;
+            line-height: 2;
+            padding: 16px 20px;
+            background: #e8f3ec;
+            border-radius: 12px;
+            border-left: 3px solid #4caf50;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+        }
+
+        @media (max-width: 480px) {
+            .herb-list {
+                grid-template-columns: 1fr;
+            }
+            .herb-modal-content {
+                padding: 28px 20px 22px;
+            }
+            .herb-modal-title {
+                font-size: 24px;
+            }
+            .herb-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .herb-search {
+                min-width: auto;
+            }
+            .tcmqa-face {
+                padding: 30px 22px;
+            }
+            .tcmqa-question {
+                font-size: 20px;
+            }
+            .tcmqa-answer {
+                font-size: 14px;
+            }
+            .tcmqa-modal-content {
+                padding: 28px 20px 22px;
+            }
+        }
+        /* ========================================================= */
+        /* 中医小知识：揭晓动画 */
+        /* ========================================================= */
+        .tcmqa-loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 340px;
+            gap: 24px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* 卷轴 / 医书展开意象 */
+        .tcmqa-scroll {
+            position: relative;
+            width: 120px;
+            height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tcmqa-scroll-book {
+            position: relative;
+            width: 96px;
+            height: 120px;
+            background: linear-gradient(145deg, #f5ede6, #e8ddd0);
+            border-radius: 6px 10px 10px 6px;
+            border: 2px solid #c9a87c;
+            box-shadow: 0 6px 22px rgba(139, 107, 77, 0.28),
+            inset -8px 0 14px rgba(139, 107, 77, 0.12);
+            transform-origin: left center;
+            animation: tcmqaBookOpen 2s ease-in-out infinite;
+        }
+
+        .tcmqa-scroll-book::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 6px;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(180deg, #c9a87c, #8b6b4d, #c9a87c);
+            opacity: 0.6;
+        }
+
+        .tcmqa-scroll-book::after {
+            content: "医";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            font-size: 34px;
+            font-weight: 700;
+            color: #8b6b4d;
+            opacity: 0.85;
+        }
+
+        @keyframes tcmqaBookOpen {
+            0%, 100% { transform: rotateY(0deg); }
+            45% { transform: rotateY(-38deg); }
+            55% { transform: rotateY(-38deg); }
+        }
+
+        /* 环绕的浮尘 / 药香粒子 */
+        .tcmqa-loading-particles {
+            position: absolute;
+            inset: -30px;
+            pointer-events: none;
+        }
+
+        .tcmqa-particle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #c9a87c 0%, #8b6b4d 70%, transparent 100%);
+            box-shadow: 0 0 8px rgba(201, 168, 124, 0.7);
+            opacity: 0;
+            animation: tcmqaParticleFly 2s ease-out infinite;
+        }
+
+        .tcmqa-particle.p1 { animation-delay: 0s; }
+        .tcmqa-particle.p2 { animation-delay: 0.3s; }
+        .tcmqa-particle.p3 { animation-delay: 0.6s; }
+        .tcmqa-particle.p4 { animation-delay: 0.9s; }
+        .tcmqa-particle.p5 { animation-delay: 1.2s; }
+        .tcmqa-particle.p6 { animation-delay: 1.5s; }
+
+        @keyframes tcmqaParticleFly {
+            0% {
+                opacity: 0;
+                transform: translate(0, 0) scale(0.3);
+            }
+            30% {
+                opacity: 1;
+                transform: translate(var(--px), var(--py)) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(calc(var(--px) * 1.5), calc(var(--py) * 1.5)) scale(0.3);
+            }
+        }
+
+        .tcmqa-loading-text {
+            font-size: 17px;
+            color: #8b6b4d;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            letter-spacing: 2px;
+            animation: textPulse 1.4s ease-in-out infinite;
+            text-align: center;
+        }
+
+        /* 问题卡片揭晓时的入场动画 */
+        .tcmqa-card-wrap.reveal {
+            animation: tcmqaReveal 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes tcmqaReveal {
+            0% {
+                opacity: 0;
+                transform: translateY(24px) scale(0.9);
+            }
+            60% {
+                opacity: 1;
+                transform: translateY(-6px) scale(1.02);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .tcmqa-loading {
+                min-height: 280px;
+                gap: 18px;
+            }
+            .tcmqa-scroll {
+                width: 100px;
+                height: 120px;
+            }
+            .tcmqa-scroll-book {
+                width: 80px;
+                height: 100px;
+            }
+            .tcmqa-scroll-book::after {
+                font-size: 28px;
+            }
+        }
+        /* ----- 求问记录：副标题 ----- */
+        .tcmqa-library-sub {
+            font-size: 12px;
+            color: #b0a090;
+            line-height: 1.7;
+            margin: -4px 0 12px;
+            padding-left: 2px;
+        }
+
+        /* ----- 求问记录：条目样式优化 ----- */
+        .tcmqa-lib-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 11px 16px;
+            border-radius: 10px;
+            background: #f8f4f0;
+            font-size: 14px;
+            color: #5a3e2b;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+        }
+
+        .tcmqa-lib-item:hover {
+            background: #f0e6da;
+            border-left-color: #8b6b4d;
+            transform: translateX(2px);
+        }
+
+        .tcmqa-lib-item .lib-icon {
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .tcmqa-lib-item .lib-text {
+            flex: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .tcmqa-lib-item .lib-arrow {
+            color: #b0a090;
+            font-size: 12px;
+            transition: color 0.2s;
+        }
+
+        .tcmqa-lib-item:hover .lib-arrow {
+            color: #8b6b4d;
+        }
+
+        .tcmqa-empty-tip {
+            font-size: 13px;
+            color: #b0a090;
+            text-align: center;
+            padding: 16px 0;
+            line-height: 1.8;
+        }
     </style>
 </head>
 <body>
@@ -4867,6 +5799,7 @@
                     <a class="active" data-tab="fortune">每日运势</a>
                     <a data-tab="sign">每日一签</a>
                     <a data-tab="gua">每日一卦</a>
+                    <a data-tab="tcmqa">每日一问</a>
                 </div>
             </div>
 
@@ -4897,6 +5830,8 @@
                 <div class="nav-dropdown">
                     <a data-tab="daoism">道家智慧</a>
                     <a data-tab="parable">典故寓言</a>
+                    <a data-tab="herb">中药本草</a>
+
                 </div>
             </div>
 
@@ -5469,6 +6404,96 @@
                 </div>
 
                 <p class="daomap-tip">💡 图谱中的概念相互关联，点击节点可高亮其直接关系。道家思想以「道」为根，层层展开，彼此相生相成。</p>
+            </div>
+        </section>
+        <!-- ========================================================= -->
+        <!-- Tab: 中药本草 -->
+        <!-- ========================================================= -->
+        <section id="herb-tab" class="tab-content">
+            <h2><i class="fas fa-seedling"></i> 中药本草</h2>
+
+            <div class="herb-controls">
+                <button id="herbRandomBtn"><i class="fas fa-dice"></i> 随机一药</button>
+                <div class="herb-filter">
+                    <label>功效：</label>
+                    <select id="herbCategorySelect">
+                        <option value="all">全部</option>
+                    </select>
+                </div>
+                <div class="herb-filter">
+                    <label>四气：</label>
+                    <select id="herbNatureSelect">
+                        <option value="all">全部</option>
+                    </select>
+                </div>
+                <div class="herb-filter">
+                    <label>归经：</label>
+                    <select id="herbMeridianSelect">
+                        <option value="all">全部</option>
+                    </select>
+                </div>
+                <div class="herb-search">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="herbSearchInput" placeholder="搜索药名或功效…">
+                </div>
+            </div>
+
+            <div id="herbList" class="herb-list"></div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- Tab: 中医小知识 / 每日一问 -->
+        <!-- ========================================================= -->
+        <section id="tcmqa-tab" class="tab-content">
+            <h2><i class="fas fa-question-circle"></i> 每日一问</h2>
+
+            <div class="tcmqa-container">
+                <!-- 介绍页 -->
+                <div class="tcmqa-intro" id="tcmqaIntro">
+                    <div class="tcmqa-intro-icon">🩺</div>
+                    <h3>每日一问，积累中医智慧</h3>
+                    <p>每天一条中医常识，<br>点击卡片翻面查看答案，日积月累成知识库。</p>
+                    <button class="tcmqa-btn-primary" id="tcmqaStartBtn">
+                        <i class="fas fa-play"></i> 开始今日一问
+                    </button>
+                </div>
+
+                <!-- 答题页 -->
+                <div id="tcmqaMain" style="display:none;">
+                    <div class="tcmqa-card-wrap">
+                        <div class="tcmqa-card" id="tcmqaCard">
+                            <div class="tcmqa-face tcmqa-face-front">
+                                <span class="tcmqa-face-icon" id="tcmqaFrontIcon">❓</span>
+                                <div class="tcmqa-face-label">今日一问</div>
+                                <div class="tcmqa-question" id="tcmqaQuestion">加载中...</div>
+                                <div class="tcmqa-card-tag" id="tcmqaCategory"># 中医基础</div>
+                                <div class="tcmqa-hint">
+                                    <span class="hint-finger">👆</span>
+                                    <span>点击卡片，查看答案</span>
+                                </div>
+                            </div>
+                            <div class="tcmqa-face tcmqa-face-back">
+                                <span class="tcmqa-face-icon">💡</span>
+                                <div class="tcmqa-face-label">答案</div>
+                                <div class="tcmqa-answer" id="tcmqaAnswer"></div>
+                                <div class="tcmqa-hint hint-back">👆 再次点击返回问题</div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="tcmqa-btn-secondary" id="tcmqaAgainBtn">
+                        <i class="fas fa-sync-alt"></i> 换一题
+                    </button>
+
+                    <!-- 求问记录 -->
+                    <div class="tcmqa-library">
+                        <div class="tcmqa-library-title">
+                            <i class="fas fa-history"></i> 我的求问记录
+                            <span style="font-size:12px;color:#b0a090;font-weight:400;" id="tcmqaCount"></span>
+                        </div>
+                        <p class="tcmqa-library-sub">每一次求问，都是一次积累。点击可回看答案。</p>
+                        <div class="tcmqa-library-list" id="tcmqaLibraryList"></div>
+                    </div>
+                </div>
             </div>
         </section>
     </main>
@@ -9251,8 +10276,8 @@
         // 为简化，用四段弧拼出昼夜
         // 昼：270°→360° 和 0°→60°
         const dayArcs = [
-            { start: 270, end: 358 },
-            { start: 2, end: 60 }
+            { start: 270, end: 360 },
+            { start: 0, end: 60 }
         ];
         const nightArcs = [
             { start: 90, end: 240 }
@@ -9304,10 +10329,11 @@
             </g>
         `;
         });
-
-        // ===== 7. 昼夜标签 =====
-        const dayLabel = polar(rArc + 36, 345);
-        const nightLabel = polar(rArc + 36, 165);
+        // ===== 7. 昼夜标签（放在色带内侧，避免超出 viewBox） =====
+        // viewBox 620×620，中心 310，半径上限约 300
+        // 色带 rArc=300 已接近边缘，标签改放到色带内侧 rArc-32=268 处
+        const dayLabel = polar(rArc - 32, 345);
+        const nightLabel = polar(rArc - 32, 165);
         html += `<text class="sc-label-day" x="${dayLabel.x.toFixed(1)}" y="${dayLabel.y.toFixed(1)}">昼</text>`;
         html += `<text class="sc-label-night" x="${nightLabel.x.toFixed(1)}" y="${nightLabel.y.toFixed(1)}">夜</text>`;
 
@@ -10724,6 +11750,12 @@
             const svg = document.getElementById('daomapSvg');
             if (svg && !svg.innerHTML.trim()) renderDaomap();
         }
+        if (tab === 'herb') {
+            lazyInitHerb();
+        }
+        if (tab === 'tcmqa') {
+            initTcmQA();
+        }
         if (tab === 'gua') {
             // 卦象无需预渲染，点击按钮才生成
         }
@@ -11024,6 +12056,7 @@
     // 加载每日一签
     loadDailySign();
 
+
     // =============================================================
     // 字体异步预加载：页面完全加载后，在空闲时预加载所有印章字体
     // =============================================================
@@ -11065,6 +12098,1332 @@
         });
     }
 
+    // =============================================================
+    // 新增数据：中药本草
+    // =============================================================
+    const HERB_DATA = [
+        {
+            id: 'mahuang',
+            icon: '🌿',
+            name: '麻黄',
+            category: '解表',
+            nature: '温',
+            flavor: '辛、微苦',
+            meridian: '肺、膀胱',
+            efficacy: '发汗解表，宣肺平喘，利水消肿。用于风寒感冒、胸闷喘咳、风水浮肿。',
+            usage: '煎服，2-10g。发汗解表宜生用，止咳平喘多炙用。',
+            taboo: '体虚自汗、盗汗、虚喘及高血压、失眠患者慎用。',
+            tags: ['解表', '辛温', '肺经', '膀胱经']
+        },
+        {
+            id: 'guizhi',
+            icon: '🌿',
+            name: '桂枝',
+            category: '解表',
+            nature: '温',
+            flavor: '辛、甘',
+            meridian: '心、肺、膀胱',
+            efficacy: '发汗解肌，温通经脉，助阳化气。用于风寒感冒、寒凝血滞诸痛证、痰饮、蓄水证。',
+            usage: '煎服，3-10g。',
+            taboo: '温热病、阴虚火旺、血热妄行者忌用；孕妇及月经过多者慎用。',
+            tags: ['解表', '辛温', '心经', '肺经', '膀胱经']
+        },
+        {
+            id: 'jingjie',
+            icon: '🌿',
+            name: '荆芥',
+            category: '解表',
+            nature: '微温',
+            flavor: '辛',
+            meridian: '肺、肝',
+            efficacy: '祛风解表，透疹消疮，止血。用于外感表证、麻疹不透、疮疡初起、吐血下血。',
+            usage: '煎服，5-10g。止血宜炒炭用。',
+            taboo: '表虚自汗、阴虚头痛者忌服。',
+            tags: ['解表', '辛温', '肺经', '肝经']
+        },
+        {
+            id: 'jinyinhua',
+            icon: '🌼',
+            name: '金银花',
+            category: '清热',
+            nature: '寒',
+            flavor: '甘',
+            meridian: '肺、心、胃',
+            efficacy: '清热解毒，疏散风热。用于痈肿疔疮、喉痹、丹毒、热毒血痢、风热感冒、温病发热。',
+            usage: '煎服，6-15g。疏散风热宜生用，炒炭宜于血痢。',
+            taboo: '脾胃虚寒及气虚疮疡脓清者忌用。',
+            tags: ['清热', '甘寒', '肺经', '心经', '胃经']
+        },
+        {
+            id: 'lianqiao',
+            icon: '🌼',
+            name: '连翘',
+            category: '清热',
+            nature: '微寒',
+            flavor: '苦',
+            meridian: '肺、心、小肠',
+            efficacy: '清热解毒，消肿散结，疏散风热。用于痈疽、瘰疬、乳痈、丹毒、风热感冒、温病初起。',
+            usage: '煎服，6-15g。',
+            taboo: '脾胃虚寒及气虚发热者忌用。',
+            tags: ['清热', '苦寒', '肺经', '心经', '小肠经']
+        },
+        {
+            id: 'huanglian',
+            icon: '🌿',
+            name: '黄连',
+            category: '清热',
+            nature: '寒',
+            flavor: '苦',
+            meridian: '心、脾、胃、肝、胆、大肠',
+            efficacy: '清热燥湿，泻火解毒。用于湿热痞满、呕吐吞酸、泻痢、黄疸、高热神昏、心火亢盛。',
+            usage: '煎服，2-5g。外用适量。',
+            taboo: '苦寒败胃，脾胃虚寒者忌用；阴虚津伤者慎用。',
+            tags: ['清热', '苦寒', '心经', '脾经', '胃经', '肝经', '胆经', '大肠经']
+        },
+        {
+            id: 'huangqi',
+            icon: '🌱',
+            name: '黄芪',
+            category: '补虚',
+            nature: '微温',
+            flavor: '甘',
+            meridian: '脾、肺',
+            efficacy: '补气升阳，固表止汗，利水消肿，生津养血，行滞通痹，托毒排脓，敛疮生肌。',
+            usage: '煎服，9-30g。补气升阳宜炙用，其他多生用。',
+            taboo: '表实邪盛、气滞湿阻、食积停滞、痈疽初起或溃后热毒尚盛者忌用。',
+            tags: ['补虚', '甘温', '脾经', '肺经']
+        },
+        {
+            id: 'dangshen',
+            icon: '🌱',
+            name: '党参',
+            category: '补虚',
+            nature: '平',
+            flavor: '甘',
+            meridian: '脾、肺',
+            efficacy: '补中益气，健脾益肺。用于脾肺气虚、食少倦怠、咳嗽虚喘、气血不足、面色萎黄。',
+            usage: '煎服，9-30g。',
+            taboo: '不宜与藜芦同用。气滞、肝火盛者禁用；邪盛而正不虚者不宜用。',
+            tags: ['补虚', '甘平', '脾经', '肺经']
+        },
+        {
+            id: 'danggui',
+            icon: '🌿',
+            name: '当归',
+            category: '补虚',
+            nature: '温',
+            flavor: '甘、辛',
+            meridian: '肝、心、脾',
+            efficacy: '补血调经，活血止痛，润肠通便。用于血虚萎黄、月经不调、经闭痛经、虚寒腹痛、肠燥便秘。',
+            usage: '煎服，6-12g。一般生用，酒炒可增强活血之力。',
+            taboo: '湿盛中满、大便溏泄者忌服。',
+            tags: ['补虚', '甘温', '肝经', '心经', '脾经']
+        },
+        {
+            id: 'chenpi',
+            icon: '🍊',
+            name: '陈皮',
+            category: '理气',
+            nature: '温',
+            flavor: '辛、苦',
+            meridian: '脾、肺',
+            efficacy: '理气健脾，燥湿化痰。用于脘腹胀满、食少吐泻、咳嗽痰多。',
+            usage: '煎服，3-10g。',
+            taboo: '气虚证、阴虚燥咳、吐血证及舌赤少津者慎用。',
+            tags: ['理气', '辛温', '脾经', '肺经']
+        },
+        {
+            id: 'zhishi',
+            icon: '🍊',
+            name: '枳实',
+            category: '理气',
+            nature: '微寒',
+            flavor: '苦、辛、酸',
+            meridian: '脾、胃、大肠',
+            efficacy: '破气消积，化痰散痞。用于积滞内停、痞满胀痛、泻痢后重、胸痹结胸。',
+            usage: '煎服，3-10g。外用适量。',
+            taboo: '孕妇慎用；脾胃虚弱者及气虚者慎用。',
+            tags: ['理气', '苦寒', '脾经', '胃经', '大肠经']
+        },
+        {
+            id: 'baizhu',
+            icon: '🌿',
+            name: '白术',
+            category: '补虚',
+            nature: '温',
+            flavor: '苦、甘',
+            meridian: '脾、胃',
+            efficacy: '健脾益气，燥湿利水，止汗，安胎。用于脾虚食少、腹胀泄泻、痰饮眩悸、水肿、自汗、胎动不安。',
+            usage: '煎服，6-12g。燥湿利水宜生用，健脾止泻宜炒用。',
+            taboo: '阴虚内热、津液亏耗者慎用。',
+            tags: ['补虚', '苦温', '脾经', '胃经']
+        },
+        {
+            id: 'fuling',
+            icon: '🍄',
+            name: '茯苓',
+            category: '利水',
+            nature: '平',
+            flavor: '甘、淡',
+            meridian: '心、肺、脾、肾',
+            efficacy: '利水渗湿，健脾，宁心。用于水肿尿少、痰饮眩悸、脾虚食少、便溏泄泻、心神不安、惊悸失眠。',
+            usage: '煎服，10-15g。',
+            taboo: '虚寒精滑或气虚下陷者忌服。',
+            tags: ['利水', '甘平', '心经', '肺经', '脾经', '肾经']
+        },
+        {
+            id: 'gancao',
+            icon: '🌿',
+            name: '甘草',
+            category: '补虚',
+            nature: '平',
+            flavor: '甘',
+            meridian: '心、肺、脾、胃',
+            efficacy: '补脾益气，清热解毒，祛痰止咳，缓急止痛，调和诸药。用于脾胃虚弱、倦怠乏力、心悸气短、咳嗽痰多。',
+            usage: '煎服，2-10g。清热解毒宜生用，补中缓急宜炙用。',
+            taboo: '不宜与海藻、京大戟、红大戟、甘遂、芫花同用。湿盛胀满、水肿者不宜用。',
+            tags: ['补虚', '甘平', '心经', '肺经', '脾经', '胃经']
+        },
+        {
+            id: 'juhua',
+            icon: '🌼',
+            name: '菊花',
+            category: '解表',
+            nature: '微寒',
+            flavor: '甘、苦',
+            meridian: '肺、肝',
+            efficacy: '疏散风热，平抑肝阳，清肝明目，清热解毒。用于风热感冒、头痛眩晕、目赤肿痛、疮痈肿毒。',
+            usage: '煎服，5-10g。疏散风热宜生用，平肝明目宜炒用。',
+            taboo: '脾胃虚寒者慎用。',
+            tags: ['解表', '甘寒', '肺经', '肝经']
+        },
+        {
+            id: 'gouqizi',
+            icon: '🫐',
+            name: '枸杞子',
+            category: '补虚',
+            nature: '平',
+            flavor: '甘',
+            meridian: '肝、肾',
+            efficacy: '滋补肝肾，益精明目。用于虚劳精亏、腰膝酸痛、眩晕耳鸣、阳痿遗精、内热消渴、血虚萎黄、目昏不明。',
+            usage: '煎服，6-12g。',
+            taboo: '外邪实热、脾虚有湿及泄泻者忌服。',
+            tags: ['补虚', '甘平', '肝经', '肾经']
+        },
+        {
+            id: 'shanyao',
+            icon: '🥔',
+            name: '山药',
+            category: '补虚',
+            nature: '平',
+            flavor: '甘',
+            meridian: '脾、肺、肾',
+            efficacy: '补脾养胃，生津益肺，补肾涩精。用于脾虚食少、久泻不止、肺虚喘咳、肾虚遗精、带下、尿频。',
+            usage: '煎服，15-30g。麸炒可增强补脾止泻作用。',
+            taboo: '湿盛中满或有实邪、积滞者忌服。',
+            tags: ['补虚', '甘平', '脾经', '肺经', '肾经']
+        },
+        {
+            id: 'danzhu',
+            icon: '🎋',
+            name: '淡竹叶',
+            category: '清热',
+            nature: '寒',
+            flavor: '甘、淡',
+            meridian: '心、胃、小肠',
+            efficacy: '清热除烦，利尿通淋。用于热病烦渴、小便赤涩淋痛、口舌生疮。',
+            usage: '煎服，6-9g。',
+            taboo: '无实火、湿热者慎用；体虚有寒者忌用；孕妇忌用。',
+            tags: ['清热', '甘寒', '心经', '胃经', '小肠经']
+        },
+        {
+            id: 'chuanxiong',
+            icon: '🌿',
+            name: '川芎',
+            category: '理气',
+            nature: '温',
+            flavor: '辛',
+            meridian: '肝、胆、心包',
+            efficacy: '活血行气，祛风止痛。用于胸痹心痛、胸胁刺痛、月经不调、经闭痛经、癥瘕腹痛、头痛、风湿痹痛。',
+            usage: '煎服，3-10g。',
+            taboo: '阴虚火旺、多汗、热盛及无瘀之出血证慎用；孕妇慎用。',
+            tags: ['理气', '辛温', '肝经', '胆经', '心包经']
+        },
+        {
+            id: 'honghua',
+            icon: '🌺',
+            name: '红花',
+            category: '理气',
+            nature: '温',
+            flavor: '辛',
+            meridian: '心、肝',
+            efficacy: '活血通经，散瘀止痛。用于经闭、痛经、恶露不行、癥瘕痞块、胸痹心痛、瘀滞腹痛、跌扑损伤。',
+            usage: '煎服，3-10g。外用适量。',
+            taboo: '孕妇及月经过多者忌用。有出血倾向者慎用。',
+            tags: ['理气', '辛温', '心经', '肝经']
+        },
+        {
+            id: 'suanzaoren',
+            icon: '🫒',
+            name: '酸枣仁',
+            category: '安神',
+            nature: '平',
+            flavor: '甘、酸',
+            meridian: '肝、胆、心',
+            efficacy: '养心补肝，宁心安神，敛汗，生津。用于虚烦不眠、惊悸多梦、体虚多汗、津伤口渴。',
+            usage: '煎服，10-15g。研末吞服，每次1.5-2g。',
+            taboo: '有实邪郁火及患有滑泄症者慎用。',
+            tags: ['安神', '甘平', '肝经', '胆经', '心经']
+        },
+        {
+            id: 'yuanzhi',
+            icon: '🌿',
+            name: '远志',
+            category: '安神',
+            nature: '温',
+            flavor: '苦、辛',
+            meridian: '心、肾、肺',
+            efficacy: '安神益智，交通心肾，祛痰，消肿。用于心肾不交引起的失眠多梦、健忘惊悸、神志恍惚、咳痰不爽、疮疡肿毒。',
+            usage: '煎服，3-10g。外用适量。',
+            taboo: '胃溃疡及胃炎者慎用。',
+            tags: ['安神', '苦温', '心经', '肾经', '肺经']
+        },
+        {
+            id: 'bohe',
+            icon: '🌿',
+            name: '薄荷',
+            category: '解表',
+            nature: '凉',
+            flavor: '辛',
+            meridian: '肺、肝',
+            efficacy: '疏散风热，清利头目，利咽透疹，疏肝行气。用于风热感冒、头痛目赤、咽喉肿痛、麻疹不透、肝郁气滞。',
+            usage: '煎服，3-6g，宜后下。外用适量。',
+            taboo: '阴虚血燥、肝阳偏亢、表虚汗多者忌服。',
+            tags: ['解表', '辛凉', '肺经', '肝经']
+        }
+    ];
+
+
+    // =============================================================
+    // 新增数据：中医小知识
+    // =============================================================
+    const TCM_QA_DATA = [
+        {
+            id: 'tcm-1',
+            icon: '🌡️',
+            category: '养生',
+            question: '为什么说「春捂秋冻」？',
+            answer: '春季阳气初生，毛孔渐开，过早减衣易受风寒，故宜「捂」以护阳气。秋季阳气渐收，毛孔渐闭，适当「冻」可增强耐寒能力，但以不觉寒冷为度。核心是顺应阳气「春生秋收」的节律。'
+        },
+        {
+            id: 'tcm-2',
+            icon: '🫀',
+            category: '五脏',
+            question: '五脏与五味是什么关系？',
+            answer: '酸入肝、苦入心、甘入脾、辛入肺、咸入肾。五味适量养五脏，偏嗜则伤。如过食酸伤肝，过食咸伤肾。饮食宜五味调和，不可偏废。'
+        },
+        {
+            id: 'tcm-3',
+            icon: '👅',
+            category: '诊断',
+            question: '舌苔能反映什么？',
+            answer: '舌苔由胃气所生，正常为薄白苔。白苔主寒、主表；黄苔主热；腻苔主湿；腐苔主食积；剥苔主胃气不足。苔色、苔质变化可反映病邪性质和脏腑虚实。'
+        },
+        {
+            id: 'tcm-4',
+            icon: '💤',
+            category: '养生',
+            question: '为什么子时（23-1点）必须睡觉？',
+            answer: '子时胆经当令，阳气初生。此时入睡，胆气得以升发，阳气得以涵养。长期熬夜伤胆伤阳，易致口苦、目眩、决断力下降。子时安睡是养生的第一要义。'
+        },
+        {
+            id: 'tcm-5',
+            icon: '🌊',
+            category: '理论',
+            question: '「气为血之帅，血为气之母」是什么意思？',
+            answer: '气能生血、行血、摄血，是血的统帅；血能载气、养气，是气的母体。二者相互依存，气行则血行，气滞则血瘀；血虚则气弱，血脱则气散。'
+        },
+        {
+            id: 'tcm-6',
+            icon: '🔥',
+            category: '病因',
+            question: '「上火」到底是什么？',
+            answer: '「上火」是民间说法，中医认为多与脏腑功能失调、阳气偏亢有关。常见心火（口舌生疮）、肝火（目赤易怒）、胃火（口臭牙痛）、肺火（干咳咽痛）。需辨清虚实，不可一味清热。'
+        },
+        {
+            id: 'tcm-7',
+            icon: '🦶',
+            category: '经络',
+            question: '为什么泡脚能养生？',
+            answer: '脚底有涌泉穴（肾经起点），且三阴经（肝、脾、肾）与三阳经（胃、胆、膀胱）皆交汇于足。温水泡脚可温通经络、引火归元、促进气血运行，尤宜睡前泡至微汗。'
+        },
+        {
+            id: 'tcm-8',
+            icon: '🌬️',
+            category: '理论',
+            question: '「正气存内，邪不可干」怎么理解？',
+            answer: '出自《黄帝内经》。正气即人体抗病能力，邪气即致病因素。正气充足，外邪难以入侵；正气虚弱，则易生病。养生重在扶正，而非一味驱邪。'
+        },
+        {
+            id: 'tcm-9',
+            icon: '🍚',
+            category: '养生',
+            question: '为什么说「药补不如食补」？',
+            answer: '食物性味平和，日常食用可缓缓调养，不易偏颇。药物性味偏盛，用于纠偏治病。孙思邈主张「先以食治，食治不愈，然后命药」，强调饮食调养为养生第一要务。'
+        },
+        {
+            id: 'tcm-10',
+            icon: '💧',
+            category: '五脏',
+            question: '「肾为先天之本」是什么意思？',
+            answer: '肾藏精，主生长发育与生殖，是生命活动的根本。肾精禀受于父母，故称「先天之本」。脾胃为「后天之本」，运化水谷以充养肾精。先天不足可后天调补。'
+        },
+        {
+            id: 'tcm-11',
+            icon: '🌅',
+            category: '养生',
+            question: '为什么早晨宜喝温水？',
+            answer: '卯时（5-7点）大肠经当令，此时饮温水可润肠通便、促进排毒。温水不伤脾胃阳气，比凉水更利气血运行。小口慢饮，200-300ml为宜。'
+        },
+        {
+            id: 'tcm-12',
+            icon: '😤',
+            category: '病因',
+            question: '「怒伤肝」有道理吗？',
+            answer: '中医认为怒则气上，过度愤怒使肝气上逆，出现面红目赤、头痛眩晕，甚则呕血。长期郁怒则肝气郁结，致胁痛、胸闷、月经不调。调畅情志是养肝要法。'
+        },
+        {
+            id: 'tcm-13',
+            icon: '🍂',
+            category: '养生',
+            question: '为什么秋季要润肺？',
+            answer: '秋属金，主燥，对应肺。燥邪易伤肺津，出现干咳、咽干、皮肤干燥。秋季宜食梨、百合、银耳、蜂蜜等润肺之品，少食辛辣，以顺应「秋收」之气。'
+        },
+        {
+            id: 'tcm-14',
+            icon: '🫁',
+            category: '五脏',
+            question: '「肺主气，司呼吸」如何理解？',
+            answer: '肺主一身之气，包括呼吸之气和宗气生成。肺吸入清气，与脾胃运化的水谷精气结合形成宗气，积于胸中，推动呼吸和心血运行。肺气不足则气短乏力。'
+        },
+        {
+            id: 'tcm-15',
+            icon: '🌿',
+            category: '理论',
+            question: '「不通则痛，不荣则痛」是什么意思？',
+            answer: '疼痛有两类：一是气血经络阻滞不通（实证），痛势剧烈、拒按；二是气血不足、脏腑失养（虚证），痛势绵绵、喜按。治疗前者宜通，后者宜补。'
+        },
+        {
+            id: 'tcm-16',
+            icon: '☕',
+            category: '养生',
+            question: '为什么不宜空腹喝浓茶？',
+            answer: '浓茶性寒，空腹饮之易伤胃气，致胃痛、泛酸。茶中咖啡因刺激胃酸分泌，长期如此可致胃黏膜损伤。宜饭后半小时饮淡茶，且不宜睡前饮。'
+        },
+        {
+            id: 'tcm-17',
+            icon: '🦴',
+            category: '五脏',
+            question: '「肝主筋，肾主骨」是什么意思？',
+            answer: '肝血养筋，肝血不足则筋脉拘挛、屈伸不利；肾精养骨，肾精亏虚则骨软无力、腰膝酸软。老年人筋骨不利，多从补肝肾入手。'
+        },
+        {
+            id: 'tcm-18',
+            icon: '🌙',
+            category: '养生',
+            question: '为什么午时（11-13点）宜小憩？',
+            answer: '午时心经当令，阳气至极而阴气初生。此时小憩15-30分钟，可养心气、敛浮阳，使下午精力充沛。但不宜超过30分钟，以免影响夜间睡眠。'
+        },
+        {
+            id: 'tcm-19',
+            icon: '🩸',
+            category: '理论',
+            question: '「脾统血」是什么意思？',
+            answer: '脾有统摄血液在脉中运行、防止溢于脉外的功能。脾气虚弱则统血无权，可见皮下出血、便血、崩漏等。治疗此类出血，常需健脾益气。'
+        },
+        {
+            id: 'tcm-20',
+            icon: '🧊',
+            category: '病因',
+            question: '「寒主收引」是什么意思？',
+            answer: '寒邪侵袭人体，使气机收敛、经络筋脉收缩挛急。常见表现：恶寒、无汗、头身疼痛、关节冷痛、腹痛腹泻。寒性凝滞，还易致气血瘀阻。'
+        },
+        {
+            id: 'tcm-21',
+            icon: '🍵',
+            category: '养生',
+            question: '为什么说「冬吃萝卜夏吃姜」？',
+            answer: '冬季进补多食厚味，易生内热痰湿，萝卜下气消食、化痰清热，可平衡之。夏季贪凉饮冷，易伤脾胃阳气，生姜温中散寒、助阳化湿。此为顺应时令的饮食智慧。'
+        },
+        {
+            id: 'tcm-22',
+            icon: '👁️',
+            category: '诊断',
+            question: '「肝开窍于目」如何理解？',
+            answer: '肝血充足则目能视物清晰；肝血不足则视物昏花、夜盲；肝火上炎则目赤肿痛。许多眼疾从肝论治，如杞菊地黄丸养肝明目。'
+        },
+        {
+            id: 'tcm-23',
+            icon: '💦',
+            category: '理论',
+            question: '「汗为心之液」是什么意思？',
+            answer: '汗由津液化生，而津液与血同源，血由心主。故汗出过多可耗伤心血心气，出现心悸、乏力。运动微汗为宜，大汗淋漓反伤身。'
+        },
+        {
+            id: 'tcm-24',
+            icon: '🫘',
+            category: '五脏',
+            question: '「肾开窍于耳」如何理解？',
+            answer: '肾精充足则听觉灵敏；肾精亏虚则耳鸣、耳聋。老年人听力下降多与肾精不足有关。治疗耳鸣耳聋常从补肾入手，如耳聋左慈丸。'
+        },
+        {
+            id: 'tcm-25',
+            icon: '🍃',
+            category: '养生',
+            question: '为什么春季宜养肝？',
+            answer: '春属木，主生发，对应肝。肝喜条达而恶抑郁。春季宜舒畅情志、早睡早起、多户外活动，食辛甘发散之品助阳气生发。忌郁怒、忌熬夜。'
+        },
+        {
+            id: 'tcm-26',
+            icon: '🦷',
+            category: '经络',
+            question: '「叩齿吞津」有什么养生作用？',
+            answer: '叩齿可健齿固肾，吞津（唾液）能滋养脏腑。中医称唾液为「金津玉液」，吞津可补益肾精、健脾和胃。晨起叩齿36下，吞津3次，是简单有效的养生法。'
+        },
+        {
+            id: 'tcm-27',
+            icon: '🌞',
+            category: '养生',
+            question: '「春夏养阳，秋冬养阴」怎么理解？',
+            answer: '春夏阳气升发，宜顺应而养阳（如适当运动、忌贪凉）；秋冬阴气渐盛，宜顺应而养阴（如早睡、润燥、进补）。核心是顺应四时阴阳消长，不逆天时。'
+        },
+        {
+            id: 'tcm-28',
+            icon: '🫁',
+            category: '诊断',
+            question: '「肺朝百脉」是什么意思？',
+            answer: '肺主气，全身血液都通过经脉汇聚于肺，经肺的呼吸进行气体交换，再输布全身。肺气充足则血脉运行通畅；肺气虚弱则血行瘀滞。'
+        },
+        {
+            id: 'tcm-29',
+            icon: '🌊',
+            category: '理论',
+            question: '「三焦」是什么？',
+            answer: '三焦是六腑之一，分上焦（心肺）、中焦（脾胃）、下焦（肝肾膀胱）。主通行元气、运行水液。三焦通畅则气水运行无阻；三焦不利则水肿、小便不利。'
+        },
+        {
+            id: 'tcm-30',
+            icon: '🌸',
+            category: '养生',
+            question: '为什么「笑一笑，十年少」？',
+            answer: '笑能宣肺气、畅肝气、和脾胃。喜则气和志达，营卫通利。但过喜则伤心，尤其心气虚弱者，喜乐无极反致心神涣散。适度愉悦最养人。'
+        }        , {
+            id: 'tcm-31',
+            icon: '🌾',
+            category: '理论',
+            question: '「胃为水谷之海」是什么意思？',
+            answer: '胃主受纳、腐熟水谷，是饮食汇聚之处，故称「水谷之海」。胃气强则纳食香、消化好；胃气弱则食少、腹胀。中医有「有胃气则生，无胃气则死」之说，强调胃气为后天之本。'
+        },
+        {
+            id: 'tcm-32',
+            icon: '🧠',
+            category: '五脏',
+            question: '「心主神明」怎么理解？',
+            answer: '中医认为心不仅主血脉，还主精神意识思维活动。心血充足则神志清晰、思维敏捷；心血不足则失眠健忘、心神不宁。故养心安神是调治失眠的重要思路。'
+        },
+        {
+            id: 'tcm-33',
+            icon: '🫁',
+            category: '诊断',
+            question: '「肺为娇脏」是什么意思？',
+            answer: '肺位最高，外合皮毛，直接与外界相通，易受风寒暑湿燥火侵袭，且不耐寒热，故称「娇脏」。养肺宜避风寒、防燥热、忌烟尘，尤重秋冬润肺。'
+        },
+        {
+            id: 'tcm-34',
+            icon: '💧',
+            category: '理论',
+            question: '「津液」与「气血」是什么关系？',
+            answer: '津液与血同源，皆由水谷精微化生。津液渗入脉中可化血，血中水分渗出脉外可为津液。「汗血同源」「津血同源」，故大汗、大吐、大泻可致血虚，失血者不宜再发汗。'
+        },
+        {
+            id: 'tcm-35',
+            icon: '🌙',
+            category: '养生',
+            question: '为什么说「睡子午觉」最重要？',
+            answer: '子时（23-1点）胆经当令，阳气初生；午时（11-13点）心经当令，阴气初生。子午之时阴阳交替，此时安睡可助阴阳交接、养胆养心。子觉宜深睡，午觉宜小憩。'
+        },
+        {
+            id: 'tcm-36',
+            icon: '🍊',
+            category: '病因',
+            question: '「湿气重」有哪些表现？',
+            answer: '湿性重浊黏滞，常见表现：头身困重、四肢酸楚、口黏乏味、大便黏腻不爽、舌苔厚腻、皮肤油腻、易生湿疹。湿多与脾虚有关，「脾虚生湿」，治湿常需健脾。'
+        },
+        {
+            id: 'tcm-37',
+            icon: '🔥',
+            category: '理论',
+            question: '「壮水之主，以制阳光」是什么意思？',
+            answer: '出自王冰注《黄帝内经》。阴虚导致阳亢（虚热），不宜直接清热，而应滋阴以制阳，即「壮水之主，以制阳光」。代表方如六味地黄丸。相对地，「益火之源，以消阴翳」用于阳虚阴盛。'
+        },
+        {
+            id: 'tcm-38',
+            icon: '🦶',
+            category: '经络',
+            question: '「足三里」为什么被称为保健要穴？',
+            answer: '足三里是胃经合穴，位于外膝眼下三寸。常按揉或艾灸可健脾和胃、补中益气、增强免疫力。民间有「常按足三里，胜吃老母鸡」之说，是历代医家推崇的强壮要穴。'
+        },
+        {
+            id: 'tcm-39',
+            icon: '🍵',
+            category: '养生',
+            question: '为什么「饭后百步走」并非人人适合？',
+            answer: '饭后立即散步，气血趋向四肢，反碍脾胃运化。尤其脾胃虚弱、胃下垂者不宜。宜饭后静坐半小时再缓行。体质壮实者饭后慢走可助消化，但忌快走、剧烈运动。'
+        },
+        {
+            id: 'tcm-40',
+            icon: '🫀',
+            category: '诊断',
+            question: '「面色」能反映什么？',
+            answer: '中医望诊重视面色：面赤多热，面白多虚寒，面黄多脾虚湿困，面青多寒凝血瘀或肝郁，面黑多肾虚或水饮。五色对应五脏，但需结合其他症状综合判断，不可单凭面色定论。'
+        },
+        {
+            id: 'tcm-41',
+            icon: '🌿',
+            category: '理论',
+            question: '「通则不痛，痛则不通」是谁提出的？',
+            answer: '此说源于《黄帝内经》「不通则痛」的思想，经后世医家发挥而成。指气血经络阻滞则疼痛，通畅则痛止。治疗痛证常以通络行气活血为法，但虚痛需补，不可一味攻通。'
+        },
+        {
+            id: 'tcm-42',
+            icon: '❄️',
+            category: '病因',
+            question: '「寒邪」与「湿邪」有什么区别？',
+            answer: '寒邪收引凝滞，痛势剧烈、得温则减；湿邪重浊黏滞，病程缠绵、反复难愈。寒多伤阳，湿多困脾。寒湿常相兼为病，如寒湿痹痛，治宜温散寒湿。'
+        },
+        {
+            id: 'tcm-43',
+            icon: '🌞',
+            category: '养生',
+            question: '为什么「晒太阳」能补阳气？',
+            answer: '日为太阳之精，晒背（督脉、膀胱经循行处）可温补督脉阳气、驱散寒湿。尤宜晒上午9-10点、下午3-4点的太阳，每次15-30分钟。忌正午暴晒，防暑伤津。'
+        },
+        {
+            id: 'tcm-44',
+            icon: '🫘',
+            category: '五脏',
+            question: '「脾为后天之本」怎么理解？',
+            answer: '脾主运化水谷精微，是气血生化之源。人出生后所需营养全靠脾胃运化，故称「后天之本」。脾胃虚弱则气血不足、百病丛生。养生首重健脾，故有「脾胃一强，百病不生」之说。'
+        },
+        {
+            id: 'tcm-45',
+            icon: '💤',
+            category: '诊断',
+            question: '「失眠」在中医里分几种类型？',
+            answer: '常见：心脾两虚（多梦易醒、乏力）、心肾不交（心烦不寐、腰酸）、肝郁化火（易怒难眠）、痰热内扰（胸闷苔腻）、胃不和则卧不安（食积腹胀）。需辨证施治，不可一味安神。'
+        },
+        {
+            id: 'tcm-46',
+            icon: '🍂',
+            category: '养生',
+            question: '为什么「秋不食姜」？',
+            answer: '生姜辛温发散，秋主收敛，过食姜易耗散肺气、加重秋燥。但并非绝对禁忌，寒性体质或受寒者仍可适量。古人强调「夜不食姜」也是同理，恐其发散扰动阳气，影响安眠。'
+        },
+        {
+            id: 'tcm-47',
+            icon: '🩸',
+            category: '理论',
+            question: '「气滞」与「气逆」有什么区别？',
+            answer: '气滞是气机运行不畅，表现为胀、闷、痛，部位不定；气逆是气机升降失常而上逆，如肺气上逆则咳喘，胃气上逆则呕恶，肝气上逆则头痛面红。气滞宜行，气逆宜降。'
+        },
+        {
+            id: 'tcm-48',
+            icon: '🌊',
+            category: '经络',
+            question: '「任脉」与「督脉」有什么作用？',
+            answer: '任脉行于胸腹正中，总任一身之阴经，称「阴脉之海」；督脉行于腰背正中，总督一身之阳经，称「阳脉之海」。二脉相通，调节全身阴阳。养生常灸关元（任脉）、命门（督脉）。'
+        },
+        {
+            id: 'tcm-49',
+            icon: '🍯',
+            category: '养生',
+            question: '为什么「晨起叩齿吞津」能养生？',
+            answer: '齿为骨之余，叩齿可固肾健齿；唾为肾之液，吞津可滋养肾精、灌溉五脏。晨起叩齿36下，待津液满口，分三次咽下，意送丹田，是简便有效的道家养生法。'
+        },
+        {
+            id: 'tcm-50',
+            icon: '🌡️',
+            category: '病因',
+            question: '「风为百病之长」是什么意思？',
+            answer: '风邪善行数变，四季皆有，且常与寒、湿、热等邪相合为病（风寒、风湿、风热）。风邪多从皮毛、口鼻而入，是外感病的先导，故称「百病之长」。治外感常需疏风。'
+        },
+        {
+            id: 'tcm-51',
+            icon: '🫁',
+            category: '理论',
+            question: '「肺主宣发肃降」是什么意思？',
+            answer: '宣发指肺气向上向外布散，将津液气血输布体表、排出浊气；肃降指肺气向下向内，吸入清气、下输津液。宣降失常则咳喘、水肿。治肺常需调其宣降。'
+        },
+        {
+            id: 'tcm-52',
+            icon: '🌿',
+            category: '诊断',
+            question: '「脉象」能反映什么？',
+            answer: '脉为血之府，脉象反映气血盛衰与脏腑功能。浮脉主表，沉脉主里，迟脉主寒，数脉主热，虚脉主虚，实脉主实。但需「四诊合参」，不可单凭脉象断病。'
+        },
+        {
+            id: 'tcm-53',
+            icon: '☀️',
+            category: '养生',
+            question: '为什么「春夏宜晚睡早起」？',
+            answer: '春夏阳气升发，宜顺应昼长夜短，适当晚睡（不超23点）早起，以助阳气生发。但「晚睡」非熬夜，仍需保证6-7小时睡眠。秋冬则宜早睡晚起，顺应阳气收藏。'
+        },
+        {
+            id: 'tcm-54',
+            icon: '🫘',
+            category: '五脏',
+            question: '「肝主疏泄」体现在哪些方面？',
+            answer: '肝疏泄功能有三：调畅气机（情志舒畅）、促进消化（疏土助脾）、调节生殖（冲任通调）。肝郁则情绪低落、胸胁胀痛、月经不调。养肝重在疏肝解郁、调畅情志。'
+        },
+        {
+            id: 'tcm-55',
+            icon: '🧊',
+            category: '理论',
+            question: '「阳虚」与「阴虚」怎么区分？',
+            answer: '阳虚则寒：畏寒肢冷、面色苍白、大便溏薄、小便清长、舌淡胖。阴虚则热：五心烦热、潮热盗汗、口干咽燥、舌红少苔。阳虚宜温补，阴虚宜滋养，不可混淆。'
+        },
+        {
+            id: 'tcm-56',
+            icon: '🍵',
+            category: '养生',
+            question: '为什么「喝茶」要分季节？',
+            answer: '春饮花茶（散寒理气），夏饮绿茶（清热解暑），秋饮青茶（润燥生津），冬饮红茶（温阳暖胃）。此为顺应四时阴阳的饮茶智慧。但失眠、胃寒者宜慎饮浓茶。'
+        },
+        {
+            id: 'tcm-57',
+            icon: '🦶',
+            category: '经络',
+            question: '「涌泉穴」为什么重要？',
+            answer: '涌泉为肾经井穴，位于足底前1/3凹陷处。按揉或艾灸可滋肾阴、降虚火、引火归元，常用于失眠、头晕、高血压、咽干。睡前搓涌泉至发热，是简便的养生法。'
+        },
+        {
+            id: 'tcm-58',
+            icon: '🌾',
+            category: '理论',
+            question: '「药食同源」是什么意思？',
+            answer: '许多食物兼具药用价值，如山药、枸杞、红枣、生姜、薏米。它们性味平和，可日常食用以调养身体。《黄帝内经》「五谷为养，五果为助，五畜为益，五菜为充」即此意。'
+        },
+        {
+            id: 'tcm-59',
+            icon: '😴',
+            category: '病因',
+            question: '「思伤脾」有道理吗？',
+            answer: '思虑过度则气结，影响脾的运化，出现食欲不振、腹胀、便溏、乏力。现代人思虑繁多，尤需注意。调养宜「少思寡欲」，适当运动、情志疏导以解脾郁。'
+        },
+        {
+            id: 'tcm-60',
+            icon: '🌙',
+            category: '养生',
+            question: '为什么「睡前泡脚」胜过吃补药？',
+            answer: '脚为三阴经起点、三阳经终点，泡脚可温通经络、引火归元、促进气血下行。水温40℃左右，泡15-20分钟至微汗。加艾叶温经，加生姜散寒，加花椒祛湿。但糖尿病足、静脉曲张者慎用。'
+        },
+        {
+            id: 'tcm-61',
+            icon: '🫀',
+            category: '诊断',
+            question: '「心悸」在中医里分虚实吗？',
+            answer: '分虚实。虚证：心气不足、心血亏虚、心阳不振，表现为悸而无力、气短。实证：痰火扰心、水饮凌心、瘀血阻络，表现为悸而胸闷、烦躁。虚则补之，实则泻之。'
+        },
+        {
+            id: 'tcm-62',
+            icon: '🌿',
+            category: '理论',
+            question: '「君臣佐使」是什么？',
+            answer: '方剂配伍原则：君药主病，臣药辅助君药或兼治兼症，佐药制约君臣药毒性或反佐，使药引经调和。如麻黄汤中麻黄为君，桂枝为臣，杏仁为佐，甘草为使。'
+        },
+        {
+            id: 'tcm-63',
+            icon: '❄️',
+            category: '养生',
+            question: '为什么「冬病夏治」有效？',
+            answer: '冬病多因阳虚寒盛（如哮喘、老寒腿、慢性咳喘），夏至阳气最盛，此时温补阳气、驱散寒邪，可事半功倍。常用方法：三伏贴、艾灸、温针。借天时之阳，补人体之阳。'
+        },
+        {
+            id: 'tcm-64',
+            icon: '🫘',
+            category: '经络',
+            question: '「三阴交」为什么被称为妇科要穴？',
+            answer: '三阴交为肝、脾、肾三经交会穴，位于内踝尖上三寸。可调理月经不调、痛经、带下、不孕等妇科病，兼健脾、疏肝、补肾。但孕妇禁用，以免动胎。'
+        },
+        {
+            id: 'tcm-65',
+            icon: '🍚',
+            category: '理论',
+            question: '「五谷为养」中的五谷指什么？',
+            answer: '通常指稻、黍、稷、麦、菽（或麻）。五谷养五脏：麦养心、黍养肺、稷养脾、稻养肾、菽养肝。主食是气血生化之源，减肥不可盲目断主食，以免伤脾胃、损气血。'
+        },
+        {
+            id: 'tcm-66',
+            icon: '😤',
+            category: '病因',
+            question: '「喜伤心」怎么理解？',
+            answer: '喜则气缓，适度喜悦有益，但暴喜、狂喜可使心气涣散，出现心悸、失眠，甚则精神失常。《儒林外史》范进中举即「喜伤心」之例。情志养生贵在「中和」。'
+        },
+        {
+            id: 'tcm-67',
+            icon: '🌿',
+            category: '养生',
+            question: '为什么「春季宜吃芽菜」？',
+            answer: '芽菜（豆芽、香椿芽、春笋）得春生之气，具升发之性，可助人体阳气生发、疏肝理气。春季食芽，顺应「春生」之道。但脾胃虚寒者不宜多食寒性芽菜。'
+        },
+        {
+            id: 'tcm-68',
+            icon: '🫁',
+            category: '诊断',
+            question: '「咳嗽」为什么要分寒热？',
+            answer: '寒咳：痰白清稀、怕冷、舌淡，宜温肺散寒；热咳：痰黄黏稠、咽痛、舌红，宜清肺化痰；燥咳：干咳无痰、咽干，宜润肺。不分寒热，一味止咳，反易留邪。'
+        },
+        {
+            id: 'tcm-69',
+            icon: '💧',
+            category: '理论',
+            question: '「水肿」与哪些脏腑有关？',
+            answer: '主要与肺、脾、肾三脏有关。肺失宣降则水溢肌肤（风水）；脾失运化则水湿停聚；肾失气化则水泛为肿。治水肿常从宣肺、健脾、温肾三法入手，代表方如越婢汤、五苓散、真武汤。'
+        },
+        {
+            id: 'tcm-70',
+            icon: '🌞',
+            category: '养生',
+            question: '为什么「动则生阳」但不宜大汗？',
+            answer: '适度运动可促进气血运行、生发阳气。但大汗淋漓则「气随汗脱」，耗伤阳气和津液，反致疲乏。运动以微汗为度，如八段锦、太极、散步，尤宜清晨或傍晚。'
+        },
+        {
+            id: 'tcm-71',
+            icon: '🫘',
+            category: '五脏',
+            question: '「肾主纳气」是什么意思？',
+            answer: '肾有摄纳肺所吸入清气、维持呼吸深度的作用。肾气充足则呼吸深长；肾虚不纳气则动则气喘、呼多吸少。慢性咳喘久病多累及肾，治宜补肾纳气，如金匮肾气丸。'
+        },
+        {
+            id: 'tcm-72',
+            icon: '🌿',
+            category: '理论',
+            question: '「治未病」包含哪三个层次？',
+            answer: '《黄帝内经》提出：未病先防（预防疾病）、既病防变（早治防传变）、瘥后防复（病后防复发）。「治未病」是中医养生与预防医学的核心思想，重在扶正避邪、调摄生活。'
+        },
+        {
+            id: 'tcm-73',
+            icon: '🍵',
+            category: '养生',
+            question: '为什么「晨起一杯温水」比凉水好？',
+            answer: '晨起阳气初升，脾胃尚弱。温水可温养脾胃、润肠通便、促进气血运行；凉水则伤脾胃阳气，久则致腹痛、便溏。小口慢饮200-300ml，可加少许蜂蜜或柠檬。'
+        },
+        {
+            id: 'tcm-74',
+            icon: '🦴',
+            category: '经络',
+            question: '「颈椎病」在中医里怎么看？',
+            answer: '多因长期低头、气血瘀滞、风寒湿侵袭经络所致。属「痹证」范畴。治以疏通经络、活血化瘀，配合针灸、推拿、艾灸。日常宜做「米字操」，避免久坐低头。'
+        },
+        {
+            id: 'tcm-75',
+            icon: '🌊',
+            category: '病因',
+            question: '「痰」与「湿」是什么关系？',
+            answer: '「湿聚成痰」，湿为痰之渐，痰为湿之甚。湿邪黏滞，久聚则成痰。痰可随气升降，无处不到，故有「百病多由痰作祟」之说。治痰常需健脾祛湿，脾健则痰自消。'
+        },
+        {
+            id: 'tcm-76',
+            icon: '🫀',
+            category: '诊断',
+            question: '「口苦」通常提示什么问题？',
+            answer: '口苦多与肝胆火旺或胆气上溢有关，常见于肝郁化火、胆经湿热。兼见胁痛、易怒、目赤，多为肝火；兼见脘闷、苔腻，多为湿热。调治宜疏肝利胆、清热化湿。'
+        },
+        {
+            id: 'tcm-77',
+            icon: '🌾',
+            category: '养生',
+            question: '为什么「小米粥」最养脾胃？',
+            answer: '小米性微寒、味甘咸，入脾、胃、肾经，健脾和胃、补虚安神。熬粥后性平和，易消化，尤宜脾胃虚弱、产妇、老人。加山药、红枣更增补益之效。但胃酸过多者不宜多食。'
+        },
+        {
+            id: 'tcm-78',
+            icon: '🌙',
+            category: '理论',
+            question: '「阴阳互根」是什么意思？',
+            answer: '阴阳互为根本、相互依存，无阴则阳无以生，无阳则阴无以化。如气（阳）与血（阴），气能生血，血能载气。故补阳需兼顾阴，补阴需兼顾阳，不可偏废。'
+        },
+        {
+            id: 'tcm-79',
+            icon: '🍂',
+            category: '病因',
+            question: '「燥邪」有什么特点？',
+            answer: '燥性干涩，易伤津液，表现为口鼻干燥、咽干、皮肤干裂、干咳少痰、大便干结。燥分温燥（初秋，兼热）与凉燥（深秋，兼寒）。治燥宜润，温燥宜清润，凉燥宜温润。'
+        },
+        {
+            id: 'tcm-80',
+            icon: '🌿',
+            category: '养生',
+            question: '为什么「久坐伤肉」？',
+            answer: '《黄帝内经》「久坐伤肉」，脾主肌肉，久坐则气血运行不畅，脾胃运化受阻，肌肉失养而酸软无力。现代久坐族宜每小时起身活动，做伸展、散步，以畅气血、健脾胃。'
+        }
+    ];
+
+
+    // =============================================================
+    // 中药本草：渲染与交互
+    // =============================================================
+    let herbCurrentCategory = 'all';
+    let herbCurrentNature = 'all';
+    let herbCurrentMeridian = 'all';
+    let herbSearchKeyword = '';
+
+    function getFilteredHerbs() {
+        let list = HERB_DATA;
+
+        if (herbCurrentCategory !== 'all') {
+            list = list.filter(h => h.category === herbCurrentCategory);
+        }
+        if (herbCurrentNature !== 'all') {
+            list = list.filter(h => h.nature === herbCurrentNature);
+        }
+        if (herbCurrentMeridian !== 'all') {
+            list = list.filter(h => h.meridian.includes(herbCurrentMeridian));
+        }
+        if (herbSearchKeyword.trim()) {
+            const kw = herbSearchKeyword.trim().toLowerCase();
+            list = list.filter(h =>
+                h.name.toLowerCase().includes(kw) ||
+                h.efficacy.toLowerCase().includes(kw) ||
+                h.category.toLowerCase().includes(kw) ||
+                h.tags.some(t => t.toLowerCase().includes(kw))
+            );
+        }
+        return list;
+    }
+
+    function renderHerbs() {
+        const container = document.getElementById('herbList');
+        if (!container) return;
+
+        const list = getFilteredHerbs();
+
+        if (list.length === 0) {
+            container.innerHTML = `
+                <div class="herb-empty">
+                    <span class="herb-empty-icon">🌿</span>
+                    <p>没有找到相关本草，换个条件试试～</p>
+                </div>
+            `;
+            return;
+        }
+
+        container.innerHTML = list.map(h => `
+            <div class="herb-card" data-id="${h.id}">
+                <span class="herb-card-icon">${h.icon}</span>
+                <div class="herb-card-title">${h.name}</div>
+                <div class="herb-card-nature">${h.nature} · ${h.flavor} · 归${h.meridian}经</div>
+                <div class="herb-card-preview">${h.efficacy.slice(0, 50)}…</div>
+                <span class="herb-card-tag"># ${h.category}</span>
+            </div>
+        `).join('');
+
+        container.querySelectorAll('.herb-card').forEach(card => {
+            card.addEventListener('click', function () {
+                const id = this.dataset.id;
+                const h = HERB_DATA.find(x => x.id === id);
+                if (h) openHerbModal(h);
+            });
+        });
+    }
+
+    function openHerbModal(h) {
+        let modal = document.getElementById('herbModal');
+        if (!modal) {
+            modal = document.createElement('div');
+            modal.id = 'herbModal';
+            modal.className = 'herb-modal';
+            modal.innerHTML = `
+                <div class="herb-modal-content">
+                    <button class="herb-modal-close" id="herbModalClose"><i class="fas fa-times"></i></button>
+                    <span class="herb-modal-icon" id="herbModalIcon"></span>
+                    <div class="herb-modal-title" id="herbModalTitle"></div>
+                    <div class="herb-modal-nature" id="herbModalNature"></div>
+                    <div class="herb-section">
+                        <div class="herb-section-title">🌿 功效主治</div>
+                        <div class="herb-section-content efficacy" id="herbModalEfficacy"></div>
+                    </div>
+                    <div class="herb-section">
+                        <div class="herb-section-title">📋 用法用量</div>
+                        <div class="herb-section-content" id="herbModalUsage"></div>
+                    </div>
+                    <div class="herb-section">
+                        <div class="herb-section-title">⚠️ 使用禁忌</div>
+                        <div class="herb-section-content taboo" id="herbModalTaboo"></div>
+                    </div>
+                    <div class="herb-modal-tags" id="herbModalTags"></div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            modal.addEventListener('click', function (e) {
+                if (e.target === modal) closeHerbModal();
+            });
+            document.getElementById('herbModalClose').addEventListener('click', closeHerbModal);
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') closeHerbModal();
+            });
+        }
+
+        document.getElementById('herbModalIcon').textContent = h.icon;
+        document.getElementById('herbModalTitle').textContent = h.name;
+        document.getElementById('herbModalNature').textContent =
+            `性${h.nature} · 味${h.flavor} · 归${h.meridian}经`;
+        document.getElementById('herbModalEfficacy').textContent = h.efficacy;
+        document.getElementById('herbModalUsage').textContent = h.usage;
+        document.getElementById('herbModalTaboo').textContent = h.taboo;
+        document.getElementById('herbModalTags').innerHTML =
+            h.tags.map(t => `<span># ${t}</span>`).join('');
+
+        modal.classList.add('show');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeHerbModal() {
+        const modal = document.getElementById('herbModal');
+        if (modal) modal.classList.remove('show');
+        document.body.style.overflow = '';
+    }
+
+    function initHerbFilters() {
+        const catSelect = document.getElementById('herbCategorySelect');
+        const natureSelect = document.getElementById('herbNatureSelect');
+        const meridianSelect = document.getElementById('herbMeridianSelect');
+
+        if (!catSelect || catSelect.dataset.inited) return;
+        catSelect.dataset.inited = '1';
+
+        // 功效分类
+        const categories = [...new Set(HERB_DATA.map(h => h.category))];
+        categories.forEach(c => {
+            const opt = document.createElement('option');
+            opt.value = c;
+            opt.textContent = c;
+            catSelect.appendChild(opt);
+        });
+        catSelect.addEventListener('change', function () {
+            herbCurrentCategory = this.value;
+            renderHerbs();
+        });
+
+        // 四气
+        const natures = [...new Set(HERB_DATA.map(h => h.nature))];
+        natures.forEach(n => {
+            const opt = document.createElement('option');
+            opt.value = n;
+            opt.textContent = n;
+            natureSelect.appendChild(opt);
+        });
+        natureSelect.addEventListener('change', function () {
+            herbCurrentNature = this.value;
+            renderHerbs();
+        });
+
+        // 归经
+        const meridianSet = new Set();
+        HERB_DATA.forEach(h => {
+            h.meridian.split('、').forEach(m => meridianSet.add(m.trim()));
+        });
+        [...meridianSet].forEach(m => {
+            const opt = document.createElement('option');
+            opt.value = m;
+            opt.textContent = m + '经';
+            meridianSelect.appendChild(opt);
+        });
+        meridianSelect.addEventListener('change', function () {
+            herbCurrentMeridian = this.value;
+            renderHerbs();
+        });
+    }
+
+    function initHerbEvents() {
+        initHerbFilters();
+
+        const randomBtn = document.getElementById('herbRandomBtn');
+        if (randomBtn && !randomBtn.dataset.inited) {
+            randomBtn.dataset.inited = '1';
+            randomBtn.addEventListener('click', function () {
+                const h = pickRandom(HERB_DATA);
+                openHerbModal(h);
+            });
+        }
+
+        const searchInput = document.getElementById('herbSearchInput');
+        if (searchInput && !searchInput.dataset.inited) {
+            searchInput.dataset.inited = '1';
+            let timer = null;
+            searchInput.addEventListener('input', function () {
+                clearTimeout(timer);
+                timer = setTimeout(() => {
+                    herbSearchKeyword = this.value;
+                    renderHerbs();
+                }, 220);
+            });
+        }
+    }
+
+    let herbInited = false;
+    function lazyInitHerb() {
+        if (herbInited) return;
+        herbInited = true;
+        initHerbEvents();
+        renderHerbs();
+    }
+
+
+    // =============================================================
+    // 中医小知识：翻转卡片 + 知识库
+    // =============================================================
+    let tcmqaCurrent = null;
+    let tcmqaLibrary = [];      // 存储已查看过的问题 id
+    let tcmqaInited = false;
+
+    function getTodayTcmQA() {
+        // 每次随机抽一题
+        return pickRandom(TCM_QA_DATA);
+    }
+
+    function renderTcmQA(qa) {
+        tcmqaCurrent = qa;
+
+        document.getElementById('tcmqaIntro').style.display = 'none';
+        document.getElementById('tcmqaMain').style.display = 'block';
+
+        document.getElementById('tcmqaFrontIcon').textContent = qa.icon;
+        document.getElementById('tcmqaQuestion').textContent = qa.question;
+        document.getElementById('tcmqaCategory').textContent = '# ' + qa.category;
+        document.getElementById('tcmqaAnswer').textContent = qa.answer;
+
+        // 重置翻转
+        const card = document.getElementById('tcmqaCard');
+        card.classList.remove('flipped');
+
+        // 加入知识库（若不在）
+        if (!tcmqaLibrary.includes(qa.id)) {
+            tcmqaLibrary.push(qa.id);
+        }
+        renderTcmQALibrary();
+    }
+
+    function renderTcmQALibrary() {
+        const listEl = document.getElementById('tcmqaLibraryList');
+        const countEl = document.getElementById('tcmqaCount');
+        if (!listEl) return;
+
+        if (countEl) countEl.textContent = `（共求问 ${tcmqaLibrary.length} / ${TCM_QA_DATA.length} 条）`;
+        if (tcmqaLibrary.length === 0) {
+            listEl.innerHTML = '<p class="tcmqa-empty-tip">还没有求问记录<br>点击上方「开始今日一问」，开启第一次求问吧～</p>';
+            return;
+        }
+
+        // 按加入顺序倒序显示（最新在前）
+        const items = [...tcmqaLibrary].reverse().map((id, idx) => {
+            const qa = TCM_QA_DATA.find(x => x.id === id);
+            if (!qa) return '';
+            const seq = tcmqaLibrary.length - idx;
+            return `
+                <div class="tcmqa-lib-item" data-id="${qa.id}">
+                    <span class="lib-icon">${qa.icon}</span>
+                    <span class="lib-text">第 ${seq} 问 · ${qa.question}</span>
+                    <i class="fas fa-chevron-right lib-arrow"></i>
+                </div>
+            `;
+        }).join('');
+
+        listEl.innerHTML = items;
+
+        listEl.querySelectorAll('.tcmqa-lib-item').forEach(el => {
+            el.addEventListener('click', function () {
+                const id = this.dataset.id;
+                const qa = TCM_QA_DATA.find(x => x.id === id);
+                if (qa) openTcmQAModal(qa);
+            });
+        });
+    }
+
+    function openTcmQAModal(qa) {
+        let modal = document.getElementById('tcmqaModal');
+        if (!modal) {
+            modal = document.createElement('div');
+            modal.id = 'tcmqaModal';
+            modal.className = 'tcmqa-modal';
+            modal.innerHTML = `
+                <div class="tcmqa-modal-content">
+                    <button class="tcmqa-modal-close" id="tcmqaModalClose"><i class="fas fa-times"></i></button>
+                    <div class="tcmqa-modal-q" id="tcmqaModalQ"></div>
+                    <div class="tcmqa-modal-a" id="tcmqaModalA"></div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            modal.addEventListener('click', function (e) {
+                if (e.target === modal) closeTcmQAModal();
+            });
+            document.getElementById('tcmqaModalClose').addEventListener('click', closeTcmQAModal);
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') closeTcmQAModal();
+            });
+        }
+
+        const seq = tcmqaLibrary.indexOf(qa.id) + 1;
+        const seqText = seq > 0 ? `第 ${seq} 问 · ` : '';
+        document.getElementById('tcmqaModalQ').textContent = '❓ ' + seqText + qa.question;
+        document.getElementById('tcmqaModalA').textContent = qa.answer;
+
+        modal.classList.add('show');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeTcmQAModal() {
+        const modal = document.getElementById('tcmqaModal');
+        if (modal) modal.classList.remove('show');
+        document.body.style.overflow = '';
+    }
+
+    function initTcmQA() {
+        if (tcmqaInited) return;
+        tcmqaInited = true;
+
+        // 开始按钮：先播放揭晓动画
+        document.getElementById('tcmqaStartBtn').addEventListener('click', function () {
+            playTcmQALoading(() => {
+                const qa = getTodayTcmQA();
+                renderTcmQA(qa);
+            });
+        });
+
+        // 绑定「换一题」和「卡片翻转」
+        rebindTcmQAEvents();
+    }
+
+    // =============================================================
+    // 中医小知识：揭晓动画
+    // =============================================================
+    let isTcmQALoading = false;
+
+    function playTcmQALoading(callback) {
+        if (isTcmQALoading) return;
+        isTcmQALoading = true;
+
+        const intro = document.getElementById('tcmqaIntro');
+        const main = document.getElementById('tcmqaMain');
+        if (!intro || !main) {
+            callback();
+            isTcmQALoading = false;
+            return;
+        }
+
+        // 隐藏介绍页，主区域改为动画
+        intro.style.display = 'none';
+        main.style.display = 'block';
+
+        // 保存主区域原始结构（用于动画结束后恢复）
+        const originalHTML = main.innerHTML;
+        main.innerHTML = `
+            <div class="tcmqa-loading" id="tcmqaLoading">
+                <div class="tcmqa-scroll">
+                    <div class="tcmqa-loading-particles">
+                        <span class="tcmqa-particle p1" style="--px:-46px;--py:-40px;"></span>
+                        <span class="tcmqa-particle p2" style="--px:42px;--py:-48px;"></span>
+                        <span class="tcmqa-particle p3" style="--px:-54px;--py:24px;"></span>
+                        <span class="tcmqa-particle p4" style="--px:52px;--py:30px;"></span>
+                        <span class="tcmqa-particle p5" style="--px:-30px;--py:-58px;"></span>
+                        <span class="tcmqa-particle p6" style="--px:34px;--py:56px;"></span>
+                    </div>
+                    <div class="tcmqa-scroll-book"></div>
+                </div>
+                <div class="tcmqa-loading-text" id="tcmqaLoadingText">翻阅医书，寻今日一问……</div>
+            </div>
+        `;
+
+        const loadingText = document.getElementById('tcmqaLoadingText');
+
+        // 1.2 秒后切换文案
+        setTimeout(() => {
+            if (loadingText) loadingText.textContent = '答案即将揭晓……';
+        }, 1200);
+
+        // 2.2 秒后结束动画，恢复结构并执行回调
+        setTimeout(() => {
+            main.innerHTML = originalHTML;
+
+            // 重新绑定「换一题」和「卡片翻转」事件
+            rebindTcmQAEvents();
+
+            // 恢复知识库（渲染）
+            renderTcmQALibrary();
+
+            // 执行回调（渲染今日问题）
+            callback();
+
+            // 给卡片一个入场动画
+            const wrap = document.querySelector('.tcmqa-card-wrap');
+            if (wrap) {
+                wrap.classList.add('reveal');
+                setTimeout(() => wrap.classList.remove('reveal'), 800);
+            }
+
+            isTcmQALoading = false;
+        }, 2200);
+    }
+
+    // 重新绑定中医小知识主区域的事件（动画替换 innerHTML 后需要）
+    function rebindTcmQAEvents() {
+        const againBtn = document.getElementById('tcmqaAgainBtn');
+        if (againBtn) {
+            againBtn.addEventListener('click', function () {
+                const qa = pickRandom(TCM_QA_DATA);
+                renderTcmQA(qa);
+                const wrap = document.querySelector('.tcmqa-card-wrap');
+                if (wrap) {
+                    wrap.classList.add('reveal');
+                    setTimeout(() => wrap.classList.remove('reveal'), 800);
+                }
+            });
+        }
+
+        const card = document.getElementById('tcmqaCard');
+        if (card) {
+            card.addEventListener('click', function () {
+                this.classList.toggle('flipped');
+            });
+        }
+    }
+    // 预热中医小知识卡片背面字体，避免首次翻转卡顿
+    function prewarmTcmQAFont() {
+        const back = document.querySelector('.tcmqa-face-back');
+        if (!back) return;
+        // 让它先以不可见方式参与一次布局和绘制
+        const ghost = document.createElement('div');
+        ghost.style.cssText = `
+            position: absolute;
+            visibility: hidden;
+            pointer-events: none;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            font-size: 16px;
+            line-height: 2;
+            transform: translateZ(0);
+        `;
+        ghost.textContent = '预热中医小知识卡片背面文字，避免首次翻转卡顿。';
+        document.body.appendChild(ghost);
+        // 强制触发一次布局与绘制
+        void ghost.offsetHeight;
+        // 稍后移除
+        setTimeout(() => ghost.remove(), 1000);
+    }
+
+    // 初始化中药本草与中医小知识
+    lazyInitHerb();
+    initTcmQA();
+    prewarmTcmQAFont();
 
 </script>
 </body>
