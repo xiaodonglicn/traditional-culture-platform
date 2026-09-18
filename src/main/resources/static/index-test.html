@@ -7095,6 +7095,126 @@
                 font-size: 22px;
             }
         }
+        /* ========================================================= */
+        /* 回到顶部：旋转八卦悬浮按钮（精致版） */
+        /* ========================================================= */
+        .back-to-top {
+            position: fixed;
+            right: 28px;
+            bottom: 36px;
+            width: 62px;
+            height: 62px;
+            padding: 0;
+            border: none;
+            border-radius: 50%;
+            background:
+                    radial-gradient(circle at 38% 32%, #fffdfa 0%, #f5ede0 45%, #e8ddd0 100%);
+            box-shadow:
+                    0 1px 0 rgba(255, 255, 255, 0.9) inset,
+                    0 6px 22px rgba(90, 62, 43, 0.28),
+                    0 2px 6px rgba(0, 0, 0, 0.08);
+            cursor: pointer;
+            z-index: 250;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(18px) scale(0.85);
+            transition:
+                    opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                    transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                    visibility 0.4s,
+                    box-shadow 0.35s ease;
+            -webkit-tap-highlight-color: transparent;
+            outline: none;
+            user-select: none;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+
+        .back-to-top:hover {
+            box-shadow:
+                    0 1px 0 rgba(255, 255, 255, 0.9) inset,
+                    0 10px 30px rgba(139, 107, 77, 0.45),
+                    0 4px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        .back-to-top:active {
+            transform: translateY(0) scale(0.93);
+        }
+
+        /* SVG 容器 */
+        .back-to-top .bagua-svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+            overflow: visible;
+            transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+            will-change: transform;
+            transform-origin: 50% 50%;
+        }
+
+        /* 点击时转动一圈 */
+        .back-to-top.spin .bagua-svg {
+            transform: rotate(360deg);
+        }
+
+        /* 回到顶部过程中持续旋转 */
+        .back-to-top.spinning .bagua-svg {
+            animation: baguaSpin 1.1s linear infinite;
+        }
+
+        @keyframes baguaSpin {
+            from { transform: rotate(0deg); }
+            to   { transform: rotate(360deg); }
+        }
+
+        /* 外圈八卦符号 */
+        .bagua-ring .trigram {
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            fill: #8b6b4d;
+            font-weight: 700;
+            transition: fill 0.3s ease;
+            user-select: none;
+        }
+
+        .back-to-top:hover .bagua-ring .trigram {
+            fill: #5a3e2b;
+        }
+
+        /* 太极核心：悬停时反向旋转 */
+        .taiji-core {
+            transform-origin: 50px 50px;
+            transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .back-to-top:hover .taiji-core {
+            transform: rotate(-180deg);
+        }
+
+        /* 小屏适配 */
+        @media (max-width: 768px) {
+            .back-to-top {
+                right: 16px;
+                bottom: 24px;
+                width: 52px;
+                height: 52px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .back-to-top {
+                right: 12px;
+                bottom: 20px;
+                width: 48px;
+                height: 48px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -7991,7 +8111,7 @@
             </a>
         </p>
         <p class="footer-contact">
-            商务合作 · 意见反馈 请联系邮箱
+            文化交流 · 意见反馈 请联系邮箱
             <a href="mailto:xiaodonglicn@outlook.com">xiaodonglicn@outlook.com</a>
         </p>
     </footer>
@@ -7999,6 +8119,60 @@
 </div>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- 回到顶部：旋转八卦悬浮按钮（精致版） -->
+<button id="backToTop" class="back-to-top" aria-label="回到顶部" title="回到顶部">
+    <svg viewBox="0 0 100 100" class="bagua-svg" aria-hidden="true">
+        <defs>
+            <!-- 外圈八卦文字的径向渐变 -->
+            <radialGradient id="ringGlow" cx="50%" cy="50%" r="50%">
+                <stop offset="70%" stop-color="transparent"/>
+                <stop offset="100%" stop-color="rgba(201,168,124,0.18)"/>
+            </radialGradient>
+        </defs>
+
+        <!-- 外圈装饰环 -->
+        <circle cx="50" cy="50" r="46" fill="url(#ringGlow)"/>
+        <circle cx="50" cy="50" r="45.5" fill="none"
+                stroke="#e0d3c4" stroke-width="0.8" stroke-dasharray="1.5 2.5"
+                opacity="0.7"/>
+
+        <!-- 八卦符号：围绕圆心均匀分布（半径 39） -->
+        <g class="bagua-ring">
+            <text x="50" y="11" text-anchor="middle" dominant-baseline="middle" class="trigram" style="font-size:13px;">☰</text>
+            <text x="77.6" y="22.4" text-anchor="middle" dominant-baseline="middle" class="trigram" style="font-size:13px;">☱</text>
+            <text x="89" y="50" text-anchor="middle" dominant-baseline="middle" class="trigram" style="font-size:13px;">☲</text>
+            <text x="77.6" y="77.6" text-anchor="middle" dominant-baseline="middle" class="trigram" style="font-size:13px;">☳</text>
+            <text x="50" y="89" text-anchor="middle" dominant-baseline="middle" class="trigram" style="font-size:13px;">☴</text>
+            <text x="22.4" y="77.6" text-anchor="middle" dominant-baseline="middle" class="trigram" style="font-size:13px;">☵</text>
+            <text x="11" y="50" text-anchor="middle" dominant-baseline="middle" class="trigram" style="font-size:13px;">☶</text>
+            <text x="22.4" y="22.4" text-anchor="middle" dominant-baseline="middle" class="trigram" style="font-size:13px;">☷</text>
+        </g>
+
+        <!-- 太极核心（半径 26） -->
+        <g class="taiji-core">
+            <!-- 底层：完整浅色圆（白鱼底色） -->
+            <circle cx="50" cy="50" r="26" fill="#fdfaf7"
+                    stroke="#8b6b4d" stroke-width="1.6"/>
+
+            <!-- 黑鱼：S 形分界线（下段逆时针凸左，上段顺时针凸右） -->
+            <path d="M50,24
+                     A26,26 0 0,1 50,76
+                     A13,13 0 0,0 50,50
+                     A13,13 0 0,1 50,24 Z"
+                  fill="#5a3e2b"/>
+
+            <!-- 黑鱼眼（白点）：上半小圆圆心 (50,37) -->
+            <circle cx="50" cy="37" r="4.2" fill="#fdfaf7"/>
+
+            <!-- 白鱼眼（黑点）：下半小圆圆心 (50,63) -->
+            <circle cx="50" cy="63" r="4.2" fill="#5a3e2b"/>
+
+            <!-- 太极外圈 -->
+            <circle cx="50" cy="50" r="26" fill="none"
+                    stroke="#8b6b4d" stroke-width="1.6"/>
+        </g>
+    </svg>
+</button>
 <!-- 道家典故详情弹窗（放在 body 下，避免被祖先 transform 影响） -->
 <div class="parable-modal" id="parableModal">
     <div class="parable-modal-content">
@@ -15982,7 +16156,95 @@
         document.getElementById('xinzhaiStopBtn').addEventListener('click', stopXinzhai);
         document.getElementById('xinzhaiAgainBtn').addEventListener('click', startXinzhai);
     }
+    // =============================================================
+    // 回到顶部：旋转八卦悬浮按钮（精致版）
+    // =============================================================
+    (function () {
+        'use strict';
 
+        const backToTopBtn = document.getElementById('backToTop');
+        if (!backToTopBtn) return;
+
+        let spinningTimer = null;
+        let isScrolling = false;
+
+        // 显示 / 隐藏按钮
+        function toggleBackToTop() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            if (scrollTop > 280) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+        }
+
+        // 点击回到顶部
+        function handleBackToTop() {
+            if (isScrolling) return;
+            isScrolling = true;
+
+            // 触发旋转动画
+            backToTopBtn.classList.remove('spin', 'spinning');
+            void backToTopBtn.offsetWidth;   // 强制重绘以重启动画
+            backToTopBtn.classList.add('spin');
+
+            // 持续旋转，直到滚动结束
+            backToTopBtn.classList.add('spinning');
+            clearTimeout(spinningTimer);
+            spinningTimer = setTimeout(() => {
+                backToTopBtn.classList.remove('spinning');
+            }, 800);
+
+            // 平滑滚动
+            const start = window.pageYOffset || document.documentElement.scrollTop;
+            const duration = Math.min(750, Math.max(320, start * 0.5));
+            const startTime = performance.now();
+
+            function scrollStep(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                // easeOutCubic 缓动
+                const ease = 1 - Math.pow(1 - progress, 3);
+
+                window.scrollTo(0, start * (1 - ease));
+
+                if (progress < 1) {
+                    requestAnimationFrame(scrollStep);
+                } else {
+                    // 滚动结束，清理状态
+                    backToTopBtn.classList.remove('spinning', 'spin');
+                    const svg = backToTopBtn.querySelector('.bagua-svg');
+                    if (svg) {
+                        // 重置 transform，避免角度累积
+                        svg.style.transform = 'rotate(0deg)';
+                        // 清除内联样式，恢复 CSS 过渡
+                        setTimeout(() => {
+                            svg.style.transform = '';
+                        }, 50);
+                    }
+                    isScrolling = false;
+                }
+            }
+            requestAnimationFrame(scrollStep);
+        }
+
+        backToTopBtn.addEventListener('click', handleBackToTop);
+
+        // 滚动监听（节流）
+        let scrollTicking = false;
+        window.addEventListener('scroll', function () {
+            if (!scrollTicking) {
+                requestAnimationFrame(function () {
+                    toggleBackToTop();
+                    scrollTicking = false;
+                });
+                scrollTicking = true;
+            }
+        }, { passive: true });
+
+        // 初始化
+        toggleBackToTop();
+    })();
 </script>
 </body>
 </html>
