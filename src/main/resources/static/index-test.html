@@ -8137,35 +8137,6 @@
             line-height: 1.5;
         }
 
-        /* 功德语：固定在磬体下方，独立一行 */
-        .daoqing-merit-slot {
-            height: 22px;
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            overflow: hidden;
-        }
-
-        .daoqing-merit {
-            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
-            font-size: 14px;
-            color: #8b6b4d;
-            letter-spacing: 3px;
-            opacity: 0;
-            white-space: nowrap;
-            transition: opacity 0.4s ease;
-        }
-
-        .daoqing-merit.show {
-            animation: daoqingMerit 2.2s ease-out;
-        }
-
-        @keyframes daoqingMerit {
-            0%   { opacity: 0; transform: translateY(6px); }
-            15%  { opacity: 1; transform: translateY(0); }
-            80%  { opacity: 1; transform: translateY(0); }
-            100% { opacity: 0; transform: translateY(-6px); }
-        }
 
         /* 计数 + 按钮行 */
         .daoqing-meta {
@@ -8226,9 +8197,7 @@
                 align-items: center;
                 text-align: center;
             }
-            .daoqing-merit-slot {
-                justify-content: center;
-            }
+
             .daoqing-meta {
                 justify-content: center;
             }
@@ -8393,9 +8362,6 @@
             white-space: nowrap;
         }
 
-        .daoqing-stage.strike .daoqing-merit {
-            animation: daoqingMerit 1.4s ease-out;
-        }
 
         @keyframes daoqingMerit {
             0%   { opacity: 0; transform: translateX(-50%) translateY(6px); }
@@ -9386,10 +9352,6 @@
                     <div class="daoqing-right">
                         <div class="daoqing-sub">轻敲磬身，闻声静心</div>
 
-                        <!-- 功德语固定槽位（在磬体右侧，不会被槌子挡） -->
-                        <div class="daoqing-merit-slot">
-                            <span class="daoqing-merit" id="daoqingMerit">心 静 如 水</span>
-                        </div>
 
                         <div class="daoqing-meta">
                             <span class="daoqing-count">
@@ -16146,25 +16108,11 @@
         initialized: false
     };
 
-    const DAOQING_MERITS = [
-        '心 静 如 水',
-        '一 念 清 净',
-        '万 籁 俱 寂',
-        '道 法 自 然',
-        '返 璞 归 真',
-        '虚 怀 若 谷',
-        '清 静 无 为',
-        '天 人 合 一',
-        '神 清 气 爽',
-        '尘 埃 落 定'
-    ];
-
     function initDaoqing() {
         const stage = document.getElementById('daoqingStage');
         const countEl = document.getElementById('daoqingCount');
         const resetBtn = document.getElementById('daoqingReset');
         const muteBtn = document.getElementById('daoqingMute');
-        const meritEl = document.getElementById('daoqingMerit');
         if (!stage) return;
 
         // 延迟创建 AudioContext
@@ -16270,13 +16218,7 @@
             DAOQING.count++;
             if (countEl) countEl.textContent = DAOQING.count;
 
-            // 更新功德语（重新触发动画）
-            if (meritEl) {
-                meritEl.textContent = pickRandom(DAOQING_MERITS);
-                meritEl.classList.remove('show');
-                void meritEl.offsetWidth;
-                meritEl.classList.add('show');
-            }
+
 
             setTimeout(() => stage.classList.remove('strike'), 1500);
         }
