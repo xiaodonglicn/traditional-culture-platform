@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer" />
     <title>传统文化智慧 · 道法自然</title>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E☯%3C/text%3E%3C/svg%3E">
@@ -8426,6 +8427,305 @@
                 height: 170px;
             }
         }
+        /* ========================================================= */
+        /* 首页：山水长卷（水墨） */
+        /* ========================================================= */
+        .home-scroll {
+            position: relative;
+            width: 100%;
+            min-height: 560px;
+            border-radius: 16px;
+            overflow: hidden;
+            background:
+                    radial-gradient(ellipse 120% 70% at 50% 108%, rgba(139, 107, 77, 0.10) 0%, transparent 62%),
+                    linear-gradient(180deg, #fbf7f1 0%, #f7f1e8 42%, #f2ebdf 100%);
+            cursor: default;
+            isolation: isolate;
+        }
+
+        /* 宣纸纤维质感 */
+        .home-scroll::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image:
+                    repeating-linear-gradient(0deg, rgba(139,107,77,0.028) 0 1px, transparent 1px 3px),
+                    repeating-linear-gradient(90deg, rgba(139,107,77,0.022) 0 1px, transparent 1px 4px);
+            pointer-events: none;
+            z-index: 6;
+            mix-blend-mode: multiply;
+        }
+
+        /* 画卷四边压暗（装裱感） */
+        .home-scroll::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            box-shadow:
+                    inset 0 0 0 1px rgba(139, 107, 77, 0.14),
+                    inset 0 0 60px rgba(139, 107, 77, 0.07),
+                    inset 0 -70px 90px -40px rgba(90, 110, 122, 0.20),
+                    inset 0 40px 80px -50px rgba(140, 160, 172, 0.14);
+            pointer-events: none;
+            z-index: 7;
+            border-radius: 16px;
+        }
+
+        .home-layer-far svg,
+        .home-layer-mid svg {
+            filter: blur(0.4px);
+        }
+        .home-layer-mist svg {
+            filter: blur(3px);
+        }
+        /* 各层公共 */
+        .home-layer {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            will-change: transform;
+            transition: transform 0.9s cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+
+        .home-layer svg {
+            position: absolute;
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        /* 远山：最淡、最慢 */
+        .home-layer-far svg { top: 6%; }
+        /* 中景山：稍深 */
+        .home-layer-mid svg { top: 22%; }
+        /* 云雾：横向飘动 */
+        .home-layer-mist svg { top: 30%; }
+        /* 近景坡岸 */
+        .home-layer-near svg { bottom: 0; top: auto; }
+
+
+
+        .home-boat svg { width: 100%; height: auto; overflow: visible; }
+
+        @keyframes boatDrift {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            30%      { transform: translate(-7px, -3px) rotate(-0.9deg); }
+            65%      { transform: translate(6px, 2px) rotate(0.7deg); }
+        }
+
+        /* 涟漪 */
+        .home-ripple {
+            transform-origin: 50% 50%;
+            opacity: 0;
+            animation: rippleSpread 6.5s ease-out infinite;
+        }
+        .home-ripple.r1 { animation-delay: 0s; }
+        .home-ripple.r2 { animation-delay: 2.1s; }
+        .home-ripple.r3 { animation-delay: 4.2s; }
+
+        @keyframes rippleSpread {
+            0%   { opacity: 0;    transform: scale(0.35); }
+            18%  { opacity: 0.55; }
+            100% { opacity: 0;    transform: scale(1.6); }
+        }
+
+        /* 扁舟：移到左侧偏中，与右下题跋彻底分开 */
+        .home-boat {
+            position: absolute;
+            left: 16%;
+            bottom: 20%;
+            width: 190px;
+            z-index: 5;
+            pointer-events: none;
+            animation: boatDrift 11s ease-in-out infinite;
+        }
+
+        .home-boat svg { width: 100%; height: auto; overflow: visible; }
+
+        @keyframes boatDrift {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            30%      { transform: translate(-7px, -3px) rotate(-0.9deg); }
+            65%      { transform: translate(6px, 2px) rotate(0.7deg); }
+        }
+
+        /* 题跋：右下角，与船拉开距离 */
+        .home-colophon {
+            position: absolute;
+            right: 5%;
+            bottom: 6%;
+            z-index: 8;
+            max-width: 60%;
+            text-align: right;
+            padding: 4px 2px;
+            white-space: nowrap;    /* 桌面端：不换行，向左延伸 */
+        }
+
+        /* 箴言 */
+        .home-quote {
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            transition: opacity 0.7s ease;
+        }
+
+        .home-quote.fading { opacity: 0; }
+
+        .home-quote .quote-text {
+            font-size: 19px;
+            color: #4a3728;
+            line-height: 2.05;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .home-quote .quote-source {
+            font-size: 12.5px;
+            color: #a89078;
+            letter-spacing: 1.5px;
+        }
+
+        /* 印章：使用图片 */
+        .home-seal {
+            display: inline-block;
+            width: 52px;
+            height: 52px;
+            margin-top: 18px;
+            opacity: 0.88;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .home-seal img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            /* 若图片本身无透明背景、是白底方图，可加混合模式去掉白底： */
+            /* mix-blend-mode: multiply; */
+        }
+
+        .home-seal:hover {
+            opacity: 1;
+            transform: scale(1.04);
+        }
+        /* ===== 首页：左上角「山水长卷」图片 ===== */
+        .home-scroll-mark {
+            position: absolute;
+            left: 2%;
+            top: 7%;
+            z-index: 8;
+            height: 220px;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .home-scroll-mark img {
+            display: block;
+            height: 100%;
+            width: auto;
+            object-fit: contain;
+            filter: contrast(1.5) brightness(0.55);
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+        }
+
+        .home-scroll-mark:hover {
+            opacity: 1;
+        }
+
+        /* ===== 移动端：首页各元素统一重排 ===== */
+        @media (max-width: 768px) {
+            /* 左上角「山水长卷」 */
+            .home-scroll-mark {
+                left: 2%;
+                top: 5%;
+                height: 170px;
+            }
+
+            /* 画卷高度加大，避免元素拥挤 */
+            .home-scroll {
+                min-height: 640px;
+                padding: 0 6px;   /* 极轻微内缩，视觉更稳 */
+            }
+
+            /* 船：挪到左下角，离题跋远 */
+            .home-boat {
+                left: 6%;
+                bottom: 30%;
+                width: 120px;
+            }
+
+            /* 题跋：贴右下，尺寸收窄，字号收小 */
+            .home-colophon {
+                right: 5%;
+                bottom: 5%;
+                max-width: 90%;
+                padding: 0;
+                white-space: normal;
+            }
+
+            .home-quote .quote-text {
+                font-size: 14.5px;
+                line-height: 1.9;
+                letter-spacing: 1px;
+                margin-bottom: 8px;
+                word-break: break-word; /* 防止超长词溢出 */
+            }
+
+            .home-quote .quote-source {
+                font-size: 11px;
+            }
+
+            /* 印章缩小，且不要太大占位 */
+            .home-seal {
+                width: 38px;
+                height: 38px;
+                margin-top: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .home-scroll-mark {
+                left: 2%;
+                top: 5%;
+                height: 140px;
+            }
+
+            .home-scroll {
+                min-height: 600px;
+                border-radius: 12px;
+            }
+
+            .home-boat {
+                left: 5%;
+                bottom: 34%;
+                width: 96px;
+            }
+
+            /* 手机更窄，题跋更紧凑，仍允许换行 */
+            .home-colophon {
+                right: 4%;
+                bottom: 4%;
+                max-width: 90%;
+                white-space: normal;
+            }
+
+            .home-quote .quote-text {
+                font-size: 13.5px;
+                line-height: 1.85;
+                word-break: break-word;
+            }
+
+            .home-quote .quote-source {
+                font-size: 10px;
+            }
+
+            .home-seal {
+                width: 34px;
+                height: 34px;
+                margin-top: 8px;
+            }
+        }
+
+
+
     </style>
 </head>
 <body>
@@ -8450,12 +8750,15 @@
 
         <!-- 主导航 -->
         <nav id="mainNav">
+            <a class="nav-group-title nav-home-link active" data-tab="home">
+                <span class="nav-icon">🏠</span> 首页
+            </a>
             <div class="nav-group">
                 <a class="nav-group-title active" data-group="today">
                     <span class="nav-icon">☯</span> 今日
                 </a>
                 <div class="nav-dropdown">
-                    <a class="active" data-tab="fortune">每日运势</a>
+                    <a data-tab="fortune">每日运势</a>
                     <a data-tab="sign">每日一签</a>
                     <a data-tab="gua">每日一卦</a>
                     <a data-tab="tcmqa">每日一问</a>
@@ -8526,6 +8829,192 @@
     <!-- ===== 主内容 ===== -->
     <main>
 
+        <!-- ========================================================= -->
+        <!-- Tab 0: 首页（山水长卷） -->
+        <!-- ========================================================= -->
+        <section id="home-tab" class="tab-content">
+            <div class="home-scroll" id="homeScroll">
+
+                <!-- 远山：淡墨晕染，多层叠加 -->
+                <div class="home-layer home-layer-far" data-depth="0.10">
+                    <svg viewBox="0 0 1200 380" preserveAspectRatio="none" aria-hidden="true">
+                        <defs>
+                            <linearGradient id="farInk1" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#8ea0ab" stop-opacity="0.34"/>
+                                <stop offset="55%" stop-color="#9aacb6" stop-opacity="0.18"/>
+                                <stop offset="100%" stop-color="#aab8c0" stop-opacity="0.03"/>
+                            </linearGradient>
+                            <linearGradient id="farInk2" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#7d919c" stop-opacity="0.30"/>
+                                <stop offset="60%" stop-color="#8ea0ab" stop-opacity="0.13"/>
+                                <stop offset="100%" stop-color="#9aacb6" stop-opacity="0.02"/>
+                            </linearGradient>
+                        </defs>
+                        <!-- 最远层：飞白感山脊 -->
+                        <path d="M0,312 C86,262 158,286 246,238 C332,192 386,230 470,196
+                                 C556,162 616,204 706,176 C798,148 862,190 952,164
+                                 C1044,138 1120,172 1200,148 L1200,380 L0,380 Z"
+                              fill="url(#farInk1)"/>
+                        <path d="M0,334 C120,296 206,318 306,284 C404,250 470,278 566,252
+                                 C664,226 730,256 826,232 C922,208 1000,236 1092,214
+                                 C1156,200 1184,206 1200,200 L1200,380 L0,380 Z"
+                              fill="url(#farInk2)"/>
+                        <!-- 山脊淡墨勾线 -->
+                        <path d="M0,312 C86,262 158,286 246,238 C332,192 386,230 470,196
+                                 C556,162 616,204 706,176 C798,148 862,190 952,164
+                                 C1044,138 1120,172 1200,148"
+                              fill="none" stroke="#6f8490" stroke-width="1.6"
+                              stroke-opacity="0.28" stroke-linecap="round"/>
+                    </svg>
+                </div>
+
+                <!-- 中景山：加皴法纹理 -->
+                <div class="home-layer home-layer-mid" data-depth="0.22">
+                    <svg viewBox="0 0 1200 340" preserveAspectRatio="none" aria-hidden="true">
+                        <defs>
+                            <linearGradient id="midInk" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#5f7480" stop-opacity="0.46"/>
+                                <stop offset="50%" stop-color="#738795" stop-opacity="0.24"/>
+                                <stop offset="100%" stop-color="#8fa1ab" stop-opacity="0.04"/>
+                            </linearGradient>
+                            <linearGradient id="midInk2" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#4e6370" stop-opacity="0.36"/>
+                                <stop offset="60%" stop-color="#5f7480" stop-opacity="0.16"/>
+                                <stop offset="100%" stop-color="#738795" stop-opacity="0.02"/>
+                            </linearGradient>
+                        </defs>
+                        <!-- 主峰 -->
+                        <path d="M0,272 C74,214 140,248 232,190 C310,140 366,182 452,148
+                                 C540,112 598,158 690,128 C786,96 848,142 942,118
+                                 C1028,96 1110,128 1200,104 L1200,340 L0,340 Z"
+                              fill="url(#midInk)"/>
+                        <!-- 次峰 -->
+                        <path d="M0,300 C104,258 176,282 268,246 C366,208 428,238 522,214
+                                 C620,188 682,218 776,196 C872,174 946,198 1040,178
+                                 C1122,162 1168,172 1200,164 L1200,340 L0,340 Z"
+                              fill="url(#midInk2)"/>
+                        <!-- 皴法：短促的侧锋线条 -->
+                        <g stroke="#4e6370" stroke-opacity="0.22" stroke-width="1.1"
+                           stroke-linecap="round" fill="none">
+                            <path d="M240,214 L252,196 M254,212 L266,192 M270,208 L280,190"/>
+                            <path d="M460,172 L472,154 M474,170 L486,152 M490,166 L500,150"/>
+                            <path d="M700,152 L712,134 M714,150 L726,132 M730,146 L740,130"/>
+                            <path d="M950,140 L962,124 M964,138 L976,122 M980,134 L990,120"/>
+                        </g>
+                        <!-- 山顶淡墨点染 -->
+                        <g fill="#3d5260" fill-opacity="0.16">
+                            <circle cx="248" cy="204" r="2.6"/>
+                            <circle cx="468" cy="164" r="2.4"/>
+                            <circle cx="708" cy="144" r="2.6"/>
+                            <circle cx="958" cy="132" r="2.4"/>
+                        </g>
+                    </svg>
+                </div>
+
+                <!-- 云雾：水墨柔晕 -->
+                <div class="home-layer home-layer-mist" data-depth="0.42">
+                    <svg viewBox="0 0 1200 240" preserveAspectRatio="none" aria-hidden="true">
+                        <defs>
+                            <radialGradient id="mistA" cx="50%" cy="50%" r="50%">
+                                <stop offset="0%" stop-color="#ffffff" stop-opacity="0.82"/>
+                                <stop offset="60%" stop-color="#ffffff" stop-opacity="0.32"/>
+                                <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+                            </radialGradient>
+                            <radialGradient id="mistB" cx="50%" cy="50%" r="50%">
+                                <stop offset="0%" stop-color="#fdfaf7" stop-opacity="0.70"/>
+                                <stop offset="65%" stop-color="#fdfaf7" stop-opacity="0.22"/>
+                                <stop offset="100%" stop-color="#fdfaf7" stop-opacity="0"/>
+                            </radialGradient>
+                        </defs>
+                        <ellipse cx="230" cy="104" rx="300" ry="52" fill="url(#mistA)"/>
+                        <ellipse cx="620" cy="78" rx="360" ry="46" fill="url(#mistB)"/>
+                        <ellipse cx="980" cy="110" rx="320" ry="56" fill="url(#mistA)"/>
+                        <ellipse cx="420" cy="168" rx="340" ry="38" fill="url(#mistB)"/>
+                        <ellipse cx="880" cy="164" rx="300" ry="36" fill="url(#mistB)"/>
+                    </svg>
+                </div>
+
+
+                <!-- 近景坡岸：浓墨压脚 -->
+                <div class="home-layer home-layer-near" data-depth="0.12">
+                    <svg viewBox="0 0 1200 170" preserveAspectRatio="none" aria-hidden="true">
+                        <defs>
+                            <linearGradient id="nearInk" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#3d5260" stop-opacity="0.40"/>
+                                <stop offset="70%" stop-color="#4e6370" stop-opacity="0.20"/>
+                                <stop offset="100%" stop-color="#5f7480" stop-opacity="0.04"/>
+                            </linearGradient>
+                        </defs>
+                        <path d="M0,170 L0,92 C130,108 250,80 410,100
+                                 C570,120 690,90 850,104 C1000,116 1100,96 1200,108
+                                 L1200,170 Z"
+                              fill="url(#nearInk)"/>
+                        <path d="M0,170 L0,126 C180,140 320,120 500,134
+                                 C680,148 820,128 1000,138 C1100,144 1150,136 1200,140
+                                 L1200,170 Z"
+                              fill="#3d5260" fill-opacity="0.24"/>
+                        <!-- 水岸线 -->
+                        <path d="M0,126 C180,140 320,120 500,134
+                                 C680,148 820,128 1000,138 C1100,144 1150,136 1200,140"
+                              fill="none" stroke="#2f4250" stroke-width="1.4"
+                              stroke-opacity="0.26" stroke-linecap="round"/>
+                    </svg>
+                </div>
+
+                <!-- 一叶扁舟 -->
+                <div class="home-boat" id="homeBoat">
+                    <svg viewBox="0 0 190 104" aria-hidden="true">
+                        <!-- 涟漪 -->
+                        <ellipse class="home-ripple r1" cx="95" cy="76" rx="58" ry="10"
+                                 fill="none" stroke="#7d919c" stroke-width="0.9"/>
+                        <ellipse class="home-ripple r2" cx="95" cy="76" rx="58" ry="10"
+                                 fill="none" stroke="#8fa1ab" stroke-width="0.8"/>
+                        <ellipse class="home-ripple r3" cx="95" cy="76" rx="58" ry="10"
+                                 fill="none" stroke="#a8b5bc" stroke-width="0.7"/>
+                        <!-- 船身：一头尖一头宽 -->
+                        <path d="M22,68 C48,82 140,82 168,68 C156,80 132,88 95,88
+                                 C58,88 34,80 22,68 Z"
+                              fill="#3d2a1a" opacity="0.86"/>
+                        <path d="M22,68 C48,78 140,78 168,68"
+                              fill="none" stroke="#2b1c10" stroke-width="1.3" opacity="0.7"/>
+                        <!-- 船篷 -->
+                        <path d="M64,68 C68,48 92,42 116,46 C126,48 128,58 126,68 Z"
+                              fill="#5a3e2b" opacity="0.80"/>
+                        <path d="M66,67 C70,50 92,44 114,48"
+                              fill="none" stroke="#2b1c10" stroke-width="1" opacity="0.6"/>
+                        <!-- 篷上墨点 -->
+                        <path d="M76,60 L88,54 M92,58 L104,52"
+                              stroke="#2b1c10" stroke-width="0.8" opacity="0.35"/>
+                        <!-- 撑篙人 -->
+                        <circle cx="44" cy="56" r="4.8" fill="#2b1c10" opacity="0.86"/>
+                        <path d="M44,62 L44,72" stroke="#2b1c10" stroke-width="2.6"
+                              stroke-linecap="round" opacity="0.86"/>
+                        <path d="M44,62 L34,52" stroke="#2b1c10" stroke-width="1.9"
+                              stroke-linecap="round" opacity="0.78"/>
+                        <path d="M34,52 L22,78" stroke="#5a3e2b" stroke-width="1.7"
+                              stroke-linecap="round" opacity="0.72"/>
+                    </svg>
+                </div>
+
+                <!-- 引首小字 -->
+                <!-- 引首章：山水长卷 -->
+                <div class="home-scroll-mark">
+                    <img src="images/shanshui002.png" alt="山水长卷">
+                </div>
+
+                <!-- 题跋（右下角箴言） -->
+                <div class="home-colophon">
+                    <div class="home-quote" id="homeQuote">
+                        <p class="quote-text">上善若水，水善利万物而不争。</p>
+                        <p class="quote-source">——《道德经》第八章</p>
+                    </div>
+                    <div class="home-seal">
+                        <img src="images/seal.png" alt="道法自然印章">
+                    </div>
+                </div>
+
+            </div>
+        </section>
         <!-- ========================================================= -->
         <!-- Tab 1: 每日运势 (原有) -->
         <!-- ========================================================= -->
@@ -15863,6 +16352,10 @@
         if (target) target.classList.add('active');
 
         // 惰性初始化
+        if (tab === 'home') {
+            // 首页无需惰性初始化，直接展示
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
         if (tab === 'season') renderSeason();
         if (tab === 'daomap') {
             const svg = document.getElementById('daomapSvg');
@@ -15934,6 +16427,24 @@
             initXinzhai();
         }
     }
+    // =============================================================
+    // 首页：卡片点击 → 切换 Tab
+    // =============================================================
+    function initHomeCards() {
+        const cards = document.querySelectorAll('.home-card');
+        if (!cards.length) return;
+
+        cards.forEach(card => {
+            card.addEventListener('click', function () {
+                const tab = this.dataset.tab;
+                if (!tab) return;
+                switchTab(tab);
+                // 切换后滚回顶部，避免停留在页面中部
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+    }
+
 
     // ----- 二级菜单点击（核心） -----
     document.querySelectorAll('.nav-dropdown a').forEach(link => {
@@ -15972,7 +16483,99 @@
             }
         });
     });
+    // ----- 首页独立按钮点击 -----
+    document.querySelectorAll('.nav-home-link').forEach(link => {
+        link.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            switchTab('home');
+            if (isMobileNav()) closeMobileNav();
+        });
+    });
 
+    // =============================================================
+    // 首页：每日一句轮换 + 山水视差
+    // =============================================================
+    function initHomeQuote() {
+        const quoteEl = document.getElementById('homeQuote');
+        if (!quoteEl) return;
+
+        const HOME_QUOTES = [
+            { text: '上善若水，水善利万物而不争。', source: '——《道德经》第八章' },
+            { text: '人法地，地法天，天法道，道法自然。', source: '——《道德经》第二十五章' },
+            { text: '致虚极，守静笃。万物并作，吾以观复。', source: '——《道德经》第十六章' },
+            { text: '合抱之木，生于毫末；九层之台，起于累土。', source: '——《道德经》第六十四章' },
+            { text: '夫唯不争，故天下莫能与之争。', source: '——《道德经》第二十二章' },
+            { text: '天地与我并生，而万物与我为一。', source: '——《庄子·齐物论》' },
+            { text: '北冥有鱼，其名为鲲。化而为鸟，其名为鹏。', source: '——《庄子·逍遥游》' },
+            { text: '知人者智，自知者明。胜人者有力，自胜者强。', source: '——《道德经》第三十三章' },
+            { text: '天下莫柔弱于水，而攻坚强者莫之能胜。', source: '——《道德经》第七十八章' },
+            { text: '祸兮福之所倚，福兮祸之所伏。', source: '——《道德经》第五十八章' },
+            { text: '大巧若拙，大辩若讷。', source: '——《道德经》第四十五章' },
+            { text: '泉涸，鱼相与处于陆，相呴以湿，相濡以沫。', source: '——《庄子·大宗师》' },
+            { text: '吾生也有涯，而知也无涯。', source: '——《庄子·养生主》' },
+            { text: '天地有大美而不言。', source: '——《庄子·知北游》' }
+        ];
+
+        let currentIndex = Math.floor(Math.random() * HOME_QUOTES.length);
+        renderHomeQuote(HOME_QUOTES[currentIndex], quoteEl);
+
+        setInterval(() => {
+            currentIndex = (currentIndex + 1) % HOME_QUOTES.length;
+            quoteEl.classList.add('fading');
+            setTimeout(() => {
+                renderHomeQuote(HOME_QUOTES[currentIndex], quoteEl);
+                quoteEl.classList.remove('fading');
+            }, 700);
+        }, 9000);
+
+        // ===== 山水视差：鼠标移动时各层缓慢反向位移 =====
+        const scroll = document.getElementById('homeScroll');
+        const layers = document.querySelectorAll('.home-layer');
+        const boat = document.getElementById('homeBoat');
+        if (!scroll || !layers.length) return;
+
+        let rafId = null;
+        let targetX = 0, targetY = 0;
+
+        function applyParallax() {
+            layers.forEach(layer => {
+                const depth = parseFloat(layer.dataset.depth) || 0.2;
+                const tx = -targetX * depth * 26;
+                const ty = -targetY * depth * 12;
+                layer.style.transform = `translate3d(${tx.toFixed(2)}px, ${ty.toFixed(2)}px, 0)`;
+            });
+            // 小舟跟随稍强一点，制造"在水上"感
+            if (boat) {
+                const tx = targetX * 10;
+                const ty = targetY * 6;
+                boat.style.transform =
+                    `translate3d(${tx.toFixed(2)}px, ${ty.toFixed(2)}px, 0)`;
+            }
+            rafId = null;
+        }
+
+        scroll.addEventListener('mousemove', function (e) {
+            const rect = scroll.getBoundingClientRect();
+            // 归一化到 -1 ~ 1
+            targetX = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+            targetY = ((e.clientY - rect.top) / rect.height) * 2 - 1;
+            if (!rafId) rafId = requestAnimationFrame(applyParallax);
+        });
+
+        scroll.addEventListener('mouseleave', function () {
+            targetX = 0;
+            targetY = 0;
+            if (!rafId) rafId = requestAnimationFrame(applyParallax);
+        });
+    }
+
+    function renderHomeQuote(q, el) {
+        const textEl = el.querySelector('.quote-text');
+        const sourceEl = el.querySelector('.quote-source');
+        if (textEl) textEl.textContent = q.text;
+        if (sourceEl) sourceEl.textContent = q.source;
+    }
     // ----- 移动端抽屉 -----
     function openMobileNav() {
         mainNav.classList.add('open');
@@ -16023,8 +16626,11 @@
     });
 
     // ----- 初始化 -----
-    switchTab('fortune');
-
+    switchTab('home');
+    // 初始化首页每日一句
+    initHomeQuote();
+    // 初始化首页卡片
+    initHomeCards();
 
     // ----- 6b. 运势 -----
     const zodiacSelect = document.getElementById('zodiacSelect');
