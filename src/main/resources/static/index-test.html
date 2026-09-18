@@ -7215,6 +7215,772 @@
                 height: 48px;
             }
         }
+        /* ========================================================= */
+        /* 新增：茶道养生 */
+        /* ========================================================= */
+        .tea-container {
+            padding: 4px 0;
+        }
+
+        /* ----- 当前推荐茶饮卡片 ----- */
+        .tea-current {
+            background: linear-gradient(145deg, #fdfaf7, #f5ede6);
+            border-radius: 16px;
+            padding: 24px 28px;
+            border: 1px solid #e8ddd0;
+            margin-bottom: 24px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 20px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tea-current .tc-icon {
+            font-size: 56px;
+            text-align: center;
+            min-width: 80px;
+            line-height: 1;
+        }
+
+        .tea-current .tc-info {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .tea-current .tc-name {
+            font-size: 28px;
+            font-weight: 600;
+            color: #4a3728;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            letter-spacing: 3px;
+        }
+
+        .tea-current .tc-sub {
+            font-size: 15px;
+            color: #7a6b5a;
+            margin-top: 6px;
+            line-height: 1.7;
+        }
+
+        .tea-current .tc-tag {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 4px 20px;
+            border-radius: 30px;
+            font-size: 14px;
+            background: #e8ddd0;
+            color: #5a3e2b;
+            font-weight: 500;
+        }
+
+        .tea-current .tc-season {
+            display: inline-block;
+            margin-left: 8px;
+            padding: 4px 16px;
+            border-radius: 30px;
+            font-size: 13px;
+            background: #f0ece6;
+            color: #5a3e2b;
+        }
+
+        /* ----- 茶类轮盘 ----- */
+        .tea-wheel-wrap {
+            background: linear-gradient(145deg, #fdfaf7, #f5ede6);
+            border-radius: 18px;
+            border: 1px solid #e8ddd0;
+            padding: 10px;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 420px;
+        }
+
+        #teaWheel {
+            width: 100%;
+            max-width: 620px;
+            height: auto;
+            display: block;
+            overflow: visible;
+        }
+
+        /* 茶类节点 */
+        .tea-node {
+            cursor: pointer;
+            transform-origin: center;
+            transform-box: fill-box;
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .tea-node circle {
+            transition: all 0.25s ease;
+            stroke: #fff;
+            stroke-width: 2.5;
+        }
+
+        /* 六大茶类配色 */
+        .tea-node.tea-green circle { fill: #7bc5a0; }
+        .tea-node.tea-white circle { fill: #d4c9a8; }
+        .tea-node.tea-yellow circle { fill: #e8c84a; }
+        .tea-node.tea-oolong circle { fill: #c9a87c; }
+        .tea-node.tea-black circle { fill: #8b5e3c; }
+        .tea-node.tea-dark circle { fill: #5a3e2b; }
+
+        .tea-node text {
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            fill: #fff;
+            text-anchor: middle;
+            dominant-baseline: central;
+            pointer-events: none;
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            transition: font-size 0.25s ease;
+        }
+
+        .tea-node:hover {
+            transform: scale(1.18);
+        }
+
+        .tea-node:hover circle {
+            stroke: #5a3e2b;
+            stroke-width: 3.5;
+            filter: drop-shadow(0 0 10px rgba(139, 107, 77, 0.7));
+        }
+
+        .tea-node:hover text {
+            font-size: 15px;
+        }
+
+        .tea-node.active {
+            transform: scale(1.22);
+        }
+
+        .tea-node.active circle {
+            stroke: #5a3e2b;
+            stroke-width: 4.5;
+            filter: drop-shadow(0 0 14px rgba(139, 107, 77, 0.85));
+            animation: teaPulse 2s ease-in-out infinite;
+        }
+
+        .tea-node.active text {
+            font-size: 16px;
+        }
+
+        @keyframes teaPulse {
+            0%, 100% { filter: drop-shadow(0 0 10px rgba(139, 107, 77, 0.6)); }
+            50% { filter: drop-shadow(0 0 20px rgba(139, 107, 77, 1)); }
+        }
+
+        .tea-node.bounce {
+            animation: teaBounce 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes teaBounce {
+            0% { transform: scale(1.22); }
+            40% { transform: scale(1.38); }
+            70% { transform: scale(1.12); }
+            100% { transform: scale(1.22); }
+        }
+
+        /* 中心装饰 */
+        .tea-center-ring {
+            fill: rgba(255, 255, 255, 0.6);
+            stroke: #e0d5c8;
+            stroke-width: 1.5;
+            stroke-dasharray: 4 4;
+        }
+
+        .tea-center-ring-outer {
+            fill: none;
+            stroke: #e8ddd0;
+            stroke-width: 1;
+            stroke-dasharray: 2 6;
+        }
+
+        .tea-center-text {
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            fill: #8b6b4d;
+            text-anchor: middle;
+            dominant-baseline: central;
+            font-weight: 700;
+            font-size: 22px;
+            letter-spacing: 4px;
+            pointer-events: none;
+        }
+
+        .tea-center-sub {
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            fill: #b0a090;
+            text-anchor: middle;
+            dominant-baseline: central;
+            font-size: 12px;
+            letter-spacing: 2px;
+            pointer-events: none;
+        }
+
+        /* 指针 */
+        .tea-pointer {
+            stroke: #8b6b4d;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0.75;
+        }
+
+        .tea-pointer-dot {
+            fill: #8b6b4d;
+            transition: all 0.3s ease;
+            opacity: 0.9;
+        }
+
+        /* 节点-中心连线 */
+        .tea-spoke {
+            stroke: #e0d5c8;
+            stroke-width: 1;
+            opacity: 0.5;
+            transition: all 0.3s ease;
+        }
+
+        .tea-spoke.active {
+            stroke: #8b6b4d;
+            stroke-width: 1.8;
+            opacity: 0.9;
+        }
+
+        /* 季节色带 */
+        .tea-season-arc {
+            fill: none;
+            stroke-width: 8;
+            opacity: 0.18;
+            stroke-linecap: round;
+        }
+
+        .tea-season-arc.spring { stroke: #7bc5a0; }
+        .tea-season-arc.summer { stroke: #e74c3c; }
+        .tea-season-arc.autumn { stroke: #c9a87c; }
+        .tea-season-arc.winter { stroke: #6b8cae; }
+
+        .tea-season-label {
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            fill: #b0a090;
+            text-anchor: middle;
+            dominant-baseline: central;
+            font-size: 15px;
+            pointer-events: none;
+            letter-spacing: 3px;
+            font-weight: 600;
+        }
+
+        /* ----- 茶类详情 ----- */
+        .tea-detail {
+            background: #fdfaf7;
+            border: 1px solid #e8ddd0;
+            border-radius: 16px;
+            padding: 26px 28px;
+            margin-bottom: 24px;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .tea-detail .td-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+            padding-bottom: 14px;
+            margin-bottom: 18px;
+            border-bottom: 2px dashed #e0d3c4;
+        }
+
+        .tea-detail .td-icon {
+            font-size: 40px;
+            line-height: 1;
+        }
+
+        .tea-detail .td-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #4a3728;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            letter-spacing: 3px;
+        }
+
+        .tea-detail .td-season {
+            font-size: 14px;
+            color: #8b7a6a;
+            margin-left: auto;
+        }
+
+        .tea-detail .td-desc {
+            font-size: 15px;
+            color: #5a5a5a;
+            line-height: 1.9;
+            padding: 14px 18px;
+            background: #fff;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            border-left: 3px solid #c9a87c;
+        }
+
+        .tea-detail .td-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+
+        .tea-detail .td-item {
+            background: #f5f0ea;
+            border-radius: 12px;
+            padding: 14px 18px;
+        }
+
+        .tea-detail .td-item-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #8b6b4d;
+            margin-bottom: 6px;
+        }
+
+        .tea-detail .td-item-content {
+            font-size: 14px;
+            color: #5a5a5a;
+            line-height: 1.8;
+        }
+
+        .tea-detail .td-item-content li {
+            list-style: none;
+            padding: 2px 0;
+        }
+
+        .tea-detail .td-item-content li::before {
+            content: "· ";
+            color: #8b6b4d;
+        }
+
+        .tea-detail .td-poem {
+            font-size: 16px;
+            color: #5a3e2b;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            line-height: 2;
+            text-align: center;
+            padding: 16px 20px;
+            background: #edf0f5;
+            border-radius: 12px;
+            border-left: 3px solid #8b6b4d;
+            margin-bottom: 14px;
+        }
+
+        .tea-detail .td-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .tea-detail .td-tags span {
+            background: #e8ddd0;
+            color: #5a3e2b;
+            padding: 4px 16px;
+            border-radius: 30px;
+            font-size: 13px;
+        }
+
+        /* ----- 四季茶饮分组 ----- */
+        .tea-groups {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .tea-group {
+            background: #fdfaf7;
+            border: 1px solid #e8ddd0;
+            border-radius: 14px;
+            padding: 18px 20px;
+            transition: all 0.3s;
+        }
+
+        .tea-group:hover {
+            box-shadow: 0 6px 22px rgba(0, 0, 0, 0.05);
+        }
+
+        .tea-group-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #4a3728;
+            margin-bottom: 12px;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tea-group-terms {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tea-term-chip {
+            padding: 5px 14px;
+            border-radius: 30px;
+            font-size: 13px;
+            background: #f0ece6;
+            color: #5a3e2b;
+            cursor: pointer;
+            transition: all 0.25s;
+            border: 1.5px solid transparent;
+        }
+
+        .tea-term-chip:hover {
+            background: #e0d8ce;
+        }
+
+        .tea-term-chip.active {
+            background: #8b6b4d;
+            color: #fff;
+            border-color: #8b6b4d;
+        }
+
+        /* ----- 茶道六君子 ----- */
+        .tea-utensils {
+            margin-top: 24px;
+            background: linear-gradient(145deg, #fdfaf7, #f5ede6);
+            border: 1px solid #e8ddd0;
+            border-radius: 18px;
+            padding: 24px 24px 20px;
+        }
+
+        .tea-utensils h3 {
+            margin-top: 0;
+            text-align: center;
+        }
+
+        .tea-utensils-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 14px;
+        }
+
+        .tea-utensil-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 16px 18px;
+            text-align: center;
+            border: 1px solid #f0e8dc;
+            transition: all 0.3s;
+        }
+
+        .tea-utensil-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 22px rgba(139, 107, 77, 0.12);
+            border-color: #c9a87c;
+        }
+
+        .tea-utensil-icon {
+            font-size: 28px;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .tea-utensil-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: #4a3728;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            letter-spacing: 2px;
+            margin-bottom: 4px;
+        }
+
+        .tea-utensil-desc {
+            font-size: 12px;
+            color: #8b7a6a;
+            line-height: 1.6;
+        }
+
+        /* ----- 茶道箴言 ----- */
+        .tea-quote {
+            margin-top: 24px;
+            text-align: center;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            font-size: 17px;
+            color: #5a3e2b;
+            line-height: 2;
+            padding: 20px 24px;
+            background: #edf0f5;
+            border-radius: 14px;
+            border-left: 3px solid #8b6b4d;
+        }
+        /* ----- 通用小节提示 ----- */
+        .tea-section-tip {
+            text-align: center;
+            font-size: 14px;
+            color: #8b7a6a;
+            line-height: 1.8;
+            margin: -8px 0 20px;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+        }
+
+        /* ----- 茶道礼仪 ----- */
+        .tea-etiquette,
+        .tea-table,
+        .tea-nine {
+            margin-top: 24px;
+            background: linear-gradient(145deg, #fdfaf7, #f5ede6);
+            border: 1px solid #e8ddd0;
+            border-radius: 18px;
+            padding: 24px 24px 20px;
+        }
+
+        .tea-etiquette h3,
+        .tea-table h3,
+        .tea-nine h3 {
+            margin-top: 0;
+            text-align: center;
+        }
+
+        .tea-etiquette-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 14px;
+        }
+
+        .tea-etiquette-card {
+            background: #fff;
+            border-radius: 14px;
+            padding: 18px 20px;
+            border-left: 4px solid #c9a87c;
+            transition: all 0.3s;
+        }
+
+        .tea-etiquette-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(139, 107, 77, 0.12);
+        }
+
+        .tea-etiquette-head {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .tea-etiquette-icon {
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .tea-etiquette-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #4a3728;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            letter-spacing: 2px;
+        }
+
+        .tea-etiquette-content {
+            font-size: 14px;
+            color: #5a5a5a;
+            line-height: 1.9;
+        }
+
+        .tea-etiquette-content li {
+            list-style: none;
+            padding: 2px 0 2px 14px;
+            position: relative;
+        }
+
+        .tea-etiquette-content li::before {
+            content: "·";
+            color: #8b6b4d;
+            position: absolute;
+            left: 2px;
+            font-weight: 700;
+        }
+
+        /* ----- 茶席布置 ----- */
+        .tea-table-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 14px;
+        }
+
+        .tea-table-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 16px 18px;
+            text-align: center;
+            border: 1px solid #f0e8dc;
+            transition: all 0.3s;
+        }
+
+        .tea-table-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 22px rgba(139, 107, 77, 0.12);
+            border-color: #c9a87c;
+        }
+
+        .tea-table-icon {
+            font-size: 28px;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .tea-table-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: #4a3728;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            letter-spacing: 2px;
+            margin-bottom: 4px;
+        }
+
+        .tea-table-desc {
+            font-size: 12px;
+            color: #8b7a6a;
+            line-height: 1.7;
+        }
+
+        /* ----- 品茶九境 ----- */
+        .tea-nine-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .tea-nine-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            background: #fff;
+            border-radius: 12px;
+            padding: 14px 18px;
+            border-left: 3px solid #e0d5c8;
+            transition: all 0.3s;
+        }
+
+        .tea-nine-item:hover {
+            border-left-color: #8b6b4d;
+            box-shadow: 0 4px 16px rgba(139, 107, 77, 0.1);
+        }
+
+        .tea-nine-num {
+            flex-shrink: 0;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #e8ddd0;
+            color: #5a3e2b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 700;
+            font-family: 'Georgia', serif;
+            transition: all 0.3s;
+        }
+
+        .tea-nine-item:hover .tea-nine-num {
+            background: #8b6b4d;
+            color: #fff;
+        }
+
+        .tea-nine-body {
+            flex: 1;
+        }
+
+        .tea-nine-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #4a3728;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            letter-spacing: 2px;
+            margin-bottom: 3px;
+        }
+
+        .tea-nine-desc {
+            font-size: 13px;
+            color: #7a6b5a;
+            line-height: 1.8;
+        }
+
+        /* 小屏适配 */
+        @media (max-width: 768px) {
+            .tea-etiquette,
+            .tea-table,
+            .tea-nine {
+                padding: 20px 16px 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .tea-etiquette-grid,
+            .tea-table-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .tea-quote .quote-source {
+            display: block;
+            font-size: 13px;
+            color: #a89078;
+            margin-top: 6px;
+            text-align: right;
+        }
+
+        /* 小屏适配 */
+        @media (max-width: 768px) {
+            .tea-detail .td-grid {
+                grid-template-columns: 1fr;
+            }
+            .tea-detail {
+                padding: 20px 18px;
+            }
+            .tea-current {
+                padding: 20px 18px;
+            }
+            .tea-current .tc-name {
+                font-size: 24px;
+            }
+            .tea-wheel-wrap {
+                min-height: 360px;
+                padding: 6px;
+            }
+            .tea-node text {
+                font-size: 12px;
+            }
+            .tea-node:hover text {
+                font-size: 13px;
+            }
+            .tea-node.active text {
+                font-size: 13px;
+            }
+            .tea-center-text {
+                font-size: 18px;
+            }
+            .tea-center-sub {
+                font-size: 11px;
+            }
+            .tea-season-label {
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .tea-groups {
+                grid-template-columns: 1fr;
+            }
+            .tea-detail .td-title {
+                font-size: 20px;
+            }
+            .tea-utensils {
+                padding: 18px 14px 16px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -7268,7 +8034,8 @@
                 <div class="nav-dropdown">
                     <a data-tab="season">四时养生</a>
                     <a data-tab="shichen">十二时辰</a>
-                    <a data-tab="solarterm">二十四节气</a>
+                    <a data-tab="solarterm">廿四节气</a>
+                    <a data-tab="tea">茶道养生</a>
                 </div>
             </div>
 
@@ -7717,6 +8484,60 @@
 
                 <!-- 四季分组浏览 -->
                 <div class="solarterm-groups" id="solartermGroups"></div>
+
+            </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- Tab: 茶道养生 -->
+        <!-- ========================================================= -->
+        <section id="tea-tab" class="tab-content">
+            <h2><i class="fas fa-mug-hot"></i> 茶道养生</h2>
+            <div class="tea-container">
+
+                <!-- 当前推荐茶饮 -->
+                <div id="teaCurrent" class="tea-current"></div>
+
+                <!-- 茶类轮盘 -->
+                <div class="tea-wheel-wrap">
+                    <svg id="teaWheel" viewBox="0 0 620 620" preserveAspectRatio="xMidYMid meet"></svg>
+                </div>
+
+                <!-- 当前茶类详情 -->
+                <div id="teaDetail" class="tea-detail"></div>
+
+                <!-- 四季茶饮分组 -->
+                <div class="tea-groups" id="teaGroups"></div>
+
+                <!-- 茶道六君子 -->
+                <div class="tea-utensils">
+                    <h3>茶道六君子</h3>
+                    <div class="tea-utensils-grid" id="teaUtensilsGrid"></div>
+                </div>
+
+                <!-- 茶道礼仪 -->
+                <div class="tea-etiquette">
+                    <h3>茶道礼仪</h3>
+                    <p class="tea-section-tip">茶道之礼，敬、清、和、寂。举手投足之间，皆见修养。</p>
+                    <div class="tea-etiquette-grid" id="teaEtiquetteGrid"></div>
+                </div>
+
+                <!-- 茶席布置 -->
+                <div class="tea-table">
+                    <h3>茶席布置</h3>
+                    <p class="tea-section-tip">一方茶席，便是道场。器有定所，心有安处。</p>
+                    <div class="tea-table-grid" id="teaTableGrid"></div>
+                </div>
+
+                <!-- 品茶九境 -->
+                <div class="tea-nine">
+                    <h3>品茶九境</h3>
+                    <p class="tea-section-tip">从解渴到悟道，茶中自有九重天地。</p>
+                    <div class="tea-nine-list" id="teaNineList"></div>
+                </div>
+
+                <!-- 茶道箴言 -->
+                <div class="tea-quote" id="teaQuote"></div>
 
             </div>
         </section>
@@ -10932,6 +11753,216 @@
     ];
 
     // =============================================================
+    // 新增数据：茶道养生
+    // =============================================================
+    // 六大茶类
+    const TEA_DATA = [
+        {
+            name: '绿茶', icon: '🍵', season: 'spring', angle: 0,
+            cls: 'tea-green',
+            desc: '不发酵茶，性寒。清汤绿叶，鲜爽回甘，最能保留茶叶天然成分。',
+            nature: '性寒',
+            flavor: '甘、苦',
+            meridian: '心、肺、胃',
+            efficacy: '清热解暑，生津止渴，提神醒脑，抗氧化。',
+            suitable: ['体质偏热者', '夏季暑热', '长期用脑者', '烟酒过多者'],
+            taboo: ['脾胃虚寒者少饮', '空腹不宜', '失眠者下午后少饮'],
+            brew: ['水温 80-85℃', '玻璃杯或盖碗', '冲泡 1-2 分钟', '可续水 3-4 次'],
+            poem: '竹下忘言对紫茶，全胜羽客醉流霞。',
+            tags: ['不发酵', '性寒', '清汤绿叶', '春饮']
+        },
+        {
+            name: '白茶', icon: '🤍', season: 'autumn', angle: 60,
+            cls: 'tea-white',
+            desc: '微发酵茶，性凉。不炒不揉，自然萎凋，毫香蜜韵，越陈越香。',
+            nature: '性凉',
+            flavor: '甘',
+            meridian: '肺、肝',
+            efficacy: '润肺清热，平肝益血，解酒醒酒，抗辐射。',
+            suitable: ['肺燥咳嗽者', '经常用电脑者', '烟酒人群', '上火者'],
+            taboo: ['脾胃虚寒者不宜多饮', '空腹不宜', '新茶性凉，陈茶更温和'],
+            brew: ['水温 90-95℃', '盖碗或紫砂壶', '冲泡 1-2 分钟', '老白茶可煮饮'],
+            poem: '白茶清欢无别事，我在等风也等你。',
+            tags: ['微发酵', '性凉', '毫香蜜韵', '秋饮']
+        },
+        {
+            name: '黄茶', icon: '💛', season: 'summer', angle: 120,
+            cls: 'tea-yellow',
+            desc: '轻发酵茶，性凉。闷黄工艺形成黄汤黄叶，甜醇不涩，温和养胃。',
+            nature: '性凉',
+            flavor: '甘',
+            meridian: '脾、胃',
+            efficacy: '健脾开胃，消食化滞，清热降火，助消化。',
+            suitable: ['消化不良者', '食欲不振者', '脾胃虚弱者', '夏季暑热'],
+            taboo: ['缺铁性贫血者少饮', '空腹不宜', '不宜浓饮'],
+            brew: ['水温 85-90℃', '玻璃杯或盖碗', '冲泡 1-2 分钟', '可续水 3 次'],
+            poem: '黄芽不为重阳醉，且向杯中觅小春。',
+            tags: ['轻发酵', '性凉', '黄汤黄叶', '夏饮']
+        },
+        {
+            name: '青茶', icon: '🍂', season: 'autumn', angle: 180,
+            cls: 'tea-oolong',
+            desc: '半发酵茶，性平。又名乌龙茶，兼具绿茶清香与红茶醇厚，香气馥郁。',
+            nature: '性平',
+            flavor: '甘、微苦',
+            meridian: '肝、脾',
+            efficacy: '提神益思，消食去腻，减肥健美，降血脂。',
+            suitable: ['肥胖者', '血脂偏高者', '饮食油腻者', '精神疲倦者'],
+            taboo: ['空腹不宜', '失眠者晚间少饮', '胃寒者不宜浓饮'],
+            brew: ['水温 95-100℃', '紫砂壶或盖碗', '冲泡 30 秒-1 分钟', '可续水 5-7 次'],
+            poem: '七泡有余香，不如吃茶去。',
+            tags: ['半发酵', '性平', '香气馥郁', '秋饮']
+        },
+        {
+            name: '红茶', icon: '❤️', season: 'winter', angle: 240,
+            cls: 'tea-black',
+            desc: '全发酵茶，性温。红汤红叶，甜香醇厚，暖胃驱寒，老少皆宜。',
+            nature: '性温',
+            flavor: '甘',
+            meridian: '心、脾',
+            efficacy: '暖胃驱寒，助消化，利尿消肿，强壮骨骼。',
+            suitable: ['脾胃虚寒者', '冬季畏寒者', '老人与女性', '体寒者'],
+            taboo: ['上火者少饮', '失眠者晚间少饮', '不宜放凉饮用'],
+            brew: ['水温 90-100℃', '紫砂壶或瓷壶', '冲泡 1-3 分钟', '可续水 3-5 次'],
+            poem: '寒夜客来茶当酒，竹炉汤沸火初红。',
+            tags: ['全发酵', '性温', '红汤红叶', '冬饮']
+        },
+        {
+            name: '黑茶', icon: '🖤', season: 'winter', angle: 300,
+            cls: 'tea-dark',
+            desc: '后发酵茶，性温。色泽黑褐，陈香醇厚，越陈越香，消食去腻。',
+            nature: '性温',
+            flavor: '甘、醇',
+            meridian: '脾、胃、肾',
+            efficacy: '消食去腻，降脂减肥，暖胃养胃，调节肠道。',
+            suitable: ['饮食油腻者', '三高人群', '肠胃虚弱者', '肥胖者'],
+            taboo: ['新茶性燥，宜陈放后饮', '失眠者晚间少饮', '不宜空腹浓饮'],
+            brew: ['水温 100℃', '紫砂壶或煮茶器', '冲泡 1-2 分钟', '可煮饮，续水 5-10 次'],
+            poem: '茶烟一缕轻轻扬，搅动兰膏四座香。',
+            tags: ['后发酵', '性温', '陈香醇厚', '冬饮']
+        }
+    ];
+
+    // 四季茶饮分组
+    const TEA_SEASONS = [
+        { key: 'spring', name: '春', icon: '🌱', terms: ['绿茶', '花茶'] },
+        { key: 'summer', name: '夏', icon: '☀️', terms: ['绿茶', '黄茶', '白茶'] },
+        { key: 'autumn', name: '秋', icon: '🍂', terms: ['青茶', '白茶'] },
+        { key: 'winter', name: '冬', icon: '❄️', terms: ['红茶', '黑茶'] }
+    ];
+
+    // 茶道六君子
+    const TEA_UTENSILS = [
+        { icon: '🥄', name: '茶匙', desc: '舀取茶叶，避免手触' },
+        { icon: '🫖', name: '茶针', desc: '疏通壶嘴，撬取紧茶' },
+        { icon: '⚖️', name: '茶漏', desc: '置于壶口，防茶外漏' },
+        { icon: '🔧', name: '茶夹', desc: '夹取茶杯，防烫保洁' },
+        { icon: '🎋', name: '茶则', desc: '量取茶叶，赏茶观形' },
+        { icon: '🧹', name: '茶刷', desc: '清洁茶具，扫除余渣' }
+    ];
+
+    // 茶道箴言
+    const TEA_QUOTES = [
+        { text: '茶之为饮，发乎神农氏，闻于鲁周公。', source: '——陆羽《茶经》' },
+        { text: '一碗喉吻润，两碗破孤闷。三碗搜枯肠，唯有文字五千卷。', source: '——卢仝《七碗茶歌》' },
+        { text: '从来名士能评水，自古高僧爱斗茶。', source: '——郑板桥' },
+        { text: '茶者，南方之嘉木也。', source: '——陆羽《茶经》' },
+        { text: '吃茶去。', source: '——赵州禅师' },
+        { text: '茶禅一味，静心自明。', source: '——茶道箴言' },
+        { text: '一饮涤昏寐，情来朗爽满天地。', source: '——皎然《饮茶歌》' },
+        { text: '洁性不可污，为饮涤尘烦。', source: '——韦应物《喜园中茶生》' },
+        { text: '茶香宁静却可以致远，茶人淡泊却可以明志。', source: '——茶道箴言' },
+        { text: '半壁山房待明月，一盏清茗酬知音。', source: '——佚名' }
+    ];
+    // 茶道礼仪
+    const TEA_ETIQUETTE = [
+        {
+            icon: '🙇',
+            name: '敬茶之礼',
+            points: [
+                '双手奉茶，杯耳朝向客人右手',
+                '奉茶时目视对方，微笑致意',
+                '先长后幼，先客后主',
+                '受茶时以双手接，点头示谢'
+            ]
+        },
+        {
+            icon: '🫖',
+            name: '斟茶之礼',
+            points: [
+                '茶斟七分满，留三分人情',
+                '壶嘴不可对人，视为不敬',
+                '从左至右依次斟茶',
+                '续茶宜勤，不可见底方续'
+            ]
+        },
+        {
+            icon: '🍵',
+            name: '品茶之礼',
+            points: [
+                '先观汤色，再闻茶香，后品滋味',
+                '小口慢饮，不可牛饮',
+                '饮毕轻放，不可发出声响',
+                '主人续茶，以指叩桌致谢'
+            ]
+        },
+        {
+            icon: '🧘',
+            name: '茶席之礼',
+            points: [
+                '入席静心，手机静音',
+                '端坐正身，不倚不靠',
+                '言谈轻柔，不谈是非',
+                '离席致谢，杯盏归位'
+            ]
+        },
+        {
+            icon: '🤲',
+            name: '叩指谢茶',
+            points: [
+                '长辈斟茶：五指并拢叩三下',
+                '平辈斟茶：食指中指并拢叩三下',
+                '晚辈斟茶：食指轻叩三下',
+                '此为乾隆微服之礼，流传至今'
+            ]
+        },
+        {
+            icon: '🌸',
+            name: '茶事禁忌',
+            points: [
+                '忌空腹饮浓茶',
+                '忌用茶待客时久不换叶',
+                '忌以茶代酒时强劝',
+                '忌在茶席上高声喧哗'
+            ]
+        }
+    ];
+
+    // 茶席布置
+    const TEA_TABLE_ITEMS = [
+        { icon: '🎋', name: '茶席布', desc: '素色为宜，棉麻竹草，定一席之基调' },
+        { icon: '🫖', name: '主泡器', desc: '壶或盖碗，置于席中偏右，便右手取用' },
+        { icon: '🍵', name: '品茗杯', desc: '杯口朝上，排列成行，间距匀称' },
+        { icon: '⚖️', name: '茶则茶匙', desc: '置于左侧，取茶赏茶之用' },
+        { icon: '🧹', name: '茶巾', desc: '折叠方正，置于右手边，随时拭器' },
+        { icon: '💧', name: '水方', desc: '盛废水，置于左侧，不可满溢' },
+        { icon: '🌸', name: '插花', desc: '一枝清供，不求繁盛，意在生机' },
+        { icon: '🕯️', name: '香炉', desc: '一炷清香，静气凝神，助入茶境' }
+    ];
+
+    // 品茶九境
+    const TEA_NINE_STAGES = [
+        { title: '解渴', desc: '初入口时，只觉甘润，解身体之渴。' },
+        { title: '知味', desc: '能辨茶之甘苦厚薄，知其品类高低。' },
+        { title: '闻香', desc: '未饮先闻，香气入鼻，心已先醉。' },
+        { title: '观色', desc: '汤色澄澈，如琥珀、如碧玉，赏心悦目。' },
+        { title: '会意', desc: '茶中之意，不必言说，心领神会。' },
+        { title: '忘忧', desc: '一盏入喉，尘虑顿消，忧烦皆忘。' },
+        { title: '静心', desc: '茶烟袅袅，心神俱静，万籁俱寂。' },
+        { title: '悟道', desc: '茶禅一味，于杯中见天地，于静中悟真。' },
+        { title: '无茶', desc: '无茶胜有茶，不饮亦是饮，此谓茶道之极。' }
+    ];
+    // =============================================================
     // 新增数据：十二时辰养生
     // =============================================================
     // angle: 轮盘角度（0=正上方，顺时针，每个时辰 30°）
@@ -11101,6 +12132,8 @@
     let xinzhaiCurrentStage = 0;
     let xinzhaiGuideInterval = null;
     let xinzhaiGuideIndex = 0;
+    // ----- 茶道养生 -----
+    let teaActiveName = null;
 
     function randomInt(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -14102,6 +15135,7 @@
             const svg = document.getElementById('daomapSvg');
             if (svg && !svg.innerHTML.trim()) renderDaomap();
         }
+
         if (tab === 'herb') {
             lazyInitHerb();
         }
@@ -14158,6 +15192,10 @@
         if (tab === 'shichen') {
             const wheel = document.getElementById('shichenWheel');
             if (wheel && !wheel.innerHTML.trim()) initShichen();
+        }
+        if (tab === 'tea') {
+            const wheel = document.getElementById('teaWheel');
+            if (wheel && !wheel.innerHTML.trim()) initTea();
         }
         if (tab === 'xinzhai') {
             initXinzhai();
@@ -15814,6 +16852,317 @@
     prewarmTcmQAFont();
     // 初始化心斋坐忘与念头观察
     initXinzhai();
+    // 初始化茶道养生
+    initTea();
+
+    // =============================================================
+    // 新增：茶道养生
+    // =============================================================
+
+    // 根据当前季节获取推荐茶饮
+    function getCurrentTeaSeason() {
+        const month = new Date().getMonth() + 1;
+        if (month >= 3 && month <= 5) return 'spring';
+        if (month >= 6 && month <= 8) return 'summer';
+        if (month >= 9 && month <= 11) return 'autumn';
+        return 'winter';
+    }
+
+    // 获取当前推荐茶
+    function getCurrentTea() {
+        const season = getCurrentTeaSeason();
+        const seasonMap = {
+            spring: '绿茶',
+            summer: '绿茶',
+            autumn: '青茶',
+            winter: '红茶'
+        };
+        const name = seasonMap[season];
+        return TEA_DATA.find(t => t.name === name) || TEA_DATA[0];
+    }
+
+    // 渲染当前推荐茶卡片
+    function renderTeaCurrent(tea) {
+        const el = document.getElementById('teaCurrent');
+        if (!el) return;
+
+        const seasonMap = { spring: '春', summer: '夏', autumn: '秋', winter: '冬' };
+        const season = getCurrentTeaSeason();
+
+        el.innerHTML = `
+        <div class="tc-icon">${tea.icon}</div>
+        <div class="tc-info">
+            <div class="tc-name">${tea.name}</div>
+            <div class="tc-sub">${tea.desc}</div>
+            <span class="tc-tag">${tea.nature} · ${tea.flavor} · 归${tea.meridian}经</span>
+            <span class="tc-season">${seasonMap[season]}季推荐</span>
+        </div>
+    `;
+    }
+
+    // 渲染茶类轮盘
+    function renderTeaWheel(activeName) {
+        const svg = document.getElementById('teaWheel');
+        if (!svg) return;
+
+        const cx = 310, cy = 310;
+        const rOuter = 230;
+        const rInner = 100;
+        const rArc = 280;
+        const nodeR = 38;
+
+        let html = '';
+
+        function polar(radius, angleDeg) {
+            const rad = (angleDeg - 90) * Math.PI / 180;
+            return { x: cx + radius * Math.cos(rad), y: cy + radius * Math.sin(rad) };
+        }
+
+        // ===== 1. 季节色带 =====
+        // 六大茶类均分 360°，每类 60°
+        // 春: 0-60, 夏: 60-180, 秋: 180-240, 冬: 240-360
+        const seasonArcs = [
+            { cls: 'spring', start: 0, end: 60 },
+            { cls: 'summer', start: 60, end: 180 },
+            { cls: 'autumn', start: 180, end: 240 },
+            { cls: 'winter', start: 240, end: 360 }
+        ];
+
+        seasonArcs.forEach(arc => {
+            const s = polar(rArc, arc.start);
+            const e = polar(rArc, arc.end);
+            const path = `M ${s.x.toFixed(1)} ${s.y.toFixed(1)} A ${rArc} ${rArc} 0 0 1 ${e.x.toFixed(1)} ${e.y.toFixed(1)}`;
+            html += `<path class="tea-season-arc ${arc.cls}" d="${path}"></path>`;
+        });
+
+        // ===== 2. 中心装饰 =====
+        html += `<circle class="tea-center-ring-outer" cx="${cx}" cy="${cy}" r="${rInner + 18}"></circle>`;
+        html += `<circle class="tea-center-ring" cx="${cx}" cy="${cy}" r="${rInner}"></circle>`;
+
+        // ===== 3. 节点到中心连线 =====
+        TEA_DATA.forEach(tea => {
+            const p1 = polar(rInner + 20, tea.angle);
+            const p2 = polar(rOuter - nodeR - 4, tea.angle);
+            const activeCls = tea.name === activeName ? ' active' : '';
+            html += `<line class="tea-spoke${activeCls}" x1="${p1.x.toFixed(1)}" y1="${p1.y.toFixed(1)}" x2="${p2.x.toFixed(1)}" y2="${p2.y.toFixed(1)}"></line>`;
+        });
+
+        // ===== 4. 指针 =====
+        const current = TEA_DATA.find(t => t.name === activeName);
+        if (current) {
+            const start = polar(rInner - 6, current.angle);
+            const end = polar(rOuter - nodeR - 10, current.angle);
+            html += `<line class="tea-pointer" x1="${start.x.toFixed(1)}" y1="${start.y.toFixed(1)}" x2="${end.x.toFixed(1)}" y2="${end.y.toFixed(1)}"></line>`;
+            html += `<circle class="tea-pointer-dot" cx="${end.x.toFixed(1)}" cy="${end.y.toFixed(1)}" r="4"></circle>`;
+        }
+
+        // ===== 5. 中心文字 =====
+        html += `<text class="tea-center-text" x="${cx}" y="${cy - 16}">茶道</text>`;
+        html += `<text class="tea-center-sub" x="${cx}" y="${cy + 14}">六类</text>`;
+
+        // ===== 6. 六大茶类节点 =====
+        TEA_DATA.forEach(tea => {
+            const p = polar(rOuter, tea.angle);
+            const active = tea.name === activeName ? ' active' : '';
+            const cls = tea.cls || 'tea-green';
+            html += `
+        <g class="tea-node ${cls}${active}" data-name="${tea.name}">
+            <circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${nodeR}"></circle>
+            <text x="${p.x.toFixed(1)}" y="${p.y.toFixed(1)}">${tea.name}</text>
+        </g>
+    `;
+        });
+
+        // ===== 7. 季节标签 =====
+        const seasonLabels = [
+            { text: '春', angle: 30 },
+            { text: '夏', angle: 120 },
+            { text: '秋', angle: 210 },
+            { text: '冬', angle: 300 }
+        ];
+        seasonLabels.forEach(s => {
+            const p = polar(rArc + 36, s.angle);
+            html += `<text class="tea-season-label" x="${p.x.toFixed(1)}" y="${p.y.toFixed(1)}">${s.text}</text>`;
+        });
+
+        svg.innerHTML = html;
+
+        // ===== 8. 交互 =====
+        svg.querySelectorAll('.tea-node').forEach(node => {
+            node.addEventListener('click', function () {
+                const name = this.dataset.name;
+                const tea = TEA_DATA.find(t => t.name === name);
+                if (!tea) return;
+                this.classList.add('bounce');
+                setTimeout(() => this.classList.remove('bounce'), 500);
+                selectTea(tea);
+            });
+        });
+    }
+
+    // 渲染茶类详情
+    function renderTeaDetail(tea) {
+        const el = document.getElementById('teaDetail');
+        if (!el) return;
+
+        const suitableHtml = tea.suitable.map(s => `<li>${s}</li>`).join('');
+        const tabooHtml = tea.taboo.map(t => `<li>${t}</li>`).join('');
+        const brewHtml = tea.brew.map(b => `<li>${b}</li>`).join('');
+        const tagsHtml = tea.tags.map(t => `<span># ${t}</span>`).join('');
+
+        const seasonMap = { spring: '春', summer: '夏', autumn: '秋', winter: '冬' };
+
+        el.innerHTML = `
+        <div class="td-header">
+            <span class="td-icon">${tea.icon}</span>
+            <span class="td-title">${tea.name}</span>
+            <span class="td-season">${seasonMap[tea.season] || ''}季佳饮</span>
+        </div>
+        <div class="td-desc">${tea.desc}</div>
+        <div class="td-grid">
+            <div class="td-item">
+                <div class="td-item-title">🌿 性味归经</div>
+                <div class="td-item-content">${tea.nature} · 味${tea.flavor} · 归${tea.meridian}经</div>
+            </div>
+            <div class="td-item">
+                <div class="td-item-title">💚 主要功效</div>
+                <div class="td-item-content">${tea.efficacy}</div>
+            </div>
+            <div class="td-item">
+                <div class="td-item-title">✅ 适宜人群</div>
+                <div class="td-item-content"><ul>${suitableHtml}</ul></div>
+            </div>
+            <div class="td-item">
+                <div class="td-item-title">⚠️ 饮用禁忌</div>
+                <div class="td-item-content"><ul>${tabooHtml}</ul></div>
+            </div>
+            <div class="td-item" style="grid-column: 1 / -1;">
+                <div class="td-item-title">🫖 冲泡方法</div>
+                <div class="td-item-content"><ul>${brewHtml}</ul></div>
+            </div>
+        </div>
+        <div class="td-poem">${tea.poem}</div>
+        <div class="td-tags">${tagsHtml}</div>
+    `;
+    }
+
+    // 渲染四季茶饮分组
+    function renderTeaGroups(activeName) {
+        const el = document.getElementById('teaGroups');
+        if (!el) return;
+
+        el.innerHTML = TEA_SEASONS.map(season => `
+        <div class="tea-group">
+            <div class="tea-group-title">${season.icon} ${season.name}季</div>
+            <div class="tea-group-terms">
+                ${season.terms.map(name => `
+                    <span class="tea-term-chip${name === activeName ? ' active' : ''}" data-name="${name}">${name}</span>
+                `).join('')}
+            </div>
+        </div>
+    `).join('');
+
+        el.querySelectorAll('.tea-term-chip').forEach(chip => {
+            chip.addEventListener('click', function () {
+                const name = this.dataset.name;
+                const tea = TEA_DATA.find(t => t.name === name);
+                if (tea) selectTea(tea);
+            });
+        });
+    }
+
+    // 渲染茶道六君子
+    function renderTeaUtensils() {
+        const el = document.getElementById('teaUtensilsGrid');
+        if (!el) return;
+
+        el.innerHTML = TEA_UTENSILS.map(u => `
+        <div class="tea-utensil-card">
+            <span class="tea-utensil-icon">${u.icon}</span>
+            <div class="tea-utensil-name">${u.name}</div>
+            <div class="tea-utensil-desc">${u.desc}</div>
+        </div>
+    `).join('');
+    }
+
+    // 渲染茶道箴言
+    function renderTeaQuote() {
+        const el = document.getElementById('teaQuote');
+        if (!el) return;
+
+        const q = pickRandom(TEA_QUOTES);
+        el.innerHTML = `
+        ${q.text}
+        <span class="quote-source">${q.source}</span>
+    `;
+    }
+
+    // 渲染茶道礼仪
+    function renderTeaEtiquette() {
+        const el = document.getElementById('teaEtiquetteGrid');
+        if (!el) return;
+
+        el.innerHTML = TEA_ETIQUETTE.map(item => `
+        <div class="tea-etiquette-card">
+            <div class="tea-etiquette-head">
+                <span class="tea-etiquette-icon">${item.icon}</span>
+                <span class="tea-etiquette-name">${item.name}</span>
+            </div>
+            <ul class="tea-etiquette-content">
+                ${item.points.map(p => `<li>${p}</li>`).join('')}
+            </ul>
+        </div>
+    `).join('');
+    }
+
+    // 渲染茶席布置
+    function renderTeaTable() {
+        const el = document.getElementById('teaTableGrid');
+        if (!el) return;
+
+        el.innerHTML = TEA_TABLE_ITEMS.map(item => `
+        <div class="tea-table-card">
+            <span class="tea-table-icon">${item.icon}</span>
+            <div class="tea-table-name">${item.name}</div>
+            <div class="tea-table-desc">${item.desc}</div>
+        </div>
+    `).join('');
+    }
+
+    // 渲染品茶九境
+    function renderTeaNine() {
+        const el = document.getElementById('teaNineList');
+        if (!el) return;
+
+        el.innerHTML = TEA_NINE_STAGES.map((stage, idx) => `
+        <div class="tea-nine-item">
+            <div class="tea-nine-num">${idx + 1}</div>
+            <div class="tea-nine-body">
+                <div class="tea-nine-title">${stage.title}</div>
+                <div class="tea-nine-desc">${stage.desc}</div>
+            </div>
+        </div>
+    `).join('');
+    }
+    // 选中某个茶类（统一入口）
+    function selectTea(tea) {
+        teaActiveName = tea.name;
+        renderTeaWheel(tea.name);
+        renderTeaDetail(tea);
+        renderTeaGroups(tea.name);
+        renderTeaCurrent(tea);
+    }
+
+    // 初始化茶道模块
+    function initTea() {
+        const current = getCurrentTea();
+        selectTea(current);
+        renderTeaUtensils();
+        renderTeaEtiquette();
+        renderTeaTable();
+        renderTeaNine();
+        renderTeaQuote();
+    }
 
     // =============================================================
     // 修心：心斋坐忘
