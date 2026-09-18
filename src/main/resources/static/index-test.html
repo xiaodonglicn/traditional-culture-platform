@@ -8426,6 +8426,202 @@
                 height: 170px;
             }
         }
+        /* ========================================================= */
+        /* 首页（道境） */
+        /* ========================================================= */
+        .home-stage {
+            position: relative;
+            text-align: center;
+            padding: 56px 24px 64px;
+            overflow: hidden;
+        }
+
+        /* 背景柔光 */
+        .home-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 620px;
+            height: 620px;
+            max-width: 120vw;
+            max-height: 120vw;
+            transform: translate(-50%, -55%);
+            background: radial-gradient(circle,
+            rgba(201, 168, 124, 0.18) 0%,
+            rgba(201, 168, 124, 0.06) 40%,
+            transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+            animation: homeGlowBreath 8s ease-in-out infinite;
+        }
+
+        @keyframes homeGlowBreath {
+            0%, 100% { opacity: 0.7; transform: translate(-50%, -55%) scale(1); }
+            50%      { opacity: 1;   transform: translate(-50%, -55%) scale(1.08); }
+        }
+
+        /* 太极 */
+        .home-taiji {
+            position: relative;
+            z-index: 1;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 36px;
+            animation: homeTaijiFloat 6s ease-in-out infinite;
+        }
+
+        .home-taiji svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        @keyframes homeTaijiFloat {
+            0%, 100% { transform: translateY(0)    rotate(0deg); }
+            50%      { transform: translateY(-10px) rotate(3deg); }
+        }
+
+        /* 主标题 */
+        .home-title {
+            position: relative;
+            z-index: 1;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            font-size: 42px;
+            font-weight: 700;
+            color: #4a3728;
+            letter-spacing: 12px;
+            margin-bottom: 14px;
+            text-indent: 12px;   /* 抵消末字右侧的 letter-spacing */
+            background: linear-gradient(145deg, #6b4f3a 0%, #8b6b4d 50%, #c9a87c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* 副标题 */
+        .home-subtitle {
+            position: relative;
+            z-index: 1;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            font-size: 16px;
+            color: #7a6b5a;
+            letter-spacing: 4px;
+            margin-bottom: 32px;
+            line-height: 1.9;
+        }
+
+        /* 分隔装饰 */
+        .home-divider {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            margin: 0 auto 36px;
+            max-width: 320px;
+        }
+
+        .home-divider span {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #c9a87c, transparent);
+        }
+
+        .home-divider i {
+            font-style: normal;
+            font-size: 16px;
+            color: #8b6b4d;
+            opacity: 0.75;
+        }
+
+        /* 每日一句 */
+        .home-quote {
+            position: relative;
+            z-index: 1;
+            max-width: 560px;
+            margin: 0 auto 40px;
+            padding: 26px 32px;
+            background: rgba(253, 250, 247, 0.7);
+            border-radius: 16px;
+            border-left: 3px solid #c9a87c;
+            border-right: 3px solid #c9a87c;
+            transition: opacity 0.6s ease;
+        }
+
+        .home-quote.fading {
+            opacity: 0;
+        }
+
+        .home-quote .quote-text {
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            font-size: 20px;
+            color: #4a3728;
+            line-height: 1.9;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .home-quote .quote-source {
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            font-size: 14px;
+            color: #8b6b4d;
+            letter-spacing: 2px;
+        }
+
+        /* 底部提示 */
+        .home-hint {
+            position: relative;
+            z-index: 1;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            font-size: 13px;
+            color: #b0a090;
+            letter-spacing: 6px;
+            text-indent: 6px;
+        }
+
+        /* 小屏适配 */
+        @media (max-width: 768px) {
+            .home-stage {
+                padding: 40px 16px 48px;
+            }
+            .home-taiji {
+                width: 150px;
+                height: 150px;
+                margin-bottom: 28px;
+            }
+            .home-title {
+                font-size: 30px;
+                letter-spacing: 8px;
+                text-indent: 8px;
+            }
+            .home-subtitle {
+                font-size: 14px;
+                letter-spacing: 2px;
+            }
+            .home-quote {
+                padding: 20px 22px;
+            }
+            .home-quote .quote-text {
+                font-size: 17px;
+                letter-spacing: 1px;
+            }
+            .home-quote .quote-source {
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .home-title {
+                font-size: 24px;
+                letter-spacing: 6px;
+                text-indent: 6px;
+            }
+            .home-hint {
+                letter-spacing: 4px;
+                text-indent: 4px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -8450,12 +8646,15 @@
 
         <!-- 主导航 -->
         <nav id="mainNav">
+            <a class="nav-group-title nav-home-link active" data-tab="home">
+                <span class="nav-icon">🏠</span> 首页
+            </a>
             <div class="nav-group">
                 <a class="nav-group-title active" data-group="today">
                     <span class="nav-icon">☯</span> 今日
                 </a>
                 <div class="nav-dropdown">
-                    <a class="active" data-tab="fortune">每日运势</a>
+                    <a data-tab="fortune">每日运势</a>
                     <a data-tab="sign">每日一签</a>
                     <a data-tab="gua">每日一卦</a>
                     <a data-tab="tcmqa">每日一问</a>
@@ -8526,6 +8725,81 @@
     <!-- ===== 主内容 ===== -->
     <main>
 
+        <!-- ========================================================= -->
+        <!-- Tab 0: 首页 -->
+        <!-- ========================================================= -->
+        <section id="home-tab" class="tab-content">
+            <div class="home-stage">
+                <!-- 背景光晕 -->
+                <div class="home-glow"></div>
+
+                <!-- 太极图 -->
+                <div class="home-taiji">
+                    <svg viewBox="0 0 200 200" aria-hidden="true">
+                        <defs>
+                            <radialGradient id="homeTaijiBg" cx="42%" cy="35%" r="75%">
+                                <stop offset="0%"   stop-color="#fffdfa"/>
+                                <stop offset="60%"  stop-color="#f5ede0"/>
+                                <stop offset="100%" stop-color="#e8ddd0"/>
+                            </radialGradient>
+                            <filter id="homeTaijiShadow" x="-20%" y="-20%" width="140%" height="140%">
+                                <feDropShadow dx="0" dy="6" stdDeviation="10"
+                                              flood-color="rgba(139,107,77,0.3)"/>
+                            </filter>
+                        </defs>
+
+                        <!-- 外圈装饰 -->
+                        <circle cx="100" cy="100" r="92" fill="url(#homeTaijiBg)"
+                                filter="url(#homeTaijiShadow)"/>
+                        <circle cx="100" cy="100" r="90" fill="none"
+                                stroke="#e0d3c4" stroke-width="1"
+                                stroke-dasharray="2 4" opacity="0.7"/>
+
+                        <!-- 太极：底层白圆 -->
+                        <circle cx="100" cy="100" r="72" fill="#fdfaf7"
+                                stroke="#8b6b4d" stroke-width="2.5"/>
+
+                        <!-- 黑鱼：S 形分界 -->
+                        <path d="M100,28
+                                 A72,72 0 0,1 100,172
+                                 A36,36 0 0,0 100,100
+                                 A36,36 0 0,1 100,28 Z"
+                              fill="#5a3e2b"/>
+
+                        <!-- 黑鱼眼（白点） -->
+                        <circle cx="100" cy="64" r="11" fill="#fdfaf7"/>
+                        <!-- 白鱼眼（黑点） -->
+                        <circle cx="100" cy="136" r="11" fill="#5a3e2b"/>
+
+                        <!-- 外圈描边 -->
+                        <circle cx="100" cy="100" r="72" fill="none"
+                                stroke="#8b6b4d" stroke-width="2.5"/>
+                    </svg>
+                </div>
+
+                <!-- 主标题 -->
+                <h1 class="home-title">道 法 自 然</h1>
+
+                <!-- 副标题 -->
+                <p class="home-subtitle">人法地　地法天　天法道　道法自然</p>
+
+                <!-- 分隔装饰 -->
+                <div class="home-divider">
+                    <span></span>
+                    <i>☯</i>
+                    <span></span>
+                </div>
+
+                <!-- 每日一句（随机轮换） -->
+                <div class="home-quote" id="homeQuote">
+                    <p class="quote-text">上善若水，水善利万物而不争。</p>
+                    <p class="quote-source">——《道德经》第八章</p>
+                </div>
+
+                <!-- 底部提示 -->
+                <p class="home-hint">择一而往 · 随心而至</p>
+            </div>
+        </section>
         <!-- ========================================================= -->
         <!-- Tab 1: 每日运势 (原有) -->
         <!-- ========================================================= -->
@@ -15863,6 +16137,10 @@
         if (target) target.classList.add('active');
 
         // 惰性初始化
+        if (tab === 'home') {
+            // 首页无需惰性初始化，直接展示
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
         if (tab === 'season') renderSeason();
         if (tab === 'daomap') {
             const svg = document.getElementById('daomapSvg');
@@ -15934,6 +16212,24 @@
             initXinzhai();
         }
     }
+    // =============================================================
+    // 首页：卡片点击 → 切换 Tab
+    // =============================================================
+    function initHomeCards() {
+        const cards = document.querySelectorAll('.home-card');
+        if (!cards.length) return;
+
+        cards.forEach(card => {
+            card.addEventListener('click', function () {
+                const tab = this.dataset.tab;
+                if (!tab) return;
+                switchTab(tab);
+                // 切换后滚回顶部，避免停留在页面中部
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+    }
+
 
     // ----- 二级菜单点击（核心） -----
     document.querySelectorAll('.nav-dropdown a').forEach(link => {
@@ -15972,7 +16268,64 @@
             }
         });
     });
+    // ----- 首页独立按钮点击 -----
+    document.querySelectorAll('.nav-home-link').forEach(link => {
+        link.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            switchTab('home');
+            if (isMobileNav()) closeMobileNav();
+        });
+    });
 
+    // =============================================================
+    // 首页：每日一句轮换
+    // =============================================================
+    function initHomeQuote() {
+        const quoteEl = document.getElementById('homeQuote');
+        if (!quoteEl) return;
+
+        // 精选道家箴言
+        const HOME_QUOTES = [
+            { text: '上善若水，水善利万物而不争。', source: '——《道德经》第八章' },
+            { text: '人法地，地法天，天法道，道法自然。', source: '——《道德经》第二十五章' },
+            { text: '致虚极，守静笃。万物并作，吾以观复。', source: '——《道德经》第十六章' },
+            { text: '合抱之木，生于毫末；九层之台，起于累土。', source: '——《道德经》第六十四章' },
+            { text: '夫唯不争，故天下莫能与之争。', source: '——《道德经》第二十二章' },
+            { text: '天地与我并生，而万物与我为一。', source: '——《庄子·齐物论》' },
+            { text: '北冥有鱼，其名为鲲。化而为鸟，其名为鹏。', source: '——《庄子·逍遥游》' },
+            { text: '知人者智，自知者明。胜人者有力，自胜者强。', source: '——《道德经》第三十三章' },
+            { text: '天下莫柔弱于水，而攻坚强者莫之能胜。', source: '——《道德经》第七十八章' },
+            { text: '祸兮福之所倚，福兮祸之所伏。', source: '——《道德经》第五十八章' },
+            { text: '大巧若拙，大辩若讷。', source: '——《道德经》第四十五章' },
+            { text: '泉涸，鱼相与处于陆，相呴以湿，相濡以沫。', source: '——《庄子·大宗师》' },
+            { text: '吾生也有涯，而知也无涯。', source: '——《庄子·养生主》' },
+            { text: '天地有大美而不言。', source: '——《庄子·知北游》' }
+        ];
+
+        let currentIndex = 0;
+
+        // 首次随机一句
+        currentIndex = Math.floor(Math.random() * HOME_QUOTES.length);
+        renderHomeQuote(HOME_QUOTES[currentIndex], quoteEl);
+
+        // 每 8 秒轮换一次
+        setInterval(() => {
+            currentIndex = (currentIndex + 1) % HOME_QUOTES.length;
+            quoteEl.classList.add('fading');
+            setTimeout(() => {
+                renderHomeQuote(HOME_QUOTES[currentIndex], quoteEl);
+                quoteEl.classList.remove('fading');
+            }, 600);
+        }, 8000);
+    }
+
+    function renderHomeQuote(q, el) {
+        const textEl = el.querySelector('.quote-text');
+        const sourceEl = el.querySelector('.quote-source');
+        if (textEl) textEl.textContent = q.text;
+        if (sourceEl) sourceEl.textContent = q.source;
+    }
     // ----- 移动端抽屉 -----
     function openMobileNav() {
         mainNav.classList.add('open');
@@ -16023,8 +16376,11 @@
     });
 
     // ----- 初始化 -----
-    switchTab('fortune');
-
+    switchTab('home');
+    // 初始化首页每日一句
+    initHomeQuote();
+    // 初始化首页卡片
+    initHomeCards();
 
     // ----- 6b. 运势 -----
     const zodiacSelect = document.getElementById('zodiacSelect');
