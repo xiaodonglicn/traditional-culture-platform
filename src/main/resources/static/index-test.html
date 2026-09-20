@@ -194,64 +194,151 @@
             color: #fff;
         }
 
-        /* ----- 下拉菜单 ----- */
+        /* ----- 下拉菜单（PC端水墨典雅版） ----- */
         .nav-dropdown {
             position: absolute;
-            top: calc(100% + 10px);
+            top: calc(100% + 14px);
             left: 50%;
-            transform: translateX(-50%) translateY(-6px);
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(12px);
-            border-radius: 14px;
-            box-shadow: 0 10px 32px rgba(0, 0, 0, 0.13);
-            padding: 8px;
-            min-width: 150px;
+            transform: translateX(-50%) translateY(-12px) scale(0.96);
+            /* 宣纸质感：暖白渐变 + 细麻纹 */
+            background:
+                    repeating-linear-gradient(0deg, rgba(139,107,77,0.025) 0 1px, transparent 1px 3px),
+                    repeating-linear-gradient(90deg, rgba(139,107,77,0.02) 0 1px, transparent 1px 4px),
+                    linear-gradient(160deg, #fdfaf6 0%, #f8f2e9 100%);
+            backdrop-filter: blur(14px) saturate(1.1);
+            -webkit-backdrop-filter: blur(14px) saturate(1.1);
+            border-radius: 6px;              /* 更方正，接近印章/册页 */
+            padding: 10px 8px;
+            min-width: 156px;
+            /* 淡淡的墨线描边 + 极柔投影 */
+            box-shadow:
+                    inset 0 0 0 1px rgba(139, 107, 77, 0.18),
+                    inset 0 0 24px rgba(139, 107, 77, 0.05),
+                    0 12px 36px rgba(90, 62, 43, 0.16),
+                    0 3px 10px rgba(90, 62, 43, 0.08);
             opacity: 0;
             visibility: hidden;
-            transition: all 0.25s ease;
+            /* 缓缓展开：位移 + 缩放 + 淡入，缓动更"水墨" */
+            transition:
+                    opacity 0.55s cubic-bezier(0.22, 0.61, 0.36, 1),
+                    transform 0.55s cubic-bezier(0.22, 0.61, 0.36, 1),
+                    visibility 0.55s;
+            transform-origin: top center;
             z-index: 200;
+            pointer-events: none;
         }
 
-        /* 下拉箭头小三角 */
+        /* 顶部小三角：改为"笔尖"般的墨点，而非生硬的方块 */
         .nav-dropdown::before {
             content: "";
             position: absolute;
-            top: -6px;
+            top: -5px;
             left: 50%;
             transform: translateX(-50%) rotate(45deg);
-            width: 12px;
-            height: 12px;
-            background: rgba(255, 255, 255, 0.98);
-            border-radius: 2px;
+            width: 9px;
+            height: 9px;
+            background: #fdfaf6;
+            border-left: 1px solid rgba(139, 107, 77, 0.2);
+            border-top: 1px solid rgba(139, 107, 77, 0.2);
+            border-radius: 2px 0 0 0;
+        }
+
+        /* 底部一道淡淡的墨线，像册页下沿 */
+        .nav-dropdown::after {
+            content: "";
+            position: absolute;
+            left: 14%;
+            right: 14%;
+            bottom: 4px;
+            height: 1px;
+            background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(139, 107, 77, 0.28) 50%,
+            transparent 100%);
+            pointer-events: none;
         }
 
         .nav-group:hover .nav-dropdown,
         .nav-group.open .nav-dropdown {
             opacity: 1;
             visibility: visible;
-            transform: translateX(-50%) translateY(0);
+            transform: translateX(-50%) translateY(0) scale(1);
+            pointer-events: auto;
         }
 
+        /* 子项：更舒展、更有书卷气 */
         .nav-dropdown a {
             display: block;
-            padding: 9px 18px;
-            border-radius: 9px;
+            position: relative;
+            padding: 10px 22px;
+            border-radius: 4px;
             font-size: 14px;
             color: #5a3e2b;
             white-space: nowrap;
             text-align: center;
             text-decoration: none;
-            transition: all 0.2s;
             cursor: pointer;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            letter-spacing: 1.5px;
+            /* 逐条淡入的初始态 */
+            opacity: 0;
+            transform: translateY(-4px);
+            transition:
+                    background 0.28s ease,
+                    color 0.28s ease,
+                    opacity 0.4s ease,
+                    transform 0.4s ease;
         }
 
+        /* 展开时子项逐条浮现 */
+        .nav-group:hover .nav-dropdown a,
+        .nav-group.open .nav-dropdown a {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .nav-group:hover .nav-dropdown a:nth-child(1),
+        .nav-group.open .nav-dropdown a:nth-child(1) { transition-delay: 0.08s; }
+        .nav-group:hover .nav-dropdown a:nth-child(2),
+        .nav-group.open .nav-dropdown a:nth-child(2) { transition-delay: 0.14s; }
+        .nav-group:hover .nav-dropdown a:nth-child(3),
+        .nav-group.open .nav-dropdown a:nth-child(3) { transition-delay: 0.20s; }
+        .nav-group:hover .nav-dropdown a:nth-child(4),
+        .nav-group.open .nav-dropdown a:nth-child(4) { transition-delay: 0.26s; }
+
+        /* hover：淡墨晕染 + 左侧竖线点缀 */
         .nav-dropdown a:hover {
-            background: #f0ece6;
+            background: linear-gradient(90deg,
+            rgba(139, 107, 77, 0.10) 0%,
+            rgba(139, 107, 77, 0.04) 60%,
+            transparent 100%);
+            color: #3d2a1a;
         }
 
+        .nav-dropdown a:hover::before {
+            content: "";
+            position: absolute;
+            left: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 2px;
+            height: 55%;
+            border-radius: 2px;
+            background: #c0392b;
+            opacity: 0.7;
+        }
+
+        /* active：以印章式深墨块呈现 */
         .nav-dropdown a.active {
-            background: #5a3e2b;
-            color: #fff;
+            background: linear-gradient(145deg, #5a3e2b 0%, #4a3222 100%);
+            color: #fdfaf6;
+            box-shadow:
+                    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+                    0 2px 8px rgba(90, 62, 43, 0.25);
+        }
+
+        .nav-dropdown a.active::before {
+            background: #c9a87c;   /* active 时左侧竖线换为金色，更雅致 */
+            opacity: 0.9;
         }
 
         /* 遮罩层（默认隐藏） */
@@ -3486,39 +3573,36 @@
             }
 
             /* ===== 二级下拉菜单 ===== */
+
+
             .nav-dropdown {
                 position: static !important;
                 transform: none !important;
-                opacity: 1 !important;
-                visibility: visible !important;
                 box-shadow: none !important;
                 background: transparent !important;
                 backdrop-filter: none !important;
                 padding: 2px 0 4px 14px !important;
                 min-width: auto !important;
                 display: none;
+                /* 收起时无过渡、无动画，纯 display 切换 */
+                transition: none !important;
+                pointer-events: auto !important;
+                transform-origin: initial !important;
             }
 
-            .nav-dropdown::before {
-                display: none !important;
-            }
+            .nav-dropdown::after { display: none !important; }
+            .nav-dropdown::before { display: none !important; }
 
+            /* 展开：display 由 none → block 时触发动画 */
             nav .nav-group.open .nav-dropdown {
                 display: block !important;
-                opacity: 1 !important;
-                visibility: visible !important;
-                animation: navDropdownIn 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
+                /* 关键 1：不要在 open 规则里写 opacity/visibility 的 !important，交给动画控制 */
+                animation: navDropdownIn 0.9s cubic-bezier(0.22, 0.61, 0.36, 1) both;
             }
 
             @keyframes navDropdownIn {
-                from {
-                    opacity: 0;
-                    transform: translateY(-6px);
-                }
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
+                from { opacity: 0; transform: translateY(-14px); }
+                to   { opacity: 1; transform: translateY(0); }
             }
 
             .nav-dropdown a {
@@ -3530,7 +3614,41 @@
                 background: transparent !important;
                 font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
                 letter-spacing: 1px;
-                transition: all 0.2s;
+                transition: background 0.25s ease, color 0.25s ease !important;
+                /* 初始态：下沉 + 透明（收起时不显示） */
+                opacity: 0;
+                transform: translateY(-6px);
+            }
+
+            /* 只有展开时，子项才播放逐条浮现动画 */
+            nav .nav-group.open .nav-dropdown a {
+                animation: navItemIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            }
+
+            nav .nav-group.open .nav-dropdown a:nth-child(1) { animation-delay: 0.18s; }
+            nav .nav-group.open .nav-dropdown a:nth-child(2) { animation-delay: 0.28s; }
+            nav .nav-group.open .nav-dropdown a:nth-child(3) { animation-delay: 0.38s; }
+            nav .nav-group.open .nav-dropdown a:nth-child(4) { animation-delay: 0.48s; }
+
+            @keyframes navItemIn {
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            /* 每个子项错峰延迟，形成逐条浮现的效果 */
+            /* 每个子项错峰延迟，形成逐条浮现的效果 */
+            nav .nav-group.open .nav-dropdown a:nth-child(1) { animation-delay: 0.18s; }
+            nav .nav-group.open .nav-dropdown a:nth-child(2) { animation-delay: 0.28s; }
+            nav .nav-group.open .nav-dropdown a:nth-child(3) { animation-delay: 0.38s; }
+            nav .nav-group.open .nav-dropdown a:nth-child(4) { animation-delay: 0.48s; }
+
+            @keyframes navItemIn {
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
             }
 
             .nav-dropdown a:hover,
@@ -3666,6 +3784,44 @@
                 bottom: 24px;
                 width: 52px;
                 height: 52px;
+            }
+
+            .nav-group-title {
+                position: relative;          /* 作为箭头的定位参照 */
+                padding-right: 40px;         /* 为箭头留出空间，避免文字贴边 */
+            }
+
+            /* 箭头本体：使用伪元素，避免额外 DOM */
+            .nav-group-title::after {
+                content: "";
+                position: absolute;
+                right: 16px;
+                top: 50%;
+                width: 7px;
+                height: 7px;
+                margin-top: -5px;            /* 垂直居中微调 */
+                border-right: 1.5px solid #9a8b7a;
+                border-bottom: 1.5px solid #9a8b7a;
+                transform: rotate(45deg);    /* 默认向下 */
+                transition: transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1),
+                border-color 0.25s ease;
+                pointer-events: none;        /* 不干扰点击 */
+            }
+
+            /* 展开状态：箭头旋转向上 */
+            .nav-group.open > .nav-group-title::after {
+                transform: rotate(-135deg);
+                border-color: #5a3e2b;       /* 展开时加深颜色，与激活态呼应 */
+            }
+
+            /* 激活态（当前分组被选中）：箭头颜色随文字加深 */
+            .nav-group-title.active::after {
+                border-color: #3d2a1a;
+            }
+
+            /* 首页链接无下拉，不显示箭头（保持简洁） */
+            .nav-home-link::after {
+                display: none;
             }
         }
 
