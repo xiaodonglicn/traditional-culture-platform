@@ -8,62 +8,6 @@
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E☯%3C/text%3E%3C/svg%3E">
     <style>
-        @font-face {
-            font-family: 'LXGWWenKai';
-            src: url('fonts/LXGWWenKai-Regular.woff2') format('woff2');
-            font-weight: normal;
-            font-style: normal;
-            font-display: swap;
-        }
-        @font-face {
-            font-family: 'FuZhuan';
-            src: url('fonts/fuzhuan-thin.woff2') format('woff2');
-            font-weight: normal;
-            font-style: normal;
-            font-display: swap;
-        }
-
-        @font-face {
-            font-family: 'FangZhuan';
-            src: url('fonts/fangzhuan.woff2') format('woff2');
-            font-weight: normal;
-            font-style: normal;
-            font-display: swap;
-        }
-
-        @font-face {
-            font-family: 'BaiZhouTaiZhuan';
-            src: url('fonts/baizhouzhuan.woff2') format('woff2');
-            font-weight: normal;
-            font-style: normal;
-            font-display: swap;
-        }
-
-
-
-        @font-face {
-            font-family: 'JiuDieFuZhuan';
-            src: url('fonts/jiudiezhuan.woff2') format('woff2');
-            font-weight: normal;
-            font-style: normal;
-            font-display: swap;
-        }
-
-        @font-face {
-            font-family: 'HanDingFangZhuan';
-            src: url('fonts/handingfanzhuan.woff2') format('woff2');
-            font-weight: normal;
-            font-style: normal;
-            font-display: swap;
-        }
-
-        @font-face {
-            font-family: 'QingYangZiTi';
-            src: url('fonts/qingyangziti.woff2') format('woff2');
-            font-weight: normal;
-            font-style: normal;
-            font-display: swap;
-        }
 
 
 
@@ -203,18 +147,7 @@
             transition: all 0.25s ease;
             white-space: nowrap;
             user-select: none;
-            font-family:
-                    'LXGWWenKai',
-                    'STKaiti',
-                    'KaiTi',
-                    '楷体',
-                    'Kaiti SC',
-                    'DFKai-SB',
-                    'BiauKai',
-                    'AR PL UKai CN',
-                    'Songti SC',
-                    'SimSun',
-                    serif;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
         }
 
         .nav-group-title .nav-icon {
@@ -312,19 +245,8 @@
             text-align: center;
             text-decoration: none;
             cursor: pointer;
-            font-family:
-                    'LXGWWenKai',
-                    'STKaiti',
-                    'KaiTi',
-                    '楷体',
-                    'Kaiti SC',
-                    'DFKai-SB',
-                    'BiauKai',
-                    'AR PL UKai CN',
-                    'Songti SC',
-                    'SimSun',
-                    serif;
-            letter-spacing: 2px;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            letter-spacing: 1px;
             /* 逐条淡入的初始态 */
             opacity: 0;
             transform: translateY(-4px);
@@ -3608,19 +3530,8 @@
                 padding: 12px 18px;
                 border-radius: 12px;
                 font-size: 15px;
-                font-family:
-                        'LXGWWenKai',
-                        'STKaiti',
-                        'KaiTi',
-                        '楷体',
-                        'Kaiti SC',
-                        'DFKai-SB',
-                        'BiauKai',
-                        'AR PL UKai CN',
-                        'Songti SC',
-                        'SimSun',
-                        serif;
-                letter-spacing: 2px;
+                font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+                letter-spacing: 1px;
                 color: #4a3728;
                 background: transparent;
                 transition: all 0.25s;
@@ -9411,7 +9322,7 @@
         <!-- ========================================================= -->
         <!-- Tab 1: 每日运势 (原有) -->
         <!-- ========================================================= -->
-        <section id="fortune-tab" class="tab-content active">
+        <section id="fortune-tab" class="tab-content">
             <h2><i class="fas fa-star"></i> 今日运势</h2>
             <div class="fortune-selector">
                 <label for="zodiacSelect">选择您的生肖：</label>
@@ -15609,6 +15520,30 @@
         }
     }
 
+    const SEAL_FONT_URLS = {
+        FuZhuan: 'fonts/fuzhuan-thin.woff2',
+        FangZhuan: 'fonts/fangzhuan.woff2',
+        BaiZhouTaiZhuan: 'fonts/baizhouzhuan.woff2',
+        JiuDieFuZhuan: 'fonts/jiudiezhuan.woff2',
+        HanDingFangZhuan: 'fonts/handingfanzhuan.woff2',
+        QingYangZiTi: 'fonts/qingyangziti.woff2'
+    };
+
+    let sealFontsInjected = false;
+    function injectSealFonts() {
+        if (sealFontsInjected) return;
+        sealFontsInjected = true;
+        const style = document.createElement('style');
+        style.textContent = Object.entries(SEAL_FONT_URLS).map(([name, url]) => `
+        @font-face {
+            font-family: '${name}';
+            src: url('${url}') format('woff2');
+            font-display: swap;
+        }
+    `).join('');
+        document.head.appendChild(style);
+    }
+
     // 更新地图数据（过滤、高亮）
     function updateMountainsChart() {
         if (!mountainsChart) return;
@@ -16759,6 +16694,7 @@
             }
         }
         if (tab === 'seal') {
+            injectSealFonts();
             const canvas = document.getElementById('sealCanvas');
             if (canvas && !canvas.dataset.inited) {
                 canvas.dataset.inited = '1';
@@ -16877,12 +16813,12 @@
             { text: '合抱之木，生于毫末；九层之台，起于累土。', source: '——《道德经》第六十四章' },
             { text: '夫唯不争，故天下莫能与之争。', source: '——《道德经》第二十二章' },
             { text: '天地与我并生，而万物与我为一。', source: '——《庄子·齐物论》' },
-            { text: '北冥有鱼，其名为鲲。化而为鸟，其名为鹏。', source: '——《庄子·逍遥游》' },
-            { text: '知人者智，自知者明。胜人者有力，自胜者强。', source: '——《道德经》第三十三章' },
+            { text: '至人无己，神人无功，圣人无名。', source: '——《庄子·逍遥游》' },
+            { text: '知足者富，强行者有志。', source: '——《道德经》第三十三章' },
             { text: '天下莫柔弱于水，而攻坚强者莫之能胜。', source: '——《道德经》第七十八章' },
             { text: '祸兮福之所倚，福兮祸之所伏。', source: '——《道德经》第五十八章' },
             { text: '大巧若拙，大辩若讷。', source: '——《道德经》第四十五章' },
-            { text: '泉涸，鱼相与处于陆，相呴以湿，相濡以沫。', source: '——《庄子·大宗师》' },
+            { text: '天地一指也，万物一马也。', source: '——《庄子·齐物论》' },
             { text: '吾生也有涯，而知也无涯。', source: '——《庄子·养生主》' },
             { text: '天地有大美而不言。', source: '——《庄子·知北游》' }
         ];
@@ -17212,17 +17148,6 @@
         });
     }
 
-    // 页面 load 之后，浏览器空闲时执行
-    if (window.requestIdleCallback) {
-        window.addEventListener('load', function () {
-            requestIdleCallback(preloadAllSealFonts, {timeout: 3000});
-        });
-    } else {
-        // 降级：load 后延迟 1.5 秒执行
-        window.addEventListener('load', function () {
-            setTimeout(preloadAllSealFonts, 1500);
-        });
-    }
 
     // =============================================================
     // 新增数据：中药本草
