@@ -9211,6 +9211,20 @@
         .home-layer-mist svg {
             filter: blur(3px);
         }
+
+        /* ===== 飞鸟：淡墨，和远山同色系 ===== */
+        .home-layer-birds svg {
+            top: 0;
+        }
+
+        @keyframes birdsDrift {
+            0%, 100% { transform: translate(0, 0); }
+            50%      { transform: translate(-6px, -3px); }
+        }
+
+        .home-layer-birds {
+            animation: birdsDrift 14s ease-in-out infinite;
+        }
         /* 各层公共 */
         .home-layer {
             position: absolute;
@@ -9601,6 +9615,22 @@
                     </svg>
                 </div>
 
+                <!-- 飞鸟：三两笔淡墨 -->
+                <div class="home-layer home-layer-birds" data-depth="0.16">
+                    <svg viewBox="0 0 1200 380" preserveAspectRatio="none" aria-hidden="true">
+                        <g fill="none" stroke="#5f7480" stroke-opacity="0.52"
+                           stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <!-- 第一只：较近，稍大 -->
+                            <path d="M720,148 Q726,141 732,148 Q738,141 744,148"/>
+                            <!-- 第二只：稍远，偏右 -->
+                            <path d="M772,128 Q777,122 782,128 Q787,122 792,128"/>
+                            <!-- 第三只：最小，最远 -->
+                            <path d="M812,110 Q815,105 818,110 Q821,105 824,110"/>
+                            <!-- 第四只：孤独一只，偏左 -->
+                            <path d="M660,168 Q665,162 670,168 Q675,162 680,168"/>
+                        </g>
+                    </svg>
+                </div>
                 <!-- 中景山：加皴法纹理 -->
                 <div class="home-layer home-layer-mid" data-depth="0.22">
                     <svg viewBox="0 0 1200 340" preserveAspectRatio="none" aria-hidden="true">
