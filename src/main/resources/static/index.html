@@ -4,12 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="referrer" content="no-referrer" />
-    <title>传统文化智慧 · 道法自然</title>
-    <!--    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>-->
+    <title>静心阁</title>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E☯%3C/text%3E%3C/svg%3E">
     <style>
-
-
 
         /* ===== 全局重置 & 字体 ===== */
         * {
@@ -919,6 +916,7 @@
             max-width: 680px;
             margin: 0 auto;
             padding: 10px 0;
+            text-align: center;
         }
         .sign-intro {
             text-align: center;
@@ -928,12 +926,12 @@
             border: 2px dashed #d5c8b8;
             animation: fadeIn 0.5s ease;
         }
-
         .sign-intro-icon {
             font-size: 64px;
             line-height: 1;
             margin-bottom: 12px;
             opacity: 0.75;
+            text-align: center;
         }
 
         .sign-intro h3 {
@@ -6150,6 +6148,26 @@
             gap: 8px;
         }
 
+        .tcmqa-library-sub {
+            font-size: 13px;
+            color: #9a8b7a;
+            line-height: 1.8;
+            margin: -4px 0 14px;
+            padding-left: 2px;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            letter-spacing: 0.3px;
+        }
+        @media (max-width: 480px) {
+            .tcmqa-library-sub {
+                font-size: 12px;
+            }
+        }
+        .tcmqa-library-sub::before {
+            content: "· ";
+            color: #c9a87c;
+            font-weight: 700;
+        }
+
         .tcmqa-library-list {
             display: flex;
             flex-direction: column;
@@ -10688,7 +10706,7 @@
                             <i class="fas fa-history"></i> 我的求问记录
                             <span style="font-size:12px;color:#b0a090;font-weight:400;" id="tcmqaCount"></span>
                         </div>
-                        <p class="tcmqa-library-sub">每一次求问，都是一次积累。点击可回看答案。</p>
+                        <p class="tcmqa-library-sub">每一次求问，都是一次积累，点击可回看答案。</p>
                         <div class="tcmqa-library-list" id="tcmqaLibraryList"></div>
                     </div>
                 </div>
@@ -10698,15 +10716,15 @@
 
     <!-- ===== 页脚 ===== -->
     <footer>
-        <p><i class="fas fa-yin-yang"></i> 道法自然 · 天人合一</p>
+        <!--        <p><i class="fas fa-yin-yang"></i> 道法自然 · 天人合一</p>-->
         <p class="footer-credit">
-            传统文化智慧平台 ·
+            静心阁 ·
             <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">
                 蒙ICP备2025028887号-1
             </a>
         </p>
         <p class="footer-contact">
-            文化交流 · 意见反馈 请联系邮箱
+            文化交流 · 意见反馈
             <a href="mailto:xiaodonglicn@outlook.com">xiaodonglicn@outlook.com</a>
         </p>
     </footer>
