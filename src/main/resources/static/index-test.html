@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="referrer" content="no-referrer" />
     <title>传统文化智慧 · 道法自然</title>
-    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+<!--    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>-->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E☯%3C/text%3E%3C/svg%3E">
     <style>
 
@@ -10284,7 +10284,7 @@
 
 </div>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">-->
 <!-- 回到顶部：旋转八卦悬浮按钮（精致版） -->
 <button id="backToTop" class="back-to-top" aria-label="回到顶部" title="回到顶部">
     <svg viewBox="0 0 100 100" class="bagua-svg" aria-hidden="true">
@@ -10376,6 +10376,53 @@
 <!-- 脚本 -->
 <script>
 
+    // ============ CDN 按需加载器 ============
+    const CDNLoader = {
+        _cache: {},
+
+        // 加载 JS
+        script(src) {
+            if (this._cache[src]) return this._cache[src];
+            this._cache[src] = new Promise((resolve, reject) => {
+                const s = document.createElement('script');
+                s.src = src;
+                s.onload = () => resolve();
+                s.onerror = () => { delete this._cache[src]; reject(); };
+                document.head.appendChild(s);
+            });
+            return this._cache[src];
+        },
+
+        // 加载 CSS
+        css(href) {
+            if (this._cache[href]) return this._cache[href];
+            if (document.querySelector(`link[href="${href}"]`)) {
+                this._cache[href] = Promise.resolve();
+                return this._cache[href];
+            }
+            this._cache[href] = new Promise((resolve) => {
+                const link = document.createElement('link');
+                link.rel = 'stylesheet';
+                link.href = href;
+                link.onload = resolve;
+                link.onerror = resolve;   // 失败也不阻塞
+                document.head.appendChild(link);
+            });
+            return this._cache[href];
+        },
+
+        // 按需加载 ECharts
+        ensureECharts() {
+            if (window.echarts) return Promise.resolve(window.echarts);
+            return this.script('https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js')
+                .then(() => window.echarts);
+        },
+
+        // 按需加载 Font Awesome
+        ensureFontAwesome() {
+            return this.css('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
+        }
+    };
     const ZODIACS = ['鼠', '牛', '虎', '兔', '龙', '蛇', '马', '羊', '猴', '鸡', '狗', '猪'];
 
     const FORTUNE_TEMPLATES = [{
@@ -15468,6 +15515,7 @@
 
     // 初始化地图
     async function initMountainsMap() {
+        const echarts = await CDNLoader.ensureECharts();
         const container = document.getElementById('mountainsMapEcharts');
         if (!container || typeof echarts === 'undefined') return;
 
@@ -16332,6 +16380,13 @@
             }, index * 800);   // 每首间隔 800ms
         });
     }
+    // 新增：延后预加载（幂等，只跑一次）
+    var musicPreloaded = false;
+    function maybePreloadMusic() {
+        if (musicPreloaded) return;
+        musicPreloaded = true;
+        preloadMeditationMusic();
+    }
 
     function renderMusicTracks() {
         const listEl = document.getElementById('musicTrackList');
@@ -16730,6 +16785,9 @@
         if (tab === 'xinzhai') {
             initXinzhai();
         }
+        if (tab === 'meditation') {
+            maybePreloadMusic();
+        }
     }
     // =============================================================
     // 首页：卡片点击 → 切换 Tab
@@ -17050,16 +17108,14 @@
     initMusicPlayer();
     // 初始化道磬
     initDaoqing();
-    // 页面空闲时预加载音乐
+
+
     if (window.requestIdleCallback) {
-        window.addEventListener('load', function () {
-            requestIdleCallback(preloadMeditationMusic, {timeout: 3000});
-        });
+        requestIdleCallback(() => CDNLoader.ensureFontAwesome(), { timeout: 3000 });
     } else {
-        window.addEventListener('load', function () {
-            setTimeout(preloadMeditationMusic, 1500);
-        });
+        setTimeout(() => CDNLoader.ensureFontAwesome(), 1500);
     }
+
     // ----- 6g. 四时养生 -----
     renderSeason();
 
@@ -17099,7 +17155,6 @@
     });
 
     // ----- 6k. 云游名山 -----
-    initMountains();
     document.querySelectorAll('.mtn-filter-btn').forEach(btn => {
         btn.addEventListener('click', function () {
             document.querySelectorAll('.mtn-filter-btn').forEach(b => b.classList.remove('active'));
@@ -19235,6 +19290,7 @@
         // 初始化
         toggleBackToTop();
     })();
+
 </script>
 </body>
 </html>
