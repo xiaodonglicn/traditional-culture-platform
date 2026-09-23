@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="referrer" content="no-referrer" />
     <title>传统文化智慧 · 道法自然</title>
-<!--    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>-->
+    <!--    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>-->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E☯%3C/text%3E%3C/svg%3E">
     <style>
 
@@ -1923,14 +1923,21 @@
         }
 
         .daomap-reset {
-            padding: 8px 20px;
+            position: absolute;      /* 新增：绝对定位到图谱框内 */
+            top: 16px;               /* 新增 */
+            right: 16px;             /* 新增 */
+            z-index: 5;              /* 新增：浮于 SVG 之上 */
+            padding: 7px 18px;       /* 微调内边距，更紧凑 */
             border: none;
             border-radius: 30px;
-            background: #5a3e2b;
+            background: rgba(90, 62, 43, 0.85);   /* 半透明，避免遮挡图谱 */
             color: #fff;
-            font-size: 14px;
+            font-size: 13px;
             cursor: pointer;
             transition: all 0.25s;
+            backdrop-filter: blur(4px);           /* 毛玻璃，融入宣纸质感 */
+            -webkit-backdrop-filter: blur(4px);
+            box-shadow: 0 2px 10px rgba(90, 62, 43, 0.18);
         }
 
         .daomap-reset:hover {
@@ -1955,6 +1962,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            position: relative;
         }
 
         #daomapSvg {
@@ -10137,14 +10145,15 @@
                         <span class="legend-item"><i class="legend-line"></i> 相生 / 关联</span>
                         <span class="legend-item"><i class="legend-line dashed"></i> 相克 / 对治</span>
                     </div>
-                    <button class="daomap-reset" id="daomapResetBtn">
-                        <i class="fas fa-undo"></i> 重置视图
-                    </button>
+
                 </div>
 
                 <div class="daomap-main">
                     <!-- SVG 图谱 -->
                     <div class="daomap-canvas-wrap">
+                        <button class="daomap-reset" id="daomapResetBtn">
+                            <i class="fas fa-undo"></i> 重置视图
+                        </button>
                         <svg id="daomapSvg" viewBox="0 0 720 560" preserveAspectRatio="xMidYMid meet"></svg>
                     </div>
                     <!-- 侧栏释义 -->
