@@ -14213,14 +14213,78 @@
             return;
         }
         container.innerHTML = quotes.map(q => `
-                <div class="quote-card">
-                    <div class="quote-source">📖 ${q.source} · ${q.chapter}</div>
-                    <div class="quote-original">${q.original}</div>
-                    <div class="quote-translation">📝 ${q.translation}</div>
-                    <div class="quote-interpretation">💭 ${q.interpretation}</div>
-                    <span class="quote-category"># ${q.category}</span>
+            <div class="quote-card" data-id="${q.id}" style="cursor:pointer;">
+                <div class="quote-source">📖 ${q.source} · ${q.chapter}</div>
+                <div class="quote-original">${q.original}</div>
+                <div class="quote-translation">📝 ${q.translation}</div>
+                <div class="quote-interpretation">💭 ${q.interpretation}</div>
+                <span class="quote-category"># ${q.category}</span>
+            </div>
+        `).join('');
+
+        // 绑定点击事件
+        container.querySelectorAll('.quote-card').forEach(card => {
+            card.addEventListener('click', function () {
+                const id = this.dataset.id;
+                const q = DAOISM_QUOTES.find(x => x.id === id);
+                if (q) openQuoteModal(q);
+            });
+        });
+    }
+
+    // ----- 道家智慧详情弹窗 -----
+    function openQuoteModal(q) {
+        let modal = document.getElementById('quoteModal');
+        if (!modal) {
+            modal = document.createElement('div');
+            modal.id = 'quoteModal';
+            modal.className = 'parable-modal';  // 复用典故弹窗样式
+            modal.innerHTML = `
+            <div class="parable-modal-content">
+                <button class="parable-modal-close" id="quoteModalClose"><i class="fas fa-times"></i></button>
+                <div class="parable-modal-icon">📖</div>
+                <div class="parable-modal-title" id="quoteModalTitle"></div>
+                <div class="parable-modal-source" id="quoteModalSource"></div>
+                <div class="parable-section">
+                    <div class="parable-section-title">📜 原文</div>
+                    <div class="parable-original" id="quoteModalOriginal"></div>
                 </div>
-            `).join('');
+                <div class="parable-section">
+                    <div class="parable-section-title">📝 译文</div>
+                    <div class="parable-translation" id="quoteModalTranslation"></div>
+                </div>
+                <div class="parable-section">
+                    <div class="parable-section-title">💭 解读</div>
+                    <div class="parable-meaning" id="quoteModalInterpretation"></div>
+                </div>
+                <div class="parable-modal-tags" id="quoteModalTags"></div>
+            </div>
+        `;
+            document.body.appendChild(modal);
+            modal.addEventListener('click', function (e) {
+                if (e.target === modal) closeQuoteModal();
+            });
+            document.getElementById('quoteModalClose').addEventListener('click', closeQuoteModal);
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') closeQuoteModal();
+            });
+        }
+
+        document.getElementById('quoteModalTitle').textContent = q.source + ' · ' + q.chapter;
+        document.getElementById('quoteModalSource').textContent = '—— 道家智慧';
+        document.getElementById('quoteModalOriginal').textContent = q.original;
+        document.getElementById('quoteModalTranslation').textContent = q.translation;
+        document.getElementById('quoteModalInterpretation').textContent = q.interpretation;
+        document.getElementById('quoteModalTags').innerHTML = `<span># ${q.category}</span>`;
+
+        modal.classList.add('show');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeQuoteModal() {
+        const modal = document.getElementById('quoteModal');
+        if (modal) modal.classList.remove('show');
+        document.body.style.overflow = '';
     }
 
     // =============================================================
@@ -17525,7 +17589,7 @@
 
     document.getElementById('randomQuoteBtn').addEventListener('click', function () {
         const random = pickRandom(DAOISM_QUOTES);
-        renderQuotes([random]);
+        openQuoteModal(random);
     });
 
     // ----- 6d. 五行 -----
