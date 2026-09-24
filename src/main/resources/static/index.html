@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="referrer" content="no-referrer" />
+    <meta name="description" content="静心阁——道家智慧、五行学说、二十四节气养生、中药本草、茶道养生、每日一签一卦，传统文化爱好者的静心之所。">
+    <meta name="keywords" content="道家,道德经,庄子,五行,节气,养生,茶道,中药,签卦">
     <title>静心阁</title>
     <link rel="icon" type="image/png" href="images/seal.png">
     <!--    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E☯%3C/text%3E%3C/svg%3E">-->
@@ -592,33 +594,6 @@
             color: #5a3e2b;
         }
 
-        .fortune-level {
-            padding: 6px 22px;
-            border-radius: 30px;
-            font-weight: 600;
-            font-size: 18px;
-        }
-
-        .fortune-level[data-level="上上签"] {
-            background: #fce4b8;
-            color: #8b6914;
-        }
-        .fortune-level[data-level="上签"] {
-            background: #d4edda;
-            color: #155724;
-        }
-        .fortune-level[data-level="中签"] {
-            background: #fff3cd;
-            color: #856404;
-        }
-        .fortune-level[data-level="下签"] {
-            background: #f8d7da;
-            color: #721c24;
-        }
-        .fortune-level[data-level="下下签"] {
-            background: #f8d7da;
-            color: #721c24;
-        }
 
         .fortune-score {
             text-align: center;
@@ -2255,6 +2230,7 @@
         .gua-container {
             max-width: 680px;
             margin: 0 auto;
+            text-align: center;
         }
 
         .gua-intro {
@@ -2333,6 +2309,7 @@
             padding: 36px 32px 32px;
             position: relative;
             overflow: hidden;
+            text-align: center;
         }
 
         .gua-card::before {
@@ -2361,17 +2338,6 @@
             font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
             letter-spacing: 4px;
             margin-bottom: 10px;
-        }
-
-        .gua-tag {
-            display: block;
-            width: fit-content;
-            margin: 0 auto 20px;
-            padding: 4px 20px;
-            border-radius: 30px;
-            font-size: 13px;
-            background: #e8ddd0;
-            color: #5a3e2b;
         }
 
         .gua-brief {
@@ -9974,7 +9940,6 @@
                     <div class="gua-card">
                         <div class="gua-symbol" id="guaSymbol">☰</div>
                         <div class="gua-name" id="guaName">乾为天</div>
-                        <div class="gua-tag" id="guaTag"># 上上卦</div>
                         <div class="gua-brief" id="guaBrief"></div>
                         <div class="gua-section">
                             <div class="gua-section-title">📜 卦辞</div>
@@ -12291,7 +12256,6 @@
     const GUA_DATA = [{
         symbol: '☰',
         name: '乾为天',
-        tag: '上上卦',
         brief: '天行健，君子以自强不息。',
         text: '乾：元，亨，利，贞。',
         xiang: '象曰：天行健，君子以自强不息。',
@@ -12300,7 +12264,6 @@
     }, {
         symbol: '☷',
         name: '坤为地',
-        tag: '上上卦',
         brief: '地势坤，君子以厚德载物。',
         text: '坤：元，亨，利牝马之贞。',
         xiang: '象曰：地势坤，君子以厚德载物。',
@@ -12309,7 +12272,6 @@
     }, {
         symbol: '☵',
         name: '水雷屯',
-        tag: '中卦',
         brief: '云雷屯，君子以经纶。',
         text: '屯：元，亨，利，贞。勿用有攸往，利建侯。',
         xiang: '象曰：云雷屯，君子以经纶。',
@@ -12318,7 +12280,6 @@
     }, {
         symbol: '☶',
         name: '山水蒙',
-        tag: '中卦',
         brief: '山下出泉，蒙；君子以果行育德。',
         text: '蒙：亨。匪我求童蒙，童蒙求我。',
         xiang: '象曰：山下出泉，蒙；君子以果行育德。',
@@ -12327,7 +12288,6 @@
     }, {
         symbol: '☵',
         name: '水天需',
-        tag: '中卦',
         brief: '云上于天，需；君子以饮食宴乐。',
         text: '需：有孚，光亨，贞吉。利涉大川。',
         xiang: '象曰：云上于天，需；君子以饮食宴乐。',
@@ -12336,7 +12296,6 @@
     }, {
         symbol: '☰',
         name: '天水讼',
-        tag: '下卦',
         brief: '天与水违行，讼；君子以作事谋始。',
         text: '讼：有孚，窒惕，中吉，终凶。',
         xiang: '象曰：天与水违行，讼；君子以作事谋始。',
@@ -12345,7 +12304,6 @@
     }, {
         symbol: '☷',
         name: '地水师',
-        tag: '中卦',
         brief: '地中有水，师；君子以容民畜众。',
         text: '师：贞，丈人吉，无咎。',
         xiang: '象曰：地中有水，师；君子以容民畜众。',
@@ -12354,7 +12312,6 @@
     }, {
         symbol: '☵',
         name: '水地比',
-        tag: '上卦',
         brief: '地上有水，比；先王以建万国，亲诸侯。',
         text: '比：吉。原筮，元永贞，无咎。',
         xiang: '象曰：地上有水，比；先王以建万国，亲诸侯。',
@@ -12363,7 +12320,6 @@
     }, {
         symbol: '☴',
         name: '风天小畜',
-        tag: '中卦',
         brief: '风行天上，小畜；君子以懿文德。',
         text: '小畜：亨。密云不雨，自我西郊。',
         xiang: '象曰：风行天上，小畜；君子以懿文德。',
@@ -12372,7 +12328,6 @@
     }, {
         symbol: '☰',
         name: '天泽履',
-        tag: '中卦',
         brief: '上天下泽，履；君子以辨上下，定民志。',
         text: '履：履虎尾，不咥人，亨。',
         xiang: '象曰：上天下泽，履；君子以辨上下，定民志。',
@@ -12381,7 +12336,6 @@
     }, {
         symbol: '☰',
         name: '地天泰',
-        tag: '上上卦',
         brief: '天地交，泰；后以财成天地之道。',
         text: '泰：小往大来，吉亨。',
         xiang: '象曰：天地交，泰；后以财成天地之道。',
@@ -12390,7 +12344,6 @@
     }, {
         symbol: '☷',
         name: '天地否',
-        tag: '下卦',
         brief: '天地不交，否；君子以俭德辟难。',
         text: '否：否之匪人，不利君子贞，大往小来。',
         xiang: '象曰：天地不交，否；君子以俭德辟难。',
@@ -12399,7 +12352,6 @@
     }, {
         symbol: '☲',
         name: '天火同人',
-        tag: '上卦',
         brief: '天与火，同人；君子以类族辨物。',
         text: '同人：同人于野，亨。利涉大川，利君子贞。',
         xiang: '象曰：天与火，同人；君子以类族辨物。',
@@ -12408,7 +12360,6 @@
     }, {
         symbol: '☰',
         name: '火天大有',
-        tag: '上上卦',
         brief: '火在天上，大有；君子以遏恶扬善。',
         text: '大有：元亨。',
         xiang: '象曰：火在天上，大有；君子以遏恶扬善，顺天休命。',
@@ -12417,7 +12368,6 @@
     }, {
         symbol: '☶',
         name: '地山谦',
-        tag: '上上卦',
         brief: '地中有山，谦；君子以裒多益寡。',
         text: '谦：亨，君子有终。',
         xiang: '象曰：地中有山，谦；君子以裒多益寡，称物平施。',
@@ -12426,7 +12376,6 @@
     }, {
         symbol: '☳',
         name: '雷地豫',
-        tag: '上卦',
         brief: '雷出地奋，豫；先王以作乐崇德。',
         text: '豫：利建侯行师。',
         xiang: '象曰：雷出地奋，豫；先王以作乐崇德。',
@@ -12435,7 +12384,6 @@
     }, {
         symbol: '☱',
         name: '泽雷随',
-        tag: '上卦',
         brief: '泽中有雷，随；君子以向晦入宴息。',
         text: '随：元亨，利贞，无咎。',
         xiang: '象曰：泽中有雷，随；君子以向晦入宴息。',
@@ -12444,7 +12392,6 @@
     }, {
         symbol: '☶',
         name: '山风蛊',
-        tag: '下卦',
         brief: '山下有风，蛊；君子以振民育德。',
         text: '蛊：元亨，利涉大川。',
         xiang: '象曰：山下有风，蛊；君子以振民育德。',
@@ -12453,7 +12400,6 @@
     }, {
         symbol: '☷',
         name: '地泽临',
-        tag: '上卦',
         brief: '泽上有地，临；君子以教思无穷。',
         text: '临：元亨利贞。至于八月有凶。',
         xiang: '象曰：泽上有地，临；君子以教思无穷，容保民无疆。',
@@ -12462,7 +12408,6 @@
     }, {
         symbol: '☴',
         name: '风地观',
-        tag: '中卦',
         brief: '风行地上，观；先王以省方观民设教。',
         text: '观：盥而不荐，有孚颙若。',
         xiang: '象曰：风行地上，观；先王以省方观民设教。',
@@ -12471,7 +12416,6 @@
     }, {
         symbol: '☲',
         name: '火雷噬嗑',
-        tag: '中卦',
         brief: '雷电噬嗑；先王以明罚敕法。',
         text: '噬嗑：亨。利用狱。',
         xiang: '象曰：雷电噬嗑；先王以明罚敕法。',
@@ -12480,7 +12424,6 @@
     }, {
         symbol: '☶',
         name: '山火贲',
-        tag: '中卦',
         brief: '山下有火，贲；君子以明庶政。',
         text: '贲：亨。小利有攸往。',
         xiang: '象曰：山下有火，贲；君子以明庶政，无敢折狱。',
@@ -12489,7 +12432,6 @@
     }, {
         symbol: '☷',
         name: '山地剥',
-        tag: '下卦',
         brief: '山附于地，剥；上以厚下安宅。',
         text: '剥：不利有攸往。',
         xiang: '象曰：山附于地，剥；上以厚下安宅。',
@@ -12498,7 +12440,6 @@
     }, {
         symbol: '☷',
         name: '地雷复',
-        tag: '上卦',
         brief: '雷在地中，复；先王以至日闭关。',
         text: '复：亨。出入无疾，朋来无咎。',
         xiang: '象曰：雷在地中，复；先王以至日闭关，商旅不行。',
@@ -12507,7 +12448,6 @@
     }, {
         symbol: '☰',
         name: '天雷无妄',
-        tag: '中卦',
         brief: '天下雷行，物与无妄。',
         text: '无妄：元亨利贞。其匪正有眚，不利有攸往。',
         xiang: '象曰：天下雷行，物与无妄；先王以茂对时育万物。',
@@ -12516,7 +12456,6 @@
     }, {
         symbol: '☶',
         name: '山天大畜',
-        tag: '上卦',
         brief: '天在山中，大畜；君子以多识前言往行。',
         text: '大畜：利贞，不家食吉，利涉大川。',
         xiang: '象曰：天在山中，大畜；君子以多识前言往行，以畜其德。',
@@ -12525,7 +12464,6 @@
     }, {
         symbol: '☶',
         name: '山雷颐',
-        tag: '中卦',
         brief: '山下有雷，颐；君子以慎言语，节饮食。',
         text: '颐：贞吉。观颐，自求口实。',
         xiang: '象曰：山下有雷，颐；君子以慎言语，节饮食。',
@@ -12534,7 +12472,6 @@
     }, {
         symbol: '☱',
         name: '泽风大过',
-        tag: '下卦',
         brief: '泽灭木，大过；君子以独立不惧。',
         text: '大过：栋桡，利有攸往，亨。',
         xiang: '象曰：泽灭木，大过；君子以独立不惧，遁世无闷。',
@@ -12543,7 +12480,6 @@
     }, {
         symbol: '☵',
         name: '坎为水',
-        tag: '下卦',
         brief: '水洊至，习坎；君子以常德行。',
         text: '坎：习坎，有孚，维心亨，行有尚。',
         xiang: '象曰：水洊至，习坎；君子以常德行，习教事。',
@@ -12552,7 +12488,6 @@
     }, {
         symbol: '☲',
         name: '离为火',
-        tag: '上卦',
         brief: '明两作，离；大人以继明照于四方。',
         text: '离：利贞，亨。畜牝牛，吉。',
         xiang: '象曰：明两作，离；大人以继明照于四方。',
@@ -12561,7 +12496,6 @@
     }, {
         symbol: '☱',
         name: '泽山咸',
-        tag: '上卦',
         brief: '山上有泽，咸；君子以虚受人。',
         text: '咸：亨，利贞，取女吉。',
         xiang: '象曰：山上有泽，咸；君子以虚受人。',
@@ -12570,7 +12504,6 @@
     }, {
         symbol: '☳',
         name: '雷风恒',
-        tag: '上卦',
         brief: '雷风，恒；君子以立不易方。',
         text: '恒：亨，无咎，利贞，利有攸往。',
         xiang: '象曰：雷风，恒；君子以立不易方。',
@@ -12579,7 +12512,6 @@
     }, {
         symbol: '☰',
         name: '天山遁',
-        tag: '中卦',
         brief: '天下有山，遁；君子以远小人。',
         text: '遁：亨，小利贞。',
         xiang: '象曰：天下有山，遁；君子以远小人，不恶而严。',
@@ -12588,7 +12520,6 @@
     }, {
         symbol: '☳',
         name: '雷天大壮',
-        tag: '中卦',
         brief: '雷在天上，大壮；君子以非礼弗履。',
         text: '大壮：利贞。',
         xiang: '象曰：雷在天上，大壮；君子以非礼弗履。',
@@ -12597,7 +12528,6 @@
     }, {
         symbol: '☲',
         name: '火地晋',
-        tag: '上卦',
         brief: '明出地上，晋；君子以自昭明德。',
         text: '晋：康侯用锡马蕃庶，昼日三接。',
         xiang: '象曰：明出地上，晋；君子以自昭明德。',
@@ -12606,7 +12536,6 @@
     }, {
         symbol: '☷',
         name: '地火明夷',
-        tag: '下卦',
         brief: '明入地中，明夷；君子以莅众用晦而明。',
         text: '明夷：利艰贞。',
         xiang: '象曰：明入地中，明夷；君子以莅众，用晦而明。',
@@ -14047,7 +13976,6 @@
         return {
             date: formatDate(new Date()),
             zodiac: zodiac,
-            luckLevel: template.luckLevel,
             luckScore: template.luckScore,
             summary: template.summary,
             career: template.career,
@@ -14182,7 +14110,6 @@
             <div class="fortune-header">
                 <span class="fortune-date">📅 ${fortune.date}</span>
                 <span class="fortune-zodiac">${fortune.zodiac}</span>
-                <span class="fortune-level" data-level="${fortune.luckLevel}">${fortune.luckLevel}</span>
             </div>
             <div class="fortune-score">
                 <span class="score-label">运势指数</span>
@@ -15923,7 +15850,6 @@
 
         document.getElementById('guaSymbol').textContent = gua.symbol;
         document.getElementById('guaName').textContent = gua.name;
-        document.getElementById('guaTag').textContent = '# ' + gua.tag;
         document.getElementById('guaBrief').textContent = gua.brief;
         document.getElementById('guaText').textContent = gua.text;
         document.getElementById('guaXiang').textContent = gua.xiang;
@@ -17487,6 +17413,34 @@
         mainNav.classList.add('open');
         navOverlay.classList.add('show');
         document.body.style.overflow = 'hidden';
+
+        // 移动端：打开抽屉时，自动展开当前激活 Tab 所属的分组
+        if (isMobileNav()) {
+            // 1. 找到当前激活的二级菜单项
+            const activeLink = document.querySelector('.nav-dropdown a.active');
+
+            // 2. 先收起所有分组
+            document.querySelectorAll('.nav-group').forEach(g => g.classList.remove('open'));
+
+            // 3. 如果当前有激活的二级菜单，展开它所在的分组
+            if (activeLink) {
+                const group = activeLink.closest('.nav-group');
+                if (group) {
+                    group.classList.add('open');
+
+                    // 4. 抽屉动画结束后，滚动到该分组，让用户看到展开位置
+                    setTimeout(() => {
+                        const title = group.querySelector('.nav-group-title');
+                        if (title) {
+                            title.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'nearest'
+                            });
+                        }
+                    }, 520);   // 等卷轴展开动画（0.5s）播完再滚
+                }
+            }
+        }
     }
 
     function closeMobileNav() {
