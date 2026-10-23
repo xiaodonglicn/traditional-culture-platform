@@ -1641,6 +1641,451 @@
         }
 
         /* ========================================================= */
+        /* 四时养生：增强版 */
+        /* ========================================================= */
+
+        /* ----- 当前季节总览卡（升级版） ----- */
+        .season-current {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .season-current::before {
+            content: "";
+            position: absolute;
+            top: -40px;
+            right: -30px;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(201, 168, 124, 0.14) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .season-current .season-slogan {
+            font-size: 15px;
+            color: #8b6b4d;
+            margin-top: 6px;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            letter-spacing: 1px;
+        }
+
+        .season-current .season-desc {
+            font-size: 14px;
+            color: #6a5a4a;
+            line-height: 1.9;
+            margin-top: 10px;
+            padding: 10px 14px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 10px;
+            border-left: 3px solid #c9a87c;
+        }
+
+
+        /* ========================================================= */
+        /* 四时养生：田字格四象图 */
+        /* ========================================================= */
+        .season-grid-wrap {
+            background: linear-gradient(145deg, #fdfaf7, #f5ede6);
+            border: 1px solid #e8ddd0;
+            border-radius: 18px;
+            padding: 24px 16px;
+            margin-bottom: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .season-grid-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #4a3728;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            letter-spacing: 4px;
+            margin-bottom: 6px;
+        }
+
+        .season-grid-tip {
+            font-size: 12px;
+            color: #9a8b7a;
+            margin-bottom: 24px;
+        }
+
+        /* 田字格容器 */
+        .season-grid-container {
+            position: relative;
+            width: 100%;
+            max-width: 460px;
+            aspect-ratio: 1 / 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 6px;
+            /* 整体圆角，形成四象图外轮廓 */
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(139, 107, 77, 0.12);
+            border: 6px solid #fdfaf7; /* 给外圈留白 */
+        }
+
+        /* 单个象限 */
+        .season-quadrant {
+            position: relative;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        /* 背景图标装饰 */
+        .sq-bg-icon {
+            position: absolute;
+            font-size: 100px;
+            opacity: 0.06;
+            transform: scale(1.2) rotate(-15deg);
+            transition: all 0.4s ease;
+            pointer-events: none;
+        }
+
+        .season-quadrant:hover .sq-bg-icon {
+            opacity: 0.12;
+            transform: scale(1.3) rotate(0deg);
+        }
+
+        /* 文字内容 */
+        .sq-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .sq-name {
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            font-size: 38px;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .sq-desc {
+            font-size: 13px;
+            letter-spacing: 2px;
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+
+        /* 各象限配色 */
+        .quadrant-spring { background: #f2f9f5; }
+        .quadrant-spring .sq-name { color: #4b8a6e; }
+        .quadrant-spring .sq-desc { color: #4b8a6e; }
+
+        .quadrant-summer { background: #fdf5f5; }
+        .quadrant-summer .sq-name { color: #c0504d; }
+        .quadrant-summer .sq-desc { color: #c0504d; }
+
+        .quadrant-autumn { background: #fbf7ee; }
+        .quadrant-autumn .sq-name { color: #9e7d51; }
+        .quadrant-autumn .sq-desc { color: #9e7d51; }
+
+        .quadrant-winter { background: #f2f5f8; }
+        .quadrant-winter .sq-name { color: #51728c; }
+        .quadrant-winter .sq-desc { color: #51728c; }
+
+        /* 悬停/选中状态 */
+        .season-quadrant:hover {
+            filter: brightness(0.96);
+        }
+        .season-quadrant:hover .sq-content {
+            transform: scale(1.08);
+        }
+
+        /* 选中状态：加内阴影和边框 */
+        .season-quadrant.active {
+            box-shadow: inset 0 0 0 3px rgba(139, 107, 77, 0.35);
+        }
+        .season-quadrant.active .sq-name {
+            transform: scale(1.15);
+            text-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        /* 居中的太极 */
+        .season-center-taiji {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            z-index: 10;
+            pointer-events: none; /* 让点击穿透到象限上 */
+            animation: slowRotate 24s linear infinite;
+        }
+
+        .taiji-svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 4px 10px rgba(139, 107, 77, 0.15));
+        }
+
+        @keyframes slowRotate {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to   { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* 移动端适配 */
+        @media (max-width: 480px) {
+            .season-grid-container {
+                max-width: 320px;
+            }
+            .sq-name {
+                font-size: 30px;
+            }
+            .sq-desc {
+                font-size: 11px;
+            }
+            .sq-bg-icon {
+                font-size: 70px;
+            }
+            .season-center-taiji {
+                width: 60px;
+                height: 60px;
+            }
+        }
+
+        /* ----- 四季详情面板 ----- */
+        .season-detail-panel {
+            background: #fdfaf7;
+            border: 1px solid #e8ddd0;
+            border-radius: 18px;
+            padding: 26px 28px;
+            margin-bottom: 24px;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .season-detail-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            padding-bottom: 16px;
+            margin-bottom: 18px;
+            border-bottom: 2px dashed #e0d3c4;
+        }
+
+        .season-detail-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            flex-shrink: 0;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+        }
+
+        .season-detail-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #4a3728;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            letter-spacing: 3px;
+        }
+
+        .season-detail-slogan {
+            font-size: 14px;
+            color: #8b6b4d;
+            margin-top: 4px;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+        }
+
+        .season-detail-tag {
+            display: inline-block;
+            margin-left: 10px;
+            padding: 3px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            background: #e8ddd0;
+            color: #5a3e2b;
+            vertical-align: middle;
+        }
+
+        .season-detail-desc {
+            font-size: 15px;
+            color: #5a5a5a;
+            line-height: 1.9;
+            padding: 14px 18px;
+            background: #f5f0ea;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            border-left: 3px solid #c9a87c;
+        }
+
+        /* 详情网格 */
+        .season-detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+
+        .season-detail-item {
+            background: #fff;
+            border-radius: 12px;
+            padding: 14px 18px;
+            border-left: 3px solid #e0d5c8;
+            transition: all 0.25s;
+        }
+
+        .season-detail-item:hover {
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+        }
+
+        .season-detail-item-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #8b6b4d;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .season-detail-item-content {
+            font-size: 14px;
+            color: #5a5a5a;
+            line-height: 1.9;
+        }
+
+        .season-detail-item-content ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .season-detail-item-content li {
+            padding: 2px 0 2px 14px;
+            position: relative;
+        }
+
+        .season-detail-item-content li::before {
+            content: "·";
+            color: #8b6b4d;
+            position: absolute;
+            left: 2px;
+            font-weight: 700;
+        }
+
+        /* 食物标签 */
+        .season-food-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .season-food-tags span {
+            background: #f0e6da;
+            color: #5a3e2b;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+        }
+
+        /* 禁忌项 */
+        .season-detail-item.taboo {
+            border-left-color: #e74c3c;
+        }
+
+        .season-detail-item.taboo .season-detail-item-title {
+            color: #e74c3c;
+        }
+
+        /* 诗句 */
+        .season-poem {
+            font-size: 15px;
+            color: #5a3e2b;
+            font-family: 'STKaiti', 'KaiTi', 'Georgia', serif;
+            line-height: 2;
+            text-align: center;
+            padding: 16px 20px;
+            background: #edf0f5;
+            border-radius: 12px;
+            border-left: 3px solid #8b6b4d;
+            margin-bottom: 14px;
+        }
+
+        .season-poem .poem-source {
+            display: block;
+            font-size: 12px;
+            color: #a89078;
+            margin-top: 6px;
+            text-align: right;
+        }
+
+        /* 节气联动入口 */
+        .season-to-solarterm {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+            padding: 14px 18px;
+            background: linear-gradient(145deg, #f8f4f0, #f0ece6);
+            border-radius: 12px;
+            margin-top: 16px;
+        }
+
+        .season-to-solarterm p {
+            font-size: 14px;
+            color: #6a5a4a;
+            margin: 0;
+        }
+
+        .season-to-solarterm button {
+            padding: 8px 22px;
+            border: none;
+            border-radius: 30px;
+            background: linear-gradient(145deg, #8b6b4d, #6b4f3a);
+            color: #fff;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.25s;
+            white-space: nowrap;
+        }
+
+        .season-to-solarterm button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(139, 107, 77, 0.32);
+        }
+
+        /* ----- 四季卡片（保留，作为补充） ----- */
+        .season-grid {
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        }
+
+        /* 小屏适配 */
+        @media (max-width: 768px) {
+            .season-detail-grid {
+                grid-template-columns: 1fr;
+            }
+            .season-detail-panel {
+                padding: 20px 18px;
+            }
+            .season-detail-title {
+                font-size: 24px;
+            }
+            .season-node text {
+                font-size: 20px;
+            }
+            .season-node.active text {
+                font-size: 22px;
+            }
+        }
+        /* ========================================================= */
         /* 新增：测测你的道号 */
         /* ========================================================= */
         .daoname-container {
@@ -10251,12 +10696,71 @@
         <section id="season-tab" class="tab-content">
             <h2><i class="fas fa-leaf"></i> 四时养生</h2>
             <div class="season-container">
-                <div id="seasonCurrent" class="season-current">
-                    <!-- JS 动态渲染 -->
+
+                <!-- 当前季节总览 -->
+                <div id="seasonCurrent" class="season-current"></div>
+
+                <!-- 四时流转（田字格版） -->
+                <div class="season-grid-wrap">
+                    <div class="season-grid-title">四时流转</div>
+                    <div class="season-grid-tip">点击任意象限，查看详细养生方案</div>
+
+                    <div class="season-grid-container">
+                        <!-- 左上：春 -->
+                        <div class="season-quadrant quadrant-spring" data-key="spring">
+                            <div class="sq-bg-icon">🌱</div>
+                            <div class="sq-content">
+                                <div class="sq-name">春</div>
+                                <div class="sq-desc">养肝 · 生发</div>
+                            </div>
+                        </div>
+                        <!-- 右上：夏 -->
+                        <div class="season-quadrant quadrant-summer" data-key="summer">
+                            <div class="sq-bg-icon">☀️</div>
+                            <div class="sq-content">
+                                <div class="sq-name">夏</div>
+                                <div class="sq-desc">养心 · 生长</div>
+                            </div>
+                        </div>
+                        <!-- 左下：秋 -->
+                        <div class="season-quadrant quadrant-autumn" data-key="autumn">
+                            <div class="sq-bg-icon">🍂</div>
+                            <div class="sq-content">
+                                <div class="sq-name">秋</div>
+                                <div class="sq-desc">养肺 · 收敛</div>
+                            </div>
+                        </div>
+                        <!-- 右下：冬 -->
+                        <div class="season-quadrant quadrant-winter" data-key="winter">
+                            <div class="sq-bg-icon">❄️</div>
+                            <div class="sq-content">
+                                <div class="sq-name">冬</div>
+                                <div class="sq-desc">养肾 · 闭藏</div>
+                            </div>
+                        </div>
+
+                        <!-- 中心太极装饰 -->
+                        <div class="season-center-taiji">
+                            <svg viewBox="0 0 100 100" class="taiji-svg" aria-hidden="true">
+                                <!-- 外层虚线圆 -->
+                                <circle cx="50" cy="50" r="46" fill="#fdfaf7" stroke="#e0d5c8" stroke-width="1.5" stroke-dasharray="3 4"/>
+                                <!-- 太极核心 -->
+                                <circle cx="50" cy="50" r="36" fill="#fdfaf7" stroke="#8b6b4d" stroke-width="1.5"/>
+                                <path d="M50,14 A36,36 0 0,1 50,86 A18,18 0 0,0 50,50 A18,18 0 0,1 50,14 Z" fill="#5a3e2b"/>
+                                <circle cx="50" cy="32" r="5.5" fill="#fdfaf7"/>
+                                <circle cx="50" cy="68" r="5.5" fill="#5a3e2b"/>
+                                <circle cx="50" cy="50" r="36" fill="none" stroke="#8b6b4d" stroke-width="1.5"/>
+                            </svg>
+                        </div>
+                    </div>
                 </div>
-                <div class="season-grid" id="seasonGrid">
-                    <!-- JS 动态渲染 -->
-                </div>
+
+                <!-- 当前选中季节详情 -->
+                <div id="seasonDetail" class="season-detail-panel"></div>
+
+                <!-- 四季卡片（补充浏览） -->
+                <div class="season-grid" id="seasonGrid"></div>
+
             </div>
         </section>
 
@@ -13248,69 +13752,93 @@
     // =============================================================
     const SEASONS_DATA = {
         spring: {
-            name: '春',
-            icon: '🌱',
-            element: '木',
-            elementIcon: '🌳',
-            months: [2, 3, 4],
+            name: '春', icon: '🌱', element: '木', elementIcon: '🌳',
+            months: [3, 4, 5],
+            slogan: '春生 · 养肝护阳，舒展生机',
+            desc: '春属木，主生发，对应肝脏。阳气初升，万物复苏，养生重在顺春生之气，疏肝理气、护阳防风。',
             advice: {
-                diet: '宜食辛甘发散之品，如韭菜、葱、蒜、豆芽、香菜，助阳气生发。',
-                lifestyle: '夜卧早起，广步于庭，多伸懒腰，舒展筋骨。',
-                emotion: '保持乐观开朗，多与人交流，顺应春生之气。'
-            }
+                diet: '宜食辛甘发散之品，如韭菜、葱、蒜、豆芽、香菜、春笋，助阳气生发；少食酸涩收敛之物。',
+                lifestyle: '夜卧早起，广步于庭，多伸懒腰，舒展筋骨；注意春捂，勿过早减衣。',
+                emotion: '保持乐观开朗，戒怒戒郁，多与人交流，顺应春生之气。'
+            },
+            // 新增维度
+            exercise: ['晨起散步、慢跑，微汗即止', '八段锦「双手托天理三焦」', '踏青郊游，舒展筋骨', '拉伸肝经，多做侧身伸展'],
+            acupoint: '太冲穴（疏肝）、肝俞穴（养肝）、期门穴（理气）',
+            tea: '花茶（茉莉、玫瑰、菊花）疏肝理气；绿茶清热，但脾胃虚寒者宜淡饮。',
+            food: ['韭菜', '春笋', '香椿', '荠菜', '豆芽', '菠菜', '山药', '红枣'],
+            taboo: ['忌过食酸涩收敛之品', '忌熬夜伤肝血', '忌大怒暴怒', '忌过早贪凉'],
+            poem: '春三月，此谓发陈，天地俱生，万物以荣。',
+            poemSource: '——《黄帝内经·素问·四气调神大论》'
         },
         summer: {
-            name: '夏',
-            icon: '☀️',
-            element: '火',
-            elementIcon: '🔥',
-            months: [5, 6, 7],
+            name: '夏', icon: '☀️', element: '火', elementIcon: '🔥',
+            months: [6, 7, 8],
+            slogan: '夏长 · 养心安神，清热防暑',
+            desc: '夏属火，主长养，对应心脏。阳气最盛，万物繁茂，养生重在养心安神、清热解暑、护阳气。',
             advice: {
-                diet: '宜食清凉解暑之品，如苦瓜、绿豆、西瓜、荷叶，养心清热。',
-                lifestyle: '夜卧早起，适当午休，避免暴晒，保持心静。',
-                emotion: '调息静心，常如冰雪在心，防心火过旺。'
-            }
-        },
-        lateSummer: {
-            name: '长夏',
-            icon: '🌾',
-            element: '土',
-            elementIcon: '⛰️',
-            months: [8, 9],
-            advice: {
-                diet: '宜食健脾祛湿之品，如山药、薏米、茯苓、冬瓜。',
-                lifestyle: '注意防暑湿，适当运动出汗，勿贪凉。',
-                emotion: '心平气和，思虑有度，养护脾胃之气。'
-            }
+                diet: '宜食清凉解暑之品，如苦瓜、绿豆、西瓜、荷叶、莲子，养心清热；少食油腻，多食蔬果。',
+                lifestyle: '夜卧早起，适当午休，避免暴晒，保持心静；空调温度不宜过低。',
+                emotion: '调息静心，常如冰雪在心，戒怒戒躁，防心火过旺。'
+            },
+            exercise: ['清晨或傍晚散步、游泳', '八段锦「摇头摆尾去心火」', '太极、瑜伽等舒缓运动', '避免正午剧烈运动'],
+            acupoint: '内关穴（养心）、神门穴（安神）、曲池穴（清热）',
+            tea: '绿茶清热解暑；荷叶茶、莲子心茶清心火；脾胃虚寒者宜温饮淡茶。',
+            food: ['苦瓜', '绿豆', '西瓜', '莲子', '百合', '冬瓜', '荷叶', '薏米'],
+            taboo: ['忌贪凉饮冷伤脾胃', '忌正午暴晒', '忌大喜大怒', '忌空调直吹'],
+            poem: '夏三月，此谓蕃秀，天地气交，万物华实。',
+            poemSource: '——《黄帝内经·素问·四气调神大论》'
         },
         autumn: {
-            name: '秋',
-            icon: '🍂',
-            element: '金',
-            elementIcon: '⚔️',
+            name: '秋', icon: '🍂', element: '金', elementIcon: '⚔️',
             months: [9, 10, 11],
+            slogan: '秋收 · 润肺防燥，收敛神气',
+            desc: '秋属金，主收敛，对应肺脏。燥气渐盛，万物肃杀，养生重在润肺防燥、收敛阳气、安宁情志。',
             advice: {
-                diet: '宜食滋阴润肺之品，如梨、百合、银耳、白萝卜。',
-                lifestyle: '早卧早起，收敛神气，适当添衣防凉。',
-                emotion: '收敛情绪，勿悲勿躁，保持内心安宁。'
-            }
+                diet: '宜食滋阴润肺之品，如梨、百合、银耳、白萝卜、蜂蜜、芝麻；少食辛辣燥热。',
+                lifestyle: '早卧早起，收敛神气，适当添衣防凉；室内可加湿防燥。',
+                emotion: '收敛情绪，勿悲秋，保持内心安宁，使神气内守。'
+            },
+            exercise: ['晨起慢跑、登高望远', '八段锦「左右开弓似射雕」', '呼吸吐纳，练习腹式呼吸', '避免大汗淋漓伤津'],
+            acupoint: '肺俞穴（润肺）、太渊穴（补肺气）、列缺穴（宣肺）',
+            tea: '青茶（乌龙）润燥生津；白茶润肺清热；蜂蜜水润肠。',
+            food: ['梨', '百合', '银耳', '白萝卜', '蜂蜜', '芝麻', '山药', '莲藕'],
+            taboo: ['忌过食辛辣燥热', '忌悲忧伤肺', '忌大汗伤津', '忌熬夜耗阴'],
+            poem: '秋三月，此谓容平，天气以急，地气以明。',
+            poemSource: '——《黄帝内经·素问·四气调神大论》'
         },
         winter: {
-            name: '冬',
-            icon: '❄️',
-            element: '水',
-            elementIcon: '💧',
+            name: '冬', icon: '❄️', element: '水', elementIcon: '💧',
             months: [12, 1, 2],
+            slogan: '冬藏 · 养肾藏精，避寒就温',
+            desc: '冬属水，主闭藏，对应肾脏。阳气潜藏，万物蛰伏，养生重在养肾藏精、避寒就温、蓄势待发。',
             advice: {
-                diet: '宜食温补助阳之品，如羊肉、核桃、黑豆、生姜。',
-                lifestyle: '早卧晚起，必待日光，避寒就温。',
-                emotion: '静心养藏，勿扰动阳气，蓄势待发。'
-            }
+                diet: '宜食温补助阳之品，如羊肉、核桃、黑豆、生姜、桂圆；少食生冷寒凉。',
+                lifestyle: '早卧晚起，必待日光，避寒就温；减少剧烈运动，注意保暖。',
+                emotion: '静心养藏，勿扰动阳气，安神定志，蓄势待发。'
+            },
+            exercise: ['午后阳光下行散步、慢跑', '八段锦「两手攀足固肾腰」', '太极、站桩养气', '避免大汗淋漓泄阳气'],
+            acupoint: '肾俞穴（补肾）、关元穴（固阳）、太溪穴（滋肾）',
+            tea: '红茶温阳暖胃；黑茶消食去腻；姜茶驱寒暖身。',
+            food: ['羊肉', '核桃', '黑豆', '黑芝麻', '桂圆', '生姜', '山药', '栗子'],
+            taboo: ['忌生冷寒凉伤阳', '忌大汗淋漓', '忌熬夜耗精', '忌过度惊恐伤肾'],
+            poem: '冬三月，此谓闭藏，水冰地坼，无扰乎阳。',
+            poemSource: '——《黄帝内经·素问·四气调神大论》'
         }
     };
 
-    // 季节顺序（用于展示）
-    const SEASON_ORDER = ['spring', 'summer', 'lateSummer', 'autumn', 'winter'];
+    const SEASON_ORDER = ['spring', 'summer', 'autumn', 'winter'];
+
+    // ===== 全局统一的季节判断（四时养生 / 茶道 / 节气共用） =====
+    // 返回 'spring' | 'summer' | 'autumn' | 'winter'
+    function getCurrentSeasonKey(date) {
+        const d = date || new Date();
+        const month = d.getMonth() + 1;
+
+        if (month >= 3 && month <= 5) return 'spring';
+        if (month >= 6 && month <= 8) return 'summer';
+        if (month >= 9 && month <= 11) return 'autumn';
+        return 'winter';
+    }
 
     // =============================================================
     // 新增数据：二十四节气养生
@@ -14876,70 +15404,204 @@
     }
 
     // ----- 4e. 渲染四时养生 -----
-    function renderSeason() {
-        const now = new Date();
-        const month = now.getMonth() + 1; // 1-12
+    // =============================================================
+    // 四时养生：增强版
+    // =============================================================
+    let seasonActiveKey = null;
 
-        // 判断当前季节
-        let currentSeasonKey = 'spring';
-        if (month >= 3 && month <= 5) currentSeasonKey = 'spring';
-        else if (month >= 6 && month <= 8) currentSeasonKey = 'summer';
-        else if (month >= 9 && month <= 10) currentSeasonKey = 'lateSummer';
-        else if (month >= 11 && month <= 12) currentSeasonKey = 'autumn';
-        else if (month >= 1 && month <= 2) currentSeasonKey = 'winter';
+    // 季节配置：颜色、角度、图标
+    const SEASON_WHEEL_CONFIG = {
+        spring: { angle: 0,   color: '#7bc5a0', icon: '🌱' },
+        summer: { angle: 90,  color: '#e74c3c', icon: '☀️' },
+        autumn: { angle: 180, color: '#c9a87c', icon: '🍂' },
+        winter: { angle: 270, color: '#6b8cae', icon: '❄️' }
+    };
 
-        // 如果月份在 9-10 月，长夏；但传统上 9-11 是秋，我调整一下
-        // 更准确：春 3-5，夏 6-8，秋 9-11，冬 12-2
-        if (month >= 3 && month <= 5) currentSeasonKey = 'spring';
-        else if (month >= 6 && month <= 8) currentSeasonKey = 'summer';
-        else if (month >= 9 && month <= 11) currentSeasonKey = 'autumn';
-        else currentSeasonKey = 'winter';
+    // 获取当前季节 key（复用已有 getCurrentSeasonKey）
+    function getCurrentSeason() {
+        return getCurrentSeasonKey();
+    }
 
-        const season = SEASONS_DATA[currentSeasonKey];
+    // 渲染顶部当前季节总览
+    function renderSeasonCurrent(key) {
+        const season = SEASONS_DATA[key];
+        const el = document.getElementById('seasonCurrent');
+        if (!el || !season) return;
 
-        // 渲染当前季节
-        const currentEl = document.getElementById('seasonCurrent');
-        currentEl.innerHTML = `
-                <div class="season-icon">${season.icon}</div>
-                <div class="season-info">
-                    <div class="name">${season.name}季 · 养${season.element}</div>
-                    <div class="sub">${season.elementIcon} 五行属 ${season.element}</div>
-                    <span class="element-tag">当前正值 ${season.name}季，宜顺应天时，养护${season.element}气</span>
+        el.innerHTML = `
+        <div class="season-icon">${season.icon}</div>
+        <div class="season-info">
+            <div class="name">${season.name}季 · 养${season.element}</div>
+            <div class="season-slogan">${season.slogan}</div>
+            <div class="sub">${season.elementIcon} 五行属 ${season.element} · ${season.months.join('、')} 月</div>
+            <span class="element-tag">当前正值 ${season.name}季，宜顺应天时，养护${season.element}气</span>
+            <div class="season-desc">${season.desc}</div>
+        </div>
+    `;
+    }
+
+    // 更新四时田字格的高亮状态
+    function renderSeasonWheel(activeKey) {
+        // 更新所有象限的选中状态
+        document.querySelectorAll('.season-quadrant').forEach(el => {
+            el.classList.toggle('active', el.dataset.key === activeKey);
+        });
+    }
+
+    // 渲染季节详情
+    function renderSeasonDetail(key) {
+        const season = SEASONS_DATA[key];
+        const el = document.getElementById('seasonDetail');
+        if (!el || !season) return;
+
+        const cfg = SEASON_WHEEL_CONFIG[key];
+        const isCurrent = key === getCurrentSeason();
+
+        const foodHtml = season.food.map(f => `<span>${f}</span>`).join('');
+        const tabooHtml = season.taboo.map(t => `<li>${t}</li>`).join('');
+        const exerciseHtml = season.exercise.map(e => `<li>${e}</li>`).join('');
+
+        el.innerHTML = `
+        <div class="season-detail-header">
+            <div class="season-detail-icon" style="background:${cfg.color}20;color:${cfg.color};">
+                ${season.icon}
+            </div>
+            <div>
+                <div class="season-detail-title">
+                    ${season.name}季 · 养${season.element}
+                    ${isCurrent ? '<span class="season-detail-tag">当前季节</span>' : ''}
                 </div>
-            `;
+                <div class="season-detail-slogan">${season.slogan}</div>
+            </div>
+        </div>
 
-        // 渲染所有季节
+        <div class="season-detail-desc">${season.desc}</div>
+
+        <div class="season-detail-grid">
+            <div class="season-detail-item">
+                <div class="season-detail-item-title">🍲 饮食调养</div>
+                <div class="season-detail-item-content">${season.advice.diet}</div>
+            </div>
+            <div class="season-detail-item">
+                <div class="season-detail-item-title">🧘 起居调摄</div>
+                <div class="season-detail-item-content">${season.advice.lifestyle}</div>
+            </div>
+            <div class="season-detail-item">
+                <div class="season-detail-item-title">💭 情志养生</div>
+                <div class="season-detail-item-content">${season.advice.emotion}</div>
+            </div>
+            <div class="season-detail-item">
+                <div class="season-detail-item-title">🏃 运动建议</div>
+                <div class="season-detail-item-content"><ul>${exerciseHtml}</ul></div>
+            </div>
+            <div class="season-detail-item">
+                <div class="season-detail-item-title">📍 推荐穴位</div>
+                <div class="season-detail-item-content">${season.acupoint}</div>
+            </div>
+            <div class="season-detail-item">
+                <div class="season-detail-item-title">🍵 时令茶饮</div>
+                <div class="season-detail-item-content">${season.tea}</div>
+            </div>
+            <div class="season-detail-item taboo">
+                <div class="season-detail-item-title">⚠️ 养生禁忌</div>
+                <div class="season-detail-item-content"><ul>${tabooHtml}</ul></div>
+            </div>
+            <div class="season-detail-item">
+                <div class="season-detail-item-title">🥬 时令食材</div>
+                <div class="season-detail-item-content">
+                    <div class="season-food-tags">${foodHtml}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="season-poem">
+            ${season.poem}
+            <span class="poem-source">${season.poemSource}</span>
+        </div>
+
+        <div class="season-to-solarterm">
+            <p>💡 想了解更细致的节气养生？二十四节气将一年细分为二十四个节点，每个节气都有专属调养方案。</p>
+            <button id="seasonToSolartermBtn">前往二十四节气 →</button>
+        </div>
+    `;
+
+        // 绑定跳转按钮
+        const btn = document.getElementById('seasonToSolartermBtn');
+        if (btn) {
+            btn.addEventListener('click', function () {
+                switchTab('solarterm');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+    }
+
+    // 渲染四季卡片（补充浏览，点击可切换）
+    function renderSeasonCards(activeKey) {
         const grid = document.getElementById('seasonGrid');
-        const seasonNames = {
-            spring: '春',
-            summer: '夏',
-            lateSummer: '长夏',
-            autumn: '秋',
-            winter: '冬'
-        };
-        const seasonIcons = {
-            spring: '🌱',
-            summer: '☀️',
-            lateSummer: '🌾',
-            autumn: '🍂',
-            winter: '❄️'
-        };
+        if (!grid) return;
+
+        const seasonNames = { spring: '春', summer: '夏', autumn: '秋', winter: '冬' };
 
         grid.innerHTML = SEASON_ORDER.map(key => {
             const s = SEASONS_DATA[key];
-            const isActive = key === currentSeasonKey;
+            const isActive = key === activeKey;
+            const isCurrent = key === getCurrentSeason();
             return `
-                    <div class="season-card" style="${isActive ? 'border-color:#8b6b4d;background:#f8f0e8;' : ''}">
-                        <span class="card-icon">${s.icon}</span>
-                        <div class="card-title">${seasonNames[key]}季 · 养${s.element}</div>
-                        <div class="card-content">
-                            <li><strong>🍲 饮食：</strong>${s.advice.diet}</li>
-                            <li><strong>🧘 起居：</strong>${s.advice.lifestyle}</li>
-                            <li><strong>💭 情志：</strong>${s.advice.emotion}</li>
-                        </div>
-                    </div>
-                `;
+            <div class="season-card season-card-clickable"
+                 data-key="${key}"
+                 style="${isActive ? 'border-color:#8b6b4d;background:#f8f0e8;' : ''}">
+                <span class="card-icon">${s.icon}</span>
+                <div class="card-title">
+                    ${seasonNames[key]}季 · 养${s.element}
+                    ${isCurrent ? '<span style="font-size:11px;color:#c0392b;margin-left:4px;">当前</span>' : ''}
+                </div>
+                <div class="card-content">
+                    <li><strong>🍲 饮食：</strong>${s.advice.diet}</li>
+                    <li><strong>🧘 起居：</strong>${s.advice.lifestyle}</li>
+                    <li><strong>💭 情志：</strong>${s.advice.emotion}</li>
+                </div>
+            </div>
+        `;
         }).join('');
+
+        // 卡片点击切换
+        grid.querySelectorAll('.season-card-clickable').forEach(card => {
+            card.style.cursor = 'pointer';
+            card.addEventListener('click', function () {
+                const key = this.dataset.key;
+                if (key) selectSeason(key);
+            });
+        });
+    }
+
+    function selectSeason(key) {
+        if (!SEASONS_DATA[key]) return;
+        seasonActiveKey = key;
+        renderSeasonWheel(key);       // 只更新高亮
+        renderSeasonDetail(key);      // 渲染下方详情
+        renderSeasonCards(key);       // 更新底部卡片
+        renderSeasonCurrent(key);     // 更新顶部总览
+
+        // 滚动到详情
+        const detail = document.getElementById('seasonDetail');
+        if (detail) {
+            detail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+    }
+
+    function renderSeason() {
+        const current = getCurrentSeason();
+        selectSeason(current);
+
+        // 为四象图绑定点击事件（如果还没有绑定过）
+        if (!window._seasonQuadrantBound) {
+            document.querySelectorAll('.season-quadrant').forEach(el => {
+                el.addEventListener('click', function() {
+                    selectSeason(this.dataset.key);
+                });
+            });
+            window._seasonQuadrantBound = true;
+        }
     }
 
     // =============================================================
@@ -15260,17 +15922,24 @@
     // =============================================================
     let shichenActiveName = null;
 
-    // 根据当前时间获取时辰
-    function getCurrentShichen() {
-        const h = new Date().getHours();
-        // 23:00-01:00 为子时，以此类推
-        // 时辰索引：子=0, 丑=1, ... 亥=11
-        let idx;
-        if (h === 23 || h === 0) idx = 0;
-        else idx = Math.floor((h + 1) / 2) % 12;
+    // 根据当前时间获取时辰索引（0=子时 … 11=亥时）
+    function getCurrentShichenIndex(date) {
+        const d = date || new Date();
+        const h = d.getHours();
+        const m = d.getMinutes();
 
-        const name = SHICHEN_DATA[idx].name;
-        return SHICHEN_DATA.find(s => s.name === name);
+        // 子时：23:00 - 00:59
+        if (h === 23 || h === 0) return 0;
+
+        // 其余：1:00-2:59 丑(1)，3:00-4:59 寅(2) …… 21:00-22:59 亥(11)
+        // 公式：floor((h + 1) / 2)，h=1→1, h=2→1, h=3→2 … h=22→11
+        return Math.floor((h + 1) / 2) % 12;
+    }
+
+    // 根据当前时间获取时辰数据
+    function getCurrentShichen() {
+        const idx = getCurrentShichenIndex();
+        return SHICHEN_DATA[idx];
     }
 
     // 渲染当前时辰卡片
@@ -15477,6 +16146,32 @@
     function initShichen() {
         const current = getCurrentShichen();
         selectShichen(current);
+    }
+
+    // ===== 十二时辰：跨时辰自动刷新 =====
+    let shichenAutoRefreshTimer = null;
+    let lastShichenIndex = null;
+
+    function startShichenAutoRefresh() {
+        // 避免重复启动
+        if (shichenAutoRefreshTimer) return;
+
+        lastShichenIndex = getCurrentShichenIndex();
+
+        // 每 30 秒检查一次当前时辰是否变化
+        shichenAutoRefreshTimer = setInterval(() => {
+            // 只在十二时辰 Tab 处于激活状态时才刷新，避免无谓计算
+            const tab = document.getElementById('shichen-tab');
+            if (!tab || !tab.classList.contains('active')) return;
+
+            const nowIdx = getCurrentShichenIndex();
+            if (nowIdx !== lastShichenIndex) {
+                lastShichenIndex = nowIdx;
+                // 重新选中当前时辰，触发轮盘、详情、分组、顶部卡片的整体更新
+                const current = SHICHEN_DATA[nowIdx];
+                if (current) selectShichen(current);
+            }
+        }, 30000);
     }
 
 
@@ -17325,8 +18020,9 @@
             if (wheel && !wheel.innerHTML.trim()) initSolarTerm();
         }
         if (tab === 'shichen') {
-            const wheel = document.getElementById('shichenWheel');
-            if (wheel && !wheel.innerHTML.trim()) initShichen();
+            // 每次进入都重新计算当前时辰，避免跨时辰后仍显示旧数据
+            initShichen();
+            startShichenAutoRefresh();
         }
         if (tab === 'tea') {
             const wheel = document.getElementById('teaWheel');
@@ -19210,25 +19906,22 @@
     // 新增：茶道养生
     // =============================================================
 
-    // 根据当前季节获取推荐茶饮
+    // 茶道专用：把统一季节映射到茶道轮盘的四季节 key
     function getCurrentTeaSeason() {
-        const month = new Date().getMonth() + 1;
-        if (month >= 3 && month <= 5) return 'spring';
-        if (month >= 6 && month <= 8) return 'summer';
-        if (month >= 9 && month <= 11) return 'autumn';
-        return 'winter';
+        const key = getCurrentSeasonKey();
+        return key;
     }
 
-    // 获取当前推荐茶
     function getCurrentTea() {
         const season = getCurrentTeaSeason();
         const seasonMap = {
-            spring: '绿茶',
-            summer: '绿茶',
-            autumn: '青茶',
-            winter: '红茶'
+            spring: '绿茶',   // TEA_DATA 中绿茶 season: 'spring'
+            summer: '黄茶',   // 黄茶 season: 'summer'
+            autumn: '青茶',   // 青茶 season: 'autumn'
+            winter: '红茶'    // 红茶 season: 'winter'
         };
-        const name = seasonMap[season];
+
+        const name = seasonMap[season] || '绿茶';
         return TEA_DATA.find(t => t.name === name) || TEA_DATA[0];
     }
 
