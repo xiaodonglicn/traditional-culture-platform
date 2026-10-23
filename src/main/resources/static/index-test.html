@@ -62,7 +62,7 @@
                 right: 20px;
                 transform: translateY(-50%);
                 display: flex;
-                gap: 6px;
+                gap: 14px;
                 align-items: center;
                 z-index: 110;
             }
@@ -222,10 +222,10 @@
             right: 0;
             height: 16px;
             background: transparent;
-            pointer-events: auto;
+            pointer-events: none;
         }
 
-        .nav-group:hover .nav-dropdown,
+        /* 仅由 .open 类控制展开，避免 :hover 在缝隙处同时触发 */
         .nav-group.open .nav-dropdown {
             opacity: 1;
             visibility: visible;
@@ -258,18 +258,13 @@
         }
 
         /* 展开时子项逐条浮现 */
-        .nav-group:hover .nav-dropdown a,
         .nav-group.open .nav-dropdown a {
             opacity: 1;
             transform: translateY(0);
         }
-        .nav-group:hover .nav-dropdown a:nth-child(1),
         .nav-group.open .nav-dropdown a:nth-child(1) { transition-delay: 0.08s; }
-        .nav-group:hover .nav-dropdown a:nth-child(2),
         .nav-group.open .nav-dropdown a:nth-child(2) { transition-delay: 0.14s; }
-        .nav-group:hover .nav-dropdown a:nth-child(3),
         .nav-group.open .nav-dropdown a:nth-child(3) { transition-delay: 0.20s; }
-        .nav-group:hover .nav-dropdown a:nth-child(4),
         .nav-group.open .nav-dropdown a:nth-child(4) { transition-delay: 0.26s; }
 
         /* hover：淡墨晕染 + 左侧竖线点缀 */
@@ -9439,6 +9434,35 @@
         }
 
 
+        /* ===== PC端：菜单项之间留出不可命中的空隙，避免缝隙处同时触发 ===== */
+        @media (min-width: 769px) {
+            /* 菜单项本身不再直接铺满，留出可点击区域 */
+            .nav-group {
+                position: relative;
+            }
+
+            /* 用伪元素在右侧制造一个“死区”，鼠标落在里面不触发任何 nav-group */
+            .nav-group::after {
+                content: "";
+                position: absolute;
+                top: 0;
+                right: -6px;          /* 空隙宽度，可按需调整 4~10px */
+                width: 12px;
+                height: 100%;
+                pointer-events: none; /* 关键：不可命中 */
+                z-index: 1;
+            }
+
+            /* 最后一个菜单不需要右侧空隙 */
+            .nav-group:last-child::after {
+                display: none;
+            }
+
+            /* 下拉菜单的“悬停桥”仍然保留，但只在 .open 时生效 */
+            .nav-group.open .nav-dropdown::after {
+                pointer-events: auto;
+            }
+        }
 
     </style>
 </head>
@@ -14921,38 +14945,96 @@
     // =============================================================
     // 新增：二十四节气养生
     // =============================================================
+    // 2026-2030 年二十四节气日期表（月-日）
+    const SOLAR_TERM_DATE_TABLE = {
+        2026: {
+            '小寒': [1, 5],  '大寒': [1, 20], '立春': [2, 4],  '雨水': [2, 18],
+            '惊蛰': [3, 5],  '春分': [3, 20], '清明': [4, 5],  '谷雨': [4, 20],
+            '立夏': [5, 5],  '小满': [5, 21], '芒种': [6, 5],  '夏至': [6, 21],
+            '小暑': [7, 7],  '大暑': [7, 23], '立秋': [8, 7],  '处暑': [8, 23],
+            '白露': [9, 7],  '秋分': [9, 23], '寒露': [10, 8], '霜降': [10, 23],
+            '立冬': [11, 7], '小雪': [11, 22],'大雪': [12, 7], '冬至': [12, 22]
+        },
+        2027: {
+            '小寒': [1, 5],  '大寒': [1, 20], '立春': [2, 4],  '雨水': [2, 19],
+            '惊蛰': [3, 6],  '春分': [3, 21], '清明': [4, 5],  '谷雨': [4, 20],
+            '立夏': [5, 6],  '小满': [5, 21], '芒种': [6, 6],  '夏至': [6, 21],
+            '小暑': [7, 7],  '大暑': [7, 23], '立秋': [8, 8],  '处暑': [8, 23],
+            '白露': [9, 8],  '秋分': [9, 23], '寒露': [10, 8], '霜降': [10, 24],
+            '立冬': [11, 8], '小雪': [11, 22],'大雪': [12, 7], '冬至': [12, 22]
+        },
+        2028: {
+            '小寒': [1, 6],  '大寒': [1, 20], '立春': [2, 4],  '雨水': [2, 19],
+            '惊蛰': [3, 5],  '春分': [3, 20], '清明': [4, 4],  '谷雨': [4, 19],
+            '立夏': [5, 5],  '小满': [5, 20], '芒种': [6, 5],  '夏至': [6, 21],
+            '小暑': [7, 6],  '大暑': [7, 22], '立秋': [8, 7],  '处暑': [8, 22],
+            '白露': [9, 7],  '秋分': [9, 22], '寒露': [10, 8], '霜降': [10, 23],
+            '立冬': [11, 7], '小雪': [11, 22],'大雪': [12, 6], '冬至': [12, 21]
+        },
+        2029: {
+            '小寒': [1, 5],  '大寒': [1, 20], '立春': [2, 3],  '雨水': [2, 18],
+            '惊蛰': [3, 5],  '春分': [3, 20], '清明': [4, 4],  '谷雨': [4, 20],
+            '立夏': [5, 5],  '小满': [5, 21], '芒种': [6, 5],  '夏至': [6, 21],
+            '小暑': [7, 7],  '大暑': [7, 22], '立秋': [8, 7],  '处暑': [8, 23],
+            '白露': [9, 7],  '秋分': [9, 23], '寒露': [10, 8], '霜降': [10, 23],
+            '立冬': [11, 7], '小雪': [11, 22],'大雪': [12, 7], '冬至': [12, 21]
+        },
+        2030: {
+            '小寒': [1, 5],  '大寒': [1, 20], '立春': [2, 4],  '雨水': [2, 18],
+            '惊蛰': [3, 5],  '春分': [3, 20], '清明': [4, 5],  '谷雨': [4, 20],
+            '立夏': [5, 5],  '小满': [5, 21], '芒种': [6, 5],  '夏至': [6, 21],
+            '小暑': [7, 7],  '大暑': [7, 23], '立秋': [8, 7],  '处暑': [8, 23],
+            '白露': [9, 7],  '秋分': [9, 23], '寒露': [10, 8], '霜降': [10, 23],
+            '立冬': [11, 7], '小雪': [11, 22],'大雪': [12, 7], '冬至': [12, 22]
+        }
+    };
+    // 自然年顺序：小寒 → 大寒 → … → 冬至
+    const SOLAR_TERM_ORDER = [
+        '小寒', '大寒', '立春', '雨水', '惊蛰', '春分',
+        '清明', '谷雨', '立夏', '小满', '芒种', '夏至',
+        '小暑', '大暑', '立秋', '处暑', '白露', '秋分',
+        '寒露', '霜降', '立冬', '小雪', '大雪', '冬至'
+    ];
     let solartermActiveName = null;
 
-    // 获取当前节气
     function getCurrentSolarTerm() {
         const now = new Date();
+        const year = now.getFullYear();
         const month = now.getMonth() + 1;
         const day = now.getDate();
 
-        // 每个节气的近似起始日期（月, 日）
-        const termDates = [
-            { name: '小寒', m: 1, d: 5 }, { name: '大寒', m: 1, d: 20 },
-            { name: '立春', m: 2, d: 4 }, { name: '雨水', m: 2, d: 19 },
-            { name: '惊蛰', m: 3, d: 6 }, { name: '春分', m: 3, d: 21 },
-            { name: '清明', m: 4, d: 5 }, { name: '谷雨', m: 4, d: 20 },
-            { name: '立夏', m: 5, d: 6 }, { name: '小满', m: 5, d: 21 },
-            { name: '芒种', m: 6, d: 6 }, { name: '夏至', m: 6, d: 21 },
-            { name: '小暑', m: 7, d: 7 }, { name: '大暑', m: 7, d: 23 },
-            { name: '立秋', m: 8, d: 8 }, { name: '处暑', m: 8, d: 23 },
-            { name: '白露', m: 9, d: 8 }, { name: '秋分', m: 9, d: 23 },
-            { name: '寒露', m: 10, d: 8 }, { name: '霜降', m: 10, d: 24 },
-            { name: '立冬', m: 11, d: 7 }, { name: '小雪', m: 11, d: 22 },
-            { name: '大雪', m: 12, d: 7 }, { name: '冬至', m: 12, d: 22 }
-        ];
+        // 优先使用精确年份表
+        const yearTable = SOLAR_TERM_DATE_TABLE[year];
+        if (yearTable) {
+            // 按自然年顺序倒序查找：找到第一个“今天 >= 该节气日期”的
+            for (let i = SOLAR_TERM_ORDER.length - 1; i >= 0; i--) {
+                const name = SOLAR_TERM_ORDER[i];
+                const [m, d] = yearTable[name];
+                if (month > m || (month === m && day >= d)) {
+                    return SOLAR_TERMS.find(s => s.name === name);
+                }
+            }
+            // 1月1日～小寒之前，属于上一年的冬至
+            return SOLAR_TERMS.find(s => s.name === '冬至');
+        }
 
-        // 倒序查找：当前日期 >= 节气日期
-        for (let i = termDates.length - 1; i >= 0; i--) {
-            const t = termDates[i];
-            if (month > t.m || (month === t.m && day >= t.d)) {
-                return SOLAR_TERMS.find(s => s.name === t.name);
+        // 回退：年份表未覆盖时，沿用近似逻辑（同样用自然年顺序）
+        const fallbackDates = {
+            '小寒': [1, 5],  '大寒': [1, 20], '立春': [2, 4],  '雨水': [2, 19],
+            '惊蛰': [3, 6],  '春分': [3, 21], '清明': [4, 5],  '谷雨': [4, 20],
+            '立夏': [5, 6],  '小满': [5, 21], '芒种': [6, 6],  '夏至': [6, 21],
+            '小暑': [7, 7],  '大暑': [7, 23], '立秋': [8, 8],  '处暑': [8, 23],
+            '白露': [9, 8],  '秋分': [9, 23], '寒露': [10, 8], '霜降': [10, 24],
+            '立冬': [11, 7], '小雪': [11, 22],'大雪': [12, 7], '冬至': [12, 22]
+        };
+
+        for (let i = SOLAR_TERM_ORDER.length - 1; i >= 0; i--) {
+            const name = SOLAR_TERM_ORDER[i];
+            const [m, d] = fallbackDates[name];
+            if (month > m || (month === m && day >= d)) {
+                return SOLAR_TERMS.find(s => s.name === name);
             }
         }
-        // 1月5日之前属于上一年冬至
         return SOLAR_TERMS.find(s => s.name === '冬至');
     }
 
@@ -17257,6 +17339,64 @@
             maybePreloadMusic();
         }
     }
+
+
+    // ===== PC端：鼠标进入/离开分组时，带延时切换 .open，避免缝隙抖动 =====
+    (function initDesktopNavHover() {
+        if (window.matchMedia('(max-width: 768px)').matches) return;
+
+        const groups = document.querySelectorAll('.nav-group');
+        let openTimer = null;
+        let closeTimer = null;
+
+        function clearTimers() {
+            clearTimeout(openTimer);
+            clearTimeout(closeTimer);
+        }
+
+        function openGroup(group) {
+            clearTimers();
+            // 先关闭其它分组
+            groups.forEach(g => { if (g !== group) g.classList.remove('open'); });
+            group.classList.add('open');
+        }
+
+        function closeAll() {
+            clearTimers();
+            groups.forEach(g => g.classList.remove('open'));
+        }
+
+        groups.forEach(group => {
+            // 鼠标进入分组：延时 60ms 打开（过滤掉“快速划过缝隙”的情况）
+            group.addEventListener('mouseenter', function () {
+                clearTimers();
+                openTimer = setTimeout(() => openGroup(group), 60);
+            });
+
+            // 鼠标离开分组：延时 120ms 关闭（留出移动到下拉菜单的时间）
+            group.addEventListener('mouseleave', function () {
+                clearTimers();
+                closeTimer = setTimeout(() => {
+                    // 如果鼠标已经进入了下拉菜单，则不关闭
+                    if (!group.matches(':hover')) {
+                        group.classList.remove('open');
+                    }
+                }, 120);
+            });
+        });
+
+        // 鼠标离开整个导航区域时，统一关闭
+        const nav = document.getElementById('mainNav');
+        if (nav) {
+            nav.addEventListener('mouseleave', closeAll);
+        }
+
+        // 点击页面其它地方时关闭
+        document.addEventListener('click', function (e) {
+            if (!e.target.closest('.nav-group')) closeAll();
+        });
+    })();
+
     // =============================================================
     // 首页：卡片点击 → 切换 Tab
     // =============================================================
